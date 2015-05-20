@@ -1,0 +1,112 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+ext {
+	lib = [
+		junit       : 'junit:junit:4.12',
+		jodd_http   : 'org.jodd:jodd-http:3.6.5'
+	]
+}
+
+/**
+ * Global IntelliJ configuration.
+ */
+idea {
+	module {
+		excludeDirs += file('.idea')
+	}
+}
+
+/**
+ * Subprojects configuration.
+ */
+subprojects {
+    apply plugin: 'java'
+
+	sourceCompatibility = JavaVersion.VERSION_1_7
+	targetCompatibility = JavaVersion.VERSION_1_7
+
+	compileJava.options.fork = true
+
+	compileJava.doFirst {
+	    println "Source compatibility: " + sourceCompatibility
+	}
+
+    test {
+        reports.html.enabled = false
+    }
+
+	tasks.withType(Test) { testTask ->
+		configure(testTask) {
+			beforeTest { descriptor ->
+				logger.lifecycle("\t" + descriptor)
+			}
+		}
+	}
+
+	idea {
+		module {
+			// use separate output folders for idea, don't mess with gradle
+			inheritOutputDirs true
+		}
+	}
+}
+
+/**
+ * Liferay Source Formatter.
+ **/
+configure(subprojects.findAll { it.name }) {
+	repositories {
+		maven {
+			mavenLocal()
+			mavenCentral()
+			url 'https://repository.liferay.com/nexus/content/groups/liferay-ce'
+		}
+	}
+
+	configurations {
+		formatter
+	}
+
+	dependencies {
+		formatter 'com.liferay.portal:portal-impl:7.0.0-m3'
+		formatter 'com.liferay.portal:portal-service:7.0.0-m3'
+		formatter 'com.liferay.portal:util-java:7.0.0-m3'
+		formatter 'com.thoughtworks.qdox:qdox:1.9.2'
+		formatter 'dom4j:dom4j:1.6.1'
+		formatter 'org.apache.ant:ant:1.8.2'
+	}
+
+	task format(type: JavaExec) {
+		main = 'com.liferay.portal.tools.sourceformatter.SourceFormatter'
+		classpath = configurations.formatter
+		workingDir = 'src'
+	}
+}
+
+/**
+ * Gradle wrapper.
+ */
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.4'
+}

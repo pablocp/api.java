@@ -1,4 +1,4 @@
 api.java
 ========
 
-Liferay Apps api client for Java
+Liferay Apps API client for Java.
