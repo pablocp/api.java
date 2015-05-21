@@ -1,9 +1,8 @@
 package com.liferay.app.api;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Test;
 public class GoogleTest {
 
 	@Test

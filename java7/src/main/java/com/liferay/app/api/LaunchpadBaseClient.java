@@ -13,6 +13,20 @@ public abstract class LaunchpadBaseClient<F, C> {
 		this.url = url;
 	}
 
+	/**
+	 * Executes DELETE request.
+	 */
+	public F delete() {
+		return delete(null);
+	}
+
+	/**
+	 * Executes DELETE request.
+	 */
+	public F delete(final String body) {
+		return sendAsync("DELETE", body);
+	}
+
 	public void forEachHeader(
 		Entry.EntryConsumer<String, String> headerConsumer) {
 
@@ -44,11 +58,35 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Adds new header. If the header with the same name already exists, it will
+	 * not be overwritten, but new value will be stored. The order is preserved.
+	 */
+	public C header(String name, String value) {
+		headers.add(new Entry<>(name, value));
+		return (C)this;
+	}
+
+	/**
+	 * Executes PATCH request.
+	 */
+	public F patch() {
+		return patch(null);
+	}
+
+	/**
+	 * Executes PATCH request.
+	 */
+	public F patch(final String body) {
+		return sendAsync("PATCH", body);
+	}
+
+	/**
 	 * Executes POST request.
 	 */
 	public F post() {
 		return post(null);
 	}
+
 	/**
 	 * Executes POST request.
 	 */
@@ -57,12 +95,17 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Adds new header. If the header with the same name already exists, it will
-	 * not be overwritten, but new value will be stored. The order is preserved.
+	 * Executes PUT request.
 	 */
-	public C header(String name, String value) {
-		headers.add(new Entry<>(name, value));
-		return (C)this;
+	public F put() {
+		return put(null);
+	}
+
+	/**
+	 * Executes PUT request.
+	 */
+	public F put(final String body) {
+		return sendAsync("PUT", body);
 	}
 
 	/**
@@ -78,6 +121,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 		this.url = baseUrl + url;
 	}
 
+	/**
+	 * Uses transport to send request with given method name and body
+	 * asynchronously.
+	 */
 	protected F sendAsync(final String methodName, final String body) {
 		final Transport transport = TransportFactory.instance().getDefault();
 

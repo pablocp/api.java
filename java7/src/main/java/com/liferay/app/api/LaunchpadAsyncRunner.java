@@ -1,25 +1,23 @@
 package com.liferay.app.api;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * Configurable api executor that runs all the asynchronous calls.
+ * Configurable executor that runs all the asynchronous calls.
  */
 @MultiJava(version = 7)
-public class LaunchpadAsyncRunner implements AsyncRunner<Future> {
+public class LaunchpadAsyncRunner extends BaseAsyncRunner<Future> {
 
-	public LaunchpadAsyncRunner(int numberOfThreads) {
-		executor = Executors.newFixedThreadPool(numberOfThreads);
+	public LaunchpadAsyncRunner(
+		ExecutorType executorType, int numberOfThreads) {
+
+		super(executorType, numberOfThreads);
 	}
 
 	@Override
 	public Future runAsync(Callable callable) {
 		return executor.submit(callable);
 	}
-
-	protected final ExecutorService executor;
 
 }

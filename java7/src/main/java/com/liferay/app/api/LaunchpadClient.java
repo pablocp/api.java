@@ -10,7 +10,7 @@ public class LaunchpadClient
 		extends LaunchpadBaseClient<Future<String>, LaunchpadClient> {
 
 	static {
-		setExecutor(10);
+		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
 	}
 
 	public LaunchpadClient(String url) {
@@ -38,10 +38,10 @@ public class LaunchpadClient
 	/**
 	 * Sets new executor.
 	 */
-	// TODO(igor): add types!
+	public static void setExecutor(
+			AsyncRunner.ExecutorType executorType, int numberOfThreads) {
 
-	public static void setExecutor(int numberOfThreads) {
-		asyncRunner = new LaunchpadAsyncRunner(numberOfThreads);
+		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
 	}
 
 }

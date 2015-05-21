@@ -12,10 +12,10 @@ public class LaunchpadClient
 	/**
 	 * Sets new executor.
 	 */
-	// TODO(igor): add types!
+	public static void setExecutor(
+		AsyncRunner.ExecutorType executorType, int numberOfThreads) {
 
-	public static void setExecutor(int numberOfThreads) {
-		asyncRunner = new LaunchpadAsyncRunner(numberOfThreads);
+		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class LaunchpadClient
 	}
 
 	static {
-		setExecutor(10);
+		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
 	}
 
 }

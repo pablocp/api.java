@@ -2,17 +2,17 @@ package com.liferay.app.api;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Configurable api executor that runs all the asynchronous calls.
  */
 @MultiJava(version = 8)
-public class LaunchpadAsyncRunner implements AsyncRunner<CompletableFuture> {
+public class LaunchpadAsyncRunner extends BaseAsyncRunner<CompletableFuture> {
 
-	public LaunchpadAsyncRunner(int numberOfThreads) {
-		executor = Executors.newFixedThreadPool(numberOfThreads);
+	public LaunchpadAsyncRunner(
+		ExecutorType executorType, int numberOfThreads) {
+
+		super(executorType, numberOfThreads);
 	}
 
 	@Override
@@ -27,7 +27,5 @@ public class LaunchpadAsyncRunner implements AsyncRunner<CompletableFuture> {
 			}
 		});
 	}
-
-	protected final ExecutorService executor;
 
 }
