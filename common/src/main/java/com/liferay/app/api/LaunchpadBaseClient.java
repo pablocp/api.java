@@ -128,11 +128,20 @@ public abstract class LaunchpadBaseClient<F, C> implements LaunchpadClientDef {
 	protected F sendAsync(final String methodName, final String body) {
 		final Transport transport = TransportFactory.instance().getDefault();
 
-		return (F)asyncRunner.runAsync(new Callable<String>() {
+		final ClientRequest clientRequest = new ClientRequest();
+
+		clientRequest.path(fullPath());
+		clientRequest.method(methodName);
+
+		clientRequest.headers = headers;
+		clientRequest.queries = queries;
+
+		clientRequest.body(body);
+
+		return (F)asyncRunner.runAsync(new Callable<ClientResponse>() {
 			@Override
-			public String call() throws Exception {
-				return transport.send(
-					LaunchpadBaseClient.this, methodName, body);
+			public ClientResponse call() throws Exception {
+				return transport.send(clientRequest);
 			}
 		});
 	}

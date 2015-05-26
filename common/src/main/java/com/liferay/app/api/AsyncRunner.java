@@ -23,6 +23,6 @@ public interface AsyncRunner<F> {
 	/**
 	 * Runs callable asynchronously, using the exe.
 	 */
-	F runAsync(Callable<String> callable);
+	F runAsync(Callable<ClientResponse> callable);
 
 }

@@ -7,14 +7,14 @@ public class GoogleTest {
 
 	@Test
 	public void testGoogleHomePage() throws Exception {
-		String body = LaunchpadClient
+		ClientResponse response = LaunchpadClient
 			.url("http://google.com")
 			.get()
 			.get();
 
-		System.out.println(body);
+		System.out.println(response.body());
 
-		assertNotNull(body);
+		assertNotNull(response.body());
 	}
 
 }
