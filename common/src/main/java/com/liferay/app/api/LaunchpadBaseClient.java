@@ -28,9 +28,9 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Returns full URL path.
+	 * Returns full URL.
 	 */
-	public String fullPath() {
+	public String url() {
 		return url;
 	}
 
@@ -114,7 +114,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 		final ClientRequest clientRequest = new ClientRequest();
 
-		clientRequest.path(fullPath());
+		clientRequest.url(url());
 		clientRequest.method(methodName);
 
 		clientRequest.headers = headers;

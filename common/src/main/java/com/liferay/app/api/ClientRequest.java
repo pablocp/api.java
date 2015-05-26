@@ -20,17 +20,17 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	/**
-	 * Returns request path.
+	 * Returns request url.
 	 */
-	public String path() {
-		return path;
+	public String url() {
+		return url;
 	}
 
 	/**
 	 * Sets the request path.
 	 */
-	public ClientRequest path(String path) {
-		this.path = path;
+	public ClientRequest url(String path) {
+		this.url = path;
 		return this;
 	}
 
@@ -50,7 +50,7 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	protected String method;
-	protected String path;
+	protected String url;
 	protected List<Entry<String, String>> queries
 		= new ArrayList<Entry<String, String>>();
 

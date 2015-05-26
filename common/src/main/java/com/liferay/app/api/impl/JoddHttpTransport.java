@@ -18,7 +18,7 @@ public class JoddHttpTransport implements Transport {
 
 	@Override
 	public ClientResponse send(ClientRequest clientRequest) {
-		String url = clientRequest.path();
+		String url = clientRequest.url();
 
 		final HttpRequest httpRequest = new HttpRequest()
 						.method(clientRequest.method())
