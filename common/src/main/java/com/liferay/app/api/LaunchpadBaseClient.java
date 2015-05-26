@@ -27,22 +27,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 		return sendAsync("DELETE", body);
 	}
 
-	public void forEachHeader(
-		Entry.EntryConsumer<String, String> headerConsumer) {
-
-		for (Entry<String, String> header : headers) {
-			headerConsumer.accept(header.key(), header.value());
-		}
-	}
-
-	public void forEachQuery(
-		Entry.EntryConsumer<String, String> queryConsumer) {
-
-		for (Entry<String, String> query : queries) {
-			queryConsumer.accept(query.key(), query.value());
-		}
-	}
-
 	/**
 	 * Returns full URL path.
 	 */
