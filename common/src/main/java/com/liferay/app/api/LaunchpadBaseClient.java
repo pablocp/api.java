@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 /**
  * Base client contains code that is same for all java versions.
  */
-public abstract class LaunchpadBaseClient<F, C> implements LaunchpadClientDef {
+public abstract class LaunchpadBaseClient<F, C> {
 
 	public LaunchpadBaseClient(String url) {
 		this.url = url;
