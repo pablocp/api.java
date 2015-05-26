@@ -10,3 +10,7 @@ dependencies {
 
 jar.baseName = "launchpad-api"
 jar.appendix = "java8"
+
+jar {
+	from project(':java6').sourceSets.main.output.classesDir
+}
