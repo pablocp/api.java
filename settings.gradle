@@ -1,2 +1,2 @@
-include 'java7'
+include 'java6'
 include 'java8'
