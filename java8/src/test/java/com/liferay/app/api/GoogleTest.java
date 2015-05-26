@@ -8,7 +8,7 @@ public class GoogleTest {
 		LaunchpadClient
 			.url("http://google.com")
 			.get()
-			.thenAccept(response -> System.out.println(response))
+			.thenAccept(response -> System.out.println(response.body()))
 			.get();
 	}
 

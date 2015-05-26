@@ -7,7 +7,7 @@ import java.util.concurrent.Future;
  */
 @MultiJava(version = 6)
 public class LaunchpadClient
-		extends LaunchpadBaseClient<Future<String>, LaunchpadClient> {
+		extends LaunchpadBaseClient<Future<ClientResponse>, LaunchpadClient> {
 
 	static {
 		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);

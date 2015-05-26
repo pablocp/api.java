@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
  */
 @MultiJava(version = 8)
 public class LaunchpadClient
-		extends LaunchpadBaseClient<CompletableFuture, LaunchpadClient> {
+		extends LaunchpadBaseClient<CompletableFuture<ClientResponse>, LaunchpadClient> {
 
 	/**
 	 * Sets new executor.

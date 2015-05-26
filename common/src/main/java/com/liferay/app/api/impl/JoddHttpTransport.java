@@ -1,8 +1,11 @@
 package com.liferay.app.api.impl;
 
+import com.liferay.app.api.ClientRequest;
+import com.liferay.app.api.ClientResponse;
 import com.liferay.app.api.Entry;
-import com.liferay.app.api.LaunchpadClientDef;
 import com.liferay.app.api.Transport;
+
+import java.util.Map;
 
 import jodd.http.HttpBrowser;
 import jodd.http.HttpRequest;
@@ -14,26 +17,22 @@ import jodd.http.HttpResponse;
 public class JoddHttpTransport implements Transport {
 
 	@Override
-	public String send(LaunchpadClientDef lc, String method, String body) {
-		String url = lc.fullPath();
+	public ClientResponse send(ClientRequest clientRequest) {
+		String url = clientRequest.path();
 
 		final HttpRequest httpRequest = new HttpRequest()
-						.method(method.toUpperCase())
+						.method(clientRequest.method())
 						.set(url);
 
-		lc.forEachHeader(new Entry.EntryConsumer<String, String>() {
-			@Override
-			public void accept(String key, String value) {
-				httpRequest.header(key, value);
-			}
-		});
+		for (Entry<String, String> entry : clientRequest.headers()) {
+			httpRequest.header(entry.key(), entry.value());
+		}
 
-		lc.forEachQuery(new Entry.EntryConsumer<String, String>() {
-			@Override
-			public void accept(String key, String value) {
-				httpRequest.query(key, value);
-			}
-		});
+		for (Entry<String, String> entry : clientRequest.queries()) {
+			httpRequest.query(entry.key(), entry.value());
+		}
+
+		String body = clientRequest.body();
 
 		if (body != null) {
 			httpRequest.body(body);
@@ -43,7 +42,23 @@ public class JoddHttpTransport implements Transport {
 
 		HttpResponse response = httpBrowser.sendRequest(httpRequest);
 
-		return response.body();
+		ClientResponse clientResponse = new ClientResponse(clientRequest);
+
+		clientResponse.statusCode(response.statusCode());
+		clientResponse.body(response.body());
+
+		Map<String, String[]> responseHeaders = response.headers();
+
+		for (Map.Entry<String, String[]> entry : responseHeaders.entrySet()) {
+			String name = entry.getKey();
+			String[] values = entry.getValue();
+
+			for (String value : values) {
+				clientResponse.header(name, value);
+			}
+		}
+
+		return clientResponse;
 	}
 
 }

@@ -15,21 +15,18 @@ public class TransportFactory {
 		return instance;
 	}
 
+	/**
+	 * Returns transport registered for given name.
+	 */
 	public Transport get(String implementationName) {
-		Class<? extends Transport> transportClass = transports.get(
-			implementationName);
+		Transport transport = transports.get(implementationName);
 
-		if (transportClass == null) {
+		if (transport == null) {
 			throw new LaunchpadClientException(
-				"Invalid transport name: " + implementationName);
+				"Invalid transport: " + implementationName);
 		}
 
-		try {
-			return transportClass.newInstance();
-		}
-		catch (Exception e) {
-			throw new LaunchpadClientException("Can't create transport", e);
-		}
+		return transport;
 	}
 
 	/**
@@ -39,15 +36,31 @@ public class TransportFactory {
 		return get(DEFAULT_TRANSPORT_NAME);
 	}
 
-	private TransportFactory() {
-		transports = new HashMap<String, Class<? extends Transport>>();
+	/**
+	 * Registers new default transport.
+	 */
+	public void registerDefaultTransport(Transport transport) {
+		transports.put(DEFAULT_TRANSPORT_NAME, transport);
+	}
 
-		transports.put("default", JoddHttpTransport.class);
-		transports.put("jodd", JoddHttpTransport.class);
+	/**
+	 * Registers new transport.
+	 */
+	public void registerTransport(String name, Transport transport) {
+		transports.put(name, transport);
+	}
+
+	private TransportFactory() {
+		transports = new HashMap<String, Transport>();
+
+		Transport defaultTransport = new JoddHttpTransport();
+
+		transports.put("default", defaultTransport);
+		transports.put("jodd", defaultTransport);
 	}
 
 	private static final TransportFactory instance = new TransportFactory();
 
-	private Map<String, Class<? extends Transport>> transports;
+	private Map<String, Transport> transports;
 
 }
