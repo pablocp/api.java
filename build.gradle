@@ -24,7 +24,7 @@ allprojects {
 ext {
 	lib = [
 		junit       : 'junit:junit:4.12',
-		jodd_http   : 'org.jodd:jodd-http:3.6.5'
+		jodd_http   : 'org.jodd:jodd-http:3.6.6'
 	]
 }
 
@@ -43,8 +43,8 @@ idea {
 subprojects {
     apply plugin: 'java'
 
-	sourceCompatibility = JavaVersion.VERSION_1_7
-	targetCompatibility = JavaVersion.VERSION_1_7
+	sourceCompatibility = JavaVersion.VERSION_1_6
+	targetCompatibility = JavaVersion.VERSION_1_6
 
 	compileJava.options.fork = true
 

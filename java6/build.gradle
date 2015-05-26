@@ -1,0 +1,16 @@
+
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+dependencies {
+	compile project(':common')
+
+	testCompile lib.junit
+}
+
+jar.baseName = "launchpad-api"
+jar.appendix = "java6"
+
+jar {
+	from project(':common').sourceSets.main.output.classesDir
+}

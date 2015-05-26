@@ -3,7 +3,14 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-	compile project(':java7')
+	compile project(":common")
 
 	testCompile lib.junit
+}
+
+jar.baseName = "launchpad-api"
+jar.appendix = "java8"
+
+jar {
+	from project(':common').sourceSets.main.output.classesDir
 }

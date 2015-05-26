@@ -1,7 +1,7 @@
 package com.liferay.app.api.impl;
 
 import com.liferay.app.api.Entry;
-import com.liferay.app.api.LaunchpadClient;
+import com.liferay.app.api.LaunchpadClientDef;
 import com.liferay.app.api.Transport;
 
 import jodd.http.HttpBrowser;
@@ -14,7 +14,7 @@ import jodd.http.HttpResponse;
 public class JoddHttpTransport implements Transport {
 
 	@Override
-	public String send(LaunchpadClient lc, String method, String body) {
+	public String send(LaunchpadClientDef lc, String method, String body) {
 		String url = lc.fullPath();
 
 		final HttpRequest httpRequest = new HttpRequest()
