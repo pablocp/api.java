@@ -2,6 +2,6 @@ package com.liferay.app.api;
 
 public interface Transport {
 
-	String send(LaunchpadClient lc, String method, String body);
+	String send(LaunchpadClientDef lc, String method, String body);
 
 }

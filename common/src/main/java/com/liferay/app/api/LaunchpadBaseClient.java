@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 /**
  * Base client contains code that is same for all java versions.
  */
-public abstract class LaunchpadBaseClient<F, C> {
+public abstract class LaunchpadBaseClient<F, C> implements LaunchpadClientDef {
 
 	public LaunchpadBaseClient(String url) {
 		this.url = url;
@@ -132,8 +132,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 			@Override
 			public String call() throws Exception {
 				return transport.send(
-					(LaunchpadClient)LaunchpadBaseClient.this, methodName,
-					body);
+					LaunchpadBaseClient.this, methodName, body);
 			}
 		});
 	}
