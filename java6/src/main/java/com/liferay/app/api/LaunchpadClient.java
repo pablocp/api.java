@@ -5,7 +5,7 @@ import java.util.concurrent.Future;
 /**
  * Java 7 client.
  */
-@MultiJava(version = 7)
+@MultiJava(version = 6)
 public class LaunchpadClient
 		extends LaunchpadBaseClient<Future<String>, LaunchpadClient> {
 

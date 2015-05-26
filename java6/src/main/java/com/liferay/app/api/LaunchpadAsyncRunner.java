@@ -6,7 +6,7 @@ import java.util.concurrent.Future;
 /**
  * Configurable executor that runs all the asynchronous calls.
  */
-@MultiJava(version = 7)
+@MultiJava(version = 6)
 public class LaunchpadAsyncRunner extends BaseAsyncRunner<Future> {
 
 	public LaunchpadAsyncRunner(

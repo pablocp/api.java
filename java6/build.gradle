@@ -1,9 +1,12 @@
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
 	compile lib.jodd_http
 
 	testCompile lib.junit
 }
+
+jar.baseName = "launchpad-api"
+jar.appendix = "java6"

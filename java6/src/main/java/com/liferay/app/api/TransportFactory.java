@@ -27,7 +27,7 @@ public class TransportFactory {
 		try {
 			return transportClass.newInstance();
 		}
-		catch (InstantiationException | IllegalAccessException e) {
+		catch (Exception e) {
 			throw new LaunchpadClientException("Can't create transport", e);
 		}
 	}
@@ -40,7 +40,7 @@ public class TransportFactory {
 	}
 
 	private TransportFactory() {
-		transports = new HashMap<>();
+		transports = new HashMap<String, Class<? extends Transport>>();
 
 		transports.put("default", JoddHttpTransport.class);
 		transports.put("jodd", JoddHttpTransport.class);

@@ -62,7 +62,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * not be overwritten, but new value will be stored. The order is preserved.
 	 */
 	public C header(String name, String value) {
-		headers.add(new Entry<>(name, value));
+		headers.add(new Entry<String, String>(name, value));
 		return (C)this;
 	}
 
@@ -113,7 +113,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * be overwritten, but new value will be stored. The order is preserved.
 	 */
 	public C query(String name, String value) {
-		queries.add(new Entry<>(name, value));
+		queries.add(new Entry<String, String>(name, value));
 		return (C)this;
 	}
 
@@ -140,8 +140,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 	protected static AsyncRunner asyncRunner;
 
-	protected final List<Entry<String, String>> headers = new ArrayList<>();
-	protected final List<Entry<String, String>> queries = new ArrayList<>();
+	protected final List<Entry<String, String>> headers =
+		new ArrayList<Entry<String, String>>();
+	protected final List<Entry<String, String>> queries =
+		new ArrayList<Entry<String, String>>();
 	protected final String url;
 
 }

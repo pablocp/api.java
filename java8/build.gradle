@@ -7,3 +7,6 @@ dependencies {
 
 	testCompile lib.junit
 }
+
+jar.baseName = "launchpad-api"
+jar.appendix = "java8"
