@@ -13,12 +13,13 @@ public class LaunchpadClient
 		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
 	}
 
-	public LaunchpadClient(String url) {
-		super(url);
-	}
+	/**
+	 * Sets new executor.
+	 */
+	public static void setExecutor(
+		AsyncRunner.ExecutorType executorType, int numberOfThreads) {
 
-	LaunchpadClient(String baseUrl, String url) {
-		super(baseUrl, url);
+		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
 	}
 
 	/**
@@ -28,20 +29,19 @@ public class LaunchpadClient
 		return new LaunchpadClient(url);
 	}
 
+	public LaunchpadClient(String url) {
+		super(url);
+	}
+
 	/**
 	 * Creates new {@link LaunchpadBaseClient}.
 	 */
 	public LaunchpadClient path(String path) {
-		return new LaunchpadClient(url, path);
+		return new LaunchpadClient(customTransport, url, path);
 	}
 
-	/**
-	 * Sets new executor.
-	 */
-	public static void setExecutor(
-			AsyncRunner.ExecutorType executorType, int numberOfThreads) {
-
-		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
+	private LaunchpadClient(Transport transport, String baseUrl, String url) {
+		super(transport, baseUrl, url);
 	}
 
 }
