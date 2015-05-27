@@ -1,9 +1,4 @@
-package com.liferay.app.api.impl;
-
-import com.liferay.app.api.ClientRequest;
-import com.liferay.app.api.ClientResponse;
-import com.liferay.app.api.Entry;
-import com.liferay.app.api.Transport;
+package com.liferay.app.api;
 
 import java.util.Map;
 

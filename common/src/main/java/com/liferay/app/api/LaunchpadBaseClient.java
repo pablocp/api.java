@@ -110,7 +110,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * asynchronously.
 	 */
 	protected F sendAsync(final String methodName, final String body) {
-		final Transport transport = TransportFactory.instance().getDefault();
+		final Transport transport = Transports.getTransport();
 
 		final ClientRequest clientRequest = new ClientRequest();
 

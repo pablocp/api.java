@@ -23,8 +23,7 @@ allprojects {
 
 ext {
 	lib = [
-		junit       : 'junit:junit:4.12',
-		jodd_http   : 'org.jodd:jodd-http:3.6.6'
+		junit       : 'junit:junit:4.12'
 	]
 }
 
@@ -51,6 +50,12 @@ subprojects {
 	compileJava.doFirst {
 	    println "Source compatibility: " + sourceCompatibility
 	}
+
+	configurations {
+		provided
+		compile.extendsFrom provided
+	}
+
 
     test {
         reports.html.enabled = false
