@@ -20,21 +20,6 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	/**
-	 * Returns request url.
-	 */
-	public String url() {
-		return url;
-	}
-
-	/**
-	 * Sets the request path.
-	 */
-	public ClientRequest url(String path) {
-		this.url = path;
-		return this;
-	}
-
-	/**
 	 * Returns a list of all queries.
 	 */
 	public List<Entry<String, String>> queries() {
@@ -49,9 +34,24 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 		return this;
 	}
 
+	/**
+	 * Returns request url.
+	 */
+	public String url() {
+		return url;
+	}
+
+	/**
+	 * Sets the request path.
+	 */
+	public ClientRequest url(String path) {
+		this.url = path;
+		return this;
+	}
+
 	protected String method;
-	protected String url;
 	protected List<Entry<String, String>> queries
 		= new ArrayList<Entry<String, String>>();
+	protected String url;
 
 }

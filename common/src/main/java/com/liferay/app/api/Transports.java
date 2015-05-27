@@ -8,19 +8,15 @@ import java.lang.reflect.Method;
 @SuppressWarnings("unchecked")
 public class Transports {
 
-	public static final String TRANSPORT_BINDER_CLASSNAME = ".TransportBinder";
 	public static final String BINDER_METHOD_NAME = "newTransport";
 
-	private static Transport transport;
-
+	public static final String TRANSPORT_BINDER_CLASSNAME = ".TransportBinder";
 
 	public static Transport getTransport() {
 		if (transport == null) {
-			ClassLoader classLoader =
-				Transports.class.getClassLoader();
+			ClassLoader classLoader = Transports.class.getClassLoader();
 
-			String packageName =
-				Transports.class.getPackage().getName();
+			String packageName = Transports.class.getPackage().getName();
 
 			String binderClassName = packageName + TRANSPORT_BINDER_CLASSNAME;
 
@@ -45,7 +41,7 @@ public class Transports {
 			}
 
 			try {
-				transport = (Transport) binderMethod.invoke(null);
+				transport = (Transport)binderMethod.invoke(null);
 			}
 			catch (Exception e) {
 				throw new LaunchpadClientException(
@@ -55,5 +51,7 @@ public class Transports {
 
 		return transport;
 	}
+
+	private static Transport transport;
 
 }
