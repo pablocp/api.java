@@ -9,10 +9,6 @@ import java.util.concurrent.Callable;
  */
 public abstract class LaunchpadBaseClient<F, C> {
 
-	public LaunchpadBaseClient(String url) {
-		this.url = url;
-	}
-
 	/**
 	 * Executes DELETE request.
 	 */
@@ -25,13 +21,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 */
 	public F delete(final String body) {
 		return sendAsync("DELETE", body);
-	}
-
-	/**
-	 * Returns full URL.
-	 */
-	public String url() {
-		return url;
 	}
 
 	/**
@@ -101,8 +90,30 @@ public abstract class LaunchpadBaseClient<F, C> {
 		return (C)this;
 	}
 
-	protected LaunchpadBaseClient(String baseUrl, String url) {
-		this.url = baseUrl + url;
+	/**
+	 * Returns full URL.
+	 */
+	public String url() {
+		return url;
+	}
+
+	/**
+	 * Specifies {@link Transport} implementation.
+	 */
+	public C use(Transport transport) {
+		this.customTransport = transport;
+		return (C)this;
+	}
+
+	protected LaunchpadBaseClient(String url) {
+		this.url = url;
+	}
+
+	protected LaunchpadBaseClient(
+			Transport transport, String baseUrl, String url) {
+
+		this.customTransport = transport;
+		this.url = Util.joinPaths(baseUrl, url);
 	}
 
 	/**
@@ -110,7 +121,8 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * asynchronously.
 	 */
 	protected F sendAsync(final String methodName, final String body) {
-		final Transport transport = TransportFactory.instance().getDefault();
+		final Transport transport =
+			customTransport == null ? Transports.getTransport() : customTransport;
 
 		final ClientRequest clientRequest = new ClientRequest();
 
@@ -132,6 +144,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 	protected static AsyncRunner asyncRunner;
 
+	protected Transport customTransport;
 	protected final List<Entry<String, String>> headers =
 		new ArrayList<Entry<String, String>>();
 	protected final List<Entry<String, String>> queries =

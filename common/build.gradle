@@ -3,7 +3,5 @@ sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
-	compile lib.jodd_http
-
 	testCompile lib.junit
 }
