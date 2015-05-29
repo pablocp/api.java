@@ -1,5 +1,11 @@
 package com.liferay.app.api;
 
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.IO.Options;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -8,6 +14,31 @@ import java.util.concurrent.Callable;
  * Base client contains code that is same for all java versions.
  */
 public abstract class LaunchpadBaseClient<F, C> {
+
+    /**
+     * Creates new socket.io instance. The parameters passed to socket.io
+     * constructor will be provided.
+     */
+    public Socket connect() {
+        return connect(new Options());
+    }
+
+    /**
+     * Creates new socket.io instance with custom options. The parameters
+     * passed to socket.io constructor will be provided.
+     */
+	public Socket connect(Options options) {
+        try {
+            URI uri = new URI(url());
+
+            options.path = uri.getPath();
+
+            return IO.socket(uri.getAuthority(), options);
+        }
+        catch (URISyntaxException e) {
+            throw new LaunchpadClientException(e.getMessage());
+        }
+	}
 
 	/**
 	 * Executes DELETE request.

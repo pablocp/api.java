@@ -4,4 +4,6 @@ targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
 	testCompile lib.junit
+
+	compile 'com.github.nkzawa:socket.io-client:0.5.0'
 }
