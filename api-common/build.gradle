@@ -8,4 +8,5 @@ dependencies {
 	compile lib.launchpad_sdk
 
 	testCompile lib.junit
+    testCompile lib.jsonassert
 }
