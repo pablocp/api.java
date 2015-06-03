@@ -1,6 +1,9 @@
 package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.Response;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Util {
 
 	public static final String SEPARATOR = "/";
@@ -40,6 +43,11 @@ public class Util {
 				throw new LaunchpadClientException(
 					"Invalid response : " + response.statusCode());
 		}
-	}
+
+		public static Map wrap(String name, Object value) {
+			Map map = new HashMap();
+			map.put(name, value);
+			return map;
+		}
 
 }
