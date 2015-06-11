@@ -1,25 +1,25 @@
 bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
+	user = System.getenv('BINTRAY_USER')
+	key = System.getenv('BINTRAY_KEY')
 
-    configurations = ['published', 'archives']
+	configurations = ['published', 'archives']
 
 	dryRun = false
 	publish = true
 
-    pkg {
+	pkg {
 		userOrg = 'liferay'
 		repo = 'launchpad'
 		name = project.name
-        desc = 'Liferay Launchpad Api Client for Java'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/liferay-apps/api.java'
-        issueTrackerUrl = 'https://github.com/liferay-apps/api.java/issues'
-        publicDownloadNumbers = true
+		desc = 'Liferay Launchpad Api Client for Java'
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/liferay-apps/api.java'
+		issueTrackerUrl = 'https://github.com/liferay-apps/api.java/issues'
+		publicDownloadNumbers = true
 
-        version {
-            name = project.version
-            vcsTag = project.version
-        }
-    }
+		version {
+			name = project.version
+			vcsTag = project.version
+		}
+	}
 }
