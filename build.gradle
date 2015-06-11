@@ -20,7 +20,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 version = '0.1.0'
-group = 'com.liferay.app.api'
+group = 'com.liferay.launchpad'
 
 allprojects {
 	repositories {
