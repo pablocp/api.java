@@ -110,7 +110,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	protected LaunchpadBaseClient(
-			Transport transport, String baseUrl, String url) {
+		Transport transport, String baseUrl, String url) {
 
 		this.customTransport = transport;
 		this.url = Util.joinPaths(baseUrl, url);

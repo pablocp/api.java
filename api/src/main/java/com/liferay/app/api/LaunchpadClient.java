@@ -9,10 +9,6 @@ import java.util.concurrent.CompletableFuture;
 public class LaunchpadClient
 		extends LaunchpadBaseClient<CompletableFuture<ClientResponse>, LaunchpadClient> {
 
-	static {
-		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
-	}
-
 	/**
 	 * Sets new executor.
 	 */
@@ -42,6 +38,10 @@ public class LaunchpadClient
 
 	private LaunchpadClient(Transport transport, String baseUrl, String url) {
 		super(transport, baseUrl, url);
+	}
+
+	static {
+		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
 	}
 
 }

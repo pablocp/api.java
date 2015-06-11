@@ -12,18 +12,28 @@
  * details.
  */
 
+plugins {
+	id "com.jfrog.bintray" version "1.2"
+}
+
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+version = '0.1.0'
+group = 'com.liferay.app.api'
+
 allprojects {
 	repositories {
+		jcenter()
+		mavenLocal()
 		mavenCentral()
 	}
 }
 
 ext {
+	gradleScriptDir = "${rootProject.projectDir}/gradle"
 	lib = [
-		junit       : 'junit:junit:4.12'
+		junit: 'junit:junit:4.12'
 	]
 }
 
@@ -40,7 +50,9 @@ idea {
  * Subprojects configuration.
  */
 subprojects {
-    apply plugin: 'java'
+	apply plugin: 'java'
+	apply plugin: 'maven'
+	apply plugin: 'com.jfrog.bintray'
 
 	sourceCompatibility = JavaVersion.VERSION_1_6
 	targetCompatibility = JavaVersion.VERSION_1_6
@@ -48,7 +60,7 @@ subprojects {
 	compileJava.options.fork = true
 
 	compileJava.doFirst {
-	    println "Source compatibility: " + sourceCompatibility
+		println "Source compatibility: " + sourceCompatibility
 	}
 
 	configurations {
@@ -56,10 +68,9 @@ subprojects {
 		compile.extendsFrom provided
 	}
 
-
-    test {
-        reports.html.enabled = false
-    }
+	test {
+		reports.html.enabled = false
+	}
 
 	tasks.withType(Test) { testTask ->
 		configure(testTask) {
@@ -71,10 +82,33 @@ subprojects {
 
 	idea {
 		module {
-			// use separate output folders for idea, don't mess with gradle
 			inheritOutputDirs true
 		}
 	}
+
+	configurations {
+		published
+	}
+
+	task sourceJar(type: Jar) {
+		from sourceSets.main.allSource
+		classifier = 'sources'
+		version = rootProject.version
+	}
+
+	task javadocJar(type: Jar, dependsOn: javadoc) {
+		classifier = 'javadoc'
+		version = rootProject.version
+		from javadoc.destinationDir
+	}
+
+	artifacts {
+		published sourceJar
+		published javadocJar
+	}
+
+	jar.dependsOn sourceJar
+	jar.dependsOn javadocJar
 }
 
 /**
