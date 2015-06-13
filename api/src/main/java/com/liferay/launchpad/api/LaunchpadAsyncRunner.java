@@ -28,7 +28,7 @@ public class LaunchpadAsyncRunner
 				throw new LaunchpadClientExecutionException(
 					"Execution failed", e);
 			}
-		});
+		}, executor);
 	}
 
 }
