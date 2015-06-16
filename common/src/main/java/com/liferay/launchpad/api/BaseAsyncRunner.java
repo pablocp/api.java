@@ -13,6 +13,8 @@ public abstract class BaseAsyncRunner<F> implements AsyncRunner<F> {
 	 * threads.
 	 */
 	protected BaseAsyncRunner(ExecutorType executorType, int numberOfThreads) {
+		this.executorType = executorType;
+
 		switch (executorType) {
 			case FIXED:
 				executor = Executors.newFixedThreadPool(numberOfThreads);
@@ -26,5 +28,6 @@ public abstract class BaseAsyncRunner<F> implements AsyncRunner<F> {
 	}
 
 	protected final ExecutorService executor;
+	protected final ExecutorType executorType;
 
 }

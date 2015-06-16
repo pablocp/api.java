@@ -117,12 +117,30 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Resolves transport. Throws exception if transport is missing.
+	 */
+	protected Transport resolveTransport() {
+		Transport transport = customTransport;
+
+		if (transport == null) {
+			TransportBinder transportBinder = Binder.getTransportBinder();
+
+			transport = transportBinder.initTransport();
+		}
+
+		if (transport == null) {
+			throw new LaunchpadClientException("Transport not defined!");
+		}
+
+		return transport;
+	}
+
+	/**
 	 * Uses transport to send request with given method name and body
 	 * asynchronously.
 	 */
 	protected F sendAsync(final String methodName, final String body) {
-		final Transport transport =
-			customTransport == null ? Transports.getTransport() : customTransport;
+		final Transport transport = resolveTransport();
 
 		final ClientRequest clientRequest = new ClientRequest();
 
