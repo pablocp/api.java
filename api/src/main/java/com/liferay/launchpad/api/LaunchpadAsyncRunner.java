@@ -13,6 +13,7 @@ public class LaunchpadAsyncRunner
 	public LaunchpadAsyncRunner() {
 		super();
 	}
+
 	public LaunchpadAsyncRunner(int numberOfThreads) {
 		super(numberOfThreads);
 	}

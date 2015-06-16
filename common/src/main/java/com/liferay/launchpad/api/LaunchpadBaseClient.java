@@ -100,8 +100,9 @@ public abstract class LaunchpadBaseClient<F, C> {
 	/**
 	 * Sets async runner to be used.
 	 */
-	public void use(AsyncRunner<F> newAsyncRunner) {
+	public C use(AsyncRunner<F> newAsyncRunner) {
 		customRunner = newAsyncRunner;
+		return (C)this;
 	}
 
 	/**
@@ -116,16 +117,12 @@ public abstract class LaunchpadBaseClient<F, C> {
 		this.url = url;
 	}
 
-	protected LaunchpadBaseClient(
-		Transport transport, String baseUrl, String url) {
-
-		this.customTransport = transport;
+	protected LaunchpadBaseClient(String baseUrl, String url) {
 		this.url = Util.joinPaths(baseUrl, url);
 	}
 
 	/**
-	 * Resolves async runner. May return <code>null</code> when transport
-	 * is called without any async wrapper.
+	 * Resolves async runner.
 	 */
 	protected AsyncRunner<F> resolveAsyncRunner() {
 		AsyncRunner<F> runner = this.customRunner;

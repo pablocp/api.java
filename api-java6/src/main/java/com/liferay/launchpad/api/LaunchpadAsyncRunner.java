@@ -12,6 +12,7 @@ public class LaunchpadAsyncRunner extends BaseAsyncRunner<Future> {
 	public LaunchpadAsyncRunner() {
 		super();
 	}
+
 	public LaunchpadAsyncRunner(int numberOfThreads) {
 		super(numberOfThreads);
 	}
