@@ -11,8 +11,13 @@ public abstract class BaseAsyncRunner<F> implements AsyncRunner<F> {
 	/**
 	 * Creates new launchpad runner with dynamic thread pool.
 	 */
-	protected BaseAsyncRunner() {
-		executor = Executors.newCachedThreadPool();
+	protected BaseAsyncRunner(ExecutorService executorService) {
+		if (executorService != null) {
+			this.executor = executorService;
+		}
+		else {
+			this.executor = Executors.newCachedThreadPool();
+		}
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.liferay.launchpad.api;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Configurable api executor that runs all the asynchronous calls.
@@ -11,6 +12,11 @@ public class LaunchpadAsyncRunner
 		extends BaseAsyncRunner<CompletableFuture<ClientResponse>> {
 
 	public LaunchpadAsyncRunner() {
+		this(false);
+	}
+
+	public LaunchpadAsyncRunner(boolean useExecutor) {
+		super(useExecutor ? null : ForkJoinPool.commonPool());
 	}
 
 	public LaunchpadAsyncRunner(int numberOfThreads) {

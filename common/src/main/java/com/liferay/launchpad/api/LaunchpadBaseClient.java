@@ -117,6 +117,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 		this.url = url;
 	}
 
+	/**
+	 * Continuations constructor, used from existing instance, therefore
+	 * no need to configure the client.
+	 */
 	protected LaunchpadBaseClient(String baseUrl, String url) {
 		this.url = Util.joinPaths(baseUrl, url);
 	}
