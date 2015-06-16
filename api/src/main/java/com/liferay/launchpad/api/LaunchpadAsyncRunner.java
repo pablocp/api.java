@@ -10,10 +10,11 @@ import java.util.concurrent.CompletableFuture;
 public class LaunchpadAsyncRunner
 		extends BaseAsyncRunner<CompletableFuture<ClientResponse>> {
 
-	public LaunchpadAsyncRunner(
-		ExecutorType executorType, int numberOfThreads) {
-
-		super(executorType, numberOfThreads);
+	public LaunchpadAsyncRunner() {
+		super();
+	}
+	public LaunchpadAsyncRunner(int numberOfThreads) {
+		super(numberOfThreads);
 	}
 
 	@Override

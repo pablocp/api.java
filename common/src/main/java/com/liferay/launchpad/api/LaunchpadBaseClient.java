@@ -98,6 +98,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Sets async runner to be used.
+	 */
+	public void use(AsyncRunner<F> newAsyncRunner) {
+		customRunner = newAsyncRunner;
+	}
+
+	/**
 	 * Specifies {@link Transport} implementation.
 	 */
 	public C use(Transport transport) {
@@ -114,6 +121,24 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 		this.customTransport = transport;
 		this.url = Util.joinPaths(baseUrl, url);
+	}
+
+	/**
+	 * Resolves async runner. May return <code>null</code> when transport
+	 * is called without any async wrapper.
+	 */
+	protected AsyncRunner<F> resolveAsyncRunner() {
+		AsyncRunner<F> runner = this.customRunner;
+
+		if (runner == null) {
+			runner = mainAsyncRunner;
+		}
+
+		if (runner == null) {
+			throw new LaunchpadClientException("AsyncRunner not defined!");
+		}
+
+		return runner;
 	}
 
 	/**
@@ -152,7 +177,9 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 		clientRequest.body(body);
 
-		return (F)asyncRunner.runAsync(new Callable<ClientResponse>() {
+		final AsyncRunner<F> runner = resolveAsyncRunner();
+
+		return runner.runAsync(new Callable<ClientResponse>() {
 			@Override
 			public ClientResponse call() throws Exception {
 				return transport.send(clientRequest);
@@ -160,8 +187,9 @@ public abstract class LaunchpadBaseClient<F, C> {
 		});
 	}
 
-	protected static AsyncRunner asyncRunner;
+	protected static AsyncRunner mainAsyncRunner;
 
+	protected AsyncRunner<F> customRunner;
 	protected Transport customTransport;
 	protected final List<Entry<String, String>> headers =
 		new ArrayList<Entry<String, String>>();

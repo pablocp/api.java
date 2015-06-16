@@ -10,15 +10,6 @@ public class LaunchpadClient
 		extends LaunchpadBaseClient<CompletableFuture<ClientResponse>, LaunchpadClient> {
 
 	/**
-	 * Sets new executor.
-	 */
-	public static void setExecutor(
-		AsyncRunner.ExecutorType executorType, int numberOfThreads) {
-
-		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
-	}
-
-	/**
 	 * Static factory for creating launchpad client.
 	 */
 	public static LaunchpadClient url(String url) {
@@ -41,7 +32,7 @@ public class LaunchpadClient
 	}
 
 	static {
-		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
+		mainAsyncRunner = new LaunchpadAsyncRunner();
 	}
 
 }

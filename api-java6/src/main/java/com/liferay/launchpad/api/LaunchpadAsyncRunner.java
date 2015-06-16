@@ -4,15 +4,16 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
 /**
- * Configurable executor that runs all the asynchronous calls.
+ * Configurable api executor that runs all the asynchronous calls.
  */
 @MultiJava(version = 6)
 public class LaunchpadAsyncRunner extends BaseAsyncRunner<Future> {
 
-	public LaunchpadAsyncRunner(
-		ExecutorType executorType, int numberOfThreads) {
-
-		super(executorType, numberOfThreads);
+	public LaunchpadAsyncRunner() {
+		super();
+	}
+	public LaunchpadAsyncRunner(int numberOfThreads) {
+		super(numberOfThreads);
 	}
 
 	@Override

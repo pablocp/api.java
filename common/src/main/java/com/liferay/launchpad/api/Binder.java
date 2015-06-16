@@ -28,8 +28,8 @@ public class Binder {
 		ClassLoader classLoader = Binder.class.getClassLoader();
 
 		try {
-			launchpadClientBinderClass =
-				classLoader.loadClass(LAUNCHPAD_CLIENT_BINDER_CLASSNAME);
+			launchpadClientBinderClass = classLoader.loadClass(
+				LAUNCHPAD_CLIENT_BINDER_CLASSNAME);
 		}
 		catch (ClassNotFoundException e) {
 			throw new LaunchpadClientException(
@@ -50,10 +50,11 @@ public class Binder {
 		// store
 
 		if (binder instanceof TransportBinder) {
-			transportBinder = (TransportBinder) binder;
+			transportBinder = (TransportBinder)binder;
 		}
 	}
 
 	private static Class launchpadClientBinderClass;
 	private static TransportBinder transportBinder;
+
 }

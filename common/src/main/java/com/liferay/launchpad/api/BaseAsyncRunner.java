@@ -4,30 +4,24 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Base class containing common code.
+ * Base class containing common code and the executor.
  */
 public abstract class BaseAsyncRunner<F> implements AsyncRunner<F> {
 
 	/**
-	 * Creates new launchpad runner with given type and optional number of
-	 * threads.
+	 * Creates new launchpad runner with dynamic thread pool.
 	 */
-	protected BaseAsyncRunner(ExecutorType executorType, int numberOfThreads) {
-		this.executorType = executorType;
+	protected BaseAsyncRunner() {
+		executor = Executors.newCachedThreadPool();
+	}
 
-		switch (executorType) {
-			case FIXED:
-				executor = Executors.newFixedThreadPool(numberOfThreads);
-				break;
-			case CACHED:
-				executor = Executors.newCachedThreadPool();
-				break;
-			default:
-				executor = null;
-		}
+	/**
+	 * Creates new launchpad runner with fixed number of threads.
+	 */
+	protected BaseAsyncRunner(int numberOfThreads) {
+		executor = Executors.newFixedThreadPool(numberOfThreads);
 	}
 
 	protected final ExecutorService executor;
-	protected final ExecutorType executorType;
 
 }

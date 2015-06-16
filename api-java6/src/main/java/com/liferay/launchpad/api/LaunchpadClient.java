@@ -3,20 +3,11 @@ package com.liferay.launchpad.api;
 import java.util.concurrent.Future;
 
 /**
- * Java 7 client.
+ * Java 6 client.
  */
 @MultiJava(version = 6)
 public class LaunchpadClient
 		extends LaunchpadBaseClient<Future<ClientResponse>, LaunchpadClient> {
-
-	/**
-	 * Sets new executor.
-	 */
-	public static void setExecutor(
-		AsyncRunner.ExecutorType executorType, int numberOfThreads) {
-
-		asyncRunner = new LaunchpadAsyncRunner(executorType, numberOfThreads);
-	}
 
 	/**
 	 * Static factory for creating launchpad client.
@@ -41,7 +32,7 @@ public class LaunchpadClient
 	}
 
 	static {
-		setExecutor(AsyncRunner.ExecutorType.FIXED, 10);
+		mainAsyncRunner = new LaunchpadAsyncRunner();
 	}
 
 }
