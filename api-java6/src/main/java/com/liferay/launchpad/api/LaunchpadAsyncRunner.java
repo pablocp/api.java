@@ -10,7 +10,6 @@ import java.util.concurrent.Future;
 public class LaunchpadAsyncRunner extends BaseAsyncRunner<Future> {
 
 	public LaunchpadAsyncRunner() {
-		super();
 	}
 
 	public LaunchpadAsyncRunner(int numberOfThreads) {

@@ -20,10 +20,6 @@ public class LaunchpadClient
 		super(url);
 	}
 
-	public LaunchpadClient(String url, String path) {
-		super(url, path);
-	}
-
 	/**
 	 * Creates new {@link LaunchpadBaseClient}.
 	 */
@@ -31,6 +27,10 @@ public class LaunchpadClient
 		return new LaunchpadClient(url, path)
 			.use(customTransport)
 			.use(customRunner);
+	}
+
+	private LaunchpadClient(String url, String path) {
+		super(url, path);
 	}
 
 	static {

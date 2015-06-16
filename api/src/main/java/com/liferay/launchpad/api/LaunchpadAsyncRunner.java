@@ -11,7 +11,6 @@ public class LaunchpadAsyncRunner
 		extends BaseAsyncRunner<CompletableFuture<ClientResponse>> {
 
 	public LaunchpadAsyncRunner() {
-		super();
 	}
 
 	public LaunchpadAsyncRunner(int numberOfThreads) {
