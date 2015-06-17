@@ -2,7 +2,6 @@ package com.liferay.launchpad.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Base client contains code that is same for all java versions.
@@ -98,21 +97,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Sets async runner to be used.
-	 */
-	public C use(AsyncRunner<F> newAsyncRunner) {
-		customRunner = newAsyncRunner;
-		return (C)this;
-	}
-
-	/**
 	 * Specifies {@link Transport} implementation.
 	 */
-	public C use(Transport transport) {
+	public C use(Transport<F> transport) {
 		this.customTransport = transport;
 		return (C)this;
 	}
 
+	/**
+	 * Main constructor.
+	 */
 	protected LaunchpadBaseClient(String url) {
 		this.url = url;
 	}
@@ -126,27 +120,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Resolves async runner.
-	 */
-	protected AsyncRunner<F> resolveAsyncRunner() {
-		AsyncRunner<F> runner = this.customRunner;
-
-		if (runner == null) {
-			runner = mainAsyncRunner;
-		}
-
-		if (runner == null) {
-			throw new LaunchpadClientException("AsyncRunner not defined!");
-		}
-
-		return runner;
-	}
-
-	/**
 	 * Resolves transport. Throws exception if transport is missing.
 	 */
-	protected Transport resolveTransport() {
-		Transport transport = customTransport;
+	protected Transport<F> resolveTransport() {
+		Transport<F> transport = customTransport;
 
 		if (transport == null) {
 			TransportBinder transportBinder = Binder.getTransportBinder();
@@ -166,7 +143,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * asynchronously.
 	 */
 	protected F sendAsync(final String methodName, final String body) {
-		final Transport transport = resolveTransport();
+		final Transport<F> transport = resolveTransport();
 
 		final ClientRequest clientRequest = new ClientRequest();
 
@@ -178,20 +155,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 		clientRequest.body(body);
 
-		final AsyncRunner<F> runner = resolveAsyncRunner();
-
-		return runner.runAsync(new Callable<ClientResponse>() {
-			@Override
-			public ClientResponse call() throws Exception {
-				return transport.send(clientRequest);
-			}
-		});
+		return transport.send(clientRequest);
 	}
 
-	protected static AsyncRunner mainAsyncRunner;
-
-	protected AsyncRunner<F> customRunner;
-	protected Transport customTransport;
+	protected Transport<F> customTransport;
 	protected final List<Entry<String, String>> headers =
 		new ArrayList<Entry<String, String>>();
 	protected final List<Entry<String, String>> queries =

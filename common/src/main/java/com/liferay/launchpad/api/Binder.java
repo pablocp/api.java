@@ -47,7 +47,7 @@ public class Binder {
 				"Unable to create binder instance.", e);
 		}
 
-		// store
+		// instances
 
 		if (binder instanceof TransportBinder) {
 			transportBinder = (TransportBinder)binder;

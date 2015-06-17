@@ -1,14 +1,13 @@
 package com.liferay.launchpad.api;
 
 /**
- * Transport implementations defines how the data will be actually transfered.
- * Transport instances are stateless.
+ * Transport implementations defines how the data will be actually transferred.
  */
-public interface Transport {
+public interface Transport<F> {
 
 	/**
-	 * Sends client request and returns client response.
+	 * Sends client request and returns promise/future of a response.
 	 */
-	ClientResponse send(ClientRequest clientRequest);
+	F send(ClientRequest clientRequest);
 
 }
