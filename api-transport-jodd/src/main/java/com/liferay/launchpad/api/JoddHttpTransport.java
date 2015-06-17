@@ -9,10 +9,10 @@ import jodd.http.HttpResponse;
 /**
  * Transport implementation that uses Jodd HTTP client (http://jodd.org).
  */
-public class JoddHttpTransport implements Transport {
+public class JoddHttpTransport extends BlockingTransport {
 
 	@Override
-	public ClientResponse send(ClientRequest clientRequest) {
+	protected ClientResponse sendBlockingRequest(ClientRequest clientRequest) {
 		String url = clientRequest.url();
 
 		final HttpRequest httpRequest = new HttpRequest()
