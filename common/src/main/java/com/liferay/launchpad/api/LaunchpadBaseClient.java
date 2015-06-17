@@ -128,8 +128,12 @@ public abstract class LaunchpadBaseClient<F, C> {
 		if (transport == null) {
 			TransportBinder transportBinder = Binder.getTransportBinder();
 
-			transport = transportBinder.initTransport();
+			if (transportBinder != null) {
+				transport = transportBinder.initTransport();
+			}
 		}
+
+		System.out.println("transport = " + transport);
 
 		if (transport == null) {
 			throw new LaunchpadClientException("Transport not defined!");
