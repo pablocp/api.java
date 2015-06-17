@@ -10,7 +10,6 @@ dependencies {
 	compile project(":common")
 
 	testCompile lib.junit
-	testCompile project(':api-transport-jodd')
 }
 
 jar.version = version
