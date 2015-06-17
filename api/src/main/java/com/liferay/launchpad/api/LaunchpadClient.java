@@ -24,17 +24,11 @@ public class LaunchpadClient
 	 * Creates new {@link LaunchpadBaseClient}.
 	 */
 	public LaunchpadClient path(String path) {
-		return new LaunchpadClient(url, path)
-			.use(customTransport)
-			.use(customRunner);
+		return new LaunchpadClient(url, path) .use(customTransport);
 	}
 
 	private LaunchpadClient(String url, String path) {
 		super(url, path);
-	}
-
-	static {
-		mainAsyncRunner = new LaunchpadAsyncRunner();
 	}
 
 }
