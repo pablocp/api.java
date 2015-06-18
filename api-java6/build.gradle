@@ -7,7 +7,7 @@ sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
-	compile project(":api-common")
+	provided project(":api-common")
 
 	testCompile lib.junit
 }
