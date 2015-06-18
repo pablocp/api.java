@@ -7,5 +7,5 @@ import java.util.concurrent.CompletableFuture;
  */
 @MultiJava(version = 8)
 public interface NonblockingTransport
-	extendsTransport<CompletableFuture<ClientResponse>> {
+	extends Transport<CompletableFuture<ClientResponse>> {
 }
