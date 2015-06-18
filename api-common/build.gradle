@@ -1,8 +1,6 @@
 group = rootProject.group
 version = rootProject.version
 
-apply from: "${gradleScriptDir}/bintray.gradle"
-
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
