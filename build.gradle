@@ -12,6 +12,17 @@
  * details.
  */
 
+buildscript {
+    repositories {
+		maven {
+			url 'https://repository.liferay.com/nexus/content/groups/liferay-ce'
+		}
+    }
+    dependencies {
+		classpath group: 'com.liferay', name: 'com.liferay.gradle.plugins.source.formatter', version: '1.0.1'
+    }
+}
+
 plugins {
 	id "com.jfrog.bintray" version "1.2"
 }
@@ -53,6 +64,7 @@ subprojects {
 	apply plugin: 'java'
 	apply plugin: 'maven'
 	apply plugin: 'com.jfrog.bintray'
+	apply plugin: 'com.liferay.source.formatter'
 
 	sourceCompatibility = JavaVersion.VERSION_1_6
 	targetCompatibility = JavaVersion.VERSION_1_6
@@ -109,38 +121,6 @@ subprojects {
 
 	jar.dependsOn sourceJar
 	jar.dependsOn javadocJar
-}
-
-/**
- * Liferay Source Formatter.
- **/
-configure(subprojects.findAll { it.name }) {
-	repositories {
-		maven {
-			mavenLocal()
-			mavenCentral()
-			url 'https://repository.liferay.com/nexus/content/groups/liferay-ce'
-		}
-	}
-
-	configurations {
-		formatter
-	}
-
-	dependencies {
-		formatter 'com.liferay.portal:portal-impl:7.0.0-m3'
-		formatter 'com.liferay.portal:portal-service:7.0.0-m3'
-		formatter 'com.liferay.portal:util-java:7.0.0-m3'
-		formatter 'com.thoughtworks.qdox:qdox:1.9.2'
-		formatter 'dom4j:dom4j:1.6.1'
-		formatter 'org.apache.ant:ant:1.8.2'
-	}
-
-	task format(type: JavaExec) {
-		main = 'com.liferay.portal.tools.sourceformatter.SourceFormatter'
-		classpath = configurations.formatter
-		workingDir = 'src'
-	}
 }
 
 /**
