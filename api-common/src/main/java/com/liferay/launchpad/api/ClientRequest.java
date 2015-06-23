@@ -1,7 +1,5 @@
 package com.liferay.launchpad.api;
 
-import java.util.ArrayList;
-import java.util.List;
 public class ClientRequest extends ClientMessage<ClientRequest> {
 
 	/**
@@ -20,17 +18,27 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	/**
-	 * Returns a list of all queries.
+	 * Returns queries.
 	 */
-	public List<Entry<String, String>> queries() {
+	public MultiMap queries() {
 		return queries;
 	}
 
+	public ClientRequest query(String name, boolean value) {
+		queries.add(name, String.valueOf(value));
+		return this;
+	}
+
+	public ClientRequest query(String name, int value) {
+		queries.add(name, String.valueOf(value));
+		return this;
+	}
+
 	/**
-	 * Adds new query value;
+	 * Adds new query value.
 	 */
 	public ClientRequest query(String name, String value) {
-		queries.add(new Entry<String, String>(name, value));
+		queries.add(name, value);
 		return this;
 	}
 
@@ -50,8 +58,7 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	protected String method;
-	protected List<Entry<String, String>> queries
-		= new ArrayList<Entry<String, String>>();
+	protected MultiMap queries = new MultiMap();
 	protected String url;
 
 }

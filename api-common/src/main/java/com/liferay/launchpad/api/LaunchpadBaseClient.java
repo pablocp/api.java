@@ -1,8 +1,5 @@
 package com.liferay.launchpad.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Base client contains code that is same for all java versions.
  */
@@ -34,7 +31,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * not be overwritten, but new value will be stored. The order is preserved.
 	 */
 	public C header(String name, String value) {
-		headers.add(new Entry<String, String>(name, value));
+		headers.add(name, value);
 		return (C)this;
 	}
 
@@ -85,7 +82,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * be overwritten, but new value will be stored. The order is preserved.
 	 */
 	public C query(String name, String value) {
-		queries.add(new Entry<String, String>(name, value));
+		queries.add(name, value);
 		return (C)this;
 	}
 
@@ -163,10 +160,8 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	protected Transport<F> customTransport;
-	protected final List<Entry<String, String>> headers =
-		new ArrayList<Entry<String, String>>();
-	protected final List<Entry<String, String>> queries =
-		new ArrayList<Entry<String, String>>();
+	protected final MultiMap headers = new MultiMap();
+	protected final MultiMap queries = new MultiMap();
 	protected final String url;
 
 }

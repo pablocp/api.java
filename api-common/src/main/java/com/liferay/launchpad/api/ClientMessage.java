@@ -1,7 +1,5 @@
 package com.liferay.launchpad.api;
 
-import java.util.ArrayList;
-import java.util.List;
 public abstract class ClientMessage<T extends ClientMessage> {
 
 	/**
@@ -23,19 +21,18 @@ public abstract class ClientMessage<T extends ClientMessage> {
 	 * Sets the header value.
 	 */
 	public T header(String name, String value) {
-		headers.add(new Entry<String, String>(name, value));
+		headers.add(name, value);
 		return (T)this;
 	}
 
 	/**
-	 * Returns list of headers.
+	 * Returns headers map.
 	 */
-	public List<Entry<String, String>> headers() {
+	public MultiMap headers() {
 		return headers;
 	}
 
 	protected String body;
-	protected List<Entry<String, String>> headers =
-		new ArrayList<Entry<String, String>>();
+	protected MultiMap headers = new MultiMap();
 
 }
