@@ -10,6 +10,6 @@ public interface TransportBinder<F> {
 	 * on the first sent request. Created instance of transport is stored and
 	 * reused by all other requests.
 	 */
-	Transport<F> initTransport();
+	public Transport<F> initTransport();
 
 }

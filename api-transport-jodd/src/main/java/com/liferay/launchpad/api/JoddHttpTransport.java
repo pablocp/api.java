@@ -19,12 +19,12 @@ public class JoddHttpTransport extends BlockingTransport {
 						.method(clientRequest.method())
 						.set(url);
 
-		for (Entry<String, String> entry : clientRequest.headers()) {
-			httpRequest.header(entry.key(), entry.value());
+		for (Map.Entry<String, String> entry : clientRequest.headers()) {
+			httpRequest.header(entry.getKey(), entry.getValue());
 		}
 
-		for (Entry<String, String> entry : clientRequest.queries()) {
-			httpRequest.query(entry.key(), entry.value());
+		for (Map.Entry<String, String> entry : clientRequest.queries()) {
+			httpRequest.query(entry.getKey(), entry.getValue());
 		}
 
 		String body = clientRequest.body();

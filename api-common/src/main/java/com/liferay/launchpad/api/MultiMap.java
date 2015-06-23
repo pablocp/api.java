@@ -72,8 +72,7 @@ public final class MultiMap implements Iterable<Map.Entry<String, String>> {
 	}
 
 	public List<Map.Entry<String, String>> entries() {
-		List<Map.Entry<String, String>> all =
-			new LinkedList<Map.Entry<String, String>>();
+		List<Map.Entry<String, String>> all = new LinkedList<>();
 
 		MapEntry e = head.after;
 		while (e != head) {
@@ -103,7 +102,7 @@ public final class MultiMap implements Iterable<Map.Entry<String, String>> {
 	 * Returns all values associated with the name.
 	 */
 	public List<String> getAll(final String name) {
-		LinkedList<String> values = new LinkedList<String>();
+		LinkedList<String> values = new LinkedList<>();
 
 		int h = hash(name);
 		int i = index(h);
@@ -177,7 +176,7 @@ public final class MultiMap implements Iterable<Map.Entry<String, String>> {
 	}
 
 	public Set<String> names() {
-		Set<String> names = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+		Set<String> names = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
 		MapEntry e = head.after;
 		while (e != head) {

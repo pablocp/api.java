@@ -8,6 +8,6 @@ public interface Transport<F> {
 	/**
 	 * Sends client request and returns promise/future of a response.
 	 */
-	F send(ClientRequest clientRequest);
+	public F send(ClientRequest clientRequest);
 
 }
