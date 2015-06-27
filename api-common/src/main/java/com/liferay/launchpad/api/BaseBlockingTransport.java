@@ -28,6 +28,21 @@ public abstract class BaseBlockingTransport<F> implements Transport<F> {
 		executor = Executors.newFixedThreadPool(numberOfThreads);
 	}
 
+	/**
+	 * Validates client response. Throws exception for invalid.
+	 */
+	protected void validateClientResponse(ClientResponse clientResponse) {
+		switch (clientResponse.statusCode()) {
+			case 200:
+			case 204:
+			case 304:
+				break;
+			default:
+				throw new LaunchpadClientException(
+					"Invalid response : " + clientResponse.statusCode());
+		}
+	}
+
 	protected final ExecutorService executor;
 
 }

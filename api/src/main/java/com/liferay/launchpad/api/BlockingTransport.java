@@ -12,7 +12,10 @@ public abstract class BlockingTransport
 
 		return CompletableFuture.supplyAsync(() -> {
 			try {
-				return sendBlockingRequest(clientRequest);
+				ClientResponse clientResponse = sendBlockingRequest(
+					clientRequest);
+				validateClientResponse(clientResponse);
+				return clientResponse;
 			}
 			catch (Exception e) {
 				throw new LaunchpadClientExecutionException(
