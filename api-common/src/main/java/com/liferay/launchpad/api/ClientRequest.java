@@ -25,20 +25,20 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	public ClientRequest query(String name, boolean value) {
-		queries.add(name, String.valueOf(value));
+		queries.set(name, String.valueOf(value));
 		return this;
 	}
 
 	public ClientRequest query(String name, int value) {
-		queries.add(name, String.valueOf(value));
+		queries.set(name, String.valueOf(value));
 		return this;
 	}
 
 	/**
-	 * Adds new query value.
+	 * Sets new query value for key name.
 	 */
 	public ClientRequest query(String name, String value) {
-		queries.add(name, value);
+		queries.set(name, value);
 		return this;
 	}
 

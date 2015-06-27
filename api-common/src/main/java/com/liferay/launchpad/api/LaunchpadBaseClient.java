@@ -31,7 +31,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * not be overwritten, but new value will be stored. The order is preserved.
 	 */
 	public C header(String name, String value) {
-		headers.add(name, value);
+		headers.set(name, value);
 		return (C)this;
 	}
 
@@ -78,11 +78,11 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Adds a query. If the query with the same name already exists, it will not
-	 * be overwritten, but new value will be stored. The order is preserved.
+	 * Sets a query. If the query with the same name already exists, it will
+	 * be overwritten.
 	 */
 	public C query(String name, String value) {
-		queries.add(name, value);
+		queries.set(name, value);
 		return (C)this;
 	}
 

@@ -21,7 +21,7 @@ public abstract class ClientMessage<T extends ClientMessage> {
 	 * Sets the header value.
 	 */
 	public T header(String name, String value) {
-		headers.add(name, value);
+		headers.set(name, value);
 		return (T)this;
 	}
 
