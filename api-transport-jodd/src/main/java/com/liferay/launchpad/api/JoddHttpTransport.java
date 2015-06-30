@@ -40,6 +40,7 @@ public class JoddHttpTransport extends BlockingTransport {
 		ClientResponse clientResponse = new ClientResponse(clientRequest);
 
 		clientResponse.statusCode(response.statusCode());
+		clientResponse.statusMessage(response.statusPhrase());
 		clientResponse.body(response.body());
 
 		Map<String, String[]> responseHeaders = response.headers();
