@@ -1,5 +1,7 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.PodMultiMap;
+import com.liferay.launchpad.sdk.PodMultiMapFactory;
 public abstract class ClientMessage<T extends ClientMessage> {
 
 	/**
@@ -28,11 +30,11 @@ public abstract class ClientMessage<T extends ClientMessage> {
 	/**
 	 * Returns headers map.
 	 */
-	public MultiMap headers() {
+	public PodMultiMap headers() {
 		return headers;
 	}
 
 	protected String body;
-	protected MultiMap headers = new MultiMap();
+	protected PodMultiMap headers = PodMultiMapFactory.newMultiMap();
 
 }

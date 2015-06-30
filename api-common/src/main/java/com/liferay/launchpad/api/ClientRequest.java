@@ -1,5 +1,7 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.PodMultiMap;
+import com.liferay.launchpad.sdk.PodMultiMapFactory;
 public class ClientRequest extends ClientMessage<ClientRequest> {
 
 	/**
@@ -20,7 +22,7 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	/**
 	 * Returns queries.
 	 */
-	public MultiMap queries() {
+	public PodMultiMap queries() {
 		return queries;
 	}
 
@@ -58,7 +60,7 @@ public class ClientRequest extends ClientMessage<ClientRequest> {
 	}
 
 	protected String method;
-	protected MultiMap queries = new MultiMap();
+	protected PodMultiMap queries = PodMultiMapFactory.newMultiMap();
 	protected String url;
 
 }

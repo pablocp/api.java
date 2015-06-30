@@ -1,5 +1,8 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.PodMultiMap;
+import com.liferay.launchpad.sdk.PodMultiMapFactory;
+
 /**
  * Base client contains code that is same for all java versions.
  */
@@ -160,8 +163,8 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	protected Transport<F> customTransport;
-	protected final MultiMap headers = new MultiMap();
-	protected final MultiMap queries = new MultiMap();
+	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
+	protected final PodMultiMap queries = PodMultiMapFactory.newMultiMap();
 	protected final String url;
 
 }
