@@ -38,7 +38,7 @@ public class ClientResponse extends ClientMessage<ClientResponse> {
 	/**
 	 * Sets the status message.
 	 */
-	public ClientResponse statusMessage(String statusCode) {
+	public ClientResponse statusMessage(String statusMessage) {
 		this.statusMessage = statusMessage;
 		return this;
 	}
