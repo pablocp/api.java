@@ -1,5 +1,7 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Response;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,15 +33,15 @@ public abstract class BaseBlockingTransport<F> implements Transport<F> {
 	/**
 	 * Validates client response. Throws exception for invalid.
 	 */
-	protected void validateClientResponse(ClientResponse clientResponse) {
-		switch (clientResponse.statusCode()) {
+	protected void validateResponse(Response response) {
+		switch (response.statusCode()) {
 			case 200:
 			case 204:
 			case 304:
 				break;
 			default:
 				throw new LaunchpadClientException(
-					"Invalid response : " + clientResponse.statusCode());
+					"Invalid response : " + response.statusCode());
 		}
 	}
 

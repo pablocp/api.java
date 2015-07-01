@@ -1,5 +1,7 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Response;
+
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -7,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
  */
 @MultiJava(version = 8)
 public class LaunchpadClient
-		extends LaunchpadBaseClient<CompletableFuture<ClientResponse>, LaunchpadClient> {
+		extends LaunchpadBaseClient<CompletableFuture<Response>, LaunchpadClient> {
 
 	/**
 	 * Static factory for creating launchpad client.

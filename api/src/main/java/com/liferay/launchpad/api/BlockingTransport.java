@@ -1,20 +1,23 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
+
+/**
+ */
 @MultiJava(version = 8)
 public abstract class BlockingTransport
-		extends BaseBlockingTransport<CompletableFuture<ClientResponse>> {
+		extends BaseBlockingTransport<CompletableFuture<Response>> {
 
 	@Override
-	public final CompletableFuture<ClientResponse> send(
-		ClientRequest clientRequest) {
-
+	public final CompletableFuture<Response> send(Request request) {
 		return CompletableFuture.supplyAsync(() -> {
 			try {
-				ClientResponse clientResponse = sendBlockingRequest(
-					clientRequest);
-				validateClientResponse(clientResponse);
+				Response clientResponse = sendBlockingRequest(request);
+				validateResponse(clientResponse);
 				return clientResponse;
 			}
 			catch (Exception e) {
@@ -39,7 +42,6 @@ public abstract class BlockingTransport
 	/**
 	 * Sends blocking request and returns the response.
 	 */
-	protected abstract ClientResponse sendBlockingRequest(
-		ClientRequest clientRequest);
+	protected abstract Response sendBlockingRequest(Request request);
 
 }

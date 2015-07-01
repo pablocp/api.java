@@ -2,6 +2,8 @@ package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.RequestImpl;
 
 /**
  * Base client contains code that is same for all java versions.
@@ -35,6 +37,15 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 */
 	public C header(String name, String value) {
 		headers.set(name, value);
+		return (C)this;
+	}
+
+	/**
+	 * Sets a query parameter. If the parameter with the same name already
+	 * exists, it will be overwritten.
+	 */
+	public C param(String name, String value) {
+		params.set(name, value);
 		return (C)this;
 	}
 
@@ -78,15 +89,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 */
 	public F put(final String body) {
 		return sendAsync("PUT", body);
-	}
-
-	/**
-	 * Sets a query. If the query with the same name already exists, it will
-	 * be overwritten.
-	 */
-	public C query(String name, String value) {
-		queries.set(name, value);
-		return (C)this;
 	}
 
 	/**
@@ -149,22 +151,20 @@ public abstract class LaunchpadBaseClient<F, C> {
 	protected F sendAsync(final String methodName, final String body) {
 		final Transport<F> transport = resolveTransport();
 
-		final ClientRequest clientRequest = new ClientRequest();
+		final Request request = new RequestImpl();
 
-		clientRequest.url(url());
-		clientRequest.method(methodName);
+		request.url(url());
+		request.method(methodName);
+		request.headers(headers);
+		request.params(params);
+		request.body(body);
 
-		clientRequest.headers = headers;
-		clientRequest.queries = queries;
-
-		clientRequest.body(body);
-
-		return transport.send(clientRequest);
+		return transport.send(request);
 	}
 
 	protected Transport<F> customTransport;
 	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
-	protected final PodMultiMap queries = PodMultiMapFactory.newMultiMap();
+	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
 	protected final String url;
 
 }

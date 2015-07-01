@@ -1,19 +1,20 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 @MultiJava(version = 6)
 public abstract class BlockingTransport
-		extends BaseBlockingTransport<Future<ClientResponse>> {
+		extends BaseBlockingTransport<Future<Response>> {
 
 	@Override
-	public final Future<ClientResponse> send(
-		final ClientRequest clientRequest) {
-
-		return executor.submit(new Callable<ClientResponse>() {
+	public final Future<Response> send(final Request request) {
+		return executor.submit(new Callable<Response>() {
 			@Override
-			public ClientResponse call() throws Exception {
-				return sendBlockingRequest(clientRequest);
+			public Response call() throws Exception {
+				return sendBlockingRequest(request);
 			}
 		});
 	}
@@ -29,7 +30,6 @@ public abstract class BlockingTransport
 	/**
 	 * Sends blocking request and returns the response.
 	 */
-	protected abstract ClientResponse sendBlockingRequest(
-		ClientRequest clientRequest);
+	protected abstract Response sendBlockingRequest(Request request);
 
 }

@@ -44,8 +44,8 @@ allprojects {
 ext {
 	gradleScriptDir = "${rootProject.projectDir}/gradle"
 	lib = [
-			launchpad_sdk		: 'com.liferay.launchpad:sdk:0.4.0',
-			junit				: 'junit:junit:4.12'
+		junit: 'junit:junit:4.12',
+		launchpad_sdk: 'com.liferay.launchpad:sdk:0.5.0'
 	]
 }
 
