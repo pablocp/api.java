@@ -151,9 +151,8 @@ public abstract class LaunchpadBaseClient<F, C> {
 	protected F sendAsync(final String methodName, final String body) {
 		final Transport<F> transport = resolveTransport();
 
-		final Request request = new RequestImpl();
+		final Request request = new RequestImpl(url());
 
-		request.url(url());
 		request.method(methodName);
 		request.headers(headers);
 		request.params(params);
