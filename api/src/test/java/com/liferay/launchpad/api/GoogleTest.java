@@ -14,7 +14,7 @@ public class GoogleTest {
 				Assert.fail("Must complete 200");
 				return null;
 			})
-			.get();
+			.join();
 	}
 
 	@Test
@@ -29,7 +29,7 @@ public class GoogleTest {
 			})
 			.thenAccept((clientResponse) -> Assert.fail("Must complete exceptionally 404"))
 			.exceptionally(e -> null)
-			.get();
+			.join();
 	}
 
 }

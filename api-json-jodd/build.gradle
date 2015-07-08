@@ -1,0 +1,13 @@
+group = rootProject.group
+version = rootProject.version
+
+apply from: "${gradleScriptDir}/bintray.gradle"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+dependencies {
+	compile 'org.jodd:jodd-json:3.6.6'
+
+	provided project(':api')
+}

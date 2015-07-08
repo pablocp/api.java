@@ -1,5 +1,6 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
@@ -21,6 +22,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * Executes DELETE request.
 	 */
 	public F delete(final String body) {
+		return sendAsync("DELETE", body);
+	}
+
+	/**
+	 * Serializes object and executes DELETE request.
+	 */
+	public F delete(final Object body) {
 		return sendAsync("DELETE", body);
 	}
 
@@ -64,6 +72,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Serializes object and executes PATCH request.
+	 */
+	public F patch(final Object body) {
+		return sendAsync("PATCH", body);
+	}
+
+	/**
 	 * Executes POST request.
 	 */
 	public F post() {
@@ -78,6 +93,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Serializes object and executes POST request.
+	 */
+	public F post(final Object body) {
+		return sendAsync("POST", body);
+	}
+
+	/**
 	 * Executes PUT request.
 	 */
 	public F put() {
@@ -88,6 +110,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * Executes PUT request.
 	 */
 	public F put(final String body) {
+		return sendAsync("PUT", body);
+	}
+
+	/**
+	 * Serializes object and PUT request.
+	 */
+	public F put(final Object body) {
 		return sendAsync("PUT", body);
 	}
 
@@ -174,7 +203,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	protected F sendAsync(final String methodName, final Object body) {
 		final JsonEngine jsonEngine = resolveJsonEngine();
 
-		String bodyJson = jsonEngine.serializeToJson(body);
+		String bodyJson;
+
+		if (body != null) {
+			headers.set("Content-Type", ContentType.JSON.contentType());
+
+			bodyJson = jsonEngine.serializeToJson(body);
+		}
+		else {
+			bodyJson = null;
+		}
 
 		return sendAsync(methodName, bodyJson);
 	}

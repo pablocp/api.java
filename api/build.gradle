@@ -10,6 +10,7 @@ dependencies {
 	provided project(":api-common")
 
 	testCompile lib.junit
+	testCompile project(':api-json-jodd')
 	testCompile project(':api-transport-jodd')
 }
 
