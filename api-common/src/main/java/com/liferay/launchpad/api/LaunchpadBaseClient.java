@@ -58,6 +58,26 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Serializes an object and sets query parameter.
+	 */
+	public C param(String name, Object value) {
+		String valueString;
+
+		if (value != null) {
+			final JsonEngine jsonEngine = resolveJsonEngine();
+
+			valueString = jsonEngine.serializeToJson(value);
+		}
+		else {
+			valueString = null;
+		}
+
+		params.set(name, valueString);
+
+		return (C)this;
+	}
+
+	/**
 	 * Executes PATCH request.
 	 */
 	public F patch() {
@@ -159,25 +179,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Resolves transport. Throws exception if transport is missing.
-	 */
-	protected Transport<F> resolveTransport() {
-		if (currentTransport == null) {
-			TransportBinder<F> transportBinder = Binder.getTransportBinder();
-
-			if (transportBinder != null) {
-				currentTransport = transportBinder.initTransport();
-			}
-		}
-
-		if (currentTransport == null) {
-			throw new LaunchpadClientException("Transport not defined!");
-		}
-
-		return currentTransport;
-	}
-
-	/**
 	 * Resolves JSON engine. Throws exception if JSON engine is missing.
 	 */
 	protected JsonEngine resolveJsonEngine() {
@@ -197,16 +198,35 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Resolves transport. Throws exception if transport is missing.
+	 */
+	protected Transport<F> resolveTransport() {
+		if (currentTransport == null) {
+			TransportBinder<F> transportBinder = Binder.getTransportBinder();
+
+			if (transportBinder != null) {
+				currentTransport = transportBinder.initTransport();
+			}
+		}
+
+		if (currentTransport == null) {
+			throw new LaunchpadClientException("Transport not defined!");
+		}
+
+		return currentTransport;
+	}
+
+	/**
 	 * Serializes input object to a JSON string and
 	 * {@link #sendAsync(String, String) sends it}.
 	 */
 	protected F sendAsync(final String methodName, final Object body) {
-		final JsonEngine jsonEngine = resolveJsonEngine();
-
 		String bodyJson;
 
 		if (body != null) {
 			headers.set("Content-Type", ContentType.JSON.contentType());
+
+			final JsonEngine jsonEngine = resolveJsonEngine();
 
 			bodyJson = jsonEngine.serializeToJson(body);
 		}

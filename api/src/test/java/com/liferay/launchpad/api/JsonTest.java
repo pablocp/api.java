@@ -11,6 +11,24 @@ import static org.junit.Assert.assertEquals;
 public class JsonTest {
 
 	@Test
+	public void testSerializeParams() throws Exception {
+		User user = new User();
+		TestTransport tt = new TestTransport();
+
+		LaunchpadClient
+			.url("http://foo.com")
+			.use(tt)
+			.param("user", user)
+			.get()
+			.join();
+
+		Request request = tt.getRequest();
+		String param = request.params().get("user");
+
+		assertUser(user, deserialize(param, User.class));
+	}
+
+	@Test
 	public void testSerializeBody_put() throws Exception {
 		User user = new User();
 		TestTransport tt = new TestTransport();
