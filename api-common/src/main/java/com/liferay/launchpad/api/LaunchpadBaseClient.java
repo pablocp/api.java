@@ -102,7 +102,15 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * Specifies {@link Transport} implementation.
 	 */
 	public C use(Transport<F> transport) {
-		this.customTransport = transport;
+		this.currentTransport = transport;
+		return (C)this;
+	}
+
+	/**
+	 * Specifies {@link JsonEngine} implementation.
+	 */
+	public C use(JsonEngine jsonEngine) {
+		this.currentJsonEngine = jsonEngine;
 		return (C)this;
 	}
 
@@ -125,23 +133,50 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * Resolves transport. Throws exception if transport is missing.
 	 */
 	protected Transport<F> resolveTransport() {
-		Transport<F> transport = customTransport;
-
-		if (transport == null) {
-			TransportBinder transportBinder = Binder.getTransportBinder();
+		if (currentTransport == null) {
+			TransportBinder<F> transportBinder = Binder.getTransportBinder();
 
 			if (transportBinder != null) {
-				transport = transportBinder.initTransport();
+				currentTransport = transportBinder.initTransport();
 			}
 		}
 
-		System.out.println("transport = " + transport);
-
-		if (transport == null) {
+		if (currentTransport == null) {
 			throw new LaunchpadClientException("Transport not defined!");
 		}
 
-		return transport;
+		return currentTransport;
+	}
+
+	/**
+	 * Resolves JSON engine. Throws exception if JSON engine is missing.
+	 */
+	protected JsonEngine resolveJsonEngine() {
+		if (currentJsonEngine == null) {
+			JsonEngineBinder jsonEngineBinder = Binder.getJsonEngineBinder();
+
+			if (jsonEngineBinder != null) {
+				currentJsonEngine = jsonEngineBinder.initJsonEngine();
+			}
+		}
+
+		if (currentJsonEngine == null) {
+			throw new LaunchpadClientException("JsonEngine not defined!");
+		}
+
+		return currentJsonEngine;
+	}
+
+	/**
+	 * Serializes input object to a JSON string and
+	 * {@link #sendAsync(String, String) sends it}.
+	 */
+	protected F sendAsync(final String methodName, final Object body) {
+		final JsonEngine jsonEngine = resolveJsonEngine();
+
+		String bodyJson = jsonEngine.serializeToJson(body);
+
+		return sendAsync(methodName, bodyJson);
 	}
 
 	/**
@@ -161,7 +196,8 @@ public abstract class LaunchpadBaseClient<F, C> {
 		return transport.send(request);
 	}
 
-	protected Transport<F> customTransport;
+	protected JsonEngine currentJsonEngine;
+	protected Transport<F> currentTransport;
 	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
 	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
 	protected final String url;

@@ -26,7 +26,9 @@ public class LaunchpadClient
 	 * Creates new {@link LaunchpadBaseClient}.
 	 */
 	public LaunchpadClient path(String path) {
-		return new LaunchpadClient(url, path) .use(customTransport);
+		return new LaunchpadClient(url, path)
+			.use(currentTransport)
+			.use(currentJsonEngine);
 	}
 
 	private LaunchpadClient(String url, String path) {

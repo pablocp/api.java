@@ -5,39 +5,66 @@ package com.liferay.launchpad.api;
  */
 public class Binder {
 
-	public static final String LAUNCHPAD_CLIENT_BINDER_CLASSNAME =
-		Binder.class.getPackage().getName() + ".LaunchpadClientBinder";
+	public static final String LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME =
+		Binder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
+
+	public static final String LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME =
+		Binder.class.getPackage().getName() +
+			".LaunchpadClientJsonEngineBinder";
 
 	/**
 	 * Returns transport binder or <code>null</code> if client binder did not
 	 * provide any.
 	 */
-	public static TransportBinder getTransportBinder() {
-		init();
+	public static <F> TransportBinder<F> getTransportBinder() {
+		if (transportBinder == null) {
+
+			Object binder =
+				createBinder(LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME);
+
+			// instances
+
+			if (binder instanceof TransportBinder) {
+				transportBinder = (TransportBinder) binder;
+			}
+		}
+
 		return transportBinder;
 	}
 
 	/**
-	 * Initialize binding by dynamical loading of the binding class.
+	 * Returns JSON binder or <code>null</code> if client binder did not
+	 * provide any.
 	 */
-	private static void init() {
-		if (launchpadClientBinderClass != null) {
-			return;
+	public static JsonEngineBinder getJsonEngineBinder() {
+		if (jsonEngineBinder == null) {
+
+			Object binder = createBinder(
+				LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME);
+
+			if (binder instanceof JsonEngineBinder) {
+				jsonEngineBinder = (JsonEngineBinder) binder;
+			}
 		}
 
+		return jsonEngineBinder;
+	}
+
+	/**
+	 * Creates new binder instance.
+	 */
+	private static Object createBinder(String binderClassName) {
 		ClassLoader classLoader = Binder.class.getClassLoader();
 
+		Class launchpadClientBinderClass;
+
 		try {
-			launchpadClientBinderClass = classLoader.loadClass(
-				LAUNCHPAD_CLIENT_BINDER_CLASSNAME);
+			launchpadClientBinderClass = classLoader.loadClass(binderClassName);
 		}
 		catch (ClassNotFoundException e) {
 			throw new LaunchpadClientException(
-				"Static binder not found: " + LAUNCHPAD_CLIENT_BINDER_CLASSNAME,
-				e);
+				"Static binder not found: " + binderClassName, e);
 		}
-
-		Object binder;
 
 		try {
 			binder = launchpadClientBinderClass.newInstance();
@@ -47,14 +74,11 @@ public class Binder {
 				"Unable to create binder instance.", e);
 		}
 
-		// instances
-
-		if (binder instanceof TransportBinder) {
-			transportBinder = (TransportBinder)binder;
-		}
+		return binder;
 	}
 
-	private static Class launchpadClientBinderClass;
+	private static Object binder;
+	private static JsonEngineBinder jsonEngineBinder;
 	private static TransportBinder transportBinder;
 
 }
