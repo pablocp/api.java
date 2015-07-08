@@ -30,7 +30,7 @@ plugins {
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-version = '0.5.3'
+version = '0.6.0'
 group = 'com.liferay.launchpad'
 
 allprojects {
@@ -45,7 +45,7 @@ ext {
 	gradleScriptDir = "${rootProject.projectDir}/gradle"
 	lib = [
 		junit: 'junit:junit:4.12',
-		launchpad_sdk: 'com.liferay.launchpad:sdk:0.8.0'
+		launchpad_sdk: 'com.liferay.launchpad:sdk:0.10.2'
 	]
 }
 
@@ -128,5 +128,5 @@ subprojects {
  * Gradle wrapper.
  */
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.4'
+	gradleVersion = '2.5'
 }
