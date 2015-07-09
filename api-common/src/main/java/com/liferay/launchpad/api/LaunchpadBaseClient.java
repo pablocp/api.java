@@ -5,6 +5,9 @@ import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.ResponseImpl;
+import com.liferay.launchpad.sdk.json.JsonParser;
+
+import java.util.Map;
 
 /**
  * Base client contains code that is same for all java versions.
@@ -45,14 +48,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 */
 	public C header(String name, String value) {
 		headers.set(name, value);
-		return (C)this;
-	}
-
-	/**
-	 * Defines model class for response body.
-	 */
-	public C model(Class<?> modelClass) {
-		this.modelClass = modelClass;
 		return (C)this;
 	}
 
@@ -265,7 +260,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 	protected JsonEngine currentJsonEngine;
 	protected Transport<F> currentTransport;
 	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
-	protected Class<?> modelClass;
 	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
 
 	protected final Transport.ResponseConsumer responseConsumer
@@ -273,20 +267,21 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 		@Override
 		public void acceptResponse(ResponseImpl response) {
-			if (modelClass == null) {
-				return;
-			}
-
 			final JsonEngine jsonEngine = resolveJsonEngine();
 
-			String body = response.body();
+			final String body = response.body();
 
-			if (body != null) {
-				Object bodyObject = jsonEngine.parseJsonToModel(
-					body, modelClass);
+			response.setJsonParser(new JsonParser() {
+				@Override
+				public Map<String, Object> parse(String json) {
+					return jsonEngine.parseJsonToModel(body);
+				}
 
-				response.bodyObject(bodyObject);
-			}
+				@Override
+				public <T> T parse(String json, Class<T> type) {
+					return jsonEngine.parseJsonToModel(body, type);
+				}
+			});
 		}
 	};
 
