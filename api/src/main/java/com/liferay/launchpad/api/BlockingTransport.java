@@ -21,7 +21,7 @@ public abstract class BlockingTransport
 			try {
 				ResponseImpl clientResponse = sendBlockingRequest(request);
 
-				validateResponse(clientResponse);
+				Util.validateResponse(clientResponse);
 
 				if (responseConsumer != null) {
 					responseConsumer.acceptResponse(clientResponse);

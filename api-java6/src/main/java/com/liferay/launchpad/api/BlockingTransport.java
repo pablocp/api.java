@@ -19,7 +19,7 @@ public abstract class BlockingTransport
 			public Response call() throws Exception {
 				ResponseImpl response = sendBlockingRequest(request);
 
-				validateResponse(response);
+				Util.validateResponse(response);
 
 				if (responseConsumer != null) {
 					responseConsumer.acceptResponse(response);
