@@ -20,13 +20,12 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.model(User.class)
 			.post(user)
 			.join();
 
 		Response response = tt.getResponse();
 
-		assertUser(user, (User)response.bodyObject());
+		assertUser(user, response.bodyObject(User.class));
 	}
 
 	@Test
