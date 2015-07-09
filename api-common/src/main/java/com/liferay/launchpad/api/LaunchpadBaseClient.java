@@ -3,8 +3,8 @@ package com.liferay.launchpad.api;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
-import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.RequestImpl;
+import com.liferay.launchpad.sdk.ResponseImpl;
 
 /**
  * Base client contains code that is same for all java versions.
@@ -45,6 +45,14 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 */
 	public C header(String name, String value) {
 		headers.set(name, value);
+		return (C)this;
+	}
+
+	/**
+	 * Defines model class for response body.
+	 */
+	public C model(Class<?> modelClass) {
+		this.modelClass = modelClass;
 		return (C)this;
 	}
 
@@ -244,20 +252,43 @@ public abstract class LaunchpadBaseClient<F, C> {
 	protected F sendAsync(final String methodName, final String body) {
 		final Transport<F> transport = resolveTransport();
 
-		final Request request = new RequestImpl(url());
+		final RequestImpl request = new RequestImpl(url());
 
 		request.method(methodName);
 		request.headers(headers);
 		request.params(params);
 		request.body(body);
 
-		return transport.send(request);
+		return transport.send(request, responseConsumer);
 	}
 
-	protected JsonEngine currentJsonEngine;
-	protected Transport<F> currentTransport;
+	protected final Transport.ResponseConsumer responseConsumer
+			= new Transport.ResponseConsumer() {
+
+		@Override
+		public void acceptResponse(ResponseImpl response) {
+			if (modelClass == null) {
+				return;
+			}
+
+			final JsonEngine jsonEngine = resolveJsonEngine();
+
+			String body = response.body();
+
+			if (body != null) {
+				Object bodyObject = jsonEngine.parseJsonToModel(
+					body, modelClass);
+
+				response.bodyObject(bodyObject);
+			}
+		}
+	};
+
 	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
 	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
 	protected final String url;
+	protected JsonEngine currentJsonEngine;
+	protected Transport<F> currentTransport;
+	protected Class<?> modelClass;
 
 }
