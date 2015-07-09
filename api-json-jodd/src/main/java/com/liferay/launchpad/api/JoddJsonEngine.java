@@ -29,6 +29,7 @@ public class JoddJsonEngine implements JsonEngine {
 		return jsonSerializer.serialize(object);
 	}
 
+
 	private final JsonParser jsonParser;
 	private final JsonSerializer jsonSerializer;
 

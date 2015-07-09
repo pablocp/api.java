@@ -6,6 +6,7 @@ import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.json.JsonParser;
+import com.liferay.launchpad.sdk.json.JsonSerializer;
 
 import java.util.Map;
 
@@ -280,6 +281,13 @@ public abstract class LaunchpadBaseClient<F, C> {
 				@Override
 				public <T> T parse(String json, Class<T> type) {
 					return jsonEngine.parseJsonToModel(body, type);
+				}
+			});
+
+			response.setJsonSerializer(new JsonSerializer() {
+				@Override
+				public String serialize(Object object, boolean deep) {
+					return jsonEngine.serializeToJson(object);
 				}
 			});
 		}
