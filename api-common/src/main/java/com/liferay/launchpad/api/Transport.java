@@ -22,6 +22,7 @@ public interface Transport<F> {
 		 * Accepts response.
 		 */
 		public void acceptResponse(ResponseImpl response);
+
 	}
 
 }

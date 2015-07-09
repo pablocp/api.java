@@ -5,32 +5,12 @@ package com.liferay.launchpad.api;
  */
 public class Binder {
 
-	public static final String LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME =
-		Binder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
-
 	public static final String LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME =
 		Binder.class.getPackage().getName() +
 			".LaunchpadClientJsonEngineBinder";
 
-	/**
-	 * Returns transport binder or <code>null</code> if client binder did not
-	 * provide any.
-	 */
-	public static <F> TransportBinder<F> getTransportBinder() {
-		if (transportBinder == null) {
-
-			Object binder =
-				createBinder(LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME);
-
-			// instances
-
-			if (binder instanceof TransportBinder) {
-				transportBinder = (TransportBinder) binder;
-			}
-		}
-
-		return transportBinder;
-	}
+	public static final String LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME =
+		Binder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
 
 	/**
 	 * Returns JSON binder or <code>null</code> if client binder did not
@@ -38,16 +18,34 @@ public class Binder {
 	 */
 	public static JsonEngineBinder getJsonEngineBinder() {
 		if (jsonEngineBinder == null) {
-
 			Object binder = createBinder(
 				LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME);
 
 			if (binder instanceof JsonEngineBinder) {
-				jsonEngineBinder = (JsonEngineBinder) binder;
+				jsonEngineBinder = (JsonEngineBinder)binder;
 			}
 		}
 
 		return jsonEngineBinder;
+	}
+
+	/**
+	 * Returns transport binder or <code>null</code> if client binder did not
+	 * provide any.
+	 */
+	public static <F> TransportBinder<F> getTransportBinder() {
+		if (transportBinder == null) {
+			Object binder = createBinder(
+				LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME);
+
+			// instances
+
+			if (binder instanceof TransportBinder) {
+				transportBinder = (TransportBinder)binder;
+			}
+		}
+
+		return transportBinder;
 	}
 
 	/**
@@ -56,7 +54,7 @@ public class Binder {
 	private static Object createBinder(String binderClassName) {
 		ClassLoader classLoader = Binder.class.getClassLoader();
 
-		Class launchpadClientBinderClass;
+		Class launchpadClientBinderClass = null;
 
 		try {
 			launchpadClientBinderClass = classLoader.loadClass(binderClassName);

@@ -15,7 +15,7 @@ public abstract class BlockingTransport
 
 	@Override
 	public final CompletableFuture<Response> send(
-			RequestImpl request, ResponseConsumer responseConsumer) {
+		RequestImpl request, ResponseConsumer responseConsumer) {
 
 		return CompletableFuture.supplyAsync(() -> {
 			try {

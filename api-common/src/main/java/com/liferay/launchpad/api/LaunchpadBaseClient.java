@@ -19,16 +19,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Executes DELETE request.
+	 * Serializes object and executes DELETE request.
 	 */
-	public F delete(final String body) {
+	public F delete(final Object body) {
 		return sendAsync("DELETE", body);
 	}
 
 	/**
-	 * Serializes object and executes DELETE request.
+	 * Executes DELETE request.
 	 */
-	public F delete(final Object body) {
+	public F delete(final String body) {
 		return sendAsync("DELETE", body);
 	}
 
@@ -57,19 +57,10 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Sets a query parameter. If the parameter with the same name already
-	 * exists, it will be overwritten.
-	 */
-	public C param(String name, String value) {
-		params.set(name, value);
-		return (C)this;
-	}
-
-	/**
 	 * Serializes an object and sets query parameter.
 	 */
 	public C param(String name, Object value) {
-		String valueString;
+		String valueString = null;
 
 		if (value != null) {
 			final JsonEngine jsonEngine = resolveJsonEngine();
@@ -86,6 +77,15 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
+	 * Sets a query parameter. If the parameter with the same name already
+	 * exists, it will be overwritten.
+	 */
+	public C param(String name, String value) {
+		params.set(name, value);
+		return (C)this;
+	}
+
+	/**
 	 * Executes PATCH request.
 	 */
 	public F patch() {
@@ -93,16 +93,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Executes PATCH request.
+	 * Serializes object and executes PATCH request.
 	 */
-	public F patch(final String body) {
+	public F patch(final Object body) {
 		return sendAsync("PATCH", body);
 	}
 
 	/**
-	 * Serializes object and executes PATCH request.
+	 * Executes PATCH request.
 	 */
-	public F patch(final Object body) {
+	public F patch(final String body) {
 		return sendAsync("PATCH", body);
 	}
 
@@ -114,16 +114,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Executes POST request.
+	 * Serializes object and executes POST request.
 	 */
-	public F post(final String body) {
+	public F post(final Object body) {
 		return sendAsync("POST", body);
 	}
 
 	/**
-	 * Serializes object and executes POST request.
+	 * Executes POST request.
 	 */
-	public F post(final Object body) {
+	public F post(final String body) {
 		return sendAsync("POST", body);
 	}
 
@@ -135,16 +135,16 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Executes PUT request.
+	 * Serializes object and PUT request.
 	 */
-	public F put(final String body) {
+	public F put(final Object body) {
 		return sendAsync("PUT", body);
 	}
 
 	/**
-	 * Serializes object and PUT request.
+	 * Executes PUT request.
 	 */
-	public F put(final Object body) {
+	public F put(final String body) {
 		return sendAsync("PUT", body);
 	}
 
@@ -156,18 +156,18 @@ public abstract class LaunchpadBaseClient<F, C> {
 	}
 
 	/**
-	 * Specifies {@link Transport} implementation.
-	 */
-	public C use(Transport<F> transport) {
-		this.currentTransport = transport;
-		return (C)this;
-	}
-
-	/**
 	 * Specifies {@link JsonEngine} implementation.
 	 */
 	public C use(JsonEngine jsonEngine) {
 		this.currentJsonEngine = jsonEngine;
+		return (C)this;
+	}
+
+	/**
+	 * Specifies {@link Transport} implementation.
+	 */
+	public C use(Transport<F> transport) {
+		this.currentTransport = transport;
 		return (C)this;
 	}
 
@@ -229,7 +229,7 @@ public abstract class LaunchpadBaseClient<F, C> {
 	 * {@link #sendAsync(String, String) sends it}.
 	 */
 	protected F sendAsync(final String methodName, final Object body) {
-		String bodyJson;
+		String bodyJson = null;
 
 		if (body != null) {
 			headers.set("Content-Type", ContentType.JSON.contentType());
@@ -262,6 +262,12 @@ public abstract class LaunchpadBaseClient<F, C> {
 		return transport.send(request, responseConsumer);
 	}
 
+	protected JsonEngine currentJsonEngine;
+	protected Transport<F> currentTransport;
+	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
+	protected Class<?> modelClass;
+	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
+
 	protected final Transport.ResponseConsumer responseConsumer
 			= new Transport.ResponseConsumer() {
 
@@ -284,11 +290,6 @@ public abstract class LaunchpadBaseClient<F, C> {
 		}
 	};
 
-	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
-	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
 	protected final String url;
-	protected JsonEngine currentJsonEngine;
-	protected Transport<F> currentTransport;
-	protected Class<?> modelClass;
 
 }

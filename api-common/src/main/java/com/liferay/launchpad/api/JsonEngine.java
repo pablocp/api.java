@@ -6,12 +6,13 @@ package com.liferay.launchpad.api;
 public interface JsonEngine {
 
 	/**
+	 * Parses JSON string to given model.
+	 */
+	public <T> T parseJsonToModel(String json, Class<T> model);
+
+	/**
 	 * Serializes object to JSON string.
 	 */
 	public String serializeToJson(Object object);
 
-	/**
-	 * Parses JSON string to given model.
-	 */
-	public <T> T parseJsonToModel(String json, Class<T> model);
 }

@@ -2,7 +2,6 @@ package com.liferay.launchpad.api;
 
 import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
-
 public class JoddJsonEngine implements JsonEngine {
 
 	public JoddJsonEngine() {
@@ -13,15 +12,16 @@ public class JoddJsonEngine implements JsonEngine {
 	}
 
 	@Override
-	public String serializeToJson(Object object) {
-		return jsonSerializer.serialize(object);
-	}
-
-	@Override
 	public <T> T parseJsonToModel(String json, Class<T> model) {
 		return jsonParser.parse(json, model);
 	}
 
+	@Override
+	public String serializeToJson(Object object) {
+		return jsonSerializer.serialize(object);
+	}
+
 	private final JsonParser jsonParser;
 	private final JsonSerializer jsonSerializer;
+
 }
