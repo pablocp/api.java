@@ -1,7 +1,6 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.Request;
-import com.liferay.launchpad.sdk.Response;
+import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.ResponseImpl;
 
 import java.util.Map;
@@ -16,7 +15,7 @@ import jodd.http.HttpResponse;
 public class JoddHttpTransport extends BlockingTransport {
 
 	@Override
-	protected Response sendBlockingRequest(Request request) {
+	protected ResponseImpl sendBlockingRequest(RequestImpl request) {
 		String url = request.url();
 
 		final HttpRequest httpRequest = new HttpRequest()
@@ -41,7 +40,7 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		HttpResponse response = httpBrowser.sendRequest(httpRequest);
 
-		Response clientResponse = new ResponseImpl(request);
+		ResponseImpl clientResponse = new ResponseImpl(request);
 
 		clientResponse.statusCode(response.statusCode());
 		clientResponse.statusMessage(response.statusPhrase());
