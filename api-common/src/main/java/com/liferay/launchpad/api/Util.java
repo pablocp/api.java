@@ -43,11 +43,12 @@ public class Util {
 				throw new LaunchpadClientException(
 					"Invalid response : " + response.statusCode());
 		}
+	}
 
-		public static Map wrap(String name, Object value) {
-			Map map = new HashMap();
-			map.put(name, value);
-			return map;
-		}
+	public static Map wrap(String name, Object value) {
+		Map map = new HashMap();
+		map.put(name, value);
+		return map;
+	}
 
 }
