@@ -3,12 +3,30 @@ package com.liferay.launchpad.api;
 import com.liferay.launchpad.api.model.User;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
 import jodd.json.JsonParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class JsonTest {
+
+	@Test
+	public void testBodyObject() throws Exception {
+		User user = new User();
+		TestTransport tt = new TestTransport();
+
+		LaunchpadClient
+			.url("http://foo.com")
+			.use(tt)
+			.model(User.class)
+			.post(user)
+			.join();
+
+		Response respone = tt.getResponse();
+
+		assertUser(user, (User) respone.bodyObject());
+	}
 
 	@Test
 	public void testSerializeParams() throws Exception {

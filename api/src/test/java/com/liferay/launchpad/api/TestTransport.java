@@ -1,6 +1,7 @@
 package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 
@@ -18,11 +19,13 @@ public class TestTransport extends BlockingTransport {
 	}
 
 	@Override
-	protected Response sendBlockingRequest(Request request) {
+	protected ResponseImpl sendBlockingRequest(RequestImpl request) {
 		this.request = request;
 		this.response = new ResponseImpl(request);
 
 		response.statusCode(200);
-		return response;
+		response.body(request.body());
+
+		return (ResponseImpl) response;
 	}
 }
