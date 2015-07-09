@@ -1,9 +1,9 @@
 package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.Response;
+
 import java.util.HashMap;
 import java.util.Map;
-
 public class Util {
 
 	public static final String SEPARATOR = "/";
