@@ -24,9 +24,9 @@ public class JsonTest {
 			.post(user)
 			.join();
 
-		Response respone = tt.getResponse();
+		Response response = tt.getResponse();
 
-		assertUser(user, (User)respone.bodyObject());
+		assertUser(user, (User)response.bodyObject());
 	}
 
 	@Test
