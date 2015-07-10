@@ -8,6 +8,7 @@ import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.json.JsonParser;
 import com.liferay.launchpad.sdk.json.JsonSerializer;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -346,6 +347,12 @@ public class LaunchpadClient {
 			return jsonEngine.parseJsonToModel(json, type);
 		}
 
+		@Override
+		public <T> List<T> parseAsList(String json, Class<T> type) {
+			JsonEngine jsonEngine = resolveJsonEngine();
+
+			return jsonEngine.parseJsonToList(json, type);
+		}
 	}
 
 	protected class ApiJsonSerializer implements JsonSerializer {

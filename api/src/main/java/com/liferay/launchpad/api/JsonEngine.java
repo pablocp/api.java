@@ -1,9 +1,16 @@
 package com.liferay.launchpad.api;
 
+import java.util.List;
+
 /**
  * Simple JSON engine.
  */
 public interface JsonEngine {
+
+	/**
+	 * Parses JSON string to list of objects.
+	 */
+	<T> List<T> parseJsonToList(String json, Class<T> type);
 
 	/**
 	 * Parses JSON string to an object.
