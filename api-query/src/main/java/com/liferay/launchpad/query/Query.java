@@ -1,9 +1,6 @@
 package com.liferay.launchpad.query;
 
-import java.lang.reflect.Array;
-
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,81 +119,7 @@ public final class Query implements Embodied {
 
 	@Override
 	public String toString() {
-		return toString(this);
-	}
-
-	private String toString(Collection value) {
-		if (value.size() == 0) {
-			return "[]";
-		}
-
-		StringBuilder builder = new StringBuilder();
-		builder.append('[');
-
-		for (Object item : value) {
-			builder.append(toString(item)).append(',');
-		}
-
-		builder.setCharAt(builder.length() - 1, ']');
-
-		return builder.toString();
-	}
-
-	private String toString(Map<String, Object> value) {
-		if (value.size() == 0) {
-			return "{}";
-		}
-
-		StringBuilder builder = new StringBuilder();
-		builder.append('{');
-
-		for (Map.Entry<String, Object> entry : value.entrySet()) {
-			builder.append(toString(entry.getKey())).append(':');
-			builder.append(toString(entry.getValue())).append(",");
-		}
-
-		builder.setCharAt(builder.length() - 1, '}');
-
-		return builder.toString();
-	}
-
-	private String toString(Object value) {
-		if (value instanceof Embodied) {
-			return toString(((Embodied)value).body());
-		}
-
-		if (value instanceof Collection) {
-			return toString((Collection)value);
-		}
-
-		if (value instanceof Map) {
-			return toString((Map)value);
-		}
-
-		if (value instanceof String) {
-			return "\"" + value + "\"";
-		}
-
-		if (value.getClass().isArray()) {
-			int length = Array.getLength(value);
-
-			if (length == 0) {
-				return "[]";
-			}
-
-			StringBuilder builder = new StringBuilder();
-			builder.append('[');
-
-			for (int i = 0; i < length; i++) {
-				builder.append(toString(Array.get(value, i))).append(',');
-			}
-
-			builder.setCharAt(builder.length()-1, ']');
-
-			return builder.toString();
-		}
-
-		return value.toString();
+		return Util.toString(this);
 	}
 
 	private final List<Map> sort = new ArrayList();

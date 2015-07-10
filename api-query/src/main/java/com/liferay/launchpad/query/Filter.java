@@ -21,10 +21,6 @@ public interface Filter extends Embodied {
 		return of(field, "=", value);
 	}
 
-	public static SimpleFilter exists(String field) {
-		return of(field, "exists", null);
-	}
-
 	public static SimpleFilter gt(String field, Object value) {
 		return of(field, ">", value);
 	}

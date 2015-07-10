@@ -35,6 +35,11 @@ public final class Range implements Embodied {
 		return map;
 	}
 
+	@Override
+	public String toString() {
+		return Util.toString(this);
+	}
+
 	protected final Object from;
 	protected final Object to;
 

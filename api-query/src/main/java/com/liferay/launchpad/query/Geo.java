@@ -19,15 +19,12 @@ public final class Geo {
 		return new Circle(center, radius);
 	}
 
-	public static Object line(Object...points) {
-		Map map = new HashMap();
-		map.put("type", "linestring");
-		map.put("coordinates", Arrays.asList(points));
-		return map;
+	public static Line line(Object...points) {
+		return new Line(points);
 	}
 
-	public static Object point(double lat, double lon) {
-		return Arrays.asList(lon, lat);
+	public static Point point(double lat, double lon) {
+		return new Point(lat, lon);
 	}
 
 	private Geo() { }
@@ -36,11 +33,53 @@ public final class Geo {
 		return new Polygon(points);
 	}
 
+	public static final class Point implements Embodied {
+		@Override
+		public Object body() {
+			return body;
+		}
+
+		@Override
+		public String toString() {
+			return Util.toString(body);
+		}
+
+		protected Point(double lat, double lon) {
+			body = Arrays.asList(lon, lat);
+		}
+
+		private List body;
+	}
+
+	public static final class Line implements Embodied {
+		@Override
+		public Object body() {
+			return body;
+		}
+
+		@Override
+		public String toString() {
+			return Util.toString(body);
+		}
+
+		protected Line(Object... points) {
+			body.put("type", "linestring");
+			body.put("coordinates", Arrays.asList(points));
+		}
+
+		private Map<String, Object> body = new HashMap<>();
+	}
+
 	public static final class BoundingBox implements Embodied {
 
 		@Override
 		public Map body() {
 			return body;
+		}
+
+		@Override
+		public String toString() {
+			return Util.toString(this);
 		}
 
 		public List<Object> getPoints() {
@@ -61,6 +100,11 @@ public final class Geo {
 		@Override
 		public Map body() {
 			return body;
+		}
+
+		@Override
+		public String toString() {
+			return Util.toString(this);
 		}
 
 		public Object getCenter() {
@@ -86,6 +130,11 @@ public final class Geo {
 		@Override
 		public Map body() {
 			return body;
+		}
+
+		@Override
+		public String toString() {
+			return Util.toString(this);
 		}
 
 		public Polygon hole(Object...points) {
