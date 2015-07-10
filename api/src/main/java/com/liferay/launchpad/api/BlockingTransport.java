@@ -16,26 +16,9 @@ import java.util.concurrent.ForkJoinPool;
 public abstract class BlockingTransport implements Transport {
 
 	@Override
-	public final CompletableFuture<Response> send(
-		RequestImpl request, ResponseConsumer responseConsumer) {
-
-		return CompletableFuture.supplyAsync(() -> {
-			try {
-				ResponseImpl clientResponse = sendBlockingRequest(request);
-
-				Util.validateResponse(clientResponse);
-
-				if (responseConsumer != null) {
-					responseConsumer.acceptResponse(clientResponse);
-				}
-
-				return clientResponse;
-			}
-			catch (Exception e) {
-				throw new LaunchpadClientExecutionException(
-					"Execution failed", e);
-			}
-		}, executor);
+	public final CompletableFuture<Response> send(RequestImpl request) {
+		return CompletableFuture.supplyAsync(
+			() -> sendBlockingRequest(request), executor);
 	}
 
 	protected BlockingTransport() {

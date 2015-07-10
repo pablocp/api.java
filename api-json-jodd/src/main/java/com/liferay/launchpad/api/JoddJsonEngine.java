@@ -6,7 +6,10 @@ public class JoddJsonEngine implements JsonEngine {
 
 	public JoddJsonEngine() {
 		jsonSerializer = new JsonSerializer();
-		jsonSerializer.deep(true);
+		jsonSerializer.deep(false);
+
+		jsonDeepSerializer = new JsonSerializer();
+		jsonDeepSerializer.deep(true);
 
 		jsonParser = new JsonParser();
 	}
@@ -26,6 +29,16 @@ public class JoddJsonEngine implements JsonEngine {
 		return jsonSerializer.serialize(object);
 	}
 
+	@Override
+	public String serializeToJson(Object object, boolean deep) {
+		if (deep) {
+			return jsonDeepSerializer.serialize(object);
+		}
+
+		return jsonSerializer.serialize(object);
+	}
+
+	private final JsonSerializer jsonDeepSerializer;
 	private final JsonParser jsonParser;
 	private final JsonSerializer jsonSerializer;
 

@@ -33,7 +33,7 @@ public class Binder {
 	 * Returns transport binder or <code>null</code> if client binder did not
 	 * provide any.
 	 */
-	public static <F> TransportBinder<F> getTransportBinder() {
+	public static TransportBinder getTransportBinder() {
 		if (transportBinder == null) {
 			Object binder = createBinder(
 				LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME);
@@ -64,6 +64,7 @@ public class Binder {
 				"Static binder not found: " + binderClassName, e);
 		}
 
+		Object binder;
 		try {
 			binder = launchpadClientBinderClass.newInstance();
 		}
@@ -75,7 +76,6 @@ public class Binder {
 		return binder;
 	}
 
-	private static Object binder;
 	private static JsonEngineBinder jsonEngineBinder;
 	private static TransportBinder transportBinder;
 

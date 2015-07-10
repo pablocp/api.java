@@ -20,4 +20,9 @@ public interface JsonEngine {
 	 */
 	public String serializeToJson(Object object);
 
+	/**
+	 * Serializes object to JSON string.
+	 */
+	public String serializeToJson(Object object, boolean deep);
+
 }

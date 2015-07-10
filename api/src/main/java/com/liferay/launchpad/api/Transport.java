@@ -2,7 +2,6 @@ package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
-import com.liferay.launchpad.sdk.ResponseImpl;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,19 +14,6 @@ public interface Transport {
 	/**
 	 * Sends client request and returns promise/future of a response.
 	 */
-	public CompletableFuture<Response> send(
-		RequestImpl request, ResponseConsumer responseConsumer);
-
-	/**
-	 * Response consumer.
-	 */
-	public interface ResponseConsumer {
-
-		/**
-		 * Accepts response.
-		 */
-		public void acceptResponse(ResponseImpl response);
-
-	}
+	public CompletableFuture<Response> send(RequestImpl request);
 
 }

@@ -3,7 +3,7 @@ package com.liferay.launchpad.api;
 /**
  * Transport binder.
  */
-public interface TransportBinder<F> {
+public interface TransportBinder {
 
 	/**
 	 * Initializes and returns {@link Transport} instance. Called <b>once</b>

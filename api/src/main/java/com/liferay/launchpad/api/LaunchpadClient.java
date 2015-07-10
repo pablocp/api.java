@@ -4,7 +4,9 @@ import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
+import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.json.JsonParser;
+import com.liferay.launchpad.sdk.json.JsonSerializer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -53,6 +55,20 @@ public class LaunchpadClient {
 	 */
 	public CompletableFuture<Response> get() {
 		return sendAsync("GET", null);
+	}
+
+	/**
+	 * Executes GET request.
+	 */
+	public CompletableFuture<Response> get(final Object body) {
+		return sendAsync("GET", body);
+	}
+
+	/**
+	 * Executes GET request.
+	 */
+	public CompletableFuture<Response> get(final String body) {
+		return sendAsync("GET", body);
 	}
 
 	/**
@@ -196,6 +212,16 @@ public class LaunchpadClient {
 		this.url = Util.joinPaths(baseUrl, url);
 	}
 
+	protected void applyRequest(RequestImpl request) {
+		request.setJsonParser(jsonParser);
+		request.setJsonSerializer(jsonSerializer);
+	}
+
+	protected void applyResponse(ResponseImpl response) {
+		response.setJsonParser(jsonParser);
+		response.setJsonSerializer(jsonSerializer);
+	}
+
 	/**
 	 * Resolves JSON engine. Throws exception if JSON engine is missing.
 	 */
@@ -259,7 +285,8 @@ public class LaunchpadClient {
 
 	/**
 	 * Uses transport to send request with given method name and body
-	 * asynchronously.
+	 * asynchronously. After the execution, it validates the response
+	 * and
 	 */
 	protected CompletableFuture<Response> sendAsync(
 		final String methodName, final String body) {
@@ -273,36 +300,59 @@ public class LaunchpadClient {
 		request.params(params);
 		request.body(body);
 
-		return transport.send(request, responseConsumer);
+		applyRequest(request);
+
+		return transport.send(request)
+			.thenApply(response -> {
+				applyResponse((ResponseImpl)response);
+
+				Util.validateResponse(response);
+
+				return response;
+			});
 	}
 
 	protected JsonEngine currentJsonEngine;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
+	protected JsonParser jsonParser = new ApiJsonParser();
+	protected JsonSerializer jsonSerializer = new ApiJsonSerializer();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
-
-	protected final Transport.ResponseConsumer responseConsumer =
-			response -> {
-				final JsonEngine jsonEngine = resolveJsonEngine();
-
-				final String body = response.body();
-
-				response.setJsonParser(new JsonParser() {
-					@Override
-					public <T> T parse(String json) {
-						return jsonEngine.parseJsonToModel(body);
-					}
-
-					@Override
-					public <T> T parse(String json, Class<T> type) {
-						return jsonEngine.parseJsonToModel(body, type);
-					}
-				});
-
-				response.setJsonSerializer((object, deep) ->
-					jsonEngine.serializeToJson(object));
-			};
-
 	protected final String url;
+
+	protected class ApiJsonParser implements JsonParser {
+		@Override
+		public <T> T parse(String json) {
+			JsonEngine jsonEngine = resolveJsonEngine();
+
+			return jsonEngine.parseJsonToModel(json);
+		}
+
+		@Override
+		public <T> T parse(String json, Class<T> type) {
+			JsonEngine jsonEngine = resolveJsonEngine();
+
+			return jsonEngine.parseJsonToModel(json, type);
+		}
+
+	}
+
+	protected class ApiJsonSerializer implements JsonSerializer {
+
+		@Override
+		public String serialize(Object object) {
+			JsonEngine jsonEngine = resolveJsonEngine();
+
+			return jsonEngine.serializeToJson(object);
+		}
+
+		@Override
+		public String serialize(Object object, boolean deep) {
+			JsonEngine jsonEngine = resolveJsonEngine();
+
+			return jsonEngine.serializeToJson(object, deep);
+		}
+
+	}
 
 }
