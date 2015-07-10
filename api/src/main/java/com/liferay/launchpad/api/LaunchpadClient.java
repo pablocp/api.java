@@ -9,7 +9,7 @@ import com.liferay.launchpad.sdk.json.JsonParser;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Base client contains code that is same for all java versions.
+ * Java client.
  */
 public class LaunchpadClient {
 
