@@ -137,6 +137,11 @@ public final class Search implements Embodied {
 		return map;
 	}
 
+	@Override
+	public String toString() {
+		return Util.toString(this);
+	}
+
 	private final List<Filter> preFilters = new ArrayList();
 	private final List<Filter> postFilters = new ArrayList();
 	private final List<Filter> queries = new ArrayList();

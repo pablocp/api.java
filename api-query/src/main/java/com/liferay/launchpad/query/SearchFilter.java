@@ -77,6 +77,10 @@ public interface SearchFilter extends Embodied {
 		return distance(field, location, Range.to(distance));
 	}
 
+	public static SimpleFilter exists(String field) {
+		return Filter.of(field, "exists", null);
+	}
+
 	public static FuzzyFilter fuzzy(String query) {
 		return fuzzy(ALL, query);
 	}

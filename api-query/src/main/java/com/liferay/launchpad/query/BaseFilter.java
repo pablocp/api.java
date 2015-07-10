@@ -56,6 +56,11 @@ abstract class BaseFilter<T> implements Filter {
 		return Util.wrap(field, map);
 	}
 
+	@Override
+	public String toString() {
+		return Util.toString(this);
+	}
+
 	protected BaseFilter(String field, String operator, T value) {
 		this.field = field;
 		this.operator = operator;

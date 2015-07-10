@@ -21,6 +21,11 @@ abstract class CompositeFilter implements Filter {
 		return Util.wrap(operator, body);
 	}
 
+	@Override
+	public String toString() {
+		return Util.toString(this);
+	}
+
 	private final String operator;
 	private final List<Filter> body = new ArrayList();
 

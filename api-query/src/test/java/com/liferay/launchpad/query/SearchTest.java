@@ -3,17 +3,15 @@ package com.liferay.launchpad.query;
 import org.junit.Test;
 
 import org.skyscreamer.jsonassert.JSONAssert;
-public class SearchQueryTest {
+public class SearchTest {
 
 	@Test
-	public void testQuery_emptySearch() throws Exception {
-		JSONAssert.assertEquals(
-			"{\"search\":{}}",
-			Query.builder().search(Search.builder()).toString(), true);
+	public void testSearch_empty() throws Exception {
+		JSONAssert.assertEquals("{}", Search.builder().toString(), true);
 	}
 
 	@Test
-	public void testQuery_withAggregation() throws Exception {
+	public void testSearch_withAggregation() throws Exception {
 		Search search = Search.builder()
 			.aggregate("a", "f", "min")
 			.aggregate("m", Aggregation.missing("f"))
@@ -37,7 +35,7 @@ public class SearchQueryTest {
 				.range(Range.from(1)));
 
 		JSONAssert.assertEquals(
-			"{\"search\":{\"aggregation\":[" +
+			"{\"aggregation\":[" +
 				"{\"f\":{\"operator\":\"min\",\"name\":\"a\"}}," +
 				"{\"f\":{\"operator\":\"missing\",\"name\":\"m\"}}," +
 				"{\"f\":{\"operator\":\"terms\",\"name\":\"t\"}}," +
@@ -59,20 +57,19 @@ public class SearchQueryTest {
 					"\"value\":[" +
 						"{\"to\":0},{\"from\":0,\"to\":1},{\"from\":1}" +
 					"]}}," +
-				"]}}",
-			Query.builder().search(search).toString(), true);
+				"]}",
+			search.toString(), true);
 	}
 
 	@Test
-	public void testQuery_withCursor() throws Exception {
+	public void testSearch_withCursor() throws Exception {
 		Search search = Search.builder().cursor("value");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"cursor\":\"value\"}}",
-			Query.builder().search(search).toString(), true);
+			"{\"cursor\":\"value\"}", search.toString(), true);
 	}
 
 	@Test
-	public void testQuery_withFilters() throws Exception {
+	public void testSearch_withFilters() throws Exception {
 		Search search = Search.builder()
 			.preFilter("str")
 			.preFilter("f", "str")
@@ -81,7 +78,7 @@ public class SearchQueryTest {
 			.postFilter("f", "str")
 			.postFilter("f", "=", "str");
 		JSONAssert.assertEquals(
-			"{\"search\":{" +
+			"{" +
 				"\"pre_filter\":[" +
 					"{\"*\":{\"operator\":\"match\"," +
 						"\"value\":{\"query\":\"str\"}}}," +
@@ -94,46 +91,42 @@ public class SearchQueryTest {
 					"{\"f\":{\"operator\":\"match\"," +
 						"\"value\":{\"query\":\"str\"}}}," +
 					"{\"f\":{\"operator\":\"=\",\"value\":\"str\"}}]" +
-			"}}",
-			Query.builder().search(search).toString(), true);
+			"}",
+			search.toString(), true);
 	}
 
 	@Test
-	public void testQuery_withHighlight() throws Exception {
+	public void testSearch_withHighlight() throws Exception {
 		Search search = Search.builder()
 			.highlight("field1")
 			.highlight("field2", 1)
 			.highlight("field3", 1, 2);
 
 		JSONAssert.assertEquals(
-			"{\"search\":{\"highlight\":{" +
+			"{\"highlight\":{" +
 				"\"field1\":{}," +
 				"\"field2\":{\"size\":1}," +
 				"\"field3\":{\"size\":1,\"count\":2}" +
-				"}}}", Query.builder().search(search).toString(), true);
+				"}}", search.toString(), true);
 	}
 
 	@Test
-	public void testQuery_withQuery() throws Exception {
+	public void testSearch_withQuery() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"search\":{"+
-				"\"query\":[{\"*\":{\"operator\":\"match\"," +
-					"\"value\":{\"query\":\"str\"}}}]}}",
-			Query.builder().search("str").toString(), true);
+			"{\"query\":[{\"*\":{\"operator\":\"match\"," +
+				"\"value\":{\"query\":\"str\"}}}]}",
+			Search.builder().query("str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{" +
-				"\"query\":[{\"f\":{\"operator\":\"match\"," +
-					"\"value\":{\"query\":\"str\"}}}]}}",
-			Query.builder().search("f", "str").toString(), true);
+			"{\"query\":[{\"f\":{\"operator\":\"match\"," +
+				"\"value\":{\"query\":\"str\"}}}]}",
+			Search.builder().query("f", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{" +
-				"\"query\":[{\"f\":{\"operator\":\"=\",\"value\":\"str\"}}]}}",
-			Query.builder().search("f", "=", "str").toString(), true);
+			"{\"query\":[{\"f\":{\"operator\":\"=\",\"value\":\"str\"}}]}",
+			Search.builder().query("f", "=", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{" +
-				"\"query\":[{\"*\":{\"operator\":\"match\"," +
-					"\"value\":{\"query\":\"str\"}}}]}}",
-			Query.builder().search(SearchFilter.match("str")).toString(), true);
+			"{\"query\":[{\"*\":{\"operator\":\"match\"," +
+				"\"value\":{\"query\":\"str\"}}}]}",
+			Search.builder().query(SearchFilter.match("str")).toString(), true);
 	}
 
 }
