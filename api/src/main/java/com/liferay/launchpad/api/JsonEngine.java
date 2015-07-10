@@ -1,16 +1,14 @@
 package com.liferay.launchpad.api;
 
-import java.util.Map;
-
 /**
  * Simple JSON engine.
  */
 public interface JsonEngine {
 
 	/**
-	 * Parses JSON string to Map.
+	 * Parses JSON string to an object.
 	 */
-	public Map<String, Object> parseJsonToModel(String json);
+	public <T> T parseJsonToModel(String json);
 
 	/**
 	 * Parses JSON string to given model.

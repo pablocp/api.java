@@ -6,7 +6,6 @@ import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.json.JsonParser;
 
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -290,7 +289,7 @@ public class LaunchpadClient {
 
 				response.setJsonParser(new JsonParser() {
 					@Override
-					public Map<String, Object> parse(String json) {
+					public <T> T parse(String json) {
 						return jsonEngine.parseJsonToModel(body);
 					}
 

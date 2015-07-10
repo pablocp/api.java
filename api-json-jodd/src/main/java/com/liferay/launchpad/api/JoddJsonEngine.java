@@ -1,7 +1,5 @@
 package com.liferay.launchpad.api;
 
-import java.util.Map;
-
 import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
 public class JoddJsonEngine implements JsonEngine {
@@ -14,7 +12,7 @@ public class JoddJsonEngine implements JsonEngine {
 	}
 
 	@Override
-	public Map<String, Object> parseJsonToModel(String json) {
+	public <T> T parseJsonToModel(String json) {
 		return jsonParser.parse(json);
 	}
 
