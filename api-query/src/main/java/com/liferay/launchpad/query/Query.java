@@ -21,6 +21,10 @@ public final class Query implements Embodied {
 	public Map body() {
 		Map<String, Object> map = new HashMap();
 
+		if (type != null) {
+			map.put("type", type);
+		}
+
 		if (!filters.isEmpty()) {
 			map.put("filter", filters);
 		}
@@ -97,6 +101,23 @@ public final class Query implements Embodied {
 
 	public Query search(String field, String operator, Object value) {
 		return search(Search.builder().query(field, operator, value));
+	}
+
+	public Query type(String type) {
+		this.type = type;
+		return this;
+	}
+
+	public Query count() {
+		return type("count");
+	}
+
+	public Query fetch() {
+		return type("fetch");
+	}
+
+	public Query scan() {
+		return type("scan");
 	}
 
 	@Override
@@ -183,5 +204,6 @@ public final class Query implements Embodied {
 	private Search search;
 	private Integer limit;
 	private Integer offset;
+	private String type;
 
 }

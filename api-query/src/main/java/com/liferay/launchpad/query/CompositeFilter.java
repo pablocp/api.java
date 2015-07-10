@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Filter builder.
  */
-abstract class CompositeFilter extends Filter {
+abstract class CompositeFilter implements Filter {
 
 	protected void add(Filter filter) {
 		this.body.add(filter);

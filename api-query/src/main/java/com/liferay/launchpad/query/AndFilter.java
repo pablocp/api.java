@@ -13,10 +13,10 @@ public final class AndFilter extends CompositeFilter {
 	}
 
 	public AndFilter and(String field, Object value) {
-		return and(of(field, value));
+		return and(Filter.of(field, value));
 	}
 
 	public AndFilter and(String field, String operator, Object value) {
-		return and(of(field, operator, value));
+		return and(Filter.of(field, operator, value));
 	}
 }

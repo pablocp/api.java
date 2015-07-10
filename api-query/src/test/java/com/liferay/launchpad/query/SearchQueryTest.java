@@ -8,7 +8,7 @@ public class SearchQueryTest {
 	@Test
 	public void testQuery_emptySearch() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"}}",
+			"{\"search\":{}}",
 			Query.builder().search(Search.builder()).toString(), true);
 	}
 
@@ -37,7 +37,7 @@ public class SearchQueryTest {
 				.range(Range.from(1)));
 
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\",\"aggregation\":[" +
+			"{\"search\":{\"aggregation\":[" +
 				"{\"f\":{\"operator\":\"min\",\"name\":\"a\"}}," +
 				"{\"f\":{\"operator\":\"missing\",\"name\":\"m\"}}," +
 				"{\"f\":{\"operator\":\"terms\",\"name\":\"t\"}}," +
@@ -67,7 +67,7 @@ public class SearchQueryTest {
 	public void testQuery_withCursor() throws Exception {
 		Search search = Search.builder().cursor("value");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\",\"cursor\":\"value\"}}",
+			"{\"search\":{\"cursor\":\"value\"}}",
 			Query.builder().search(search).toString(), true);
 	}
 
@@ -81,7 +81,7 @@ public class SearchQueryTest {
 			.postFilter("f", "str")
 			.postFilter("f", "=", "str");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"," +
+			"{\"search\":{" +
 				"\"pre_filter\":[" +
 					"{\"*\":{\"operator\":\"match\"," +
 						"\"value\":{\"query\":\"str\"}}}," +
@@ -106,7 +106,7 @@ public class SearchQueryTest {
 			.highlight("field3", 1, 2);
 
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\",\"highlight\":{" +
+			"{\"search\":{\"highlight\":{" +
 				"\"field1\":{}," +
 				"\"field2\":{\"size\":1}," +
 				"\"field3\":{\"size\":1,\"count\":2}" +
@@ -116,32 +116,24 @@ public class SearchQueryTest {
 	@Test
 	public void testQuery_withQuery() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"," +
+			"{\"search\":{"+
 				"\"query\":[{\"*\":{\"operator\":\"match\"," +
 					"\"value\":{\"query\":\"str\"}}}]}}",
 			Query.builder().search("str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"," +
+			"{\"search\":{" +
 				"\"query\":[{\"f\":{\"operator\":\"match\"," +
 					"\"value\":{\"query\":\"str\"}}}]}}",
 			Query.builder().search("f", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"," +
+			"{\"search\":{" +
 				"\"query\":[{\"f\":{\"operator\":\"=\",\"value\":\"str\"}}]}}",
 			Query.builder().search("f", "=", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"fetch\"," +
+			"{\"search\":{" +
 				"\"query\":[{\"*\":{\"operator\":\"match\"," +
 					"\"value\":{\"query\":\"str\"}}}]}}",
-			Query.builder().search(Filter.match("str")).toString(), true);
-	}
-
-	@Test
-	public void testQuery_withType() throws Exception {
-		Search search = Search.builder().type(Search.SearchType.COUNT);
-		JSONAssert.assertEquals(
-			"{\"search\":{\"type\":\"count\"}}",
-			Query.builder().search(search).toString(), true);
+			Query.builder().search(SearchFilter.match("str")).toString(), true);
 	}
 
 }

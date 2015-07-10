@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Fuzzy filter.
  */
-public final class FuzzyFilter extends BaseFilter<Map> {
+public final class FuzzyFilter extends BaseFilter<Map> implements SearchFilter {
 
 	public FuzzyFilter fuzziness(Number fuzziness) {
 		this.value.put("fuzziness", fuzziness);

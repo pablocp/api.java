@@ -52,22 +52,25 @@ public class QueryTest {
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"common\",\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.common("str")).toString(), true);
+			Query.builder().filter(
+				SearchFilter.common("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"common\"," +
 				"\"value\":{\"query\":\"str\",\"threshold\":0.5}}}]}",
-			Query.builder().filter(Filter.common("str", 0.5)).toString(), true);
+			Query.builder().filter(
+				SearchFilter.common("str", 0.5)).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"common\",\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.common("f", "str")).toString(), true);
+			Query.builder().filter(
+				SearchFilter.common("f", "str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"common\"," +
 				"\"value\":{\"query\":\"str\",\"threshold\":0.5}}}]}",
 			Query.builder().filter(
-				Filter.common("f", "str", 0.5)).toString(), true);
+				SearchFilter.common("f", "str", 0.5)).toString(), true);
 	}
 
 	@Test
@@ -83,7 +86,7 @@ public class QueryTest {
 			.filter(Filter.of("field", 1).disMax(Filter.of("field", 1)))
 			.toString());
 		bodies.add(Query.builder()
-			.filter(Filter.disMaxOf(
+			.filter(SearchFilter.disMaxOf(
 				Filter.of("field", 1), Filter.of("field", 1)))
 			.toString());
 
@@ -144,22 +147,24 @@ public class QueryTest {
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"fuzzy\",\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.fuzzy("str")).toString(), true);
+			Query.builder().filter(SearchFilter.fuzzy("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"fuzzy\"," +
 				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}]}",
-			Query.builder().filter(Filter.fuzzy("str", 0.5)).toString(), true);
+			Query.builder().filter(SearchFilter.fuzzy("str", 0.5)).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"fuzzy\",\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.fuzzy("f", "str")).toString(), true);
+			Query.builder().filter(SearchFilter.fuzzy("f", "str")).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"fuzzy\"," +
 				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}]}",
 			Query.builder().filter(
-				Filter.fuzzy("f", "str", 0.5)).toString(), true);
+				SearchFilter.fuzzy("f", "str", 0.5)).toString(), true);
 	}
 
 	@Test
@@ -168,24 +173,24 @@ public class QueryTest {
 			"{\"filter\":[{\"*\":" +
 					"{\"operator\":\"flt\",\"value\":{\"query\":\"str\"}}}]}",
 			Query.builder().filter(
-				Filter.fuzzyLikeThis("str")).toString(), true);
+				SearchFilter.fuzzyLikeThis("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"flt\"," +
 				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}]}",
 			Query.builder().filter(
-				Filter.fuzzyLikeThis("str", 0.5)).toString(), true);
+				SearchFilter.fuzzyLikeThis("str", 0.5)).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"flt\",\"value\":{\"query\":\"str\"}}}]}",
 			Query.builder().filter(
-				Filter.fuzzyLikeThis("f", "str")).toString(), true);
+				SearchFilter.fuzzyLikeThis("f", "str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"flt\"," +
 				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}]}",
 			Query.builder().filter(
-				Filter.fuzzyLikeThis("f", "str", 0.5)).toString(), true);
+				SearchFilter.fuzzyLikeThis("f", "str", 0.5)).toString(), true);
 	}
 
 	@Test
@@ -194,17 +199,18 @@ public class QueryTest {
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"gp\",\"value\":[\"0,0\",\"0,0\"]}}]}",
 			Query.builder().filter(
-				Filter.bbox("f", "0,0", "0,0")).toString(), true);
+				SearchFilter.bbox("f", "0,0", "0,0")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"gp\",\"value\":[\"0,0\",\"0,0\"]}}]}",
 			Query.builder().filter(
-				Filter.bbox("f", Geo.bbox("0,0", "0,0"))).toString(), true);
+				SearchFilter.bbox(
+					"f", Geo.bbox("0,0", "0,0"))).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"gp\",\"value\":[\"0,0\",[0,1],[0,1]]}}]}",
 			Query.builder().filter(
-				Filter.polygon(
+				SearchFilter.polygon(
 					"f", "0,0", Arrays.asList(0d, 1d),
 					Geo.point(1, 0))).toString(), true);
 		JSONAssert.assertEquals(
@@ -212,13 +218,13 @@ public class QueryTest {
 				"{\"operator\":\"gd\"," +
 				"\"value\":{\"location\":\"0,0\",\"max\":\"10m\"}}}]}",
 			Query.builder().filter(
-				Filter.distance("f", "0,0", "10m")).toString(), true);
+				SearchFilter.distance("f", "0,0", "10m")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"gd\"," +
 				"\"value\":{\"location\":\"0,0\",\"max\":\"10m\"}}}]}",
 			Query.builder().filter(
-				Filter.distance(
+				SearchFilter.distance(
 					"f", Geo.circle("0,0", "10m"))).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
@@ -226,12 +232,12 @@ public class QueryTest {
 				"\"value\":{\"location\":\"0,0\"," +
 					"\"min\":\"1m\",\"max\":\"10m\"}}}]}",
 			Query.builder().filter(
-				Filter.distance(
+				SearchFilter.distance(
 					"f", "0,0", Range.range("1m", "10m"))).toString(), true);
 
 		String body = Query.builder()
 			.filter(
-				Filter.shape("f", "0,0")
+				SearchFilter.shape("f", "0,0")
 					.shape(Arrays.asList(0, 0))
 					.shape(new int[] {0, 0})
 					.shape(Geo.point(0, 0))
@@ -272,32 +278,35 @@ public class QueryTest {
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.match("str")).toString(), true);
+			Query.builder().filter(SearchFilter.match("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\"}}}]}",
-			Query.builder().filter(Filter.match("f", "str")).toString(), true);
+			Query.builder().filter(SearchFilter.match("f", "str")).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\",\"type\":\"phrase\"}}}]}",
-			Query.builder().filter(Filter.phrase("str")).toString(), true);
+			Query.builder().filter(SearchFilter.phrase("str")).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\",\"type\":\"phrase\"}}}]}",
-			Query.builder().filter(Filter.phrase("f", "str")).toString(), true);
+			Query.builder().filter(SearchFilter.phrase("f", "str")).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\",\"type\":\"phrase_prefix\"}}}]}",
 			Query.builder().filter(
-				Filter.phrasePrefix("str")).toString(), true);
+				SearchFilter.phrasePrefix("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":{\"operator\":\"match\"," +
 				"\"value\":{\"query\":\"str\",\"type\":\"phrase_prefix\"}}}]}",
 			Query.builder().filter(
-				Filter.phrasePrefix("f", "str")).toString(), true);
+				SearchFilter.phrasePrefix("f", "str")).toString(), true);
 
 		String body = Query.builder()
-			.filter(Filter.match("str").type(MatchFilter.MatchType.DEFAULT))
+			.filter(SearchFilter.match("str").type(MatchFilter.MatchType.DEFAULT))
 			.toString();
 
 		JSONAssert.assertEquals(
@@ -312,16 +321,16 @@ public class QueryTest {
 			"{\"filter\":[{\"*\":" +
 				"{\"operator\":\"mlt\",\"value\":{\"query\":\"str\"}}}]}",
 			Query.builder().filter(
-				Filter.moreLikeThis("str")).toString(), true);
+				SearchFilter.moreLikeThis("str")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"mlt\",\"value\":{\"query\":\"str\"}}}]}",
 			Query.builder().filter(
-				Filter.moreLikeThis("f", "str")).toString(), true);
+				SearchFilter.moreLikeThis("f", "str")).toString(), true);
 
 		String body = Query.builder()
 			.filter(
-				Filter.moreLikeThis("str")
+				SearchFilter.moreLikeThis("str")
 					.stopWords("w1", "w2")
 					.minTf(1)
 					.minDf(2)
@@ -339,7 +348,7 @@ public class QueryTest {
 
 		body = Query.builder()
 			.filter(
-				Filter.moreLikeThis("f", "str")
+				SearchFilter.moreLikeThis("f", "str")
 					.stopWords("w1")
 					.minTf(1)
 					.minDf(2)
@@ -393,10 +402,12 @@ public class QueryTest {
 	public void testQuery_withPrefixFilter() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"*\":{\"operator\":\"pre\",\"value\":\"str\"}}]}",
-			Query.builder().filter(Filter.prefix("str")).toString(), true);
+			Query.builder().filter(SearchFilter.prefix("str")).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":{\"operator\":\"pre\",\"value\":\"str\"}}]}",
-			Query.builder().filter(Filter.prefix("f", "str")).toString(), true);
+			Query.builder().filter(SearchFilter.prefix("f", "str")).toString(),
+			true);
 	}
 
 	@Test
@@ -433,15 +444,16 @@ public class QueryTest {
 			Query.builder().filter(Filter.exists("f")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":{\"operator\":\"missing\"}}]}",
-			Query.builder().filter(Filter.missing("f")).toString(), true);
+			Query.builder().filter(SearchFilter.missing("f")).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"range\",\"value\":{\"from\":1,\"to\":2}}}]}",
-			Query.builder().filter(Filter.range("f", 1, 2)).toString(), true);
+			Query.builder().filter(SearchFilter.range("f", 1, 2)).toString(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"filter\":[{\"f\":" +
 				"{\"operator\":\"range\",\"value\":{\"to\":1}}}]}",
-			Query.builder().filter(Filter.range("f", Range.to(1))).toString(),
+			Query.builder().filter(SearchFilter.range("f", Range.to(1))).toString(),
 			true);
 	}
 
@@ -465,6 +477,26 @@ public class QueryTest {
 				"{\"field2\":\"asc\"}," +
 				"{\"field3\":\"desc\"}" +
 			"]}", body, true);
+	}
+
+	@Test
+	public void testQuery_withType() throws Exception {
+		Query query = Query.builder().type("type");
+		JSONAssert.assertEquals(
+			"{\"type\":\"type\"}",
+			query.toString(), true);
+		query = Query.builder().count();
+		JSONAssert.assertEquals(
+			"{\"type\":\"count\"}",
+			query.toString(), true);
+		query = Query.builder().fetch();
+		JSONAssert.assertEquals(
+			"{\"type\":\"fetch\"}",
+			query.toString(), true);
+		query = Query.builder().scan();
+		JSONAssert.assertEquals(
+			"{\"type\":\"scan\"}",
+			query.toString(), true);
 	}
 
 	private String getCompositeFilter(String operator, int count) {
