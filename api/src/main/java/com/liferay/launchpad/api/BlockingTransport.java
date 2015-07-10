@@ -10,9 +10,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 /**
+ * Transport base implementation for all 3rd party libraries
+ * that blocks while sending.
  */
-public abstract class BlockingTransport
-		implements Transport<CompletableFuture<Response>> {
+public abstract class BlockingTransport implements Transport {
 
 	@Override
 	public final CompletableFuture<Response> send(
