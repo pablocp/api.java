@@ -43,7 +43,7 @@ public class JoddJsonEngine implements JsonEngine {
 
 		switch (object.getClass().getPackage().getName()) {
 			case "com.liferay.launchpad.query":
-				object = object.toString();
+				return object.toString();
 		}
 
 		if (deep) {
