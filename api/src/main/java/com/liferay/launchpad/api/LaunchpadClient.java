@@ -205,6 +205,14 @@ public class LaunchpadClient {
 	}
 
 	/**
+	 * Specifies if exceptions should be thrown on response errors.
+	 */
+	public LaunchpadClient throwExceptionOnResponseError(boolean flag) {
+		throwExceptionOnResponseError = flag;
+		return this;
+	}
+
+	/**
 	 * Continuations constructor, used from existing instance, therefore
 	 * no need to configure the client.
 	 */
@@ -306,12 +314,15 @@ public class LaunchpadClient {
 			.thenApply(response -> {
 				applyResponse((ResponseImpl)response);
 
-				Util.validateResponse(response);
+				if (throwExceptionOnResponseError) {
+					Util.validateResponse(response);
+				}
 
 				return response;
 			});
 	}
 
+	protected boolean throwExceptionOnResponseError = true;
 	protected JsonEngine currentJsonEngine;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
