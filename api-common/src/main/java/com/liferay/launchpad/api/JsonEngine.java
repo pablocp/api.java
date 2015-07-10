@@ -8,14 +8,14 @@ import java.util.Map;
 public interface JsonEngine {
 
 	/**
-	 * Parses JSON string to given model.
-	 */
-	public <T> T parseJsonToModel(String json, Class<T> model);
-
-	/**
 	 * Parses JSON string to Map.
 	 */
 	public Map<String, Object> parseJsonToModel(String json);
+
+	/**
+	 * Parses JSON string to given model.
+	 */
+	public <T> T parseJsonToModel(String json, Class<T> model);
 
 	/**
 	 * Serializes object to JSON string.
