@@ -1,10 +1,9 @@
 package com.liferay.launchpad.api;
 
-import jodd.json.JsonParser;
-import jodd.json.JsonSerializer;
-
 import java.util.List;
 
+import jodd.json.JsonParser;
+import jodd.json.JsonSerializer;
 public class JoddJsonEngine implements JsonEngine {
 
 	public JoddJsonEngine() {
@@ -34,11 +33,19 @@ public class JoddJsonEngine implements JsonEngine {
 
 	@Override
 	public String serializeToJson(Object object) {
-		return jsonSerializer.serialize(object);
+		return serializeToJson(object, false);
 	}
 
 	@Override
 	public String serializeToJson(Object object, boolean deep) {
+
+		// TODO: Improve loose checking for query classes to skip serialization.
+
+		switch (object.getClass().getPackage().getName()) {
+			case "com.liferay.launchpad.query":
+				object = object.toString();
+		}
+
 		if (deep) {
 			return jsonDeepSerializer.serialize(object);
 		}
