@@ -32,7 +32,7 @@ public class Util {
 		}
 
 		if (value instanceof String) {
-			return "\"" + value + "\"";
+			return toString((String)value);
 		}
 
 		if (value.getClass().isArray()) {
@@ -90,6 +90,51 @@ public class Util {
 		builder.setCharAt(builder.length() - 1, '}');
 
 		return builder.toString();
+	}
+
+	private static String toString(String value) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append('"');
+
+		int len = value.length();
+
+		for (int i = 0; i < len; i++) {
+			char c = value.charAt(i);
+
+			switch (c) {
+				case '"':
+					sb.append("\\\"");
+					break;
+				case '\\':
+					sb.append("\\\\");
+					break;
+				case '/':
+					sb.append("\\/");
+					break;
+				case '\b':
+					sb.append("\\b");
+					break;
+				case '\f':
+					sb.append("\\f");
+					break;
+				case '\n':
+					sb.append("\\n");
+					break;
+				case '\r':
+					sb.append("\\r");
+					break;
+				case '\t':
+					sb.append("\\t");
+					break;
+				default:
+					sb.append(c);
+			}
+		}
+
+		sb.append('"');
+
+		return sb.toString();
 	}
 
 }
