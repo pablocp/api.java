@@ -37,8 +37,7 @@ public class Util {
 			case 304:
 				break;
 			default:
-				throw new LaunchpadClientException(
-					"Invalid response : " + response.statusCode());
+				throw new ResponseErrorException(response);
 		}
 	}
 
