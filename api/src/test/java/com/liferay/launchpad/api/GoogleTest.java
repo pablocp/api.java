@@ -5,7 +5,7 @@ import org.junit.Test;
 public class GoogleTest {
 
 	@Test
-	public void testGoogleHomePage() throws Exception {
+	public void testGoogleHomePage() {
 		LaunchpadClient
 			.url("http://google.com")
 			.get()
@@ -18,7 +18,7 @@ public class GoogleTest {
 	}
 
 	@Test
-	public void testGoogleHomePage_invalid() throws Exception {
+	public void testGoogleHomePage_invalid() {
 		LaunchpadClient
 			.url("http://google.com/404")
 			.get()
