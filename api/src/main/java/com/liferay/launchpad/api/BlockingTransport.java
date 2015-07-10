@@ -5,13 +5,14 @@ import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 /**
  */
-@MultiJava(version = 8)
 public abstract class BlockingTransport
-		extends BaseBlockingTransport<CompletableFuture<Response>> {
+		implements Transport<CompletableFuture<Response>> {
 
 	@Override
 	public final CompletableFuture<Response> send(
@@ -40,17 +41,30 @@ public abstract class BlockingTransport
 		this(false);
 	}
 
-	protected BlockingTransport(boolean useExecutor) {
-		super(useExecutor ? null : ForkJoinPool.commonPool());
+	/**
+	 * Creates new transport with dynamic thread pool.
+	 */
+	protected BlockingTransport(boolean useDedicatedExecutor) {
+		if (useDedicatedExecutor) {
+			this.executor = Executors.newCachedThreadPool();
+		}
+		else {
+			this.executor = ForkJoinPool.commonPool();
+		}
 	}
 
+	/**
+	 * Creates new transport with fixed number of threads.
+	 */
 	protected BlockingTransport(int numberOfThreads) {
-		super(numberOfThreads);
+		executor = Executors.newFixedThreadPool(numberOfThreads);
 	}
 
 	/**
 	 * Sends blocking request and returns the response.
 	 */
 	protected abstract ResponseImpl sendBlockingRequest(RequestImpl request);
+
+	protected final ExecutorService executor;
 
 }

@@ -5,9 +5,8 @@ import com.liferay.launchpad.sdk.Response;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Java 8 client.
+ * Java client.
  */
-@MultiJava(version = 8)
 public class LaunchpadClient
 		extends LaunchpadBaseClient<CompletableFuture<Response>, LaunchpadClient> {
 

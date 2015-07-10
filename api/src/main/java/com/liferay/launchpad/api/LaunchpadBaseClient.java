@@ -2,11 +2,8 @@ package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
-import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.RequestImpl;
-import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.json.JsonParser;
-import com.liferay.launchpad.sdk.json.JsonSerializer;
 
 import java.util.Map;
 
@@ -260,38 +257,30 @@ public abstract class LaunchpadBaseClient<F, C> {
 
 	protected JsonEngine currentJsonEngine;
 	protected Transport<F> currentTransport;
-	protected final PodMultiMap headers = PodMultiMapFactory.newMultiMap();
-	protected final PodMultiMap params = PodMultiMapFactory.newMultiMap();
+	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
+	protected final PodMultiMap params = PodMultiMap.newMultiMap();
 
-	protected final Transport.ResponseConsumer responseConsumer
-			= new Transport.ResponseConsumer() {
+	protected final Transport.ResponseConsumer responseConsumer =
+			response -> {
+				final JsonEngine jsonEngine = resolveJsonEngine();
 
-		@Override
-		public void acceptResponse(ResponseImpl response) {
-			final JsonEngine jsonEngine = resolveJsonEngine();
+				final String body = response.body();
 
-			final String body = response.body();
+				response.setJsonParser(new JsonParser() {
+					@Override
+					public Map<String, Object> parse(String json) {
+						return jsonEngine.parseJsonToModel(body);
+					}
 
-			response.setJsonParser(new JsonParser() {
-				@Override
-				public Map<String, Object> parse(String json) {
-					return jsonEngine.parseJsonToModel(body);
-				}
+					@Override
+					public <T> T parse(String json, Class<T> type) {
+						return jsonEngine.parseJsonToModel(body, type);
+					}
+				});
 
-				@Override
-				public <T> T parse(String json, Class<T> type) {
-					return jsonEngine.parseJsonToModel(body, type);
-				}
-			});
-
-			response.setJsonSerializer(new JsonSerializer() {
-				@Override
-				public String serialize(Object object, boolean deep) {
-					return jsonEngine.serializeToJson(object);
-				}
-			});
-		}
-	};
+				response.setJsonSerializer((object, deep) ->
+					jsonEngine.serializeToJson(object));
+			};
 
 	protected final String url;
 

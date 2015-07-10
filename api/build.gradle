@@ -7,7 +7,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-	provided project(":api-common")
+	compile lib.launchpad_sdk
 
 	testCompile lib.junit
 	testCompile project(':api-json-jodd')
@@ -15,7 +15,3 @@ dependencies {
 }
 
 jar.version = version
-
-jar {
-	from project(':api-common').sourceSets.main.output.classesDir
-}

@@ -30,7 +30,7 @@ plugins {
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-version = '0.7.0'
+version = '0.8.0'
 group = 'com.liferay.launchpad'
 
 allprojects {
@@ -68,8 +68,8 @@ subprojects {
 	apply plugin: 'com.jfrog.bintray'
 	apply plugin: 'com.liferay.source.formatter'
 
-	sourceCompatibility = JavaVersion.VERSION_1_6
-	targetCompatibility = JavaVersion.VERSION_1_6
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 
 	compileJava.options.fork = true
 
