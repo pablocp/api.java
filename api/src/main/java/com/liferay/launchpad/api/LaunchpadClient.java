@@ -183,6 +183,14 @@ public class LaunchpadClient {
 	}
 
 	/**
+	 * Specifies if exceptions should be thrown on response errors.
+	 */
+	public LaunchpadClient throwExceptionOnResponseError(boolean flag) {
+		throwExceptionOnResponseError = flag;
+		return this;
+	}
+
+	/**
 	 * Returns full URL.
 	 */
 	public String url() {
@@ -202,14 +210,6 @@ public class LaunchpadClient {
 	 */
 	public LaunchpadClient use(Transport transport) {
 		this.currentTransport = transport;
-		return this;
-	}
-
-	/**
-	 * Specifies if exceptions should be thrown on response errors.
-	 */
-	public LaunchpadClient throwExceptionOnResponseError(boolean flag) {
-		throwExceptionOnResponseError = flag;
 		return this;
 	}
 
@@ -323,13 +323,13 @@ public class LaunchpadClient {
 			});
 	}
 
-	protected boolean throwExceptionOnResponseError = true;
 	protected JsonEngine currentJsonEngine;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
 	protected JsonParser jsonParser = new ApiJsonParser();
 	protected JsonSerializer jsonSerializer = new ApiJsonSerializer();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
+	protected boolean throwExceptionOnResponseError = true;
 	protected final String url;
 
 	protected class ApiJsonParser implements JsonParser {
@@ -353,6 +353,7 @@ public class LaunchpadClient {
 
 			return jsonEngine.parseJsonToList(json, type);
 		}
+
 	}
 
 	protected class ApiJsonSerializer implements JsonSerializer {

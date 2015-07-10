@@ -1,6 +1,7 @@
 package com.liferay.launchpad.api;
 
 import com.liferay.launchpad.sdk.Response;
+
 import org.junit.Assert;
 import org.junit.Test;
 public class GoogleTest {

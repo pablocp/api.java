@@ -64,7 +64,8 @@ public class Binder {
 				"Static binder not found: " + binderClassName, e);
 		}
 
-		Object binder;
+		Object binder = null;
+
 		try {
 			binder = launchpadClientBinderClass.newInstance();
 		}
