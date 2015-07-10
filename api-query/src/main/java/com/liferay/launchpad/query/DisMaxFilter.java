@@ -13,11 +13,11 @@ public final class DisMaxFilter extends CompositeFilter {
 	}
 
 	public DisMaxFilter disMax(String field, Object value) {
-		return disMax(of(field, value));
+		return disMax(Filter.of(field, value));
 	}
 
 	public DisMaxFilter disMax(String field, String operator, Object value) {
-		return disMax(of(field, operator, value));
+		return disMax(Filter.of(field, operator, value));
 	}
 
 }

@@ -16,11 +16,11 @@ public final class Search implements Embodied {
 	}
 
 	public Search preFilter(String text) {
-		return preFilter(Filter.match(text));
+		return preFilter(SearchFilter.match(text));
 	}
 
 	public Search preFilter(String field, String text) {
-		return preFilter(Filter.match(field, text));
+		return preFilter(SearchFilter.match(field, text));
 	}
 
 	public Search preFilter(String field, String operator, Object value) {
@@ -33,11 +33,11 @@ public final class Search implements Embodied {
 	}
 
 	public Search postFilter(String text) {
-		return postFilter(Filter.match(text));
+		return postFilter(SearchFilter.match(text));
 	}
 
 	public Search postFilter(String field, String text) {
-		return postFilter(Filter.match(field, text));
+		return postFilter(SearchFilter.match(field, text));
 	}
 
 	public Search postFilter(String field, String operator, Object value) {
@@ -50,11 +50,11 @@ public final class Search implements Embodied {
 	}
 
 	public Search query(String text) {
-		return query(Filter.match(text));
+		return query(SearchFilter.match(text));
 	}
 
 	public Search query(String field, String text) {
-		return query(Filter.match(field, text));
+		return query(SearchFilter.match(field, text));
 	}
 
 	public Search query(String field, String operator, Object value) {
@@ -80,11 +80,6 @@ public final class Search implements Embodied {
 
 	public Search cursor(String cursor) {
 		this.cursor = cursor;
-		return this;
-	}
-
-	public Search type(SearchType type) {
-		this.type = type;
 		return this;
 	}
 
@@ -114,8 +109,6 @@ public final class Search implements Embodied {
 	@Override
 	public Map body() {
 		Map<String, Object> map = new HashMap();
-
-		map.put("type", type.name().toLowerCase());
 
 		if (!preFilters.isEmpty()) {
 			map.put("pre_filter", preFilters);
@@ -149,11 +142,6 @@ public final class Search implements Embodied {
 	private final List<Filter> queries = new ArrayList();
 	private final List<Map> aggregations = new ArrayList();
 	private final Map highlights = new HashMap();
-	private SearchType type = SearchType.FETCH;
 	private String cursor;
-
-	public enum SearchType {
-		COUNT, SCAN, FETCH
-	}
 
 }

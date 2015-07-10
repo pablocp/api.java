@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Match filter.
  */
-public final class MatchFilter extends BaseFilter<Map> {
+public final class MatchFilter extends BaseFilter<Map> implements SearchFilter {
 
 	public MatchFilter type(MatchType type) {
 		this.value.put("type", type.name().toLowerCase());

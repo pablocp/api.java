@@ -7,7 +7,8 @@ import java.util.Map;
 /**
  * Geo shape filter.
  */
-public final class GeoShapeFilter extends BaseFilter<Map> {
+public final class GeoShapeFilter extends BaseFilter<Map>
+	implements SearchFilter {
 
 	public GeoShapeFilter shape(Object shape) {
 		shapes.add(shape);
