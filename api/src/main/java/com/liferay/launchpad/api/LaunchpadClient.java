@@ -360,9 +360,7 @@ public class LaunchpadClient {
 
 		@Override
 		public String serialize(Object object) {
-			JsonEngine jsonEngine = resolveJsonEngine();
-
-			return jsonEngine.serializeToJson(object);
+			return serialize(object, false);
 		}
 
 		@Override
