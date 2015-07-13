@@ -2,19 +2,20 @@
 
 A `Query` can be build with a fluent interface as described in this document.
 
+
 ### Filter
 
 `filter` can be used to add a filter to the query:
 
 ```javascript
-// Query.filter(Filter)
-Query.build().filter(Filter.equal("name", "john"))
+// filter by field value
+Query.builder().filter("name", "john")
 
-// Query.filter(field, value)
-Query.build().filter("name", "john")
+// custom filter operator
+Query.builder().filter("name", "=", "john")
 
-// Query.filter(field, operator, value)
-Query.build().filter("name", "=", "john")
+// using filter builder
+Query.builder().filter(Filter.equal("name", "john"))
 ```
 
 If more than one filter is added to a query, the default operator to combine 
@@ -22,42 +23,37 @@ the filters is an `AND`.
 
 ```javascript
 // The query
-Query.build().filter("title", "1984")
-	         .filter("author", "like", "G.* Orwell")
-	         .filter("year", ">", 1900)
+Query.builder().filter("title", "1984")
+	           .filter("author", "like", "G.* Orwell")
+	           .filter("year", ">", 1900)
 
 // is the same as
-Query.build().filter(
+Query.builder().filter(
 		Filter.equal("title", "1984")
 			  .and("author", "like", "G.* Orwell")
 			  .and("year", ">", 1900)
 	)
 ```
 
+
 ### Search
 
 `search` can be used to define a search object for the query:
 
 ```javascript
-// Query.search(query)
-// same as Query.search(Search.query(query))
-Query.build().search("match phrase")
+// search on all field with search "match" filter
+Query.builder().search("match phrase")
 
-// Query.search(field, query)
-// same as Query.search(Search.query(field, query))
-Query.build().search("title", "movie title")
+// match filter
+Query.builder().search("title", "movie title")
 
-// Query.search(field, operator, value)
-// same as Query.search(Search.query(field, operator, value))
-Query.build().search("title", "fuzzy", "matrix")
+// custom search filter
+Query.builder().search("title", "fuzzy", "matrix")
+Query.builder().search(SearchFilter.prefix("pre"))
 
-// Query.search(Filter)
-// same as Query.search(Search.query(Filter))
-Query.build().search(Filter.prefix("pre"))
-
-// Query.search(Search)
-Query.build().search(
-        Search.build()
+// using search builder
+Query.builder().search(
+        Search.builder()
               .query("match phrase")
               .highlight("body")
     )
@@ -65,29 +61,41 @@ Query.build().search(
 
 Note that the default filter operator for `Query#search` is `match`.
 
+### Type
+
+The query type can be set as:
+
+```javascript
+// types = "fetch", "count", "scan"
+Query.builder().type("fetch")
+Query.builder().fetch()
+Query.builder().count()
+Query.builder().scan()
+```
+
+
 ### Sort
 
 ```javascript
-// Query.sort(field) (default direction is ascending)
-Query.build().sort("name")
+// ascending sort by field value
+Query.builder().sort("name")
 
-// Query.sort(field, direction)
-// direction = "asc", "desc"
-Query.build().sort("name", "asc")
+// custom sort direction ("asc", "desc")
+Query.builder().sort("name", "asc")
 ```
+
 
 ### Limit
 
 ```javascript
-// Query.limit(value)
-Query.build().limit(10)
+Query.builder().limit(10)
 ```
+
 
 ### Offset
 
 ```javascript
-// Query.from(pos)
-Query.build().from(1)
+Query.builder().from(1)
 ```
 
 
@@ -96,50 +104,52 @@ Query.build().from(1)
 A simple `Filter` (SQL filter predicate) can be build as follows:
 
 ```javascript
-// Filter.of(field, value) (default is "=")
+// The filter
 Filter.of("name", "john")
 
-// Filter.of(field, operator, value)
-Filter.of("year", "=", "1990")
+// is the same as
+Filter.of("name", "=", "john")
 ```
 
 A filter can be upgraded to a composite filter as follows:
 
 ```javascript
-// filter.and(Filter)
-Filter.of("name", "john").and(Filter.of("age", 25))
-
-// filter.and(field, value)
+// The filter
 Filter.of("name", "john").and("age", 25)
 
-// filter.and(field, operator, value)
+// is the same as
 Filter.of("name", "john").and("age", "=", 25)
+
+// and also the same as
+Filter.of("name", "john").and(Filter.of("age", 25))
 ```
 
 Once upgraded, this field can only use the same composition operator.
-The supported operators are:
+For disjunction we support:
 
 ```javascript
+// Simple "or" filter
 Filter.of("name", "john").or("name", "michael").or("age", ">", 25)
-Filter.of("name", "john").disMax("name", "michael")    	// uses maximum sub-filter score to calculate the score
+
+// Search dis_max operator (uses maximum sub-filter score as query score)
+Filter.of("name", "john").disMax("name", "michael")
 ```
 
 The `not` composition operator can be used as follows:
 
 ```javascript
-// Filter.notOf(filter)
-// Filter.notOf(field, value)
-// Filter.notOf(field, operator, value)
-Filter.notOf("name", "john").not("age", ">", 25)		// not named John and not older than 25 years
+Filter.notOf("name", "john")            // not named John 
+      .not("age", ">", 25)              // and not older than 25 years
+      .not(Filter.gt("height", 1.5))    // and not taller than 1.5m
 ```
 
 Example of complex composite filter:
 
 ```javascript
 // this filter
-Filter.match("star wars")
+SearchFilter.match("star wars")
 	.and(
-		Filter.range("year", 1980, 1990)
+		SearchFilter.range("year", 1980, 1990)
 			.or("title", "fuzzy", "clone")
 	)
 	.and(
@@ -152,7 +162,7 @@ Filter.match("star wars")
 // is the same as
 Filter.andOf(
 	Filter.orOf(
-	    Filter.range("year", 1980, 1990),
+	    SearchFilter.range("year", 1980, 1990),
 	    Filter.of("title", "fuzzy", "clone")
 	),
 	Filter.of("rating", ">", 8.0),
@@ -161,6 +171,14 @@ Filter.andOf(
 	)
 )
 ```
+
+The class `SearchFilter` can be used to build filters with search operators:
+
+```javascript
+SearchFilter.match("matrix")
+SearchFilter.fuzzy("description", "neo the one")
+```
+
 
 ### SQL filters
 
@@ -195,105 +213,86 @@ Filter.notIn("age", 24, 25, 26)
 Filter.like("name", "J.* Smith")
 ```
 
-The search filters are:
-
-### Field filters
+### Search filters
 
 ```javascript
-// Filter.exists(field)
-Filter.exists("title")
-
-// Filter.missing(field)
-Filter.missing("name")
+SearchFilter.exists("title")
+SearchFilter.missing("name")
 ```
-
-### Range filter
 
 ```javascript
-// Filter.range(field, min, max)
-Filter.range("age", 20, 30)
+SearchFilter.range("age", 20, 30)
 ```
 
-### Text filters
+
+#### Text match
 
 A simple text match filter can be specified as:
 
 ```javascript
-// Filter.match(text) (default is all fields "*")
-Filter.match("search query")
+// default field is "*" (all indexed fields)
+SearchFilter.match("search query")
 
-// Filter.match(field, text)
-Filter.match("title", "The matrix")
+SearchFilter.match("title", "The matrix")
 ```
 
 To configure a advanced match type you can set the match type:
 
 ```javascript
-// Filter.match(...).type(MatchType)
 // types = PHRASE, PHRASE_PREFIX
-Filter.match("search phrase")
-      .type(MatchFilter.MatchType.PHRASE)
+SearchFilter.match("search phrase")
+            .type(MatchFilter.MatchType.PHRASE)
 ```
 
 Or use one of the methods:
 
 ```javascript
-// Filter.phrase(text)
-// Filter.phrase(field, text)
-Filter.phrase("match this phrase")
-Filter.match("match this phrase", MatchFilter.MatchType.PHRASE)
+// The filter
+SearchFilter.phrase("match this phrase")
 
-// Filter.phrasePrefix(text)
-// Filter.phrasePrefix(field, text)
-Filter.phrasePrefix("match an incomplete phra")
-Filter.match("match this phrase", MatchType.PHRASE_PREFIX)
+// is the same as
+SearchFilter.match("match this phrase", MatchFilter.MatchType.PHRASE)
+
+// and the filter
+SearchFilter.phrasePrefix("match an incomplete phra")
+
+// is the same as
+SearchFilter.match("match this phrase", MatchType.PHRASE_PREFIX)
 ```
 
 To filter by term prefix (prefix filter) use:
 
 ```javascript
-// Filter.prefix(prefix) (default is all fields "*")
-Filter.prefix("pre")
-
-// Filter.prefix(field, prefix)
-Filter.prefix("title", "scar") // matches "Scarface" and "Scary movie"
-
-// Filter.of(field, operator, value
-Filter.of("body", "prefix", "word")
+SearchFilter.prefix("scar")
+SearchFilter.prefix("title", "scar") // matches "Scarface" and "Scary movie"
+Filter.of("title", "prefix", "scar")
 ```
+
 
 #### Fuzzy
 
 To add fuzziness to the text match, use:
 
 ```javascript
-// Filter.fuzzy(text) (default is all fields "*")
-Filter.fuzzy("content")
-
-// Filter.fuzzy(field, text)
-Filter.fuzzy("name", "Lais") // matches Louis
+SearchFilter.fuzzy("content")
+SearchFilter.fuzzy("name", "Lais") // also matches Louis
 ```
 
 To specify the edit distance (0, 1 or 2) as fuzziness:
  
 ```javascript
-// Filter.fuzzy(...).fuzziness(distance)
-Filter.fuzzy("Lais").fuzziness(1) // matches Luis, but not Louis
-
-// Filter.fuzzy(..., distance)
-Filter.fuzzy("name", "Lais", 2) // matches Luis, Luiz and Louis 
+SearchFilter.fuzzy("name", "Lais").fuzziness(1) // matches Luis, but not Louis
+SearchFilter.fuzzy("name", "Lais", 2)           // matches Luis, Luiz and Louis 
 ```
 
 You can also specify the fuzziness as the percentage [0..1) of the word that 
-needs to match (note that the maximum edit distance is 2):
+needs to match (note that the maximum edit distance is always 2):
 
 ```javascript
-// Filter.fuzzy(...).fuzziness(percentage)
-Filter.fuzzy("document text").fuzziness(0.5) // matches "docmnt tx"
-
-// Filter.fuzzy(..., percentage)
-Filter.fuzzy("body", "document", 0.75) // matches documents but not docume
+SearchFilter.fuzzy("document text").fuzziness(0.5) // matches "docmnt tx"
+SearchFilter.fuzzy("body", "document", 0.75)       // matches documents but not docume
 ```
+
 
 #### Common terms
 
@@ -301,15 +300,12 @@ To dynamically define word relevance without a static definition of stop-words,
 use the common terms filter as follows:
 
 ```javascript
-// Filter.common(text) (default is all fields "*")
-Filter.common("a phrase with common words")     // [a,with] are high frequency terms
-                                                // [phrase,common,words] are low frequency
+SearchFilter.common("a phrase with common words")     // [a,with] are high frequency terms
+                                                      // [phrase,common,words] are low frequency
 
-// Filter.common(field, text)
-Filter.common("title", "p.s. i love you")       // [i,you] are high frequency terms
-                                                // [p,s,love] are low frequency
+SearchFilter.common("title", "p.s. i love you")       // [i,you] are high frequency terms
+                                                      // [p,s,love] are low frequency
 
-// Filter.of(field, operator, text)
 Filter.of("title", "common", "p.s. i love you")
 ```
 
@@ -317,7 +313,7 @@ The common terms behavior is:
 
 ```javascript
 // this filter
-Filter.common("body", "search with this phrase")
+SearchFilter.common("body", "search with this phrase")
 
 // is dynamically converted to
 Filter.andOf(
@@ -329,72 +325,61 @@ Filter.andOf(
 To specify the word frequency threshold:
  
 ```javascript
-// Filter.common(...).threshold(value) (default is all fields "*")
-Filter.common("video may be a high frequency word").threshold(0.1) // if "video" appears in at least 10% of the base
+SearchFilter.common("video may be a high frequency word")
+            .threshold(0.1)		// if "video" appears in at least 10% of the base
 
-// Filter.common(..., threshold)
 Filter.common("title", "the matrix", 0.001)
 ```
 
-#### More like this filters
 
-To use a example of the kind of content you are searching without constructing a
-proper query, use the more like this filter:
+#### More like this
+
+To search by example use the more like this filter:
 
 ```javascript
-// Filter.moreLikeThis(text) (default is all fields "*")
-Filter.moreLikeThis(document.body())
-
-// Filter.moreLikeThis(field, text)
-Filter.moreLikeThis("body", document.body())
+SearchFilter.moreLikeThis(document.body())
+SearchFilter.moreLikeThis("body", document.body())
 ```
 
 You can add a list of stop-words to be used against the query text:
 
 ```javascript
-// Filter.moreLikeThis(...).stopWords(words)
-Filter.moreLikeThis(document.body()).stopWords("this", "is")
+SearchFilter.moreLikeThis(document.body())
+            .stopWords("this", "is", "a")
 ```
 
 You can also specify values to control term and document frequency for extracted terms:
 
 ```javascript
-// Filter.moreLikeThis(...)
-//			.minTf(value) - in the query (removes non-representative query terms)
-//			.minDf(value) - in documents (removes non-representative terms)
-//			.maxDf(value) - in documents (removes common terms)
-Filter.moreLikeThis("this content is just an example. it is just an example")
-	  .minTf(2)		        // will select "is", "an", "just" and "example" 
-	  .minDf(100)	        // may exclude "example" as non-representative for the base
-	  .maxDf(1000)	        // may exclude "is" and "an" as too common
+//	min term frequency in the query (removes non-representative query terms)
+//	min document frequency in index (removes non-representative terms)
+//	max document frequency in index (removes common terms)
+SearchFilter.moreLikeThis("this content is just an example. it is just an example")
+			.minTf(2)       // will select "is", "an", "just" and "example" 
+			.minDf(100)     // may exclude "example" as non-representative for the base
+			.maxDf(1000)    // may exclude "is" and "an" as too common
 ```
 
 To combine the more like this query construction with a fuzzy match, use fuzzy like this:
 
 ```javascript
-// Filter.fuzzyLikeThis(text) (default is all fields "*")
-Filter.fuzzyLikeThis(document.body())
-
-// Filter.fuzzyLikeThis(field, text)
-Filter.fuzzyLikeThis("body", document.body())
+SearchFilter.fuzzyLikeThis(document.body())
+SearchFilter.fuzzyLikeThis("body", document.body())
 ```
 
 In this case it is only possible to set the fuzziness, as we do with the fuzzy filter:
 
 ```javascript
-// Filter.fuzzyLikeThis(...).fuzziness(value)
-Filter.fuzzyLikeThis(document.body()).fuzzyness(0.5)
-
-// Filter.fuzzyLikeThis(..., fuzziness)
-Filter.fuzzyLikeThis("body", document.body(), 2)
+SearchFilter.fuzzyLikeThis(document.body()).fuzzyness(0.5)
+SearchFilter.fuzzyLikeThis("body", document.body(), 2)
 ```
 
-### Geo
+#### Geolocation
 
 A `GeoPoint` can be specified as one of the following:
 
 ```javascript
-// [lon,lat] (GeoJson)
+// [lon,lat] (GeoJson format)
 [2,1]
 
 // "lat, lon"
@@ -414,8 +399,7 @@ Geo.line("0,0", [1,1], Geo.point(2,2))
 Geo.bbox("0,1", "1,0")
 
 // Geo.polygon(points).hole(points)
-Geo.polygon([0,0], "0,1", Geo.point(1,0), "0,0")
-Geo.polygon("0,0", "0,10", "10,0", "0,0")
+Geo.polygon([0,0], "0,10", Geo.point(10,0), "0,0")
 	.hole("0,0", "0,1", "1,0", "0,0")
 	.hole("1,1", "1,2", "2,1", "1,1")
 
@@ -462,65 +446,44 @@ Filter.shape("area", Geo.line("0,0","10,10"), "40,40")
 
 # Search
 
-The search type can be set as:
-
-```javascript
-// Search.type(SearchType)
-// types = FETCH, COUNT, SCAN
-Search.type(Search.SearchType.COUNT)
-```
-
-Also a search cursor for page navigation can be specified:
-
-```javascript
-// Search.cursor(cursor)
-Search.build().cursor(result.nextPage())
-```
+The `Search` class is used to build complext search filters and predicates.
 
 ### Query, Pre and Post filters
 
-`query`, `preFilter` and `postFilter` can be used to add filters to the search
+`query`, `preFilter` and `postFilter` can be used to add filters to the search.
+The supported methods follow the pattern of `Query#filter`, but here the default
+operator is `match` and the default field is `"*"` (all indexed fields).
 
 ```javascript
-// Search.query(text)
-// Search.query(field, text)
-// Search.query(field, operator, value)
-// Search.query(Filter)
-
-Search.build()
-    .query("star wars")
-	.preFilter("year", ">", 2000)
-	.postFilter(Filter.in("category", "action"))
+Search.builder()
+      .query("star wars")
+	  .preFilter("year", ">", 2000)
+	  .postFilter(Filter.in("category", "action"))
 ```
 
 The default composition operator is `AND`.
 
+
 ### Highlights
 
-Highlight fields can be added to a search as follows:
+Search highlight on fields can be added as follows:
 
 ```javascript
-// Search.highlight(field)
-Search.build().highlight("body")
-
-// Search.highlight(field, size)
-Search.build().highlight("body", 100) 		// 100 characters fragments
-
-// Search.highlight(field, size, count)
-Search.build().highlight("body", 100, 2)	// 2 fragments of 100 characters
+Search.builder().highlight("body")
+Search.builder().highlight("body", 100) 		// 100 characters fragments
+Search.builder().highlight("body", 100, 2)		// 2 fragments of 100 characters
 ```
+
 
 ### Aggregations
 
 Aggregation results can be defined as:
 
 ```javascript
-// Search.aggregate(name, Aggregation)
-Search.build().aggregate("youngest", Aggregation.min("age"))
+Search.builder().aggregate("youngest", Aggregation.min("age"))
 
-// Search.aggregate(name, field, operator)
 // operators = min, max, sum, avg, stats, extended_stats, count, terms, missing
-Search.build().aggregate("average_age", "age", "avg")
+Search.builder().aggregate("average_age", "age", "avg")
 ```
 
 Simple aggregations can be defined as follows:
@@ -547,5 +510,14 @@ Aggregation.range("years", "year", [1980, 1990], [1990, 2000], [2000, 2010])
 Aggregation.histogram("years", "year", 10)
 
 // Aggregation.distance(field, point, ranges).unit(distance_unit)
-Aggregation.distance("geo", "location", "0,0", [0,1], [1,2], [2,3]).unit("km")
+Aggregation.distance("geo", "location", "0,0", [0,1], [1,2], [2,3])
+           .unit("km")
+```
+
+### Cursor
+
+A search cursor for page navigation can be specified:
+
+```javascript
+Search.builder().cursor(result.nextPage())
 ```
