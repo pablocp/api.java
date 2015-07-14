@@ -326,7 +326,7 @@ public class LaunchpadClient {
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
-	protected boolean throwExceptionOnResponseError = false;
+	protected boolean throwExceptionOnResponseError = true;
 	protected final String url;
 
 }
