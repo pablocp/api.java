@@ -134,7 +134,8 @@ public class LaunchpadClient {
 	public LaunchpadClient path(String path) {
 		return new LaunchpadClient(url, path)
 			.use(currentTransport)
-			.use(currentJsonEngine);
+			.use(currentJsonEngine)
+			.throwExceptionOnResponseError(throwExceptionOnResponseError);
 	}
 
 	/**
