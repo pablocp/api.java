@@ -26,6 +26,7 @@ public class GoogleTest {
 
 		LaunchpadClient
 			.url("http://google.com/404")
+			.throwExceptionOnResponseError(true)
 			.get()
 			.whenComplete((clientResponse, e) -> {
 				response[0] = clientResponse;
@@ -46,7 +47,6 @@ public class GoogleTest {
 
 		LaunchpadClient
 			.url("http://google.com/404")
-			.throwExceptionOnResponseError(false)
 			.get()
 			.whenComplete((clientResponse, e) -> {
 				response[0] = clientResponse;
