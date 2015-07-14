@@ -11,6 +11,14 @@ public class ResponseErrorException extends RuntimeException {
 	public ResponseErrorException(Response response) {
 		super("Response returned an error " + response.statusCode() + ": " +
 			response.statusMessage());
+
+		this.response = response;
 	}
+
+	public Response getResponse() {
+		return response;
+	}
+
+	private final Response response;
 
 }
