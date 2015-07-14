@@ -1,11 +1,24 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.json.JsonParser;
+import com.liferay.launchpad.sdk.json.JsonSerializer;
+
 import java.util.List;
 
 /**
  * Simple JSON engine.
  */
 public interface JsonEngine {
+
+	/**
+	 * Gets Json Serializer.
+	 */
+	public JsonParser getJsonParser();
+
+	/**
+	 * Gets Json Serializer.
+	 */
+	public JsonSerializer getJsonSerializer();
 
 	/**
 	 * Parses JSON string to list of objects.

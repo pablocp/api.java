@@ -5,10 +5,7 @@ import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
-import com.liferay.launchpad.sdk.json.JsonParser;
-import com.liferay.launchpad.sdk.json.JsonSerializer;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -222,13 +219,15 @@ public class LaunchpadClient {
 	}
 
 	protected void applyRequest(RequestImpl request) {
-		request.setJsonParser(jsonParser);
-		request.setJsonSerializer(jsonSerializer);
+		JsonEngine jsonEngine = resolveJsonEngine();
+		request.setJsonParser(jsonEngine.getJsonParser());
+		request.setJsonSerializer(jsonEngine.getJsonSerializer());
 	}
 
 	protected void applyResponse(ResponseImpl response) {
-		response.setJsonParser(jsonParser);
-		response.setJsonSerializer(jsonSerializer);
+		JsonEngine jsonEngine = resolveJsonEngine();
+		response.setJsonParser(jsonEngine.getJsonParser());
+		response.setJsonSerializer(jsonEngine.getJsonSerializer());
 	}
 
 	/**
@@ -304,12 +303,12 @@ public class LaunchpadClient {
 
 		final RequestImpl request = new RequestImpl(url());
 
+		applyRequest(request);
+
 		request.method(methodName);
 		request.headers(headers);
 		request.params(params);
 		request.body(body);
-
-		applyRequest(request);
 
 		return transport.send(request)
 			.thenApply(response -> {
@@ -326,50 +325,8 @@ public class LaunchpadClient {
 	protected JsonEngine currentJsonEngine;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
-	protected JsonParser jsonParser = new ApiJsonParser();
-	protected JsonSerializer jsonSerializer = new ApiJsonSerializer();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
 	protected boolean throwExceptionOnResponseError = true;
 	protected final String url;
-
-	protected class ApiJsonParser implements JsonParser {
-		@Override
-		public <T> T parse(String json) {
-			JsonEngine jsonEngine = resolveJsonEngine();
-
-			return jsonEngine.parseJsonToModel(json);
-		}
-
-		@Override
-		public <T> T parse(String json, Class<T> type) {
-			JsonEngine jsonEngine = resolveJsonEngine();
-
-			return jsonEngine.parseJsonToModel(json, type);
-		}
-
-		@Override
-		public <T> List<T> parseAsList(String json, Class<T> type) {
-			JsonEngine jsonEngine = resolveJsonEngine();
-
-			return jsonEngine.parseJsonToList(json, type);
-		}
-
-	}
-
-	protected class ApiJsonSerializer implements JsonSerializer {
-
-		@Override
-		public String serialize(Object object) {
-			return serialize(object, false);
-		}
-
-		@Override
-		public String serialize(Object object, boolean deep) {
-			JsonEngine jsonEngine = resolveJsonEngine();
-
-			return jsonEngine.serializeToJson(object, deep);
-		}
-
-	}
 
 }
