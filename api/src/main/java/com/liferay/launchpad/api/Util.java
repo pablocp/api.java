@@ -1,6 +1,5 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.Response;
 public class Util {
 
 	public static final String SEPARATOR = "/";
@@ -24,20 +23,6 @@ public class Util {
 			else {
 				return basePath + SEPARATOR + path;
 			}
-		}
-	}
-
-	/**
-	 * Validates client response. Throws exception for invalid.
-	 */
-	public static void validateResponse(Response response) {
-		switch (response.statusCode()) {
-			case 200:
-			case 204:
-			case 304:
-				break;
-			default:
-				throw new ResponseErrorException(response);
 		}
 	}
 

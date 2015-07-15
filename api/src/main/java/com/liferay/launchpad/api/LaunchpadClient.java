@@ -134,8 +134,7 @@ public class LaunchpadClient {
 	public LaunchpadClient path(String path) {
 		return new LaunchpadClient(url, path)
 			.use(currentTransport)
-			.use(currentJsonEngine)
-			.throwExceptionOnResponseError(throwExceptionOnResponseError);
+			.use(currentJsonEngine);
 	}
 
 	/**
@@ -178,14 +177,6 @@ public class LaunchpadClient {
 	 */
 	public CompletableFuture<Response> put(final String body) {
 		return sendAsync("PUT", body);
-	}
-
-	/**
-	 * Specifies if exceptions should be thrown on response errors.
-	 */
-	public LaunchpadClient throwExceptionOnResponseError(boolean flag) {
-		throwExceptionOnResponseError = flag;
-		return this;
 	}
 
 	/**
@@ -314,11 +305,6 @@ public class LaunchpadClient {
 		return transport.send(request)
 			.thenApply(response -> {
 				applyResponse((ResponseImpl)response);
-
-				if (throwExceptionOnResponseError) {
-					Util.validateResponse(response);
-				}
-
 				return response;
 			});
 	}
@@ -327,7 +313,6 @@ public class LaunchpadClient {
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
-	protected boolean throwExceptionOnResponseError = true;
 	protected final String url;
 
 }
