@@ -30,7 +30,7 @@ plugins {
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-version = '0.9.4'
+version = '0.9.5'
 group = 'com.liferay.launchpad'
 
 allprojects {
