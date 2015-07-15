@@ -25,7 +25,7 @@ public class JsonTest {
 
 		Response response = tt.getResponse();
 
-		assertUser(user, response.bodyObject(User.class));
+		assertUser(user, response.parse(User.class));
 	}
 
 	@Test
