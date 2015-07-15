@@ -298,9 +298,14 @@ public class LaunchpadClient {
 		applyRequest(request);
 
 		request.method(methodName);
-		request.headers(headers);
-		request.params(params);
 		request.body(body);
+
+		headers.forEach(
+			entry -> request.header(
+				entry.getKey(), headers.get(entry.getKey())));
+
+		params.forEach(
+			entry -> request.param(entry.getKey(), params.get(entry.getKey())));
 
 		return transport.send(request)
 			.thenApply(response -> {
