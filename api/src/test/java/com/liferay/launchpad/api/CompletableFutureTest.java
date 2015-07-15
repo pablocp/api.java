@@ -120,9 +120,12 @@ public class CompletableFutureTest {
 			.exceptionally(new Function<Throwable, MutableInteger>() {
 				@Override
 				public MutableInteger apply(Throwable throwable) {
-					if (throwable.getCause() instanceof IllegalArgumentException) {
+					if (throwable.getCause() instanceof
+							IllegalArgumentException) {
+
 						return new MutableInteger(123);
 					}
+
 					throw new RuntimeException("failure");
 				}
 			})
@@ -130,7 +133,6 @@ public class CompletableFutureTest {
 				access.value++;
 				return Integer.valueOf(mi.value);
 			});
-
 
 		Integer m = f.join();
 
