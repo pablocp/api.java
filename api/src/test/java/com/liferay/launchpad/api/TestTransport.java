@@ -15,7 +15,7 @@ public class TestTransport extends BlockingTransport {
 	}
 
 	@Override
-	protected ResponseImpl sendBlockingRequest(RequestImpl request) {
+	public ResponseImpl send(RequestImpl request) {
 		this.request = request;
 		this.response = new ResponseImpl(request);
 

@@ -309,9 +309,9 @@ public class LaunchpadClient {
 			entry -> request.param(
 				entry.getKey(), ValuesUtil.toString(entry.getValue())));
 
-		return transport.send(request)
+		return transport.sendAsync(request)
 			.thenApply(response -> {
-				applyResponse((ResponseImpl)response);
+				applyResponse(response);
 				return response;
 			});
 	}
