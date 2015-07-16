@@ -20,8 +20,7 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.post(user)
-			.join();
+			.post(user);
 
 		Response response = tt.getResponse();
 
@@ -36,8 +35,7 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.delete(user)
-			.join();
+			.delete(user);
 
 		Request request = tt.getRequest();
 		String body = request.body();
@@ -54,8 +52,7 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.patch(user)
-			.join();
+			.patch(user);
 
 		Request request = tt.getRequest();
 		String body = request.body();
@@ -72,8 +69,7 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.post(user)
-			.join();
+			.post(user);
 
 		Request request = tt.getRequest();
 		String body = request.body();
@@ -90,8 +86,7 @@ public class JsonTest {
 		LaunchpadClient
 			.url("http://foo.com")
 			.use(tt)
-			.put(user)
-			.join();
+			.put(user);
 
 		Request request = tt.getRequest();
 		String body = request.body();
@@ -109,8 +104,7 @@ public class JsonTest {
 			.url("http://foo.com")
 			.use(tt)
 			.param("user", user)
-			.get()
-			.join();
+			.get();
 
 		Request request = tt.getRequest();
 		String param = request.params().get("user");

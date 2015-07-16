@@ -13,7 +13,7 @@ public class GoogleTest {
 
 		LaunchpadClient
 			.url("http://google.com")
-			.get()
+			.getAsync()
 			.whenComplete((clientResponse, e) -> {
 				response[0] = clientResponse;
 				throwable[0] = e;
@@ -32,7 +32,7 @@ public class GoogleTest {
 
 		LaunchpadClient
 			.url("http://google.com/404")
-			.get()
+			.getAsync()
 			.whenComplete((clientResponse, e) -> {
 				response[0] = clientResponse;
 				throwable[0] = e;
