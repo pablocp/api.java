@@ -14,6 +14,16 @@ import java.util.concurrent.CompletableFuture;
  */
 public class LaunchpadClient {
 
+	public static final String METHOD_DELETE = "DELETE";
+
+	public static final String METHOD_GET = "GET";
+
+	public static final String METHOD_PATCH = "PATCH";
+
+	public static final String METHOD_POST = "POST";
+
+	public static final String METHOD_PUT = "PUT";
+
 	/**
 	 * Static factory for creating launchpad client.
 	 */
@@ -31,43 +41,85 @@ public class LaunchpadClient {
 	/**
 	 * Executes DELETE request.
 	 */
-	public CompletableFuture<Response> delete() {
+	public Response delete() {
 		return delete(null);
-	}
-
-	/**
-	 * Serializes object and executes DELETE request.
-	 */
-	public CompletableFuture<Response> delete(final Object body) {
-		return sendAsync("DELETE", body);
 	}
 
 	/**
 	 * Executes DELETE request.
 	 */
-	public CompletableFuture<Response> delete(final String body) {
-		return sendAsync("DELETE", body);
+	public Response delete(final Object body) {
+		return send(METHOD_DELETE, body);
+	}
+
+	/**
+	 * Executes DELETE request.
+	 */
+	public Response delete(final String body) {
+		return send(METHOD_DELETE, body);
+	}
+
+	/**
+	 * Executes DELETE request asynchronously.
+	 */
+	public CompletableFuture<Response> deleteAsync() {
+		return deleteAsync(null);
+	}
+
+	/**
+	 * Serializes object and executes DELETE request asynchronously.
+	 */
+	public CompletableFuture<Response> deleteAsync(final Object body) {
+		return sendAsync(METHOD_DELETE, body);
+	}
+
+	/**
+	 * Executes DELETE request asynchronously.
+	 */
+	public CompletableFuture<Response> deleteAsync(final String body) {
+		return sendAsync(METHOD_DELETE, body);
 	}
 
 	/**
 	 * Executes GET request.
 	 */
-	public CompletableFuture<Response> get() {
-		return sendAsync("GET", null);
+	public Response get() {
+		return send(METHOD_GET, null);
 	}
 
 	/**
 	 * Executes GET request.
 	 */
-	public CompletableFuture<Response> get(final Object body) {
-		return sendAsync("GET", body);
+	public Response get(final Object body) {
+		return send(METHOD_GET, body);
 	}
 
 	/**
 	 * Executes GET request.
 	 */
-	public CompletableFuture<Response> get(final String body) {
-		return sendAsync("GET", body);
+	public Response get(final String body) {
+		return send(METHOD_GET, body);
+	}
+
+	/**
+	 * Executes GET request asynchronously.
+	 */
+	public CompletableFuture<Response> getAsync() {
+		return sendAsync(METHOD_GET, null);
+	}
+
+	/**
+	 * Executes GET request asynchronously.
+	 */
+	public CompletableFuture<Response> getAsync(final Object body) {
+		return sendAsync(METHOD_GET, body);
+	}
+
+	/**
+	 * Executes GET request asynchronously.
+	 */
+	public CompletableFuture<Response> getAsync(final String body) {
+		return sendAsync(METHOD_GET, body);
 	}
 
 	/**
@@ -111,22 +163,43 @@ public class LaunchpadClient {
 	/**
 	 * Executes PATCH request.
 	 */
-	public CompletableFuture<Response> patch() {
+	public Response patch() {
 		return patch(null);
-	}
-
-	/**
-	 * Serializes object and executes PATCH request.
-	 */
-	public CompletableFuture<Response> patch(final Object body) {
-		return sendAsync("PATCH", body);
 	}
 
 	/**
 	 * Executes PATCH request.
 	 */
-	public CompletableFuture<Response> patch(final String body) {
-		return sendAsync("PATCH", body);
+	public Response patch(final Object body) {
+		return send(METHOD_PATCH, body);
+	}
+
+	/**
+	 * Executes PATCH request.
+	 */
+	public Response patch(final String body) {
+		return send(METHOD_PATCH, body);
+	}
+
+	/**
+	 * Executes PATCH request asynchronously.
+	 */
+	public CompletableFuture<Response> patchAsync() {
+		return patchAsync(null);
+	}
+
+	/**
+	 * Serializes object and executes PATCH request asynchronously.
+	 */
+	public CompletableFuture<Response> patchAsync(final Object body) {
+		return sendAsync(METHOD_PATCH, body);
+	}
+
+	/**
+	 * Executes PATCH request asynchronously.
+	 */
+	public CompletableFuture<Response> patchAsync(final String body) {
+		return sendAsync(METHOD_PATCH, body);
 	}
 
 	/**
@@ -141,43 +214,85 @@ public class LaunchpadClient {
 	/**
 	 * Executes POST request.
 	 */
-	public CompletableFuture<Response> post() {
+	public Response post() {
 		return post(null);
-	}
-
-	/**
-	 * Serializes object and executes POST request.
-	 */
-	public CompletableFuture<Response> post(final Object body) {
-		return sendAsync("POST", body);
 	}
 
 	/**
 	 * Executes POST request.
 	 */
-	public CompletableFuture<Response> post(final String body) {
-		return sendAsync("POST", body);
+	public Response post(final Object body) {
+		return send(METHOD_POST, body);
+	}
+
+	/**
+	 * Executes POST request.
+	 */
+	public Response post(final String body) {
+		return send(METHOD_POST, body);
+	}
+
+	/**
+	 * Executes POST request asynchronously.
+	 */
+	public CompletableFuture<Response> postAsync() {
+		return postAsync(null);
+	}
+
+	/**
+	 * Serializes object and executes POST request asynchronously.
+	 */
+	public CompletableFuture<Response> postAsync(final Object body) {
+		return sendAsync(METHOD_POST, body);
+	}
+
+	/**
+	 * Executes POST request asynchronously.
+	 */
+	public CompletableFuture<Response> postAsync(final String body) {
+		return sendAsync(METHOD_POST, body);
 	}
 
 	/**
 	 * Executes PUT request.
 	 */
-	public CompletableFuture<Response> put() {
+	public Response put() {
 		return put(null);
 	}
 
 	/**
-	 * Serializes object and PUT request.
+	 * Executes PUT request.
 	 */
-	public CompletableFuture<Response> put(final Object body) {
-		return sendAsync("PUT", body);
+	public Response put(final Object body) {
+		return send(METHOD_PUT, body);
 	}
 
 	/**
 	 * Executes PUT request.
 	 */
-	public CompletableFuture<Response> put(final String body) {
-		return sendAsync("PUT", body);
+	public Response put(final String body) {
+		return send(METHOD_PUT, body);
+	}
+
+	/**
+	 * Executes PUT request asynchronously.
+	 */
+	public CompletableFuture<Response> putAsync() {
+		return putAsync(null);
+	}
+
+	/**
+	 * Serializes object and PUT request asynchronously.
+	 */
+	public CompletableFuture<Response> putAsync(final Object body) {
+		return sendAsync(METHOD_PUT, body);
+	}
+
+	/**
+	 * Executes PUT request asynchronously.
+	 */
+	public CompletableFuture<Response> putAsync(final String body) {
+		return sendAsync(METHOD_PUT, body);
 	}
 
 	/**
@@ -224,6 +339,27 @@ public class LaunchpadClient {
 	}
 
 	/**
+	 * Resolves body string from body object. Sets content type to json is
+	 * body object is not {@code null}.
+	 */
+	protected String resolveBodyString(Object body) {
+		String bodyJson = null;
+
+		if (body != null) {
+			headers.set("Content-Type", ContentType.JSON.contentType());
+
+			final JsonEngine jsonEngine = resolveJsonEngine();
+
+			bodyJson = jsonEngine.serializeToJson(body);
+		}
+		else {
+			bodyJson = null;
+		}
+
+		return bodyJson;
+	}
+
+	/**
 	 * Resolves JSON engine. Throws exception if JSON engine is missing.
 	 */
 	protected JsonEngine resolveJsonEngine() {
@@ -240,6 +376,28 @@ public class LaunchpadClient {
 		}
 
 		return currentJsonEngine;
+	}
+
+	/**
+	 * Creates new request implementation. Prepares method name, body and
+	 * header and parameters map.
+	 */
+	protected RequestImpl resolveRequest(String methodName, String body) {
+		final RequestImpl request = new RequestImpl(url());
+
+		applyRequest(request);
+
+		request.method(methodName);
+		request.body(body);
+
+		headers.forEach(
+			entry -> request.header(
+				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+
+		params.forEach(
+			entry -> request.param(
+				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+		return request;
 	}
 
 	/**
@@ -263,51 +421,52 @@ public class LaunchpadClient {
 
 	/**
 	 * Serializes input object to a JSON string and
+	 * {@link #send(String, String) sends it}.
+	 */
+	protected Response send(final String methodName, final Object body) {
+		String bodyJson = resolveBodyString(body);
+
+		return send(methodName, bodyJson);
+	}
+
+	/**
+	 * Uses transport to send request with given method name and body
+	 * synchronously.
+	 */
+	protected Response send(final String methodName, final String body) {
+		final Transport transport = resolveTransport();
+
+		final RequestImpl request = resolveRequest(methodName, body);
+
+		ResponseImpl response = transport.send(request);
+
+		applyResponse(response);
+
+		return response;
+	}
+
+	/**
+	 * Serializes input object to a JSON string and
 	 * {@link #sendAsync(String, String) sends it}.
 	 */
 	protected CompletableFuture<Response> sendAsync(
 		final String methodName, final Object body) {
 
-		String bodyJson = null;
-
-		if (body != null) {
-			headers.set("Content-Type", ContentType.JSON.contentType());
-
-			final JsonEngine jsonEngine = resolveJsonEngine();
-
-			bodyJson = jsonEngine.serializeToJson(body);
-		}
-		else {
-			bodyJson = null;
-		}
+		String bodyJson = resolveBodyString(body);
 
 		return sendAsync(methodName, bodyJson);
 	}
 
 	/**
 	 * Uses transport to send request with given method name and body
-	 * asynchronously. After the execution, it validates the response
-	 * and
+	 * asynchronously.
 	 */
 	protected CompletableFuture<Response> sendAsync(
 		final String methodName, final String body) {
 
 		final Transport transport = resolveTransport();
 
-		final RequestImpl request = new RequestImpl(url());
-
-		applyRequest(request);
-
-		request.method(methodName);
-		request.body(body);
-
-		headers.forEach(
-			entry -> request.header(
-				entry.getKey(), ValuesUtil.toString(entry.getValue())));
-
-		params.forEach(
-			entry -> request.param(
-				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+		final RequestImpl request = resolveRequest(methodName, body);
 
 		return transport.sendAsync(request)
 			.thenApply(response -> {
