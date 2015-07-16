@@ -5,6 +5,7 @@ import com.liferay.launchpad.sdk.ResponseImpl;
 
 import java.util.Map;
 
+import com.liferay.launchpad.sdk.ValuesUtil;
 import jodd.http.HttpBrowser;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
@@ -24,12 +25,12 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		for (Map.Entry<String, Object> entry : request.headers()) {
 			httpRequest.header(
-				entry.getKey(), request.headers().get(entry.getKey()));
+				entry.getKey(), ValuesUtil.toString(entry.getValue()));
 		}
 
 		for (Map.Entry<String, Object> entry : request.params()) {
 			httpRequest.query(
-				entry.getKey(), request.params().get(entry.getKey()));
+				entry.getKey(), ValuesUtil.toString(entry.getValue()));
 		}
 
 		String body = request.body();

@@ -5,6 +5,7 @@ import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
+import com.liferay.launchpad.sdk.ValuesUtil;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -302,10 +303,11 @@ public class LaunchpadClient {
 
 		headers.forEach(
 			entry -> request.header(
-				entry.getKey(), headers.get(entry.getKey())));
+				entry.getKey(), ValuesUtil.toString(entry.getValue())));
 
 		params.forEach(
-			entry -> request.param(entry.getKey(), params.get(entry.getKey())));
+			entry -> request.param(
+				entry.getKey(), ValuesUtil.toString(entry.getValue())));
 
 		return transport.send(request)
 			.thenApply(response -> {
