@@ -17,7 +17,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.post(user);
@@ -32,7 +32,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.delete(user);
@@ -49,7 +49,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.patch(user);
@@ -66,7 +66,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.post(user);
@@ -83,7 +83,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.put(user);
@@ -100,7 +100,7 @@ public class JsonTest {
 		User user = new User();
 		TestTransport tt = new TestTransport();
 
-		LaunchpadClient
+		Launchpad
 			.url("http://foo.com")
 			.use(tt)
 			.param("user", user)

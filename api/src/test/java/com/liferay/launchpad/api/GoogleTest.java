@@ -11,7 +11,7 @@ public class GoogleTest {
 		final Response[] response = new Response[1];
 		final Throwable[] throwable = new Throwable[1];
 
-		LaunchpadClient
+		Launchpad
 			.url("http://google.com")
 			.getAsync()
 			.whenComplete((clientResponse, e) -> {
@@ -30,7 +30,7 @@ public class GoogleTest {
 		final Response[] response = new Response[1];
 		final Throwable[] throwable = new Throwable[1];
 
-		LaunchpadClient
+		Launchpad
 			.url("http://google.com/404")
 			.getAsync()
 			.whenComplete((clientResponse, e) -> {

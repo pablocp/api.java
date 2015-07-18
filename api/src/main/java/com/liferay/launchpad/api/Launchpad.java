@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Java client.
  */
-public class LaunchpadClient {
+public class Launchpad {
 
 	public static final String METHOD_DELETE = "DELETE";
 
@@ -27,14 +27,14 @@ public class LaunchpadClient {
 	/**
 	 * Static factory for creating launchpad client.
 	 */
-	public static LaunchpadClient url(String url) {
-		return new LaunchpadClient(url);
+	public static Launchpad url(String url) {
+		return new Launchpad(url);
 	}
 
 	/**
 	 * Main constructor.
 	 */
-	public LaunchpadClient(String url) {
+	public Launchpad(String url) {
 		this.url = url;
 	}
 
@@ -126,7 +126,7 @@ public class LaunchpadClient {
 	 * Adds new header. If the header with the same name already exists, it will
 	 * not be overwritten, but new value will be stored. The order is preserved.
 	 */
-	public LaunchpadClient header(String name, String value) {
+	public Launchpad header(String name, String value) {
 		headers.set(name, value);
 		return this;
 	}
@@ -134,7 +134,7 @@ public class LaunchpadClient {
 	/**
 	 * Serializes an object and sets query parameter.
 	 */
-	public LaunchpadClient param(String name, Object value) {
+	public Launchpad param(String name, Object value) {
 		String valueString = null;
 
 		if (value != null) {
@@ -155,7 +155,7 @@ public class LaunchpadClient {
 	 * Sets a query parameter. If the parameter with the same name already
 	 * exists, it will be overwritten.
 	 */
-	public LaunchpadClient param(String name, String value) {
+	public Launchpad param(String name, String value) {
 		params.set(name, value);
 		return this;
 	}
@@ -203,10 +203,10 @@ public class LaunchpadClient {
 	}
 
 	/**
-	 * Creates new {@link LaunchpadClient}.
+	 * Creates new {@link Launchpad}.
 	 */
-	public LaunchpadClient path(String path) {
-		return new LaunchpadClient(url, path)
+	public Launchpad path(String path) {
+		return new Launchpad(url, path)
 			.use(currentTransport)
 			.use(currentJsonEngine);
 	}
@@ -305,7 +305,7 @@ public class LaunchpadClient {
 	/**
 	 * Specifies {@link JsonEngine} implementation.
 	 */
-	public LaunchpadClient use(JsonEngine jsonEngine) {
+	public Launchpad use(JsonEngine jsonEngine) {
 		this.currentJsonEngine = jsonEngine;
 		return this;
 	}
@@ -313,7 +313,7 @@ public class LaunchpadClient {
 	/**
 	 * Specifies {@link Transport} implementation.
 	 */
-	public LaunchpadClient use(Transport transport) {
+	public Launchpad use(Transport transport) {
 		this.currentTransport = transport;
 		return this;
 	}
@@ -322,7 +322,7 @@ public class LaunchpadClient {
 	 * Continuations constructor, used from existing instance, therefore
 	 * no need to configure the client.
 	 */
-	protected LaunchpadClient(String baseUrl, String url) {
+	protected Launchpad(String baseUrl, String url) {
 		this.url = Util.joinPaths(baseUrl, url);
 	}
 
