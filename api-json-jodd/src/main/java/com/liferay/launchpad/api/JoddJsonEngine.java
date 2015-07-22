@@ -57,7 +57,7 @@ public class JoddJsonEngine implements JsonEngine {
 
 		@Override
 		public <T> T parse(String json, Class<T> type) {
-			return jsonParser.parse(json, type);
+			return new jodd.json.JsonParser().parse(json, type);
 		}
 
 		@Override
