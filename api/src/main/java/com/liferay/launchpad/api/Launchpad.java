@@ -350,7 +350,7 @@ public class Launchpad {
 
 			final JsonEngine jsonEngine = resolveJsonEngine();
 
-			bodyJson = jsonEngine.serializeToJson(body);
+			bodyJson = jsonEngine.serializeToJson(body, true);
 		}
 
 		return bodyJson;
