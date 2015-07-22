@@ -50,7 +50,7 @@ public class Aggregation {
 	}
 
 	public static RangeAggregation range(String field, Range...ranges) {
-		return new RangeAggregation(field, Arrays.asList(ranges));
+		return new RangeAggregation(field, ranges);
 	}
 
 	public static Aggregation stats(String field) {
@@ -109,11 +109,8 @@ public class Aggregation {
 			return this;
 		}
 
-		private RangeAggregation(
-			String field, Object location, Range...ranges) {
-
+		private RangeAggregation(String field, Range...ranges) {
 			super(field, "range", new ArrayList());
-
 			((List)this.value).addAll(Arrays.asList(ranges));
 		}
 

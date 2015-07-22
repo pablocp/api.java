@@ -24,12 +24,13 @@ public class SearchTest {
 			.aggregate("s", Aggregation.stats("f"))
 			.aggregate("es", Aggregation.extendedStats("f"))
 			.aggregate("h", Aggregation.histogram("f", 10))
-			.aggregate("dist", Aggregation.distance("f", "0,0")
+			.aggregate("dist", Aggregation.distance(
+					"f", "0,0", Range.from(0), Range.to(0))
 				.range(Range.to(0))
 				.range(0, 1)
 				.range(Range.from(1))
 				.unit("km"))
-			.aggregate("r", Aggregation.range("f")
+			.aggregate("r", Aggregation.range("f", Range.from(0), Range.to(0))
 				.range(Range.to(0))
 				.range(0, 1)
 				.range(Range.from(1)));
@@ -51,11 +52,13 @@ public class SearchTest {
 				"{\"f\":{\"operator\":\"geo_distance\",\"name\":\"dist\"," +
 					"\"value\":{\"location\":\"0,0\",\"unit\":\"km\"," +
 						"\"ranges\":[" +
-							"{\"to\":0},{\"from\":0,\"to\":1},{\"from\":1}" +
+							"{\"from\":0},{\"to\":0},{\"to\":0}," +
+							"{\"from\":0,\"to\":1},{\"from\":1}" +
 					"]}}}," +
 				"{\"f\":{\"operator\":\"range\",\"name\":\"r\"," +
 					"\"value\":[" +
-						"{\"to\":0},{\"from\":0,\"to\":1},{\"from\":1}" +
+						"{\"from\":0},{\"to\":0},{\"to\":0}," +
+						"{\"from\":0,\"to\":1},{\"from\":1}" +
 					"]}}," +
 				"]}",
 			search.toString(), true);
