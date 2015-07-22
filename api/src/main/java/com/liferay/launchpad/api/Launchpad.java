@@ -346,14 +346,11 @@ public class Launchpad {
 		String bodyJson = null;
 
 		if (body != null) {
-			headers.set("Content-Type", ContentType.JSON.contentType());
+			headers.set("Content-Type", ContentType.JSON.toString());
 
 			final JsonEngine jsonEngine = resolveJsonEngine();
 
 			bodyJson = jsonEngine.serializeToJson(body);
-		}
-		else {
-			bodyJson = null;
 		}
 
 		return bodyJson;

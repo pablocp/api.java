@@ -40,7 +40,7 @@ public class JsonTest {
 		Request request = tt.getRequest();
 		String body = request.body();
 
-		assertEquals(ContentType.JSON.contentType(), request.contentType());
+		assertEquals(ContentType.JSON.toString(), request.contentType());
 		assertUser(user, deserialize(body, User.class));
 	}
 
@@ -57,7 +57,7 @@ public class JsonTest {
 		Request request = tt.getRequest();
 		String body = request.body();
 
-		assertEquals(ContentType.JSON.contentType(), request.contentType());
+		assertEquals(ContentType.JSON.toString(), request.contentType());
 		assertUser(user, deserialize(body, User.class));
 	}
 
@@ -74,7 +74,7 @@ public class JsonTest {
 		Request request = tt.getRequest();
 		String body = request.body();
 
-		assertEquals(ContentType.JSON.contentType(), request.contentType());
+		assertEquals(ContentType.JSON.toString(), request.contentType());
 		assertUser(user, deserialize(body, User.class));
 	}
 
@@ -91,7 +91,7 @@ public class JsonTest {
 		Request request = tt.getRequest();
 		String body = request.body();
 
-		assertEquals(ContentType.JSON.contentType(), request.contentType());
+		assertEquals(ContentType.JSON.toString(), request.contentType());
 		assertUser(user, deserialize(body, User.class));
 	}
 
