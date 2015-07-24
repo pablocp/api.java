@@ -67,7 +67,7 @@ public final class Query implements Embodied {
 		return this;
 	}
 
-	public Query from(int offset) {
+	public Query offset(int offset) {
 		this.offset = offset;
 		return this;
 	}

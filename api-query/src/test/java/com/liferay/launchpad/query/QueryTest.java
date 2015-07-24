@@ -46,7 +46,7 @@ public class QueryTest {
 	public void testQuery_withLimitAndOffset() throws Exception {
 		String body = Query.builder()
 				.limit(1)
-				.from(2)
+				.offset(2)
 				.toString();
 
 		JSONAssert.assertEquals("{\"limit\":1,\"offset\":2}", body, true);
