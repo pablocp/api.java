@@ -4,28 +4,28 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
- * More like this filter.
+ * More regex this filter.
  */
 public final class MoreLikeThisFilter extends BaseFilter<Map>
 	implements SearchFilter {
 
 	public MoreLikeThisFilter maxDf(int value) {
-		this.value.put("max_df", value);
+		this.value.put("maxDf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter minDf(int value) {
-		this.value.put("min_df", value);
+		this.value.put("minDf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter minTf(int value) {
-		this.value.put("min_tf", value);
+		this.value.put("minTf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter stopWords(String...words) {
-		this.value.put("stop_words", Arrays.asList(words));
+		this.value.put("stopWords", Arrays.asList(words));
 		return this;
 	}
 

@@ -39,14 +39,8 @@ public interface SearchFilter extends Embodied {
 		return new CommonTermsFilter(field, query, threshold);
 	}
 
-	public static DisMaxFilter disMaxOf(Filter...filters) {
-		DisMaxFilter filter = new DisMaxFilter();
-
-		for (Filter f : filters) {
-			filter.disMax(f);
-		}
-
-		return filter;
+	public static CompositeFilter disMax(Filter...filters) {
+		return Filter.composite("disMax", filters);
 	}
 
 	public static SimpleFilter distance(String field, Geo.Circle circle) {
@@ -117,12 +111,12 @@ public interface SearchFilter extends Embodied {
 		return new FuzzyFilter(field, "flt", query, fuzziness);
 	}
 
-	public static MatchFilter match(String query) {
+	public static SimpleFilter match(String query) {
 		return match(ALL, query);
 	}
 
-	public static MatchFilter match(String field, String query) {
-		return new MatchFilter(field, query);
+	public static SimpleFilter match(String field, String query) {
+		return Filter.of(field, "match", query);
 	}
 
 	public static SimpleFilter missing(String field) {
@@ -137,21 +131,20 @@ public interface SearchFilter extends Embodied {
 		return new MoreLikeThisFilter(field, query);
 	}
 
-	public static MatchFilter phrase(String query) {
+	public static SimpleFilter phrase(String query) {
 		return phrase(ALL, query);
 	}
 
-	public static MatchFilter phrase(String field, String query) {
-		return new MatchFilter(field, query, MatchFilter.MatchType.PHRASE);
+	public static SimpleFilter phrase(String field, String query) {
+		return Filter.of(field, "phrase", query);
 	}
 
-	public static MatchFilter phrasePrefix(String query) {
+	public static SimpleFilter phrasePrefix(String query) {
 		return phrasePrefix(ALL, query);
 	}
 
-	public static MatchFilter phrasePrefix(String field, String query) {
-		return new MatchFilter(
-			field, query, MatchFilter.MatchType.PHRASE_PREFIX);
+	public static SimpleFilter phrasePrefix(String field, String query) {
+		return Filter.of(field, "phrasePrefix", query);
 	}
 
 	public static SimpleFilter polygon(String field, Object...points) {

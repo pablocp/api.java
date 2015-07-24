@@ -16,7 +16,7 @@ public class FilterTest {
 		bodies.add(Filter.of("field", 1).and("field", "=", 1).toString());
 		bodies.add(Filter.of("field", 1).and(Filter.of("field", 1)).toString());
 		bodies.add(
-			Filter.andOf(
+			Filter.and(
 				Filter.of("field", 1), Filter.of("field", 1)).toString());
 
 		for (String body : bodies) {
@@ -59,12 +59,12 @@ public class FilterTest {
 		bodies.add(
 			Filter.of("field", 1).disMax(Filter.of("field", 1)).toString());
 		bodies.add(
-			SearchFilter.disMaxOf(
+			SearchFilter.disMax(
 				Filter.of("field", 1), Filter.of("field", 1)).toString());
 
 		for (String body : bodies) {
 			JSONAssert.assertEquals(
-				getCompositeFilter("dis_max", 2), body, true);
+				getCompositeFilter("disMax", 2), body, true);
 		}
 
 		String body = Filter.of("field", 1)
@@ -74,7 +74,7 @@ public class FilterTest {
 			.disMax(Filter.of("field", 1))
 			.toString();
 
-		JSONAssert.assertEquals(getCompositeFilter("dis_max", 5), body, true);
+		JSONAssert.assertEquals(getCompositeFilter("disMax", 5), body, true);
 	}
 
 	@Test
@@ -171,36 +171,23 @@ public class FilterTest {
 	@Test
 	public void testFilter_withMatchFilter() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"match\",\"value\":{\"query\":\"str\"}}}",
+			"{\"*\":{\"operator\":\"match\",\"value\":\"str\"}}",
 			SearchFilter.match("str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"match\",\"value\":{\"query\":\"str\"}}}",
+			"{\"f\":{\"operator\":\"match\",\"value\":\"str\"}}",
 			SearchFilter.match("f", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"str\",\"type\":\"phrase\"}}}",
+			"{\"*\":{\"operator\":\"phrase\",\"value\":\"str\"}}",
 			SearchFilter.phrase("str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"str\",\"type\":\"phrase\"}}}",
+			"{\"f\":{\"operator\":\"phrase\",\"value\":\"str\"}}",
 			SearchFilter.phrase("f", "str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"str\",\"type\":\"phrase_prefix\"}}}",
+			"{\"*\":{\"operator\":\"phrasePrefix\",\"value\":\"str\"}}",
 			SearchFilter.phrasePrefix("str").toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"str\",\"type\":\"phrase_prefix\"}}}",
+			"{\"f\":{\"operator\":\"phrasePrefix\",\"value\":\"str\"}}",
 			SearchFilter.phrasePrefix("f", "str").toString(), true);
-
-		String body = SearchFilter
-			.match("str").type(MatchFilter.MatchType.DEFAULT)
-			.toString();
-
-		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"str\",\"type\":\"default\"}}}",
-			body, true);
 	}
 
 	@Test
@@ -222,10 +209,10 @@ public class FilterTest {
 		JSONAssert.assertEquals(
 			"{\"*\":{\"operator\":\"mlt\",\"value\":{" +
 				"\"query\":\"str\"," +
-				"\"stop_words\":[\"w1\",\"w2\"]," +
-				"\"min_tf\":1," +
-				"\"min_df\":2," +
-				"\"max_df\":3}}}",
+				"\"stopWords\":[\"w1\",\"w2\"]," +
+				"\"minTf\":1," +
+				"\"minDf\":2," +
+				"\"maxDf\":3}}}",
 			body, true);
 
 		body = SearchFilter.moreLikeThis("f", "str")
@@ -238,10 +225,10 @@ public class FilterTest {
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"mlt\",\"value\":{" +
 				"\"query\":\"str\"," +
-				"\"stop_words\":[\"w1\"]," +
-				"\"min_tf\":1," +
-				"\"min_df\":2," +
-				"\"max_df\":3}}}",
+				"\"stopWords\":[\"w1\"]," +
+				"\"minTf\":1," +
+				"\"minDf\":2," +
+				"\"maxDf\":3}}}",
 			body, true);
 	}
 
@@ -276,14 +263,14 @@ public class FilterTest {
 			"{\"f\":{\"operator\":\"<=\",\"value\":1}}",
 			Filter.lte("f", 1).toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"in\",\"value\":[1,2]}}",
-			Filter.in("f", 1, 2).toString(), true);
+			"{\"f\":{\"operator\":\"any\",\"value\":[1,2]}}",
+			Filter.any("f", 1, 2).toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"nin\",\"value\":[1,2]}}",
-			Filter.notIn("f", 1, 2).toString(), true);
+			"{\"f\":{\"operator\":\"none\",\"value\":[1,2]}}",
+			Filter.none("f", 1, 2).toString(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"like\",\"value\":\"str\"}}",
-			Filter.like("f", "str").toString(), true);
+			"{\"f\":{\"operator\":\"~\",\"value\":\"str\"}}",
+			Filter.regex("f", "str").toString(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"exists\"}}",
 			SearchFilter.exists("f").toString(), true);

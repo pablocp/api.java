@@ -7,14 +7,24 @@ import java.util.Arrays;
  */
 public interface Filter extends Embodied {
 
-	public static AndFilter andOf(Filter...filters) {
-		AndFilter filter = new AndFilter();
+	public static CompositeFilter and(Filter... filters) {
+		return composite("and", filters);
+	}
 
-		for (Filter f : filters) {
-			filter.and(f);
+	public static SimpleFilter any(String field, Object... values) {
+		return of(field, "any", Arrays.asList(values));
+	}
+
+	public static CompositeFilter composite(
+		String operator, Filter... filters) {
+
+		CompositeFilter compositeFilter = new CompositeFilter(operator);
+
+		for (Filter filter : filters) {
+			compositeFilter.add(filter);
 		}
 
-		return filter;
+		return compositeFilter;
 	}
 
 	public static SimpleFilter equal(String field, Object value) {
@@ -29,14 +39,6 @@ public interface Filter extends Embodied {
 		return of(field, ">=", value);
 	}
 
-	public static SimpleFilter in(String field, Object...values) {
-		return of(field, "in", Arrays.asList(values));
-	}
-
-	public static SimpleFilter like(String field, String value) {
-		return of(field, "like", value);
-	}
-
 	public static SimpleFilter lt(String field, Object value) {
 		return of(field, "<", value);
 	}
@@ -45,24 +47,26 @@ public interface Filter extends Embodied {
 		return of(field, "<=", value);
 	}
 
+	public static SimpleFilter none(String field, Object... values) {
+		return of(field, "none", Arrays.asList(values));
+	}
+
+	public static CompositeFilter not(Filter filter) {
+		return composite("not", filter);
+	}
+
+	public static CompositeFilter not(String field, Object value) {
+		return not(Filter.of(field, value));
+	}
+
+	public static CompositeFilter not(
+		String field, String operator, Object value) {
+
+			return not(Filter.of(field, operator, value));
+	}
+
 	public static SimpleFilter notEqual(String field, Object value) {
 		return of(field, "!=", value);
-	}
-
-	public static SimpleFilter notIn(String field, Object...values) {
-		return of(field, "nin", Arrays.asList(values));
-	}
-
-	public static NotFilter notOf(Filter filter) {
-		return new NotFilter().not(filter);
-	}
-
-	public static NotFilter notOf(String field, Object value) {
-		return new NotFilter().not(field, "=", value);
-	}
-
-	public static NotFilter notOf(String field, String operator, Object value) {
-		return new NotFilter().not(field, operator, value);
 	}
 
 	public static SimpleFilter of(String field, Object value) {
@@ -73,14 +77,12 @@ public interface Filter extends Embodied {
 		return new SimpleFilter(field, operator, value);
 	}
 
-	public static OrFilter orOf(Filter...filters) {
-		OrFilter filter = new OrFilter();
+	public static CompositeFilter or(Filter... filters) {
+		return composite("or", filters);
+	}
 
-		for (Filter f : filters) {
-			filter.or(f);
-		}
-
-		return filter;
+	public static SimpleFilter regex(String field, String value) {
+		return of(field, "~", value);
 	}
 
 }

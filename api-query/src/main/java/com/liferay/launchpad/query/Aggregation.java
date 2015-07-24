@@ -26,7 +26,7 @@ public class Aggregation {
 	}
 
 	public static Aggregation extendedStats(String field) {
-		return of(field, "extended_stats");
+		return of(field, "extendedStats");
 	}
 
 	public static Aggregation histogram(String field, int interval) {
@@ -84,7 +84,7 @@ public class Aggregation {
 		private DistanceAggregation(
 			String field, Object location, Range...ranges) {
 
-			super(field, "geo_distance", new HashMap());
+			super(field, "geoDistance", new HashMap());
 
 			Map map = (Map)value;
 			this.ranges = new ArrayList();

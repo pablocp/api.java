@@ -4,43 +4,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Basic filter builder, with support to filter upgrade.
+ * Basic filter builder, with support to upgrade to composite filter.
  */
 abstract class BaseFilter<T> implements Filter {
 
-	public AndFilter and(Filter filter) {
-		return new AndFilter().and(this).and(filter);
+	public CompositeFilter and(Filter filter) {
+		return new CompositeFilter("and").and(this).and(filter);
 	}
 
-	public AndFilter and(String field, Object value) {
+	public CompositeFilter and(String field, Object value) {
 		return and(Filter.of(field, value));
 	}
 
-	public AndFilter and(String field, String operator, Object value) {
+	public CompositeFilter and(String field, String operator, Object value) {
 		return and(Filter.of(field, operator, value));
 	}
 
-	public DisMaxFilter disMax(Filter filter) {
-		return new DisMaxFilter().disMax(this).disMax(filter);
+	public CompositeFilter disMax(Filter filter) {
+		return new CompositeFilter("disMax").disMax(this).disMax(filter);
 	}
 
-	public DisMaxFilter disMax(String field, Object value) {
+	public CompositeFilter disMax(String field, Object value) {
 		return disMax(Filter.of(field, value));
 	}
 
-	public DisMaxFilter disMax(String field, String operator, Object value) {
+	public CompositeFilter disMax(String field, String operator, Object value) {
 		return disMax(Filter.of(field, operator, value));
 	}
 
-	public OrFilter or(Filter filter) {
-		return new OrFilter().or(this).or(filter);
+	public CompositeFilter or(Filter filter) {
+		return new CompositeFilter("or").or(this).or(filter);
 	}
 
-	public OrFilter or(String field, Object value) {
+	public CompositeFilter or(String field, Object value) {
 		return or(Filter.of(field, value));
 	}
 
-	public OrFilter or(String field, String operator, Object value) {
+	public CompositeFilter or(String field, String operator, Object value) {
 		return or(Filter.of(field, operator, value));
 	}
 

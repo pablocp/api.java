@@ -22,25 +22,23 @@ public class QueryTest {
 
 		body = Query.builder()
 				.filter("field1", 1)
-				.filter("field2", "like", "value")
+				.filter("field2", "regex", "value")
 				.filter(Filter.of("field3", 0.55))
 				.filter(Filter.of("field4", "pre", "str"))
-				.filter(Filter.notOf("field5", 1).not("field6", 1))
-				.filter(Filter.notOf("field7", "!=", 1))
-				.filter(Filter.notOf(Filter.of("field8", 1)))
+				.filter(Filter.not("field5", 1))
+				.filter(Filter.not("field7", "!=", 1))
+				.filter(Filter.not(Filter.of("field8", 1)))
 				.toString();
 
 		JSONAssert.assertEquals(
 			"{\"filter\":[" +
 				"{\"field1\":{\"operator\":\"=\",\"value\":1}}," +
-				"{\"field2\":{\"operator\":\"like\",\"value\":\"value\"}}," +
+				"{\"field2\":{\"operator\":\"regex\",\"value\":\"value\"}}," +
 				"{\"field3\":{\"operator\":\"=\",\"value\":0.55}}," +
 				"{\"field4\":{\"operator\":\"pre\",\"value\":\"str\"}}," +
-				"{\"not\":[" +
-					"{\"field5\":{\"operator\":\"=\",\"value\":1}}," +
-					"{\"field6\":{\"operator\":\"=\",\"value\":1}}]}," +
-				"{\"not\":[{\"field7\":{\"operator\":\"!=\",\"value\":1}}]}," +
-				"{\"not\":[{\"field8\":{\"operator\":\"=\",\"value\":1}}]}" +
+				"{\"not\":{\"field5\":{\"operator\":\"=\",\"value\":1}}}," +
+				"{\"not\":{\"field7\":{\"operator\":\"!=\",\"value\":1}}}," +
+				"{\"not\":{\"field8\":{\"operator\":\"=\",\"value\":1}}}" +
 			"]}", body, true);
 	}
 
@@ -66,14 +64,12 @@ public class QueryTest {
 		query = Query.builder().search("query");
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
-				"\"*\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"query\"}}}]}}",
+				"\"*\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
 			query.toString(), true);
 		query = Query.builder().search("field", "query");
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
-				"\"field\":{\"operator\":\"match\"," +
-				"\"value\":{\"query\":\"query\"}}}]}}",
+				"\"field\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
 			query.toString(), true);
 		query = Query.builder().search("field", "=", "query");
 		JSONAssert.assertEquals(

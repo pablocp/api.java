@@ -7,14 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Utility class for Query components parsing.
  */
 public class Util {
 
 	private Util() {}
 
-	public static Map wrap(String name, Object value) {
+	/**
+	 * Wraps a <code>(key, value)</code> pair into a {@link java.util.Map}.
+	 *
+	 * @param key the map key
+	 * @param value the value associated to the key
+	 * @return a map with a entry <code>(key, value)</code>
+	 */
+	public static Map wrap(String key, Object value) {
 		Map map = new HashMap();
-		map.put(name, value);
+		map.put(key, value);
 		return map;
 	}
 

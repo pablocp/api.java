@@ -111,11 +111,11 @@ public final class Search implements Embodied {
 		Map<String, Object> map = new HashMap();
 
 		if (!preFilters.isEmpty()) {
-			map.put("pre_filter", preFilters);
+			map.put("preFilter", preFilters);
 		}
 
 		if (!postFilters.isEmpty()) {
-			map.put("post_filter", postFilters);
+			map.put("postFilter", postFilters);
 		}
 
 		if (!queries.isEmpty()) {
