@@ -9,7 +9,7 @@ import java.util.Map;
 abstract class BaseFilter<T> implements Filter {
 
 	public CompositeFilter and(Filter filter) {
-		return new CompositeFilter("and").and(this).and(filter);
+		return Filter.and(this, filter);
 	}
 
 	public CompositeFilter and(String field, Object value) {
@@ -21,7 +21,7 @@ abstract class BaseFilter<T> implements Filter {
 	}
 
 	public CompositeFilter disMax(Filter filter) {
-		return new CompositeFilter("disMax").disMax(this).disMax(filter);
+		return SearchFilter.disMax(this, filter);
 	}
 
 	public CompositeFilter disMax(String field, Object value) {
@@ -33,7 +33,7 @@ abstract class BaseFilter<T> implements Filter {
 	}
 
 	public CompositeFilter or(Filter filter) {
-		return new CompositeFilter("or").or(this).or(filter);
+		return Filter.or(this, filter);
 	}
 
 	public CompositeFilter or(String field, Object value) {

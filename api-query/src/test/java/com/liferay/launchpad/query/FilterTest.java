@@ -10,6 +10,30 @@ import org.skyscreamer.jsonassert.JSONAssert;
 public class FilterTest {
 
 	@Test
+	public void testFilter_combiningDifferentFilters() throws Exception {
+		Filter filter = Filter.of("a", 1)
+			.and("a", 1)
+			.and("a", 1)
+			.or("a", 1)
+			.or("a", 1)
+			.disMax("a", 1)
+			.disMax("a", 1);
+
+		JSONAssert.assertEquals(
+			"{\"disMax\":[" +
+				"{\"or\":[" +
+					"{\"and\":[" +
+						"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+						"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+						"{\"a\":{\"operator\":\"=\",\"value\":1}}]}," +
+					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+					"{\"a\":{\"operator\":\"=\",\"value\":1}}]}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}]}",
+			filter.toString(), true);
+	}
+
+	@Test
 	public void testFilter_withAnd() throws Exception {
 		List<String> bodies = new ArrayList();
 		bodies.add(Filter.of("field", 1).and("field", 1).toString());

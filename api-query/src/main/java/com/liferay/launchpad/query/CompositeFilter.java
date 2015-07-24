@@ -67,13 +67,13 @@ public final class CompositeFilter implements Filter {
 		this.body.add(filter);
 	}
 
-	protected CompositeFilter add(String operator, Filter filter) {
-		if (this.operator.equals(operator)) {
+	protected CompositeFilter add(String newOperator, Filter filter) {
+		if (this.operator.equals(newOperator)) {
 			this.body.add(filter);
 			return this;
 		}
 
-		CompositeFilter newFilter = new CompositeFilter(operator);
+		CompositeFilter newFilter = new CompositeFilter(newOperator);
 		newFilter.add(this);
 		newFilter.add(filter);
 
