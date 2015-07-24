@@ -11,6 +11,10 @@ public interface Filter extends Embodied {
 		return composite("and", filters);
 	}
 
+	public static SimpleFilter any(String field, Iterable values) {
+		return of(field, "any", values);
+	}
+
 	public static SimpleFilter any(String field, Object... values) {
 		return of(field, "any", Arrays.asList(values));
 	}
@@ -45,6 +49,10 @@ public interface Filter extends Embodied {
 
 	public static SimpleFilter lte(String field, Object value) {
 		return of(field, "<=", value);
+	}
+
+	public static SimpleFilter none(String field, Iterable values) {
+		return of(field, "none", values);
 	}
 
 	public static SimpleFilter none(String field, Object... values) {

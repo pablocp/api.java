@@ -2,8 +2,8 @@ package com.liferay.launchpad.query;
 
 import java.lang.reflect.Array;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -31,8 +31,8 @@ public class Util {
 			return toString(((Embodied)value).body());
 		}
 
-		if (value instanceof Collection) {
-			return toString((Collection)value);
+		if (value instanceof Iterable) {
+			return toString((Iterable)value);
 		}
 
 		if (value instanceof Map) {
@@ -65,19 +65,21 @@ public class Util {
 		return value.toString();
 	}
 
-	public static String toString(Collection value) {
-		if (value.size() == 0) {
-			return "[]";
-		}
-
+	public static String toString(Iterable value) {
 		StringBuilder builder = new StringBuilder();
 		builder.append('[');
 
-		for (Object item : value) {
-			builder.append(toString(item)).append(',');
+		Iterator iterator = value.iterator();
+
+		while (iterator.hasNext()) {
+			builder.append(toString(iterator.next()));
+
+			if (iterator.hasNext()) {
+				builder.append(",");
+			}
 		}
 
-		builder.setCharAt(builder.length() - 1, ']');
+		builder.append(']');
 
 		return builder.toString();
 	}
