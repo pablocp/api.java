@@ -336,6 +336,13 @@ public class Launchpad {
 		if (body != null) {
 			headers.set("Content-Type", ContentType.JSON.toString());
 
+			// TODO: Move api query checking outside?
+
+			switch (body.getClass().getPackage().getName()) {
+				case "com.liferay.launchpad.query":
+					return body.toString();
+			}
+
 			final LaunchpadSerializer launchpadSerializer = resolveSerializer();
 
 			bodyJson = launchpadSerializer.serialize(body);
