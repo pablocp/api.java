@@ -1,7 +1,7 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.RequestImpl;
-import com.liferay.launchpad.sdk.ResponseImpl;
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -12,15 +12,14 @@ import java.util.concurrent.ForkJoinPool;
  * Blocking transport is base implementation for blocking 3rd party
  * implementations. It uses executors pool to perform the async call.
  * Implementations of this class only have to implement the blocking
- * {@link #send(RequestImpl) send call}.
+ * {@link #send(Request) send call}.
  *
  * @see AsyncTransport
  */
 public abstract class BlockingTransport implements Transport {
 
 	@Override
-	public final CompletableFuture<ResponseImpl> sendAsync(
-		RequestImpl request) {
+	public final CompletableFuture<Response> sendAsync(Request request) {
 
 		return CompletableFuture.supplyAsync(() -> send(request), executor);
 	}

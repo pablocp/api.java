@@ -1,6 +1,7 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.RequestImpl;
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.ValuesUtil;
 
@@ -16,7 +17,7 @@ import jodd.http.HttpResponse;
 public class JoddHttpTransport extends BlockingTransport {
 
 	@Override
-	public ResponseImpl send(RequestImpl request) {
+	public Response send(Request request) {
 		String url = request.url();
 
 		final HttpRequest httpRequest = new HttpRequest()
@@ -62,5 +63,6 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		return clientResponse;
 	}
+
 
 }
