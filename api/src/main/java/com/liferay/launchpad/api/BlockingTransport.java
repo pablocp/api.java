@@ -20,7 +20,6 @@ public abstract class BlockingTransport implements Transport {
 
 	@Override
 	public final CompletableFuture<Response> sendAsync(Request request) {
-
 		return CompletableFuture.supplyAsync(() -> send(request), executor);
 	}
 

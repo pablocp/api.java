@@ -345,17 +345,6 @@ public class Launchpad {
 	}
 
 	/**
-	 * Resolves serializer.
-	 */
-	protected LaunchpadSerializer resolveSerializer() {
-		if (launchpadSerializer == null) {
-			launchpadSerializer = LaunchpadSerializer.get();
-		}
-
-		return launchpadSerializer;
-	}
-
-	/**
 	 * Creates new request implementation. Prepares method name, body and
 	 * header and parameters map.
 	 */
@@ -373,6 +362,17 @@ public class Launchpad {
 			entry -> request.param(
 				entry.getKey(), ValuesUtil.toString(entry.getValue())));
 		return request;
+	}
+
+	/**
+	 * Resolves serializer.
+	 */
+	protected LaunchpadSerializer resolveSerializer() {
+		if (launchpadSerializer == null) {
+			launchpadSerializer = LaunchpadSerializer.get();
+		}
+
+		return launchpadSerializer;
 	}
 
 	/**
@@ -444,9 +444,9 @@ public class Launchpad {
 		return transport.sendAsync(request);
 	}
 
-	protected LaunchpadSerializer launchpadSerializer;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
+	protected LaunchpadSerializer launchpadSerializer;
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();
 	protected final String url;
 

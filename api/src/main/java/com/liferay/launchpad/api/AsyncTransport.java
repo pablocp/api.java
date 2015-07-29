@@ -17,8 +17,8 @@ public abstract class AsyncTransport implements Transport {
 
 	@Override
 	public Response send(Request request) {
-		CompletableFuture<Response> completableFutureOfResponse =
-			sendAsync(request);
+		CompletableFuture<Response> completableFutureOfResponse = sendAsync(
+			request);
 
 		try {
 			return completableFutureOfResponse.join();

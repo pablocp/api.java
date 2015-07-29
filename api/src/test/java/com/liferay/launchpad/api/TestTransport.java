@@ -3,7 +3,6 @@ package com.liferay.launchpad.api;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
-
 public class TestTransport extends BlockingTransport {
 
 	public Request getRequest() {

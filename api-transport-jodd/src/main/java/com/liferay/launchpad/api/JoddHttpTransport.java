@@ -64,5 +64,4 @@ public class JoddHttpTransport extends BlockingTransport {
 		return clientResponse;
 	}
 
-
 }
