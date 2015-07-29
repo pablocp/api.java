@@ -30,7 +30,7 @@ plugins {
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-version = '0.13.1'
+version = '0.14.0'
 group = 'com.liferay.launchpad'
 
 allprojects {
@@ -45,8 +45,10 @@ ext {
 	gradleScriptDir = "${rootProject.projectDir}/gradle"
 	lib = [
 		junit: 'junit:junit:4.12',
-		launchpad_sdk: 'com.liferay.launchpad:sdk:0.22.0',
-        jsonassert  : 'org.skyscreamer:jsonassert:1.2.3'
+		launchpad_serializer: 'com.liferay.launchpad:serializer:0.1.0',
+		launchpad_serializer_json_jodd: 'com.liferay.launchpad:serializer-json-jodd:0.1.0',
+		launchpad_sdk: 'com.liferay.launchpad:sdk:0.23.0',
+        jsonassert : 'org.skyscreamer:jsonassert:1.2.3'
 	]
 }
 
@@ -123,6 +125,13 @@ subprojects {
 
 	jar.dependsOn sourceJar
 	jar.dependsOn javadocJar
+}
+
+task version() {
+	println "----------"
+	println rootProject.name
+	println version
+	println "----------"
 }
 
 /**

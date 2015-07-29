@@ -4,8 +4,8 @@ import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
-import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.ValuesUtil;
+import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -138,9 +138,9 @@ public class Launchpad {
 		String valueString = null;
 
 		if (value != null) {
-			final JsonEngine jsonEngine = resolveJsonEngine();
+			final LaunchpadSerializer serializer = resolveSerializer();
 
-			valueString = jsonEngine.serializeToJson(value);
+			valueString = serializer.serialize(value);
 		}
 		else {
 			valueString = null;
@@ -208,7 +208,7 @@ public class Launchpad {
 	public Launchpad path(String path) {
 		return new Launchpad(url, path)
 			.use(currentTransport)
-			.use(currentJsonEngine);
+			.use(launchpadSerializer);
 	}
 
 	/**
@@ -303,10 +303,10 @@ public class Launchpad {
 	}
 
 	/**
-	 * Specifies {@link JsonEngine} implementation.
+	 * Specifies custom serializer implementation.
 	 */
-	public Launchpad use(JsonEngine jsonEngine) {
-		this.currentJsonEngine = jsonEngine;
+	public Launchpad use(LaunchpadSerializer launchpadSerializer) {
+		this.launchpadSerializer = launchpadSerializer;
 		return this;
 	}
 
@@ -326,18 +326,6 @@ public class Launchpad {
 		this.url = Util.joinPaths(baseUrl, url);
 	}
 
-	protected void applyRequest(RequestImpl request) {
-		JsonEngine jsonEngine = resolveJsonEngine();
-		request.setJsonParser(jsonEngine.getJsonParser());
-		request.setJsonSerializer(jsonEngine.getJsonSerializer());
-	}
-
-	protected void applyResponse(ResponseImpl response) {
-		JsonEngine jsonEngine = resolveJsonEngine();
-		response.setJsonParser(jsonEngine.getJsonParser());
-		response.setJsonSerializer(jsonEngine.getJsonSerializer());
-	}
-
 	/**
 	 * Resolves body string from body object. Sets content type to json is
 	 * body object is not {@code null}.
@@ -348,31 +336,23 @@ public class Launchpad {
 		if (body != null) {
 			headers.set("Content-Type", ContentType.JSON.toString());
 
-			final JsonEngine jsonEngine = resolveJsonEngine();
+			final LaunchpadSerializer launchpadSerializer = resolveSerializer();
 
-			bodyJson = jsonEngine.serializeToJson(body, true);
+			bodyJson = launchpadSerializer.serialize(body);
 		}
 
 		return bodyJson;
 	}
 
 	/**
-	 * Resolves JSON engine. Throws exception if JSON engine is missing.
+	 * Resolves serializer.
 	 */
-	protected JsonEngine resolveJsonEngine() {
-		if (currentJsonEngine == null) {
-			JsonEngineBinder jsonEngineBinder = Binder.getJsonEngineBinder();
-
-			if (jsonEngineBinder != null) {
-				currentJsonEngine = jsonEngineBinder.initJsonEngine();
-			}
+	protected LaunchpadSerializer resolveSerializer() {
+		if (launchpadSerializer == null) {
+			launchpadSerializer = LaunchpadSerializer.get();
 		}
 
-		if (currentJsonEngine == null) {
-			throw new LaunchpadClientException("JsonEngine not defined!");
-		}
-
-		return currentJsonEngine;
+		return launchpadSerializer;
 	}
 
 	/**
@@ -381,8 +361,6 @@ public class Launchpad {
 	 */
 	protected RequestImpl resolveRequest(String methodName, String body) {
 		final RequestImpl request = new RequestImpl(url());
-
-		applyRequest(request);
 
 		request.method(methodName);
 		request.body(body);
@@ -435,9 +413,7 @@ public class Launchpad {
 
 		final RequestImpl request = resolveRequest(methodName, body);
 
-		ResponseImpl response = transport.send(request);
-
-		applyResponse(response);
+		Response response = transport.send(request);
 
 		return response;
 	}
@@ -465,14 +441,10 @@ public class Launchpad {
 
 		final RequestImpl request = resolveRequest(methodName, body);
 
-		return transport.sendAsync(request)
-			.thenApply(response -> {
-				applyResponse(response);
-				return response;
-			});
+		return transport.sendAsync(request);
 	}
 
-	protected JsonEngine currentJsonEngine;
+	protected LaunchpadSerializer launchpadSerializer;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap params = PodMultiMap.newMultiMap();

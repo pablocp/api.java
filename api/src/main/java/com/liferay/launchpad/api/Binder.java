@@ -5,29 +5,8 @@ package com.liferay.launchpad.api;
  */
 public class Binder {
 
-	public static final String LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME =
-		Binder.class.getPackage().getName() +
-			".LaunchpadClientJsonEngineBinder";
-
 	public static final String LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME =
 		Binder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
-
-	/**
-	 * Returns JSON binder or <code>null</code> if client binder did not
-	 * provide any.
-	 */
-	public static JsonEngineBinder getJsonEngineBinder() {
-		if (jsonEngineBinder == null) {
-			Object binder = createBinder(
-				LAUNCHPAD_CLIENT_JSONENGINE_BINDER_CLASSNAME);
-
-			if (binder instanceof JsonEngineBinder) {
-				jsonEngineBinder = (JsonEngineBinder)binder;
-			}
-		}
-
-		return jsonEngineBinder;
-	}
 
 	/**
 	 * Returns transport binder or <code>null</code> if client binder did not
@@ -77,7 +56,6 @@ public class Binder {
 		return binder;
 	}
 
-	private static JsonEngineBinder jsonEngineBinder;
 	private static TransportBinder transportBinder;
 
 }

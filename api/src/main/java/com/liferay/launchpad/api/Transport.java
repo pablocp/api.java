@@ -1,7 +1,7 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.RequestImpl;
-import com.liferay.launchpad.sdk.ResponseImpl;
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,12 +15,12 @@ public interface Transport {
 	 * Sends client request and returns response in sync manner.
 	 * This call is <i>blocking</i> the thread.
 	 */
-	public ResponseImpl send(RequestImpl request);
+	public Response send(Request request);
 
 	/**
 	 * Sends client request and returns promise/future of a response.
 	 * This call is <i>asynchronous</i> and does not block the thread.
 	 */
-	public CompletableFuture<ResponseImpl> sendAsync(RequestImpl request);
+	public CompletableFuture<Response> sendAsync(Request request);
 
 }

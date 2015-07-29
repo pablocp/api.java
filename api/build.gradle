@@ -10,7 +10,7 @@ dependencies {
 	compile lib.launchpad_sdk
 
 	testCompile lib.junit
-	testCompile project(':api-json-jodd')
+	testCompile lib.launchpad_serializer_json_jodd
 	testCompile project(':api-transport-jodd')
 }
 

@@ -1,7 +1,7 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.sdk.RequestImpl;
-import com.liferay.launchpad.sdk.ResponseImpl;
+import com.liferay.launchpad.sdk.Request;
+import com.liferay.launchpad.sdk.Response;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
@@ -16,9 +16,9 @@ import java.util.concurrent.CompletionException;
 public abstract class AsyncTransport implements Transport {
 
 	@Override
-	public ResponseImpl send(RequestImpl request) {
-		CompletableFuture<ResponseImpl> completableFutureOfResponse = sendAsync(
-			request);
+	public Response send(Request request) {
+		CompletableFuture<Response> completableFutureOfResponse =
+			sendAsync(request);
 
 		try {
 			return completableFutureOfResponse.join();
