@@ -290,8 +290,14 @@ public class FilterTest {
 			"{\"f\":{\"operator\":\"any\",\"value\":[1,2]}}",
 			Filter.any("f", 1, 2).toString(), true);
 		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"any\",\"value\":[1,2]}}",
+			Filter.any("f", Arrays.asList(1, 2)).toString(), true);
+		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"none\",\"value\":[1,2]}}",
 			Filter.none("f", 1, 2).toString(), true);
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"none\",\"value\":[1,2]}}",
+			Filter.none("f", Arrays.asList(1, 2)).toString(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"~\",\"value\":\"str\"}}",
 			Filter.regex("f", "str").toString(), true);
