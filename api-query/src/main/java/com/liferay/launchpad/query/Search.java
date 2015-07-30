@@ -88,19 +88,11 @@ public final class Search implements Embodied {
 	}
 
 	public Search aggregate(String name, String field, String operator) {
-		return aggregate(name, Aggregation.of(field, operator));
+		return aggregate(Aggregation.of(name, field, operator));
 	}
 
-	public Search aggregate(String name, Aggregation aggregation) {
-		Map map = new HashMap();
-		map.put("name", name);
-		map.put("operator", aggregation.getOperator());
-
-		if (aggregation.getValue() != null) {
-			map.put("value", aggregation.getValue());
-		}
-
-		aggregations.add(Util.wrap(aggregation.getField(), map));
+	public Search aggregate(Aggregation aggregation) {
+		aggregations.add(aggregation);
 		return this;
 	}
 
@@ -150,7 +142,7 @@ public final class Search implements Embodied {
 	private final List<Filter> preFilters = new ArrayList();
 	private final List<Filter> postFilters = new ArrayList();
 	private final List<Filter> queries = new ArrayList();
-	private final List<Map> aggregations = new ArrayList();
+	private final List<Aggregation> aggregations = new ArrayList();
 	private final Map highlights = new HashMap();
 	private String cursor;
 
