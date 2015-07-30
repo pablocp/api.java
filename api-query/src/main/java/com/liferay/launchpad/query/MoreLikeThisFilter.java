@@ -6,31 +6,33 @@ import java.util.Map;
 /**
  * More regex this filter.
  */
-public final class MoreLikeThisFilter extends BaseFilter<Map>
-	implements SearchFilter {
+public final class MoreLikeThisFilter extends Filter implements SearchFilter {
 
 	public MoreLikeThisFilter maxDf(int value) {
-		this.value.put("maxDf", value);
+		mapValue.put("maxDf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter minDf(int value) {
-		this.value.put("minDf", value);
+		mapValue.put("minDf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter minTf(int value) {
-		this.value.put("minTf", value);
+		mapValue.put("minTf", value);
 		return this;
 	}
 
 	public MoreLikeThisFilter stopWords(String...words) {
-		this.value.put("stopWords", Arrays.asList(words));
+		mapValue.put("stopWords", Arrays.asList(words));
 		return this;
 	}
 
-	protected MoreLikeThisFilter(String field, Object value) {
-		super(field, "mlt", Util.wrap("query", value));
+	protected MoreLikeThisFilter(String field, String query) {
+		super(field, "mlt", Util.wrap("query", query));
+		this.mapValue = (Map)this.value;
 	}
+
+	private final Map mapValue;
 
 }

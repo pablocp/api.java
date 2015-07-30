@@ -7,8 +7,7 @@ import java.util.Map;
 /**
  * Geo shape filter.
  */
-public final class GeoShapeFilter extends BaseFilter<Map>
-	implements SearchFilter {
+public final class GeoShapeFilter extends Filter implements SearchFilter {
 
 	public GeoShapeFilter shape(Object shape) {
 		shapes.add(shape);
@@ -19,7 +18,7 @@ public final class GeoShapeFilter extends BaseFilter<Map>
 		super(field, "gs", Util.wrap("type", "geometrycollection"));
 
 		this.shapes = new ArrayList();
-		this.value.put("geometries", this.shapes);
+		((Map)this.value).put("geometries", this.shapes);
 
 		for (Object shape : shapes) {
 			shape(shape);

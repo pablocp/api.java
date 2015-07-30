@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Geo builder.
  */
-public final class Geo {
+public abstract class Geo<T> implements Embodied {
 
 	public static BoundingBox bbox(Object upperLeft, Object lowerRight) {
 		return new BoundingBox(upperLeft, lowerRight);
@@ -27,85 +27,35 @@ public final class Geo {
 		return new Point(lat, lon);
 	}
 
-	private Geo() { }
-
 	public static Polygon polygon(Object...points) {
 		return new Polygon(points);
 	}
 
-	public static final class Point implements Embodied {
-		@Override
-		public Object body() {
-			return body;
-		}
-
-		@Override
-		public String toString() {
-			return Util.toString(body);
-		}
-
-		protected Point(double lat, double lon) {
-			body = Arrays.asList(lon, lat);
-		}
-
-		private List body;
+	@Override
+	public Object body() {
+		return body;
 	}
 
-	public static final class Line implements Embodied {
-		@Override
-		public Object body() {
-			return body;
-		}
-
-		@Override
-		public String toString() {
-			return Util.toString(body);
-		}
-
-		protected Line(Object... points) {
-			body.put("type", "linestring");
-			body.put("coordinates", Arrays.asList(points));
-		}
-
-		private Map<String, Object> body = new HashMap<>();
+	@Override
+	public String toString() {
+		return bodyAsJson();
 	}
 
-	public static final class BoundingBox implements Embodied {
-
-		@Override
-		public Map body() {
-			return body;
-		}
-
-		@Override
-		public String toString() {
-			return Util.toString(this);
-		}
+	public static final class BoundingBox extends Geo<Map> {
 
 		public List<Object> getPoints() {
 			return (List)body.get("coordinates");
 		}
 
 		protected BoundingBox(Object upperLeft, Object lowerRight) {
+			super(new HashMap<>());
 			body.put("type", "envelope");
 			body.put("coordinates", Arrays.asList(upperLeft, lowerRight));
 		}
 
-		private final Map<String, Object> body = new HashMap<>();
-
 	}
 
-	public static final class Circle implements Embodied {
-
-		@Override
-		public Map body() {
-			return body;
-		}
-
-		@Override
-		public String toString() {
-			return Util.toString(this);
-		}
+	public static final class Circle extends Geo<Map> {
 
 		public Object getCenter() {
 			return body.get("coordinates");
@@ -116,26 +66,33 @@ public final class Geo {
 		}
 
 		protected Circle(Object center, String radius) {
+			super(new HashMap<>());
 			body.put("type", "circle");
 			body.put("coordinates", center);
 			body.put("radius", radius);
 		}
 
-		private final Map<String, Object> body = new HashMap<>();
+	}
+
+	public static final class Line extends Geo<Map> {
+
+		protected Line(Object... points) {
+			super(new HashMap<>());
+			body.put("type", "linestring");
+			body.put("coordinates", Arrays.asList(points));
+		}
 
 	}
 
-	public static final class Polygon implements Embodied {
+	public static final class Point extends Geo<List> {
 
-		@Override
-		public Map body() {
-			return body;
+		protected Point(double lat, double lon) {
+			super(Arrays.asList(lon, lat));
 		}
 
-		@Override
-		public String toString() {
-			return Util.toString(this);
-		}
+	}
+
+	public static final class Polygon extends Geo<Map> {
 
 		public Polygon hole(Object...points) {
 			lines.add(Arrays.asList(points));
@@ -143,6 +100,7 @@ public final class Geo {
 		}
 
 		protected Polygon(Object...points) {
+			super(new HashMap<>());
 			lines = new ArrayList();
 			lines.add(Arrays.asList(points));
 
@@ -150,9 +108,14 @@ public final class Geo {
 			body.put("coordinates", lines);
 		}
 
-		private final Map<String, Object> body = new HashMap();
 		private final List lines;
 
+	}
+
+	protected final T body;
+
+	private Geo(T body) {
+		this.body = body;
 	}
 
 }

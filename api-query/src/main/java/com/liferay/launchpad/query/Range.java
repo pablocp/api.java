@@ -37,7 +37,7 @@ public final class Range implements Embodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(this);
+		return bodyAsJson();
 	}
 
 	protected final Object from;

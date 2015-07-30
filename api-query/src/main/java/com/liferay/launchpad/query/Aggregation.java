@@ -9,60 +9,83 @@ import java.util.Map;
 /**
  * Aggregation builder.
  */
-public class Aggregation {
+public class Aggregation implements Embodied {
 
-	public static Aggregation avg(String field) {
-		return of(field, "avg");
+	public static Aggregation avg(String name, String field) {
+		return of(name, field, "avg");
 	}
 
-	public static Aggregation count(String field) {
-		return of(field, "count");
+	public static Aggregation count(String name, String field) {
+		return of(name, field, "count");
 	}
 
 	public static DistanceAggregation distance(
-		String field, Object location, Range...ranges) {
+		String name, String field, Object location, Range...ranges) {
 
-		return new DistanceAggregation(field, location, ranges);
+		return new DistanceAggregation(name, field, location, ranges);
 	}
 
-	public static Aggregation extendedStats(String field) {
-		return of(field, "extendedStats");
+	public static Aggregation extendedStats(String name, String field) {
+		return of(name, field, "extendedStats");
 	}
 
-	public static Aggregation histogram(String field, int interval) {
-		return new Aggregation(field, "histogram", interval);
+	public static Aggregation histogram(
+		String name, String field, int interval) {
+
+		return new Aggregation(name, field, "histogram", interval);
 	}
 
-	public static Aggregation max(String field) {
-		return of(field, "max");
+	public static Aggregation max(String name, String field) {
+		return of(name, field, "max");
 	}
 
-	public static Aggregation min(String field) {
-		return of(field, "min");
+	public static Aggregation min(String name, String field) {
+		return of(name, field, "min");
 	}
 
-	public static Aggregation missing(String field) {
-		return of(field, "missing");
+	public static Aggregation missing(String name, String field) {
+		return of(name, field, "missing");
 	}
 
-	public static Aggregation of(String field, String operator) {
-		return new Aggregation(field, operator);
+	public static Aggregation of(String name, String field, String operator) {
+		return new Aggregation(name, field, operator);
 	}
 
-	public static RangeAggregation range(String field, Range...ranges) {
-		return new RangeAggregation(field, ranges);
+	public static RangeAggregation range(
+		String name, String field, Range...ranges) {
+
+		return new RangeAggregation(name, field, ranges);
 	}
 
-	public static Aggregation stats(String field) {
-		return of(field, "stats");
+	public static Aggregation stats(String name, String field) {
+		return of(name, field, "stats");
 	}
 
-	public static Aggregation sum(String field) {
-		return of(field, "sum");
+	public static Aggregation sum(String name, String field) {
+		return of(name, field, "sum");
 	}
 
-	public static Aggregation terms(String field) {
-		return of(field, "terms");
+	public static Aggregation terms(String name, String field) {
+		return of(name, field, "terms");
+	}
+
+	@Override
+	public Object body() {
+		Map map = new HashMap();
+		map.put("name", name);
+		map.put("operator", operator);
+
+		if (value != null) {
+			map.put("value", value);
+		}
+
+		return Util.wrap(field, map);
+	}
+
+	@Override
+	public String toString() {
+		return Util.toString(
+			Query.builder().search(Search.builder().aggregate(this)));
 	}
 
 	public static final class DistanceAggregation extends Aggregation {
@@ -82,9 +105,9 @@ public class Aggregation {
 		}
 
 		private DistanceAggregation(
-			String field, Object location, Range...ranges) {
+			String name, String field, Object location, Range...ranges) {
 
-			super(field, "geoDistance", new HashMap());
+			super(name, field, "geoDistance", new HashMap());
 
 			Map map = (Map)value;
 			this.ranges = new ArrayList();
@@ -109,38 +132,30 @@ public class Aggregation {
 			return this;
 		}
 
-		private RangeAggregation(String field, Range...ranges) {
-			super(field, "range", new ArrayList());
+		private RangeAggregation(String name, String field, Range...ranges) {
+			super(name, field, "range", new ArrayList());
 			((List)this.value).addAll(Arrays.asList(ranges));
 		}
 
 	}
 
-	protected String getField() {
-		return field;
-	}
-
-	protected String getOperator() {
-		return operator;
-	}
-
-	protected Object getValue() {
-		return value;
-	}
-
 	protected final Object value;
 
-	private Aggregation(String field, String operator) {
-		this(field, operator, null);
+	private Aggregation(String name, String field, String operator) {
+		this(name, field, operator, null);
 	}
 
-	private Aggregation(String field, String operator, Object value) {
+	private Aggregation(
+		String name, String field, String operator, Object value) {
+
+		this.name = name;
 		this.field = field;
 		this.operator = operator;
 		this.value = value;
 	}
 
 	private final String field;
+	private final String name;
 	private final String operator;
 
 }

@@ -1,5 +1,6 @@
 package com.liferay.launchpad.query;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -28,7 +29,7 @@ public class QueryTest {
 				.filter(Filter.not("field5", 1))
 				.filter(Filter.not("field7", "!=", 1))
 				.filter(Filter.not(Filter.of("field8", 1)))
-				.toString();
+				.bodyAsJson();
 
 		JSONAssert.assertEquals(
 			"{\"filter\":[" +
@@ -47,7 +48,7 @@ public class QueryTest {
 		String body = Query.builder()
 				.limit(1)
 				.offset(2)
-				.toString();
+				.bodyAsJson();
 
 		JSONAssert.assertEquals("{\"limit\":1,\"offset\":2}", body, true);
 	}
@@ -55,34 +56,34 @@ public class QueryTest {
 	@Test
 	public void testQuery_withSearch() throws Exception {
 		Query query = Query.builder().search(Search.builder());
-		JSONAssert.assertEquals("{\"search\":{}}", query.toString(), true);
+		JSONAssert.assertEquals("{\"search\":{}}", query.bodyAsJson(), true);
 		query = Query.builder().search(Filter.equal("field", "value"));
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
 				"\"field\":{\"operator\":\"=\",\"value\":\"value\"}}]}}",
-			query.toString(), true);
+			query.bodyAsJson(), true);
 		query = Query.builder().search("query");
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
 				"\"*\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
-			query.toString(), true);
+			query.bodyAsJson(), true);
 		query = Query.builder().search("field", "query");
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
 				"\"field\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
-			query.toString(), true);
+			query.bodyAsJson(), true);
 		query = Query.builder().search("field", "=", "query");
 		JSONAssert.assertEquals(
 			"{\"search\":{\"query\":[{" +
 				"\"field\":{\"operator\":\"=\",\"value\":\"query\"}}]}}",
-			query.toString(), true);
+			query.bodyAsJson(), true);
 	}
 
 	@Test
 	public void testQuery_withSort() throws Exception {
 		String body = Query.builder()
 				.sort("field")
-				.toString();
+				.bodyAsJson();
 
 		JSONAssert.assertEquals("{\"sort\":[{\"field\":\"asc\"}]}", body, true);
 
@@ -90,7 +91,7 @@ public class QueryTest {
 				.sort("field1")
 				.sort("field2", "asc")
 				.sort("field3", "desc")
-				.toString();
+				.bodyAsJson();
 
 		JSONAssert.assertEquals(
 			"{\"sort\":[" +
@@ -103,13 +104,28 @@ public class QueryTest {
 	@Test
 	public void testQuery_withType() throws Exception {
 		Query query = Query.builder().type("type");
-		JSONAssert.assertEquals("{\"type\":\"type\"}", query.toString(), true);
+		JSONAssert.assertEquals(
+			"{\"type\":\"type\"}", query.bodyAsJson(), true);
 		query = Query.builder().count();
-		JSONAssert.assertEquals("{\"type\":\"count\"}", query.toString(), true);
+		JSONAssert.assertEquals(
+			"{\"type\":\"count\"}", query.bodyAsJson(), true);
 		query = Query.builder().fetch();
-		JSONAssert.assertEquals("{\"type\":\"fetch\"}", query.toString(), true);
+		JSONAssert.assertEquals(
+			"{\"type\":\"fetch\"}", query.bodyAsJson(), true);
 		query = Query.builder().scan();
-		JSONAssert.assertEquals("{\"type\":\"scan\"}", query.toString(), true);
+		JSONAssert.assertEquals(
+			"{\"type\":\"scan\"}", query.bodyAsJson(), true);
+	}
+
+	@Test
+	public void testToString() {
+		Query query = Query.builder()
+			.filter("field", "value")
+			.search("query")
+			.offset(1)
+			.limit(10);
+
+		Assert.assertEquals(query.bodyAsJson(), query.toString());
 	}
 
 }
