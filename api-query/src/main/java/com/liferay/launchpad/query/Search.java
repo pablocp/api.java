@@ -138,8 +138,13 @@ public final class Search implements Embodied {
 	}
 
 	@Override
-	public String toString() {
+	public String bodyAsJson() {
 		return Util.toString(this);
+	}
+
+	@Override
+	public String toString() {
+		return Util.toString(Query.builder().search(this));
 	}
 
 	private final List<Filter> preFilters = new ArrayList();

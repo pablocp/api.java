@@ -169,7 +169,7 @@ public class Filter implements Embodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(this);
+		return Util.toString(Query.builder().filter(this));
 	}
 
 	protected Filter(String operator, Object value) {

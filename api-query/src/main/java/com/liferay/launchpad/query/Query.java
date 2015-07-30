@@ -119,7 +119,7 @@ public final class Query implements Embodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(this);
+		return bodyAsJson();
 	}
 
 	private final List<Map> sort = new ArrayList();
