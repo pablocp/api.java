@@ -1,12 +1,16 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Auth;
 import com.liferay.launchpad.sdk.ContentType;
+import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.PodMultiMap;
+import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ValuesUtil;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
+import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -36,6 +40,30 @@ public class Launchpad {
 	 */
 	public Launchpad(String url) {
 		this.url = url;
+	}
+
+	/**
+	 * Authenticates with an auth instance.
+	 */
+	public Launchpad auth(Auth auth) {
+		this.auth = auth;
+		return this;
+	}
+
+	/**
+	 * Authenticates with a token.
+	 */
+	public Launchpad auth(String token) {
+		auth(Auth.create(token));
+		return this;
+	}
+
+	/**
+	 * Authenticates with username and password.
+	 */
+	public Launchpad auth(String username, String password) {
+		auth(Auth.create(username, password));
+		return this;
 	}
 
 	/**
@@ -208,7 +236,8 @@ public class Launchpad {
 	public Launchpad path(String path) {
 		return new Launchpad(url, path)
 			.use(currentTransport)
-			.use(launchpadSerializer);
+			.use(launchpadSerializer)
+			.auth(auth);
 	}
 
 	/**
@@ -327,6 +356,21 @@ public class Launchpad {
 	}
 
 	/**
+	 * Resolves authentication.
+	 */
+	protected void resolveAuthentication(Request request) {
+		if (auth.hasToken()) {
+			request.cookie(Cookie.cookie("token", auth.getToken()));
+		}
+		else if (auth.hasUserName() && auth.hasPassword()) {
+			String credentials = auth.getUserName() + ":" + auth.getPassword();
+			request.header(
+				"Authorization", "Basic " +
+					Base64.getEncoder().encodeToString(credentials.getBytes()));
+		}
+	}
+
+	/**
 	 * Resolves body string from body object. Sets content type to json is
 	 * body object is not {@code null}.
 	 */
@@ -361,6 +405,10 @@ public class Launchpad {
 		request.method(methodName);
 		request.body(body);
 
+		if (auth != null) {
+			resolveAuthentication(request);
+		}
+
 		headers.forEach(
 			entry -> request.header(
 				entry.getKey(), ValuesUtil.toString(entry.getValue())));
@@ -368,6 +416,7 @@ public class Launchpad {
 		params.forEach(
 			entry -> request.param(
 				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+
 		return request;
 	}
 
@@ -451,6 +500,7 @@ public class Launchpad {
 		return transport.sendAsync(request);
 	}
 
+	protected Auth auth;
 	protected Transport currentTransport;
 	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
 	protected LaunchpadSerializer launchpadSerializer;

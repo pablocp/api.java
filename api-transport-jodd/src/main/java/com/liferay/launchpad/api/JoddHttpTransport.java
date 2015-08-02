@@ -1,5 +1,6 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
@@ -23,6 +24,11 @@ public class JoddHttpTransport extends BlockingTransport {
 		final HttpRequest httpRequest = new HttpRequest()
 						.method(request.method())
 						.set(url);
+
+		for (Cookie cookie : request.cookies().values()) {
+			httpRequest.header("Cookie",
+				new jodd.http.Cookie(cookie.encode()).toString());
+		}
 
 		for (Map.Entry<String, Object> entry : request.headers()) {
 			httpRequest.header(
