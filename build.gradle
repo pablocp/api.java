@@ -69,6 +69,7 @@ subprojects {
 	apply plugin: 'maven'
 	apply plugin: 'com.jfrog.bintray'
 	apply plugin: 'com.liferay.source.formatter'
+	apply from: "${gradleScriptDir}/bintray.gradle"
 
 	sourceCompatibility = JavaVersion.VERSION_1_8
 	targetCompatibility = JavaVersion.VERSION_1_8
@@ -125,6 +126,14 @@ subprojects {
 
 	jar.dependsOn sourceJar
 	jar.dependsOn javadocJar
+}
+
+task bintray() {
+	group 'Publishing'
+	description 'Publish all artifcats to bintray'
+
+	dependsOn subprojects.build
+	dependsOn subprojects.bintrayUpload
 }
 
 task version() {
