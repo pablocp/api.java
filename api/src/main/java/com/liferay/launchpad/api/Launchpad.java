@@ -436,7 +436,7 @@ public class Launchpad {
 	 */
 	protected Transport resolveTransport() {
 		if (currentTransport == null) {
-			TransportBinder transportBinder = Binder.getTransportBinder();
+			TransportBinder transportBinder = ClientBinder.getTransportBinder();
 
 			if (transportBinder != null) {
 				currentTransport = transportBinder.initTransport();

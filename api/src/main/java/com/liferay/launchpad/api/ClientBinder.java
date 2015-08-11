@@ -3,10 +3,10 @@ package com.liferay.launchpad.api;
 /**
  * Dynamic binder to <code>LaunchpadClientBinder</code> implementations.
  */
-public class Binder {
+public class ClientBinder {
 
 	public static final String LAUNCHPAD_CLIENT_TRANSPORT_BINDER_CLASSNAME =
-		Binder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
+		ClientBinder.class.getPackage().getName() + ".LaunchpadClientTransportBinder";
 
 	/**
 	 * Returns transport binder or <code>null</code> if client binder did not
@@ -28,10 +28,17 @@ public class Binder {
 	}
 
 	/**
+	 * Sets transport binder manually.
+	 */
+	public static void setTransportBinder(TransportBinder newTransportBinder) {
+		transportBinder = newTransportBinder;
+	}
+
+	/**
 	 * Creates new binder instance.
 	 */
 	private static Object createBinder(String binderClassName) {
-		ClassLoader classLoader = Binder.class.getClassLoader();
+		ClassLoader classLoader = ClientBinder.class.getClassLoader();
 
 		Class launchpadClientBinderClass = null;
 
