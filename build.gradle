@@ -25,10 +25,15 @@ buildscript {
 
 plugins {
 	id "com.jfrog.bintray" version "1.3"
+	id 'com.github.johnrengelman.shadow' version '1.2.2'
+	id 'java'
 }
 
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
 
 version = '0.18.0'
 group = 'com.liferay.launchpad'
@@ -42,7 +47,6 @@ allprojects {
 }
 
 ext {
-	gradleScriptDir = "${rootProject.projectDir}/gradle"
 	lib = [
 		junit: 'junit:junit:4.12',
         jsonassert : 'org.skyscreamer:jsonassert:1.2.3'
@@ -63,24 +67,12 @@ idea {
  */
 subprojects {
 	apply plugin: 'java'
-	apply plugin: 'maven'
-	apply plugin: 'com.jfrog.bintray'
 	apply plugin: 'com.liferay.source.formatter'
-	apply from: "${gradleScriptDir}/bintray.gradle"
 
 	sourceCompatibility = JavaVersion.VERSION_1_8
 	targetCompatibility = JavaVersion.VERSION_1_8
 
 	compileJava.options.fork = true
-
-	compileJava.doFirst {
-		println "Source compatibility: " + sourceCompatibility
-	}
-
-	configurations {
-		provided
-		compile.extendsFrom provided
-	}
 
 	test {
 		reports.html.enabled = false
@@ -99,39 +91,31 @@ subprojects {
 			inheritOutputDirs true
 		}
 	}
-
-	configurations {
-		published
-	}
-
-	task sourceJar(type: Jar) {
-		from sourceSets.main.allSource
-		classifier = 'sources'
-		version = rootProject.version
-	}
-
-	task javadocJar(type: Jar, dependsOn: javadoc) {
-		classifier = 'javadoc'
-		version = rootProject.version
-		from javadoc.destinationDir
-	}
-
-	artifacts {
-		published sourceJar
-		published javadocJar
-	}
-
-	jar.dependsOn sourceJar
-	jar.dependsOn javadocJar
 }
 
-task bintray() {
-	group 'Publishing'
-	description 'Publish all artifcats to bintray'
-
-	dependsOn subprojects.build
-	dependsOn subprojects.bintrayUpload
+configurations {
+	published
 }
+
+dependencies {
+	compile project(':api')
+	compile project(':api-query')
+	compile project(':sdk')
+	compile project(':serializer')
+}
+
+shadowJar {
+	baseName = 'api'
+	classifier = ''
+}
+
+task fatjar(dependsOn: 'shadowJar') {
+}
+
+artifacts {
+	published shadowJar
+}
+
 
 task version() {
 	println "----------"
