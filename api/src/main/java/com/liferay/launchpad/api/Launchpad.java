@@ -436,15 +436,11 @@ public class Launchpad {
 	 */
 	protected Transport resolveTransport() {
 		if (currentTransport == null) {
-			TransportBinder transportBinder = ClientBinder.getTransportBinder();
-
-			if (transportBinder != null) {
-				currentTransport = transportBinder.initTransport();
-			}
+			currentTransport = DefaultTransport.getDefaultTransport();
 		}
 
 		if (currentTransport == null) {
-			throw new LaunchpadClientException("Transport not defined!");
+			throw new LaunchpadClientException("Transport not specified!");
 		}
 
 		return currentTransport;
@@ -469,9 +465,7 @@ public class Launchpad {
 
 		final RequestImpl request = resolveRequest(methodName, body);
 
-		Response response = transport.send(request);
-
-		return response;
+		return transport.send(request);
 	}
 
 	/**

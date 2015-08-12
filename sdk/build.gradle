@@ -1,0 +1,8 @@
+
+dependencies {
+	compile project(':serializer')
+
+	compile 'org.jodd:jodd-json:3.6.6'
+
+	testCompile lib.junit
+}
