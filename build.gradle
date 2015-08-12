@@ -108,14 +108,17 @@ shadowJar {
 	baseName = 'api'
 	classifier = ''
 }
-
-task fatjar(dependsOn: 'shadowJar') {
+install {
+    repositories.mavenInstaller {
+		pom.whenConfigured {
+			p -> p.dependencies = p.dependencies.findAll { dep -> false }
+		}
+	}
 }
 
 artifacts {
 	published shadowJar
 }
-
 
 task version() {
 	println "----------"

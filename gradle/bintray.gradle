@@ -11,7 +11,7 @@ bintray {
 		userOrg = 'liferay'
 		repo = 'launchpad'
 		name = project.name
-		desc = 'Liferay Launchpad Api Client for Java'
+		desc = 'Liferay Launchpad Api for Java'
 		licenses = ['Apache-2.0']
 		vcsUrl = 'https://github.com/liferay-apps/api.java'
 		issueTrackerUrl = 'https://github.com/liferay-apps/api.java/issues'
