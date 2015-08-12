@@ -1,12 +1,8 @@
-group = rootProject.group
-version = rootProject.version
 
 dependencies {
-	compile lib.launchpad_sdk
+	compile project(':sdk')
+
 	compile 'org.jodd:jodd-http:3.6.6'
 
 	testCompile lib.junit
-	testCompile lib.launchpad_serializer_json_jodd
 }
-
-jar.version = version
