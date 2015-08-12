@@ -1,5 +1,6 @@
-package com.liferay.launchpad.api;
+package com.liferay.launchpad.api.impl;
 
+import com.liferay.launchpad.api.BlockingTransport;
 import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
@@ -26,6 +27,7 @@ public class JoddHttpTransport extends BlockingTransport {
 						.set(url);
 
 		for (Cookie cookie : request.cookies().values()) {
+			// TODO(igor): use new Jodd for helper method
 			httpRequest.header("Cookie", cookie.encode());
 		}
 
