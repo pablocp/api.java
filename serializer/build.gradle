@@ -1,0 +1,9 @@
+group = rootProject.group
+version = rootProject.version
+
+dependencies {
+	compile 'org.jodd:jodd-json:3.6.6'
+	testCompile lib.junit
+}
+
+jar.version = version

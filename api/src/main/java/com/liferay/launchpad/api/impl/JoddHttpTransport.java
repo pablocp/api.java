@@ -27,7 +27,9 @@ public class JoddHttpTransport extends BlockingTransport {
 						.set(url);
 
 		for (Cookie cookie : request.cookies().values()) {
+
 			// TODO(igor): use new Jodd for helper method
+
 			httpRequest.header("Cookie", cookie.encode());
 		}
 
