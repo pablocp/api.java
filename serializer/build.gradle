@@ -1,7 +1,0 @@
-
-dependencies {
-	compile "org.jodd:jodd-json:${joddVersion}"
-
-	testCompile lib.junit
-}
-

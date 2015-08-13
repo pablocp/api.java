@@ -1,0 +1,5 @@
+dependencies {
+	compile project(':api-client')
+	compile "org.jodd:jodd-http:${joddVersion}"
+	compile "org.jodd:jodd-json:${joddVersion}"
+}
