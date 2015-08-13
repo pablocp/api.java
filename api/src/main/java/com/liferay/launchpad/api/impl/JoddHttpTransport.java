@@ -10,6 +10,7 @@ import com.liferay.launchpad.sdk.ValuesUtil;
 import java.util.Map;
 
 import jodd.http.HttpBrowser;
+import jodd.http.HttpMultiMap;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
 
@@ -59,15 +60,13 @@ public class JoddHttpTransport extends BlockingTransport {
 		clientResponse.statusMessage(response.statusPhrase());
 		clientResponse.body(response.body());
 
-		Map<String, String[]> responseHeaders = response.headers();
+		HttpMultiMap<String> responseHeaders = response.headers();
 
-		for (Map.Entry<String, String[]> entry : responseHeaders.entrySet()) {
+		for (Map.Entry<String, String> entry : responseHeaders) {
 			String name = entry.getKey();
-			String[] values = entry.getValue();
+			String value = entry.getValue();
 
-			for (String value : values) {
-				clientResponse.header(name, value);
-			}
+			clientResponse.header(name, value);
 		}
 
 		return clientResponse;
