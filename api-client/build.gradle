@@ -3,3 +3,7 @@ dependencies {
 	testCompile lib.junit
 	testCompile lib.jsonassert
 }
+
+artifacts {
+	published jar
+}

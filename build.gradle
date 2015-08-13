@@ -49,13 +49,6 @@ allprojects {
 	}
 }
 
-ext {
-	lib = [
-		junit: 'junit:junit:4.12',
-        jsonassert : 'org.skyscreamer:jsonassert:1.2.3'
-	]
-}
-
 /**
  * Global IntelliJ configuration.
  */
@@ -70,7 +63,9 @@ idea {
  */
 subprojects {
 	apply plugin: 'java'
+	apply plugin: 'maven'
 	apply plugin: 'com.liferay.source.formatter'
+
 	apply plugin: 'com.jfrog.bintray'
 	apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
 
@@ -78,6 +73,16 @@ subprojects {
 	targetCompatibility = JavaVersion.VERSION_1_8
 
 	compileJava.options.fork = true
+	compileJava.options.compilerArgs << "-Xlint:-options"
+	compileJava.options.incremental = true
+
+	configurations {
+		published
+	}
+
+	jar {
+		version = rootProject.version
+	}
 
 	test {
 		reports.html.enabled = false
@@ -98,6 +103,12 @@ subprojects {
 	}
 }
 
+task bintray {
+	group 'Publishing'
+	description 'Publish all artifcats to bintray'
+
+	dependsOn subprojects.bintrayUpload
+}
 
 task version() {
 	println "----------"
