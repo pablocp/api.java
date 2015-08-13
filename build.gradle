@@ -116,13 +116,13 @@ dependencies {
 shadowJar {
 	baseName = shadowBaseName
 	classifier = ''
+	projectNamesToInclude.each {projName -> dependencies {include(project(projName))}}
 }
 
 task shadowSourceJar(type: Jar, dependsOn: shadowJar) {
-  baseName = shadowBaseName
-  classifier = 'sources'
-
-  projectsToInclude.each {from it.sourceSets.main.allSource}
+	baseName = shadowBaseName
+	classifier = 'sources'
+	projectsToInclude.each {from it.sourceSets.main.allSource}
 }
 
 // install & publish
