@@ -95,23 +95,37 @@ subprojects {
 	}
 }
 
+def shadowBaseName = 'api'
+def projectNamesToInclude = [':api', ':api-query', ':sdk', ':serializer']
+def projectsToInclude = projectNamesToInclude.collect {project(it)}
+
 configurations {
 	published
 }
 
 dependencies {
-	compile project(':api')
-	compile project(':api-query')
-	compile project(':sdk')
-	compile project(':serializer')
+	projectsToInclude.each {compile it}
 }
 
+// shadow
+
 shadowJar {
-	baseName = 'api'
+	baseName = shadowBaseName
 	classifier = ''
 }
+
+task shadowSourceJar(type: Jar, dependsOn: shadowJar) {
+  baseName = shadowBaseName
+  classifier = 'sources'
+
+  projectsToInclude.each {from it.sourceSets.main.allSource}
+}
+
+// install & publish
+
 install {
     repositories.mavenInstaller {
+		// artifact filtering
 		pom.whenConfigured {
 			p -> p.dependencies = p.dependencies.findAll { dep -> false }
 		}
@@ -120,6 +134,7 @@ install {
 
 artifacts {
 	published shadowJar
+	published shadowSourceJar
 }
 
 task version() {
