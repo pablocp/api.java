@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk.log;
+package com.liferay.launchpad.log;
 
 import com.liferay.launchpad.sdk.PodException;
 public class PodLoggerFactory {

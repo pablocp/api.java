@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk.log;
+package com.liferay.launchpad.log;
 
 public interface PodLoggerFactoryInterface {
 
