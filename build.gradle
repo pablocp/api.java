@@ -42,6 +42,8 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 
 allprojects {
+	version = rootProject.version
+
 	repositories {
 		jcenter()
 		mavenLocal()
@@ -65,7 +67,6 @@ subprojects {
 	apply plugin: 'java'
 	apply plugin: 'maven'
 	apply plugin: 'com.liferay.source.formatter'
-
 	apply plugin: 'com.jfrog.bintray'
 	apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
 
@@ -80,8 +81,14 @@ subprojects {
 		published
 	}
 
-	jar {
-		version = rootProject.version
+	task sourcesJar(type: Jar, dependsOn: classes) {
+		classifier = 'sources'
+		from sourceSets.main.allSource
+	}
+
+	artifacts {
+		published jar
+		published sourcesJar
 	}
 
 	test {
