@@ -1,0 +1,5 @@
+dependencies {
+	testCompile project(':api-client')
+	testCompile lib.junit
+	testCompile lib.jsonassert
+}
