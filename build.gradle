@@ -57,6 +57,7 @@ allprojects {
  */
 idea {
 	module {
+		name = 'api-java'
 		excludeDirs += file('.idea')
 	}
 }
