@@ -1,6 +1,4 @@
 rootProject.name='api'
 
-include 'api'
-include 'api-query'
-include 'serializer'
-include 'sdk'
+include 'api-client'
+include 'api-impl'

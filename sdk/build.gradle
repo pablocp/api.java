@@ -1,8 +1,0 @@
-
-dependencies {
-	compile project(':serializer')
-
-	compile "org.jodd:jodd-json:${joddVersion}"
-
-	testCompile lib.junit
-}

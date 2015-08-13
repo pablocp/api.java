@@ -1,7 +1,0 @@
-group = rootProject.group
-version = rootProject.version
-
-dependencies {
-	testCompile lib.junit
-	testCompile lib.jsonassert
-}

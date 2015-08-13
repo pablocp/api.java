@@ -1,8 +1,0 @@
-
-dependencies {
-	compile project(':sdk')
-
-	compile "org.jodd:jodd-http:${joddVersion}"
-
-	testCompile lib.junit
-}
