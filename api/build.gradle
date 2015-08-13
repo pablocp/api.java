@@ -2,7 +2,7 @@
 dependencies {
 	compile project(':sdk')
 
-	compile 'org.jodd:jodd-http:3.6.6'
+	compile "org.jodd:jodd-http:${joddVersion}"
 
 	testCompile lib.junit
 }

@@ -77,6 +77,31 @@ public interface Response {
 	public void end();
 
 	/**
+	 * Sets the body and clsoes the response.
+	 */
+	public default void end(Object body) {
+		body(body);
+		end();
+	}
+
+	/**
+	 * Sets the body content and closes the response.
+	 */
+	public default void end(String body) {
+		body(body);
+		end();
+	}
+
+	/**
+	 * Sets the body content and common {@link ContentType content-type}
+	 * and closes the response.
+	 */
+	public default void end(String body, ContentType contentType) {
+		body(body, contentType);
+		end();
+	}
+
+	/**
 	 * Gets header value by name.
 	 */
 	public String header(String name);

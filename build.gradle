@@ -28,8 +28,12 @@ plugins {
 	id 'com.github.johnrengelman.shadow' version '1.2.2'
 }
 
-version = '0.21.0'
+version = '0.22.0'
 group = 'com.liferay.launchpad'
+
+ext {
+	joddVersion = '3.7.0-20150805'
+}
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -95,23 +99,37 @@ subprojects {
 	}
 }
 
+def shadowBaseName = 'api'
+def projectNamesToInclude = [':api', ':api-query', ':sdk', ':serializer']
+def projectsToInclude = projectNamesToInclude.collect {project(it)}
+
 configurations {
 	published
 }
 
 dependencies {
-	compile project(':api')
-	compile project(':api-query')
-	compile project(':sdk')
-	compile project(':serializer')
+	projectsToInclude.each {compile it}
 }
 
+// shadow
+
 shadowJar {
-	baseName = 'api'
+	baseName = shadowBaseName
 	classifier = ''
+	projectNamesToInclude.each {projName -> dependencies {include(project(projName))}}
 }
+
+task shadowSourceJar(type: Jar, dependsOn: shadowJar) {
+	baseName = shadowBaseName
+	classifier = 'sources'
+	projectsToInclude.each {from it.sourceSets.main.allSource}
+}
+
+// install & publish
+
 install {
     repositories.mavenInstaller {
+		// artifact filtering
 		pom.whenConfigured {
 			p -> p.dependencies = p.dependencies.findAll { dep -> false }
 		}
@@ -120,6 +138,7 @@ install {
 
 artifacts {
 	published shadowJar
+	published shadowSourceJar
 }
 
 task version() {
