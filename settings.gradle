@@ -1,4 +1,4 @@
 rootProject.name='api'
 
-include 'api-client'
+include 'api'
 include 'api-impl'
