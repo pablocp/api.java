@@ -43,6 +43,7 @@ apply plugin: 'idea'
 
 allprojects {
 	version = rootProject.version
+	group = rootProject.group
 
 	repositories {
 		jcenter()
@@ -87,6 +88,9 @@ subprojects {
 	}
 
 	artifacts {
+		archives jar
+		archives sourcesJar
+
 		published jar
 		published sourcesJar
 	}
