@@ -38,32 +38,32 @@ public interface Auth {
 	/**
 	 * Returns the authentication data.
 	 */
-	public Map<String, Object> getData();
+	public Map<String, Object> data();
 
 	/**
 	 * Returns the authentication password.
 	 */
-	public String getPassword();
+	public String password();
 
 	/**
 	 * Returns the permissions.
 	 */
-	public Set<String> getPermissions();
+	public Set<String> permissions();
 
 	/**
 	 * Returns the roles.
 	 */
-	public Set<String> getRoles();
+	public Set<String> roles();
 
 	/**
 	 * Returns the authentication token.
 	 */
-	public String getToken();
+	public String token();
 
 	/**
 	 * Returns the authentication user name.
 	 */
-	public String getUserName();
+	public String username();
 
 	/**
 	 * Returns if the authentication password is set.
@@ -83,7 +83,7 @@ public interface Auth {
 	/**
 	 * Returns if the authentication user name is set.
 	 */
-	public boolean hasUserName();
+	public boolean hasUsername();
 
 	/**
 	 * Is the user authorised to a permission.
