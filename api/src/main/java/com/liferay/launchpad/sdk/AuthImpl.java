@@ -23,46 +23,46 @@ public class AuthImpl implements Auth {
 
 	public AuthImpl(String token) {
 		this.token = token;
-		this.userName = null;
+		this.username = null;
 		this.password = null;
 	}
 
-	public AuthImpl(String userName, String password) {
+	public AuthImpl(String username, String password) {
 		this.token = null;
-		this.userName = userName;
+		this.username = username;
 		this.password = password;
 	}
 
 	@Override
-	public Map<String, Object> getData() {
+	public Map<String, Object> data() {
 		return data;
 	}
 
-	public String getPassword() {
+	public String password() {
 		return password;
 	}
 
 	@Override
-	public Set<String> getPermissions() {
+	public Set<String> permissions() {
 		return permissions;
 	}
 
 	@Override
-	public Set<String> getRoles() {
+	public Set<String> roles() {
 		return roles;
 	}
 
-	public String getToken() {
+	public String token() {
 		return token;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String username() {
+		return username;
 	}
 
 	@Override
 	public boolean hasPassword() {
-		return password != null;
+		return password() != null;
 	}
 
 	@Override
@@ -72,12 +72,12 @@ public class AuthImpl implements Auth {
 
 	@Override
 	public boolean hasToken() {
-		return token != null;
+		return token() != null;
 	}
 
 	@Override
-	public boolean hasUserName() {
-		return userName != null;
+	public boolean hasUsername() {
+		return username() != null;
 	}
 
 	@Override
@@ -90,6 +90,6 @@ public class AuthImpl implements Auth {
 	protected Set<String> permissions;
 	protected Set<String> roles;
 	protected String token;
-	protected String userName;
+	protected String username;
 
 }

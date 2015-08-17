@@ -360,10 +360,10 @@ public class Launchpad {
 	 */
 	protected void resolveAuthentication(Request request) {
 		if (auth.hasToken()) {
-			request.cookie(Cookie.cookie("token", auth.getToken()));
+			request.cookie(Cookie.cookie("token", auth.token()));
 		}
-		else if (auth.hasUserName() && auth.hasPassword()) {
-			String credentials = auth.getUserName() + ":" + auth.getPassword();
+		else if (auth.hasUsername() && auth.hasPassword()) {
+			String credentials = auth.username() + ":" + auth.password();
 			request.header(
 				"Authorization", "Basic " +
 					Base64.getEncoder().encodeToString(credentials.getBytes()));
