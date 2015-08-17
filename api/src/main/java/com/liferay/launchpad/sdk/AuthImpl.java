@@ -62,7 +62,7 @@ public class AuthImpl implements Auth {
 
 	@Override
 	public boolean hasPassword() {
-		return password != null;
+		return password() != null;
 	}
 
 	@Override
@@ -72,12 +72,12 @@ public class AuthImpl implements Auth {
 
 	@Override
 	public boolean hasToken() {
-		return token != null;
+		return token() != null;
 	}
 
 	@Override
 	public boolean hasUsername() {
-		return username != null;
+		return username() != null;
 	}
 
 	@Override
