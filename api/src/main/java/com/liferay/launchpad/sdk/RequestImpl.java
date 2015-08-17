@@ -53,6 +53,11 @@ public class RequestImpl extends Base<Request> implements Request {
 		return this;
 	}
 
+	@Override
+	public void next() {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Gets the parameter value.
 	 */

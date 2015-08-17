@@ -114,6 +114,11 @@ public interface Request {
 	public Request method(String method);
 
 	/**
+	 * Delegates this request to the next handler.
+	 */
+	public void next();
+
+	/**
 	 * Gets parameter value by name.
 	 */
 	public String param(String name);
