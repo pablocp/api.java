@@ -41,31 +41,6 @@ public interface Auth {
 	public Map<String, Object> data();
 
 	/**
-	 * Returns the authentication password.
-	 */
-	public String password();
-
-	/**
-	 * Returns the permissions.
-	 */
-	public Set<String> permissions();
-
-	/**
-	 * Returns the roles.
-	 */
-	public Set<String> roles();
-
-	/**
-	 * Returns the authentication token.
-	 */
-	public String token();
-
-	/**
-	 * Returns the authentication user name.
-	 */
-	public String username();
-
-	/**
 	 * Returns if the authentication password is set.
 	 */
 	public boolean hasPassword();
@@ -89,5 +64,30 @@ public interface Auth {
 	 * Is the user authorised to a permission.
 	 */
 	public CompletableFuture<Boolean> isPermitted(String permission);
+
+	/**
+	 * Returns the authentication password.
+	 */
+	public String password();
+
+	/**
+	 * Returns the permissions.
+	 */
+	public Set<String> permissions();
+
+	/**
+	 * Returns the roles.
+	 */
+	public Set<String> roles();
+
+	/**
+	 * Returns the authentication token.
+	 */
+	public String token();
+
+	/**
+	 * Returns the authentication user name.
+	 */
+	public String username();
 
 }

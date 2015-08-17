@@ -12,9 +12,10 @@
 
 package com.liferay.launchpad.serializer.impl;
 
+import com.liferay.launchpad.serializer.LaunchpadParser;
+
 import java.util.List;
 
-import com.liferay.launchpad.serializer.LaunchpadParser;
 import jodd.json.JsonParser;
 public class JoddJsonParser implements LaunchpadParser {
 

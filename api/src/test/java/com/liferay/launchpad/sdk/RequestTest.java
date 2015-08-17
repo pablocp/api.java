@@ -14,13 +14,13 @@ package com.liferay.launchpad.sdk;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.liferay.launchpad.ApiClient;
+
 import java.util.Map;
 
-import com.liferay.launchpad.ApiClient;
 import jodd.json.JsonException;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

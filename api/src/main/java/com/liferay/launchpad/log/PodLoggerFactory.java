@@ -34,7 +34,9 @@ public class PodLoggerFactory {
 	/**
 	 * Sets the logger factory manually.
 	 */
-	public static void setLoggerFactory(PodLoggerFactoryInterface podLoggerFactory) {
+	public static void setLoggerFactory(
+		PodLoggerFactoryInterface podLoggerFactory) {
+
 		loggerFactory = podLoggerFactory;
 	}
 
