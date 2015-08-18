@@ -33,7 +33,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public PodMultiMap add(final String name, final Object value) {
+	public PodMultiMap add(final String name, final String value) {
 		int h = hash(name);
 		int i = index(h);
 		_add(h, i, name, value);
@@ -41,8 +41,8 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public PodMultiMap addAll(Map<String, Object> map) {
-		for (Map.Entry<String, Object> entry : map.entrySet()) {
+	public PodMultiMap addAll(Map<String, String> map) {
+		for (Map.Entry<String, String> entry : map.entrySet()) {
 			add(entry.getKey(), entry.getValue());
 		}
 
@@ -50,7 +50,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	public PodMultiMap addAll(PodMultiMap map) {
-		for (Map.Entry<String, Object> entry : map.entries()) {
+		for (Map.Entry<String, String> entry : map.entries()) {
 			add(entry.getKey(), entry.getValue());
 		}
 
@@ -58,11 +58,11 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public PodMultiMap addAll(String name, Iterable<Object> values) {
+	public PodMultiMap addAll(String name, Iterable<String> values) {
 		int h = hash(name);
 		int i = index(h);
 
-		for (Object value : values) {
+		for (String value : values) {
 			_add(h, i, name, value);
 		}
 
@@ -91,8 +91,8 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public List<Map.Entry<String, Object>> entries() {
-		List<Map.Entry<String, Object>> all = new LinkedList<>();
+	public List<Map.Entry<String, String>> entries() {
+		List<Map.Entry<String, String>> all = new LinkedList<>();
 
 		MapEntry e = head.after;
 		while (e != head) {
@@ -109,8 +109,8 @@ class PodMultiMapImpl implements PodMultiMap {
 	 * if associated value is <code>null</code>.
 	 */
 	@Override
-	public Object getObject(final String name) {
-		Map.Entry<String, Object> entry = getEntry(name);
+	public String get(final String name) {
+		Map.Entry<String, String> entry = getEntry(name);
 
 		if (entry == null) {
 			return null;
@@ -123,8 +123,8 @@ class PodMultiMapImpl implements PodMultiMap {
 	 * Returns all values associated with the name.
 	 */
 	@Override
-	public List<Object> getAll(final String name) {
-		LinkedList<Object> values = new LinkedList<>();
+	public List<String> getAll(final String name) {
+		LinkedList<String> values = new LinkedList<>();
 
 		int h = hash(name);
 		int i = index(h);
@@ -144,7 +144,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	 * Returns first entry for given name. Returns <code>null</code> if entry
 	 * does not exist.
 	 */
-	public Map.Entry<String, Object> getEntry(final String name) {
+	public Map.Entry<String, String> getEntry(final String name) {
 		int h = hash(name);
 		int i = index(h);
 		MapEntry e = entries[i];
@@ -176,17 +176,17 @@ class PodMultiMapImpl implements PodMultiMap {
 	 * Returns iterator of all entries.
 	 */
 	@Override
-	public Iterator<Map.Entry<String, Object>> iterator() {
+	public Iterator<Map.Entry<String, String>> iterator() {
 		final MapEntry[] e = {head.after};
 
-		return new Iterator<Map.Entry<String, Object>>() {
+		return new Iterator<Map.Entry<String, String>>() {
 			@Override
 			public boolean hasNext() {
 				return e[0] != head;
 			}
 
 			@Override
-			public Map.Entry<String, Object> next() {
+			public Map.Entry<String, String> next() {
 				if (hasNext() == false) {
 					throw new NoSuchElementException(
 						"No next() entry in the iteration");
@@ -227,7 +227,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public PodMultiMap set(final String name, final Object value) {
+	public PodMultiMap set(final String name, final String value) {
 		int h = hash(name);
 		int i = index(h);
 		_remove(h, i, name);
@@ -236,7 +236,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	}
 
 	@Override
-	public PodMultiMap setAll(Map<String, Object> map) {
+	public PodMultiMap setAll(Map<String, String> map) {
 		return _set(map.entrySet());
 	}
 
@@ -246,14 +246,14 @@ class PodMultiMapImpl implements PodMultiMap {
 
 	@Override
 	public PodMultiMap setAll(
-			final String name, final Iterable<Object> values) {
+			final String name, final Iterable<String> values) {
 
 		int h = hash(name);
 		int i = index(h);
 
 		_remove(h, i, name);
 
-		for (Object v : values) {
+		for (String v : values) {
 			_add(h, i, name, v);
 		}
 
@@ -272,7 +272,7 @@ class PodMultiMapImpl implements PodMultiMap {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		for (Map.Entry<String, Object> entry : this) {
+		for (Map.Entry<String, String> entry : this) {
 			sb.append(entry).append('\n');
 		}
 
@@ -384,7 +384,7 @@ class PodMultiMapImpl implements PodMultiMap {
 
 	private void _add(
 		final int hash, final int index, final String name,
-		final Object value) {
+		final String value) {
 
 		// update the hash table
 
@@ -441,10 +441,10 @@ class PodMultiMapImpl implements PodMultiMap {
 		}
 	}
 
-	private PodMultiMap _set(Iterable<Map.Entry<String, Object>> map) {
+	private PodMultiMap _set(Iterable<Map.Entry<String, String>> map) {
 		clear();
 
-		for (Map.Entry<String, Object> entry : map) {
+		for (Map.Entry<String, String> entry : map) {
 			add(entry.getKey(), entry.getValue());
 		}
 
@@ -457,15 +457,15 @@ class PodMultiMapImpl implements PodMultiMap {
 	private final MapEntry[] entries = new MapEntry[BUCKET_SIZE + 1];
 	private final MapEntry head = new MapEntry(-1, null, null);
 
-	private static final class MapEntry implements Map.Entry<String, Object> {
+	private static final class MapEntry implements Map.Entry<String, String> {
 
 		final int hash;
 		final String key;
-		Object value = null;
+		String value = null;
 		MapEntry next = null;
 		MapEntry before, after;
 
-		private MapEntry(int hash, String key, Object value) {
+		private MapEntry(int hash, String key, String value) {
 			this.hash = hash;
 			this.key = key;
 			this.value = value;
@@ -487,12 +487,12 @@ class PodMultiMapImpl implements PodMultiMap {
 			return key;
 		}
 
-		public Object getValue() {
+		public String getValue() {
 			return value;
 		}
 
-		public Object setValue(Object value) {
-			Object oldValue = this.value;
+		public String setValue(String value) {
+			String oldValue = this.value;
 			this.value = value;
 			return oldValue;
 		}

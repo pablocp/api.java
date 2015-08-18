@@ -20,6 +20,11 @@ import java.io.File;
 public interface FileUpload {
 
 	/**
+	 * Returns uploaded file.
+	 */
+	public File file();
+
+	/**
 	 * Returns file name as provided in form submission.
 	 */
 	public String fileName();
@@ -33,10 +38,5 @@ public interface FileUpload {
 	 * Returns files size.
 	 */
 	public long size();
-
-	/**
-	 * Returns uploaded file.
-	 */
-	public File file();
 
 }

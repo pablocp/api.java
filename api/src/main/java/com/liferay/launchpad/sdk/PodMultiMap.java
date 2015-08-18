@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * Multi-map.
  */
-public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
+public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 
 	/**
 	 * Creates new case-sensitive implementation of the multi-map.
@@ -42,7 +42,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param value The value being added
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap add(String name, Object value);
+	public PodMultiMap add(String name, String value);
 
 	/**
 	 * Adds all values from the map.
@@ -50,7 +50,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param map source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap addAll(Map<String, Object> map);
+	public PodMultiMap addAll(Map<String, String> map);
 
 	/**
 	 * Adds new values under the specified name.
@@ -59,7 +59,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param values The values
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap addAll(String name, Iterable<Object> values);
+	public PodMultiMap addAll(String name, Iterable<String> values);
 
 	/**
 	 * Removes all
@@ -82,16 +82,12 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @return A immutable {@link java.util.List} of the name-value entries, which will be
 	 * empty if no pairs are found
 	 */
-	public List<Map.Entry<String, Object>> entries();
+	public List<Map.Entry<String, String>> entries();
 
 	/**
 	 * Get the String value associated with a key.
 	 */
-	public default String get(String name) {
-		Object value = getObject(name);
-
-		return ValuesUtil.toString(value);
-	}
+	public abstract String get(String name);
 
 	/**
 	 * Returns the values with the specified name.
@@ -100,74 +96,59 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @return A immutable {@link java.util.List} of values which will be empty
 	 * if no values are found
 	 */
-	public List<Object> getAll(String name);
+	public List<String> getAll(String name);
 
 	/**
 	 * Get the boolean value associated with a key.
 	 */
 	public default Boolean getBoolean(String name) {
-		Object value = getObject(name);
+		String value = get(name);
 
 		if (value == null) {
 			return null;
 		}
 
-		if (value.getClass() == Boolean.class) {
-			return (boolean)value;
-		}
-
-		return Boolean.valueOf(value.toString().trim().toLowerCase());
+		return Boolean.valueOf(value.trim().toLowerCase());
 	}
 
 	/**
 	 * Get the double value associated with a key.
 	 */
 	public default Double getDouble(String name) {
-		Object value = getObject(name);
+		String value = get(name);
 
 		if (value == null) {
 			return null;
 		}
 
-		return value instanceof Number ?
-				((Number)value).doubleValue() :
-				Double.parseDouble((String)value);
+		return Double.parseDouble(value);
 	}
 
 	/**
 	 * Get the int value associated with a key.
 	 */
 	public default Integer getInt(String name) {
-		Object value = getObject(name);
+		String value = get(name);
 
 		if (value == null) {
 			return null;
 		}
 
-		return value instanceof Number ?
-			((Number)value).intValue() : Integer.parseInt((String) value);
+		return Integer.parseInt(value);
 	}
 
 	/**
 	 * Get the long value associated with a key.
 	 */
 	public default Long getLong(String name) {
-		Object value = getObject(name);
+		String value = get(name);
 
 		if (value == null) {
 			return null;
 		}
 
-		return value instanceof Number ?
-			((Number)value).longValue() : Long.parseLong((String) value);
+		return Long.parseLong(value);
 	}
-
-	/**
-	 * Returns the value of with the specified name.  If there are
-	 * more than one values for the specified name, the first value is returned.
-	 * Returns {@code null} if value does not exist.
-	 */
-	public Object getObject(String name);
 
 	/**
 	 * Returns <code>true</code> if this map is case sensitive.
@@ -203,7 +184,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param value The value
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap set(String name, Object value);
+	public PodMultiMap set(String name, String value);
 
 	/**
 	 * Sets values from given map.
@@ -211,7 +192,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param map The source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap setAll(Map<String, Object> map);
+	public PodMultiMap setAll(Map<String, String> map);
 
 	/**
 	 * Sets values for the specified name.
@@ -220,7 +201,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, Object>> {
 	 * @param values The values being set
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap setAll(String name, Iterable<Object> values);
+	public PodMultiMap setAll(String name, Iterable<String> values);
 
 	/**
 	 * Return the number of keys.

@@ -38,28 +38,6 @@ public class AuthImpl implements Auth {
 		return data;
 	}
 
-	public String password() {
-		return password;
-	}
-
-	@Override
-	public Set<String> permissions() {
-		return permissions;
-	}
-
-	@Override
-	public Set<String> roles() {
-		return roles;
-	}
-
-	public String token() {
-		return token;
-	}
-
-	public String username() {
-		return username;
-	}
-
 	@Override
 	public boolean hasPassword() {
 		return password() != null;
@@ -83,6 +61,28 @@ public class AuthImpl implements Auth {
 	@Override
 	public CompletableFuture<Boolean> isPermitted(String permission) {
 		throw new UnsupportedOperationException();
+	}
+
+	public String password() {
+		return password;
+	}
+
+	@Override
+	public Set<String> permissions() {
+		return permissions;
+	}
+
+	@Override
+	public Set<String> roles() {
+		return roles;
+	}
+
+	public String token() {
+		return token;
+	}
+
+	public String username() {
+		return username;
 	}
 
 	protected Map<String, Object> data;
