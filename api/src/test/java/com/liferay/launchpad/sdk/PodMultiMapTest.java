@@ -26,9 +26,9 @@ public class PodMultiMapTest {
 		PodMultiMap mm = createMultiMap();
 		addDefaultSet(mm);
 
-		List<Object> list = mm.getAll("One");
+		List<String> list = mm.getAll("One");
 		assertEquals(1, list.size());
-		assertEquals(Integer.valueOf(1), list.get(0));
+		assertEquals("1", list.get(0));
 
 		list = mm.getAll("one");
 
@@ -37,7 +37,7 @@ public class PodMultiMapTest {
 		}
 		else {
 			assertEquals(1, list.size());
-			assertEquals(Integer.valueOf(1), list.get(0));
+			assertEquals("1", list.get(0));
 		}
 	}
 
@@ -78,23 +78,23 @@ public class PodMultiMapTest {
 		Map<String, Object> map = mm.toMap();
 
 		assertEquals(4, map.size());
-		assertEquals(Integer.valueOf(1), map.get("One"));
+		assertEquals("1", map.get("One"));
 		assertNull(map.get("one"));
 		assertEquals("two", map.get("two"));
 		assertEquals("TWO", map.get("Two"));
 
 		List list = (List)map.get("three");
 		assertEquals(2, list.size());
-		assertEquals(Long.valueOf(3), list.get(0));
-		assertEquals(Long.valueOf(4), list.get(1));
+		assertEquals("3", list.get(0));
+		assertEquals("4", list.get(1));
 	}
 
 	protected void addDefaultSet(PodMultiMap mm) {
-		mm.add("One", Integer.valueOf(1));
+		mm.add("One", "1");
 		mm.add("two", "two");
 		mm.add("Two", "TWO");
-		mm.add("three", Long.valueOf(3));
-		mm.add("three", Long.valueOf(4));
+		mm.add("three", "3");
+		mm.add("three", "4");
 	}
 
 	protected PodMultiMap createMultiMap() {

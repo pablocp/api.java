@@ -5,7 +5,6 @@ import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
-import com.liferay.launchpad.sdk.ValuesUtil;
 
 import java.util.Map;
 
@@ -34,14 +33,12 @@ public class JoddHttpTransport extends BlockingTransport {
 			httpRequest.header("Cookie", cookie.encode());
 		}
 
-		for (Map.Entry<String, Object> entry : request.headers()) {
-			httpRequest.header(
-				entry.getKey(), ValuesUtil.toString(entry.getValue()));
+		for (Map.Entry<String, String> entry : request.headers()) {
+			httpRequest.header(entry.getKey(), entry.getValue());
 		}
 
-		for (Map.Entry<String, Object> entry : request.params()) {
-			httpRequest.query(
-				entry.getKey(), ValuesUtil.toString(entry.getValue()));
+		for (Map.Entry<String, String> entry : request.params()) {
+			httpRequest.query(entry.getKey(), entry.getValue());
 		}
 
 		String body = request.body();
