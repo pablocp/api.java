@@ -12,6 +12,7 @@
 
 package com.liferay.launchpad.sdk;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -35,6 +36,10 @@ public class AuthImpl implements Auth {
 
 	@Override
 	public Map<String, Object> data() {
+		if (data == null) {
+			data = new HashMap<>();
+		}
+
 		return data;
 	}
 
