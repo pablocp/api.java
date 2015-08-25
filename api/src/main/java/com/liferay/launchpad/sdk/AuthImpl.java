@@ -34,6 +34,11 @@ public class AuthImpl implements Auth {
 	}
 
 	@Override
+	public Map<String, Object> configuration() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public Map<String, Object> data() {
 		return data;
 	}

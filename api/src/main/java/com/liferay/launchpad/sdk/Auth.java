@@ -35,6 +35,8 @@ public interface Auth {
 		return new AuthImpl(username, password);
 	}
 
+	public Map<String, Object> configuration();
+
 	/**
 	 * Returns the authentication data.
 	 */
