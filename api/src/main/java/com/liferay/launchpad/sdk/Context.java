@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
+import com.liferay.launchpad.sdk.io.SocketIO;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +47,11 @@ public interface Context {
 	 * specified.
 	 */
 	public Map<String, Object> configuration();
+
+	/**
+	 * Returns the socket io server of this pod.
+	 */
+	public SocketIO io();
 
 	/**
 	 * Returns context name.
