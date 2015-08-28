@@ -241,6 +241,19 @@ public class Launchpad {
 	}
 
 	/**
+	 * Creates new {@link Launchpad}.
+	 */
+	public Launchpad path(String... paths) {
+		Launchpad instance = this;
+
+		for (String path : paths) {
+			instance = instance.path(path);
+		}
+
+		return instance;
+	}
+
+	/**
 	 * Executes POST request.
 	 */
 	public Response post() {
