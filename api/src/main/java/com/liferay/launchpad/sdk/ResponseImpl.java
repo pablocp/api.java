@@ -23,7 +23,7 @@ public class ResponseImpl extends Base<Response> implements Response {
 
 	@Override
 	public boolean isCommitted() {
-		return (body != null);
+		return (body() != null);
 	}
 
 	@Override

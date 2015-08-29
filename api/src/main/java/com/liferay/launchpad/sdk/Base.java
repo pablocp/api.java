@@ -33,7 +33,7 @@ public abstract class Base<R> {
 	}
 
 	public R body(String body) {
-		this.body = body;
+		setBody(body);
 		return (R)this;
 	}
 
@@ -124,15 +124,19 @@ public abstract class Base<R> {
 		return LaunchpadParser.get().parseAsList(body, componentType);
 	}
 
+	protected void setBody(String value) {
+		this.body = value;
+	}
+
 	protected R setBodyObject(Object body) {
 		if (body == null) {
-			this.body = null;
+			setBody(null);
 
 			return (R)this;
 		}
 
 		if (body instanceof String) {
-			this.body = (String)body;
+			setBody((String)body);
 			return (R)this;
 		}
 
@@ -140,13 +144,14 @@ public abstract class Base<R> {
 
 		contentType(ContentType.JSON);
 
-		this.body = bodyJson;
+		setBody(bodyJson);
 
 		return (R)this;
 	}
 
-	protected String body;
 	protected Map<String, Cookie> cookies = new HashMap<>();
 	protected PodMultiMap headers = PodMultiMap.newMultiMap();
+
+	private String body;
 
 }
