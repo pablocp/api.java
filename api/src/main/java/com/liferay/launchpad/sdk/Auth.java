@@ -43,6 +43,11 @@ public interface Auth {
 	public Map<String, Object> data();
 
 	/**
+	 * Returns if the authentication id is set.
+	 */
+	public boolean hasId();
+
+	/**
 	 * Returns if the authentication password is set.
 	 */
 	public boolean hasPassword();
@@ -61,6 +66,16 @@ public interface Auth {
 	 * Returns if the authentication user name is set.
 	 */
 	public boolean hasUsername();
+
+	/**
+	 * Returns the authentication id.
+	 */
+	public String id();
+
+	/**
+	 * Is the user authenticated.
+	 */
+	public boolean isAuthenticated();
 
 	/**
 	 * Is the user authorised to a permission.

@@ -44,6 +44,11 @@ public class AuthImpl implements Auth {
 	}
 
 	@Override
+	public boolean hasId() {
+		return id() != null;
+	}
+
+	@Override
 	public boolean hasPassword() {
 		return password() != null;
 	}
@@ -61,6 +66,16 @@ public class AuthImpl implements Auth {
 	@Override
 	public boolean hasUsername() {
 		return username() != null;
+	}
+
+	@Override
+	public String id() {
+		return id;
+	}
+
+	@Override
+	public boolean isAuthenticated() {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -91,6 +106,7 @@ public class AuthImpl implements Auth {
 	}
 
 	protected Map<String, Object> data;
+	protected String id;
 	protected String password;
 	protected Set<String> permissions;
 	protected Set<String> roles;
