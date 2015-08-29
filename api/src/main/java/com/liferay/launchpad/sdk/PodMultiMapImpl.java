@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
+import com.liferay.launchpad.serializer.LaunchpadSerializer;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,6 +36,14 @@ class PodMultiMapImpl implements PodMultiMap {
 
 	@Override
 	public PodMultiMap add(final String name, final String value) {
+		int h = hash(name);
+		int i = index(h);
+		_add(h, i, name, value);
+		return this;
+	}
+
+	@Override
+	public PodMultiMap add(final String name, final Object value) {
 		int h = hash(name);
 		int i = index(h);
 		_add(h, i, name, value);
@@ -117,6 +127,44 @@ class PodMultiMapImpl implements PodMultiMap {
 		}
 
 		return entry.getValue();
+	}
+
+	@Override
+	public <T> T getValue(final String name) {
+		MapEntry entry = (MapEntry)getEntry(name);
+
+		if (entry == null) {
+			return null;
+		}
+
+		return entry.getParsedValue();
+	}
+
+	@Override
+	public List<Object> getAllValues(String name) {
+		LinkedList<Object> values = new LinkedList<>();
+
+		int h = hash(name);
+		int i = index(h);
+		MapEntry e = entries[i];
+		while (e != null) {
+			if ((e.hash == h) && eq(name, e.key)) {
+				values.addFirst(e.getParsedValue());
+			}
+
+			e = e.next;
+		}
+
+		return values;
+	}
+
+	@Override
+	public PodMultiMap set(String name, Object value) {
+		int h = hash(name);
+		int i = index(h);
+		_remove(h, i, name);
+		_add(h, i, name, value);
+		return this;
 	}
 
 	/**
@@ -386,11 +434,23 @@ class PodMultiMapImpl implements PodMultiMap {
 		final int hash, final int index, final String name,
 		final String value) {
 
+		_add(index, new MapEntry(hash, name, value));
+	}
+
+	private void _add(
+		final int hash, final int index, final String name,
+		final Object value) {
+
+		_add(index, new MapEntry(hash, name, value));
+	}
+
+	private void _add(final int index, MapEntry entry) {
+
 		// update the hash table
 
 		MapEntry e = entries[index];
 		MapEntry newEntry = null;
-		entries[index] = newEntry = new MapEntry(hash, name, value);
+		entries[index] = newEntry = entry;
 		newEntry.next = e;
 
 		// update the linked list
@@ -462,6 +522,8 @@ class PodMultiMapImpl implements PodMultiMap {
 		final int hash;
 		final String key;
 		String value = null;
+		Object parsedValue = null;
+		boolean parsed = false;
 		MapEntry next = null;
 		MapEntry before, after;
 
@@ -469,6 +531,13 @@ class PodMultiMapImpl implements PodMultiMap {
 			this.hash = hash;
 			this.key = key;
 			this.value = value;
+		}
+
+		private MapEntry(int hash, String key, Object value) {
+			this.hash = hash;
+			this.key = key;
+			this.parsedValue = value;
+			this.parsed = true;
 		}
 
 		void remove() {
@@ -488,12 +557,34 @@ class PodMultiMapImpl implements PodMultiMap {
 		}
 
 		public String getValue() {
+			if (parsed && (value == null)) {
+				value = LaunchpadSerializer.get().serialize(parsedValue);
+			}
+
 			return value;
+		}
+
+		public <T> T getParsedValue() {
+			if (parsed) {
+				return (T)parsedValue;
+			}
+
+			return (T)value;
 		}
 
 		public String setValue(String value) {
 			String oldValue = this.value;
 			this.value = value;
+			this.parsed = false;
+			this.parsedValue = null;
+			return oldValue;
+		}
+
+		public String setParsedValue(Object value) {
+			String oldValue = this.value;
+			this.value = null;
+			this.parsed = true;
+			this.parsedValue = value;
 			return oldValue;
 		}
 
