@@ -35,6 +35,8 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 		return new PodMultiMapImpl(false);
 	}
 
+	public PodMultiMap add(String name, Object value);
+
 	/**
 	 * Adds a new value with the specified name and value.
 	 *
@@ -98,6 +100,8 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 */
 	public List<String> getAll(String name);
 
+	public List<Object> getAllValues(String name);
+
 	/**
 	 * Get the boolean value associated with a key.
 	 */
@@ -150,6 +154,8 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 		return Long.parseLong(value);
 	}
 
+	public abstract <T> T getValue(String name);
+
 	/**
 	 * Returns <code>true</code> if this map is case sensitive.
 	 */
@@ -174,6 +180,8 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @return a reference to this, so the API can be used fluently
 	 */
 	public PodMultiMap remove(String name);
+
+	public PodMultiMap set(String name, Object value);
 
 	/**
 	 * Sets a value under the specified name.
