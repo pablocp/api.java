@@ -35,6 +35,7 @@ ext {
 	lib = [
 		junit        	: 'junit:junit:4.11',
 		jsonassert		: 'org.skyscreamer:jsonassert:1.2.3',
+		mockito			: 'org.mockito:mockito-all:1.10.19'
 	]
 }
 
