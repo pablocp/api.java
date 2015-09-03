@@ -63,7 +63,7 @@ public class TimeOrderedUuidGenerator implements LaunchpadUuidGenerator {
 	 * @return the unique ordered id.
 	 */
 	@Override
-	public String generate() {
+	public String generateId() {
 		long timestamp = currentTimeMillis();
 
 		// Prevents the clock to move backwards

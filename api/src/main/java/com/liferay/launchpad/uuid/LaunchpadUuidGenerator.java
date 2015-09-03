@@ -27,6 +27,6 @@ public interface LaunchpadUuidGenerator {
 	/**
 	 * Generates unique id.
 	 */
-	public String generate();
+	public String generateId();
 
 }

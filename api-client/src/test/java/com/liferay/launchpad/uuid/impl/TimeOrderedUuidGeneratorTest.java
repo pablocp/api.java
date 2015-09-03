@@ -33,10 +33,10 @@ public class TimeOrderedUuidGeneratorTest extends LaunchpadUuidGeneratorTest {
 		TimeOrderedUuidGenerator gen = Mockito.mock(
 			TimeOrderedUuidGenerator.class);
 		Mockito.when(gen.currentTimeMillis()).thenReturn(now, now - 1, now + 1);
-		Mockito.when(gen.generate()).thenCallRealMethod();
-		String id1 = gen.generate();
-		String id2 = gen.generate();
-		String id3 = gen.generate();
+		Mockito.when(gen.generateId()).thenCallRealMethod();
+		String id1 = gen.generateId();
+		String id2 = gen.generateId();
+		String id3 = gen.generateId();
 		Assert.assertNotEquals(id1, id2);
 		Assert.assertNotEquals(id1, id3);
 		Assert.assertNotEquals(id2, id3);
@@ -52,13 +52,13 @@ public class TimeOrderedUuidGeneratorTest extends LaunchpadUuidGeneratorTest {
 	public void testFutureStartTimestampConstructor() {
 		long future = Long.MAX_VALUE;
 		TimeOrderedUuidGenerator gen = new TimeOrderedUuidGenerator(future);
-		gen.generate();
+		gen.generateId();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNegativeValueConstructor() {
 		TimeOrderedUuidGenerator gen = new TimeOrderedUuidGenerator(-1L);
-		gen.generate();
+		gen.generateId();
 	}
 
 	@Test
