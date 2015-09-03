@@ -29,21 +29,21 @@ public class IncrementalUuidGeneratorTest extends LaunchpadUuidGeneratorTest {
 	public void testReset_withInvalidValue() {
 		IncrementalUuidGenerator gen = new IncrementalUuidGenerator();
 		gen.reset(-11);
-		gen.generate();
+		gen.generateId();
 	}
 
 	@Test
 	public void testReset_withNoValue() {
 		IncrementalUuidGenerator gen = new IncrementalUuidGenerator();
 		gen.reset();
-		Assert.assertEquals("1", gen.generate());
+		Assert.assertEquals("1", gen.generateId());
 	}
 
 	@Test
 	public void testReset_withValidValue() {
 		IncrementalUuidGenerator gen = new IncrementalUuidGenerator();
 		gen.reset(46);
-		Assert.assertEquals("47", gen.generate());
+		Assert.assertEquals("47", gen.generateId());
 	}
 
 	@Override

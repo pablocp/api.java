@@ -36,7 +36,7 @@ public class IncrementalUuidGenerator implements LaunchpadUuidGenerator {
 	}
 
 	@Override
-	public String generate() {
+	public String generateId() {
 		int uuid = UUID.incrementAndGet();
 
 		return String.valueOf(uuid);

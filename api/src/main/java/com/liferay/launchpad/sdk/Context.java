@@ -27,6 +27,11 @@ import java.util.Map;
 public interface Context {
 
 	/**
+	 * Returns application configuration.
+	 */
+	public AppConfig appConfig();
+
+	/**
 	 * Returns assets file from <code>assets</code> folder.
 	 */
 	public File assetsFile(String fileName);

@@ -181,7 +181,7 @@ public interface Request {
 	 * Returns parsed {@link #params() request params}
 	 * merged with {@link #parse parsed body}, if it is an object.
 	 */
-	public default Map values() {
+	public default Map<String, Object> values() {
 		return values(null);
 	}
 

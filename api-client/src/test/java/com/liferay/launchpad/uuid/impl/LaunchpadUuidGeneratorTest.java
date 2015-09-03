@@ -37,7 +37,7 @@ public abstract class LaunchpadUuidGeneratorTest {
 			Set<String> ids = new HashSet<>();
 
 			for (int i = 0; i < total; i++) {
-				ids.add(gen.generate());
+				ids.add(gen.generateId());
 			}
 
 			Assert.assertEquals(total, ids.size());
@@ -65,7 +65,7 @@ public abstract class LaunchpadUuidGeneratorTest {
 						// inserted later! If not synchronized, there might be
 						// differences!
 
-						ids.add(Long.valueOf(gen.generate()));
+						ids.add(Long.valueOf(gen.generateId()));
 					}
 				});
 			}

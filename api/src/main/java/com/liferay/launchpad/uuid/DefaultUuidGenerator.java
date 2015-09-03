@@ -6,7 +6,8 @@ package com.liferay.launchpad.uuid;
 public class DefaultUuidGenerator {
 
 	/**
-	 * Returns default uuid generator or <code>null</code> if default generator is not set.
+	 * Returns default uuid generator or <code>null</code> if default
+	 * generator is not set.
 	 */
 	public static LaunchpadUuidGenerator getDefaultGenerator() {
 		return generator;
@@ -18,7 +19,7 @@ public class DefaultUuidGenerator {
 	public static void setDefaultGenerator(
 		LaunchpadUuidGenerator defaultGenerator) {
 
-			generator = defaultGenerator;
+		generator = defaultGenerator;
 	}
 
 	private static LaunchpadUuidGenerator generator;
