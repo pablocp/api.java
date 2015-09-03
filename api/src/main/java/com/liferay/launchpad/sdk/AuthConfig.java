@@ -3,7 +3,7 @@ package com.liferay.launchpad.sdk;
 import java.util.List;
 import java.util.Map;
 
-public interface AppAuthConfig {
+public interface AuthConfig {
 
 	public String getLoginPageUrl();
 

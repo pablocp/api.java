@@ -35,7 +35,7 @@ public interface Auth {
 		return new AuthImpl(username, password);
 	}
 
-	public AppAuthConfig configuration();
+	public AuthConfig configuration();
 
 	/**
 	 * Returns the authentication data.
