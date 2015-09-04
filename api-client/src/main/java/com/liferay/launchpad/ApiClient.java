@@ -6,14 +6,9 @@ import com.liferay.launchpad.serializer.DefaultJsonEngines;
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.impl.JoddJsonParser;
 import com.liferay.launchpad.serializer.impl.JoddJsonSerializer;
-import com.liferay.launchpad.uuid.DefaultUuidGenerator;
-import com.liferay.launchpad.uuid.impl.TimeOrderedUuidGenerator;
 public class ApiClient {
 
 	public static void init() {
-		DefaultUuidGenerator.setDefaultGenerator(
-			new TimeOrderedUuidGenerator());
-
 		DefaultTransport.setDefaultTransport(new JoddHttpTransport());
 
 		DefaultJsonEngines.setDefaultEngines(
