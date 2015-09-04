@@ -64,11 +64,6 @@ public interface Context {
 	public String name();
 
 	/**
-	 * Loads Java resource from context classloader.
-	 */
-	public InputStream openJavaResource(String name) throws IOException;
-
-	/**
 	 * Returns single file from <code>web</code> folder. Returns
 	 * <code>null</code> if file does not exist.
 	 */
