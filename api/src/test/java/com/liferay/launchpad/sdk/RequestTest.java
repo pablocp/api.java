@@ -84,7 +84,7 @@ public class RequestTest {
 	public void testParse() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.body("1");
-		int parsed = request.parse();
+		int parsed = request.bodyValue();
 		Assert.assertEquals(1, parsed);
 	}
 
@@ -93,7 +93,7 @@ public class RequestTest {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.param("key", "value");
 		request.body("{\"a\":1}");
-		Map parsed = request.parse();
+		Map parsed = request.bodyValue();
 		Assert.assertEquals(1, parsed.get("a"));
 		Assert.assertFalse(parsed.containsKey("key"));
 	}
@@ -102,7 +102,7 @@ public class RequestTest {
 	public void testParse_invalidBody() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.body("invalid");
-		request.parse();
+		request.bodyValue();
 	}
 
 	@Test

@@ -26,25 +26,43 @@ public interface Request {
 	public String baseUrl();
 
 	/**
-	 * Returns the body content.
+	 * Returns the raw body content.
 	 */
 	public String body();
 
 	/**
-	 * Sets the JSON body content.
+	 * Sets the body content depending on content type.
 	 */
 	public Request body(Object body);
 
 	/**
-	 * Sets the body content.
+	 * Sets the raw body content.
 	 */
 	public Request body(String body);
 
 	/**
-	 * Sets the body content and common {@link ContentType content-type}.
+	 * Sets the raw body content and common {@link ContentType content-type}.
 	 * Just a shortcut call.
 	 */
 	public Request body(String body, ContentType contentType);
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> List<T> bodyList(Class<T> componentType);
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> T bodyValue();
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> T bodyValue(Class<T> type);
 
 	/**
 	 * Gets the content type header.
@@ -134,24 +152,6 @@ public interface Request {
 	public PodMultiMap<String> params();
 
 	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> T parse();
-
-	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> T parse(Class<T> type);
-
-	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> List<T> parseList(Class<T> componentType);
-
-	/**
 	 * Returns action path of the URI. Returned path does not contain the query
 	 * part. Returns <code>"/"</code> for the root.
 	 */
@@ -179,15 +179,15 @@ public interface Request {
 
 	/**
 	 * Returns parsed {@link #params() request params}
-	 * merged with {@link #parse parsed body}, if it is an object.
+	 * merged with {@link #bodyValue parsed body}, if it is an object.
 	 */
-	public default Map<String, Object> values() {
+	public default PodMultiMap<Object> values() {
 		return values(null);
 	}
 
 	/**
 	 * Returns parsed {@link #params() request params}
-	 * merged with {@link #parse parsed body}, if it is an object.
+	 * merged with {@link #bodyValue parsed body}, if it is an object.
 	 */
 	public <T> T values(Class<T> type);
 

@@ -42,6 +42,24 @@ public interface Response {
 	public Response body(String body, ContentType contentType);
 
 	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> List<T> bodyList(Class<T> componentType);
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> T bodyValue();
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns <code>null</code>.
+	 */
+	public <T> T bodyValue(Class<T> type);
+
+	/**
 	 * Gets the content type header.
 	 */
 	public String contentType();
@@ -125,24 +143,6 @@ public interface Response {
 	 * Checks if the response contains a content type header with the specified value.
 	 */
 	public boolean isContentType(ContentType contentType);
-
-	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> T parse();
-
-	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> T parse(Class<T> type);
-
-	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
-	 */
-	public <T> List<T> parseList(Class<T> componentType);
 
 	/**
 	 * Pipes response to another response.

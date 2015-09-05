@@ -43,6 +43,30 @@ public abstract class Base<R> {
 		return (R)this;
 	}
 
+	public <T> List<T> bodyList(Class<T> componentType) {
+		if (body == null) {
+			return null;
+		}
+
+		return LaunchpadParser.get().parseAsList(body, componentType);
+	}
+
+	public <T> T bodyValue() {
+		if (body == null) {
+			return null;
+		}
+
+		return LaunchpadParser.get().parse(body);
+	}
+
+	public <T> T bodyValue(Class<T> type) {
+		if (body == null) {
+			return null;
+		}
+
+		return LaunchpadParser.get().parse(body, type);
+	}
+
 	public String contentType() {
 		return headers().get("Content-Type");
 	}
@@ -98,30 +122,6 @@ public abstract class Base<R> {
 
 	public boolean isContentType(ContentType contentType) {
 		return contentType.isSame(contentType());
-	}
-
-	public <T> T parse() {
-		if (body == null) {
-			return null;
-		}
-
-		return LaunchpadParser.get().parse(body);
-	}
-
-	public <T> T parse(Class<T> type) {
-		if (body == null) {
-			return null;
-		}
-
-		return LaunchpadParser.get().parse(body, type);
-	}
-
-	public <T> List<T> parseList(Class<T> componentType) {
-		if (body == null) {
-			return null;
-		}
-
-		return LaunchpadParser.get().parseAsList(body, componentType);
 	}
 
 	protected void setBody(String value) {
