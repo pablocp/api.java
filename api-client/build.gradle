@@ -2,4 +2,6 @@ dependencies {
 	compile project(':api')
 	compile "org.jodd:jodd-http:${joddVersion}"
 	compile "org.jodd:jodd-json:${joddVersion}"
+
+	testCompile lib.junit
 }
