@@ -87,11 +87,11 @@ public abstract class Base<R> {
 		return (R)this;
 	}
 
-	public PodMultiMap headers() {
+	public PodMultiMap<String> headers() {
 		return headers;
 	}
 
-	public R headers(PodMultiMap headers) {
+	public R headers(PodMultiMap<String> headers) {
 		this.headers = headers;
 		return (R)this;
 	}
@@ -150,7 +150,7 @@ public abstract class Base<R> {
 	}
 
 	protected Map<String, Cookie> cookies = new HashMap<>();
-	protected PodMultiMap headers = PodMultiMap.newMultiMap();
+	protected PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 
 	private String body;
 

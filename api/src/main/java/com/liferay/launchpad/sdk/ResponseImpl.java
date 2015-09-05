@@ -28,11 +28,10 @@ public class ResponseImpl extends Base<Response> implements Response {
 
 	@Override
 	public Response pipe(Response response) {
-		PodMultiMap headers = this.headers();
+		PodMultiMap<String> headers = this.headers();
 
 		headers.forEach(
-			entry -> response.header(
-				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+			entry -> response.header(entry.getKey(), entry.getValue()));
 
 		response
 			.status(this.statusCode(), this.statusMessage())

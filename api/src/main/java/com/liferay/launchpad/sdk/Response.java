@@ -114,7 +114,7 @@ public interface Response {
 	/**
 	 * Returns headers.
 	 */
-	public PodMultiMap headers();
+	public PodMultiMap<String> headers();
 
 	/**
 	 * Returns <code>true</code> if response is already committed.

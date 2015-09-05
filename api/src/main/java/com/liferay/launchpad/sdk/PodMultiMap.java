@@ -19,23 +19,21 @@ import java.util.Set;
 /**
  * Multi-map.
  */
-public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
+public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 
 	/**
 	 * Creates new case-sensitive implementation of the multi-map.
 	 */
-	public static PodMultiMap newCaseSensitiveMultiMap() {
-		return new PodMultiMapImpl(true);
+	public static <T> PodMultiMap<T> newCaseSensitiveMultiMap() {
+		return PodMultiMapFactory.Default.factory.createMultiMap(true);
 	}
 
 	/**
 	 * Creates new default implementation of the multi-map.
 	 */
-	public static PodMultiMap newMultiMap() {
-		return new PodMultiMapImpl(false);
+	public static <T> PodMultiMap<T> newMultiMap() {
+		return PodMultiMapFactory.Default.factory.createMultiMap(false);
 	}
-
-	public PodMultiMap add(String name, Object value);
 
 	/**
 	 * Adds a new value with the specified name and value.
@@ -44,7 +42,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param value The value being added
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap add(String name, String value);
+	public PodMultiMap<V> add(String name, V value);
 
 	/**
 	 * Adds all values from the map.
@@ -52,7 +50,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param map source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap addAll(Map<String, String> map);
+	public PodMultiMap<V> addAll(Map<String, V> map);
 
 	/**
 	 * Adds new values under the specified name.
@@ -61,14 +59,14 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param values The values
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap addAll(String name, Iterable<String> values);
+	public PodMultiMap<V> addAll(String name, Iterable<V> values);
 
 	/**
-	 * Removes all
+	 * Removes all values.
 	 *
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap clear();
+	public PodMultiMap<V> clear();
 
 	/**
 	 * Checks to see if there is a value with the specified name.
@@ -84,12 +82,12 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @return A immutable {@link java.util.List} of the name-value entries, which will be
 	 * empty if no pairs are found
 	 */
-	public List<Map.Entry<String, String>> entries();
+	public List<Map.Entry<String, V>> entries();
 
 	/**
 	 * Get the String value associated with a key.
 	 */
-	public abstract String get(String name);
+	public V get(String name);
 
 	/**
 	 * Returns the values with the specified name.
@@ -98,63 +96,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @return A immutable {@link java.util.List} of values which will be empty
 	 * if no values are found
 	 */
-	public List<String> getAll(String name);
-
-	public List<Object> getAllValues(String name);
-
-	/**
-	 * Get the boolean value associated with a key.
-	 */
-	public default Boolean getBoolean(String name) {
-		String value = get(name);
-
-		if (value == null) {
-			return null;
-		}
-
-		return Boolean.valueOf(value.trim().toLowerCase());
-	}
-
-	/**
-	 * Get the double value associated with a key.
-	 */
-	public default Double getDouble(String name) {
-		String value = get(name);
-
-		if (value == null) {
-			return null;
-		}
-
-		return Double.parseDouble(value);
-	}
-
-	/**
-	 * Get the int value associated with a key.
-	 */
-	public default Integer getInt(String name) {
-		String value = get(name);
-
-		if (value == null) {
-			return null;
-		}
-
-		return Integer.parseInt(value);
-	}
-
-	/**
-	 * Get the long value associated with a key.
-	 */
-	public default Long getLong(String name) {
-		String value = get(name);
-
-		if (value == null) {
-			return null;
-		}
-
-		return Long.parseLong(value);
-	}
-
-	public abstract <T> T getValue(String name);
+	public List<V> getAll(String name);
 
 	/**
 	 * Returns <code>true</code> if this map is case sensitive.
@@ -179,9 +121,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param name The name  of the value to remove
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap remove(String name);
-
-	public PodMultiMap set(String name, Object value);
+	public PodMultiMap<V> remove(String name);
 
 	/**
 	 * Sets a value under the specified name.
@@ -192,7 +132,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param value The value
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap set(String name, String value);
+	public PodMultiMap<V> set(String name, V value);
 
 	/**
 	 * Sets values from given map.
@@ -200,7 +140,7 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param map The source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap setAll(Map<String, String> map);
+	public PodMultiMap<V> setAll(Map<String, V> map);
 
 	/**
 	 * Sets values for the specified name.
@@ -209,16 +149,11 @@ public interface PodMultiMap extends Iterable<Map.Entry<String, String>> {
 	 * @param values The values being set
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap setAll(String name, Iterable<String> values);
+	public PodMultiMap<V> setAll(String name, Iterable<V> values);
 
 	/**
 	 * Return the number of keys.
 	 */
 	public int size();
-
-	/**
-	 * Converts map to a java map.
-	 */
-	public Map<String, Object> toMap();
 
 }

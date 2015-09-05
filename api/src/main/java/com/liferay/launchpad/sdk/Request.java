@@ -95,7 +95,7 @@ public interface Request {
 	/**
 	 * Returns headers.
 	 */
-	public PodMultiMap headers();
+	public PodMultiMap<String> headers();
 
 	/**
 	 * Checks if the request contains a content type header with the
@@ -131,7 +131,7 @@ public interface Request {
 	/**
 	 * Returns request parameters.
 	 */
-	public PodMultiMap params();
+	public PodMultiMap<String> params();
 
 	/**
 	 * Returns parsed {@link #body() body content}.

@@ -10,8 +10,9 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk;
+package com.liferay.launchpad.sdk.impl;
 
+import com.liferay.launchpad.sdk.PodMultiMap;
 public class PodCaseSensitiveMultiMapTest extends PodMultiMapTest {
 
 	protected PodMultiMap createMultiMap() {

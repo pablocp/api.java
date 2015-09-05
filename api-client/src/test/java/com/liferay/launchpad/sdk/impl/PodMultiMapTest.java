@@ -10,16 +10,24 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk;
+package com.liferay.launchpad.sdk.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.util.List;
-import java.util.Map;
+import com.liferay.launchpad.ApiClient;
+import com.liferay.launchpad.sdk.PodMultiMap;
 
+import java.util.List;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 public class PodMultiMapTest {
+
+	@BeforeClass
+	public static void beforeClass() {
+		ApiClient.init();
+	}
 
 	@Test
 	public void testGetAll() {
@@ -67,26 +75,6 @@ public class PodMultiMapTest {
 		else {
 			assertEquals(3, mm.names().size());
 		}
-	}
-
-	@Test
-	public void testToMap() {
-		PodMultiMap mm = createMultiMap();
-
-		addDefaultSet(mm);
-
-		Map<String, Object> map = mm.toMap();
-
-		assertEquals(4, map.size());
-		assertEquals("1", map.get("One"));
-		assertNull(map.get("one"));
-		assertEquals("two", map.get("two"));
-		assertEquals("TWO", map.get("Two"));
-
-		List list = (List)map.get("three");
-		assertEquals(2, list.size());
-		assertEquals("3", list.get(0));
-		assertEquals("4", list.get(1));
 	}
 
 	protected void addDefaultSet(PodMultiMap mm) {

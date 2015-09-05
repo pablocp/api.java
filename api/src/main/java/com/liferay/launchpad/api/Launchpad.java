@@ -7,7 +7,6 @@ import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
-import com.liferay.launchpad.sdk.ValuesUtil;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
 import java.util.Base64;
@@ -423,12 +422,10 @@ public class Launchpad {
 		}
 
 		headers.forEach(
-			entry -> request.header(
-				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+			entry -> request.header(entry.getKey(), entry.getValue()));
 
 		params.forEach(
-			entry -> request.param(
-				entry.getKey(), ValuesUtil.toString(entry.getValue())));
+			entry -> request.param(entry.getKey(), entry.getValue()));
 
 		return request;
 	}
@@ -509,9 +506,9 @@ public class Launchpad {
 
 	protected Auth auth;
 	protected Transport currentTransport;
-	protected final PodMultiMap headers = PodMultiMap.newMultiMap();
+	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 	protected LaunchpadSerializer launchpadSerializer;
-	protected final PodMultiMap params = PodMultiMap.newMultiMap();
+	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected final String url;
 
 }
