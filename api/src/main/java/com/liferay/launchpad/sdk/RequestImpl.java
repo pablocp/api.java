@@ -102,6 +102,11 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
+	public PodMultiMap<Object> values() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public <T> T values(Class<T> type) {
 		throw new UnsupportedOperationException();
 	}

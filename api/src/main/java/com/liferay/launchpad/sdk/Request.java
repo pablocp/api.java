@@ -181,9 +181,7 @@ public interface Request {
 	 * Returns parsed {@link #params() request params}
 	 * merged with {@link #bodyValue parsed body}, if it is an object.
 	 */
-	public default PodMultiMap<Object> values() {
-		return values(null);
-	}
+	public PodMultiMap<Object> values();
 
 	/**
 	 * Returns parsed {@link #params() request params}
