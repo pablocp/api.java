@@ -24,6 +24,10 @@ public interface LaunchpadSerializer {
 		return LaunchpadSerializerEngine.instance().serializer();
 	}
 
+	public static LaunchpadSerializer get(String contentType) {
+		return LaunchpadSerializerEngine.instance().serializer(contentType);
+	}
+
 	/**
 	 * Serializes an object, deep.
 	 */

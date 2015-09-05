@@ -28,14 +28,14 @@ public class LaunchpadSerializerEngine {
 	}
 
 	public LaunchpadParser parser() {
-		return parser(defaultSerializerType);
+		return parser(defaultContentType);
 	}
 
 	/**
 	 * Returns te {@link LaunchpadParser} instance.
 	 */
-	public LaunchpadParser parser(SerializerType serializerType) {
-		Engines engines = lookupEngines(serializerType);
+	public LaunchpadParser parser(String contentType) {
+		Engines engines = lookupEngines(contentType);
 
 		return engines.getParser();
 	}
@@ -43,56 +43,46 @@ public class LaunchpadSerializerEngine {
 	/**
 	 * Manual registration of engines.
 	 */
-	public void registerEngines(
-		SerializerType serializerType, Engines engines) {
-
+	public void registerEngines(String serializerType, Engines engines) {
 		enginesMap.put(serializerType, engines);
 	}
 
 	public LaunchpadSerializer serializer() {
-		return serializer(defaultSerializerType);
+		return serializer(defaultContentType);
 	}
 
 	/**
 	 * Returns the {@link LaunchpadSerializer} instance.
 	 */
-	public LaunchpadSerializer serializer(SerializerType serializerType) {
-		Engines engines = lookupEngines(serializerType);
+	public LaunchpadSerializer serializer(String contentType) {
+		Engines engines = lookupEngines(contentType);
 
 		return engines.getSerializer();
+	}
+
+	public void setDefaultContentType(String defaultContentType) {
+		this.defaultContentType = defaultContentType;
 	}
 
 	protected LaunchpadSerializerEngine() {
 	}
 
-	protected Engines lookupEngines(SerializerType serializerType) {
-		Engines engines = enginesMap.get(serializerType);
+	protected Engines lookupEngines(String contentType) {
+		Engines engines = enginesMap.get(contentType);
 
 		if (engines == null) {
-			switch (serializerType) {
-				case JSON:
-					engines = DefaultJsonEngines.getDefaultEngines();
-					break;
-				default:
-					engines = null;
-			}
-
-			if (engines == null) {
-				throw new LaunchpadSerializerException(
-					"Default Serializer not specified for " + serializerType);
-			}
-
-			enginesMap.put(serializerType, engines);
+			throw new LaunchpadSerializerException(
+				"Engine for content type not found: " + contentType);
 		}
 
 		return engines;
 	}
 
-	protected SerializerType defaultSerializerType = SerializerType.JSON;
-
 	private static final LaunchpadSerializerEngine instance =
 		new LaunchpadSerializerEngine();
 
-	private Map<SerializerType, Engines> enginesMap = new HashMap<>();
+	private String defaultContentType;
+
+	private Map<String, Engines> enginesMap = new HashMap<>();
 
 }

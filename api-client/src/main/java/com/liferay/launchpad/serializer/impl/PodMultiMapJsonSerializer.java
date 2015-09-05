@@ -3,14 +3,14 @@ package com.liferay.launchpad.serializer.impl;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import jodd.json.JsonContext;
 import jodd.json.Path;
-import jodd.json.TypeJsonSerializer;
+import jodd.json.impl.ValueJsonSerializer;
 
 import java.util.List;
 
-public class PodMultiMapJsonSerializer implements TypeJsonSerializer<PodMultiMap<?>> {
+public class PodMultiMapJsonSerializer extends ValueJsonSerializer<PodMultiMap<?>> {
 
 	@Override
-	public void serialize(JsonContext jsonContext, PodMultiMap<?> map) {
+	public void serializeValue(JsonContext jsonContext, PodMultiMap<?> map) {
 		jsonContext.writeOpenObject();
 
 		int count = 0;
@@ -21,6 +21,8 @@ public class PodMultiMapJsonSerializer implements TypeJsonSerializer<PodMultiMap
 			final List<?> list = map.getAll(key);
 
 			Object value = list.size() == 1 ? list.get(0) : list;
+
+			// TODO(igor): simplify with new Jodd!
 
 			currentPath.push(key);
 
@@ -60,4 +62,5 @@ public class PodMultiMapJsonSerializer implements TypeJsonSerializer<PodMultiMap
 		jsonContext.writeCloseObject();
 
 	}
+
 }
