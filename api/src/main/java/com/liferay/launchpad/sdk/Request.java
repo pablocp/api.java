@@ -184,6 +184,11 @@ public interface Request {
 	public void response(Response response);
 
 	/**
+	 * Returns current session.
+	 */
+	public Session session();
+
+	/**
 	 * Returns the absolute URL corresponding to the the HTTP request.
 	 */
 	public String url();

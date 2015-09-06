@@ -97,6 +97,11 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
+	public Session session() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String url() {
 		return url;
 	}
