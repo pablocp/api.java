@@ -26,23 +26,23 @@ public interface Request {
 	public String baseUrl();
 
 	/**
-	 * Returns the raw body content.
+	 * Returns the raw body content. The raw body is always a string.
 	 */
 	public String body();
 
 	/**
-	 * Sets the body content depending on content type.
+	 * Sets the body content, assuming JSON content type.
 	 */
 	public Request body(Object body);
 
 	/**
-	 * Sets the raw body content.
+	 * Sets the raw body content by passing the string value.
 	 */
 	public Request body(String body);
 
 	/**
-	 * Sets the raw body content and common {@link ContentType content-type}.
-	 * Just a shortcut call.
+	 * Sets the raw body content and the {@link ContentType content-type}.
+	 * This is just a shortcut method.
 	 */
 	public Request body(String body, ContentType contentType);
 
@@ -53,14 +53,17 @@ public interface Request {
 	public <T> List<T> bodyList(Class<T> componentType);
 
 	/**
+	 * Parses the body depending on content-type. If content-type is NOT set,
+	 * it will use default content-type for parsing, which is often a JSON.
 	 * Returns parsed {@link #body() body content}.
 	 * If body is not set, returns <code>null</code>.
+	 * If body can not be parsed, returns <code>null</code>.
 	 */
 	public <T> T bodyValue();
 
 	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
+	 * Parses the body depending on content-type into the target type.
+	 * @see #bodyValue()
 	 */
 	public <T> T bodyValue(Class<T> type);
 
@@ -147,7 +150,15 @@ public interface Request {
 	public Request param(String name, String value);
 
 	/**
-	 * Returns request parameters.
+	 * Returns map of string request parameters. They consist of:
+	 * <ol>
+	 *     <li>query parameters</li>
+	 *     <li>form parameters</li>
+	 *     <li>parameters from api.json (serialized to string)</li>
+	 *     <li>path parameters</li>
+	 * </ol>
+	 * <p>
+	 * Parameters are accumulated in given order.
 	 */
 	public PodMultiMap<String> params();
 
@@ -178,14 +189,21 @@ public interface Request {
 	public String url();
 
 	/**
-	 * Returns parsed {@link #params() request params}
-	 * merged with {@link #bodyValue parsed body}, if it is an object.
+	 * Merges all the inputs in best possible way. The following is merged
+	 * in given order:
+	 * <ol>
+	 *     <li>{@link #params() parameters} - parsed to a JSON, if possible</li>
+	 *     <li>{@link #bodyValue()} parsed body}</li>
+	 * </ol>
+	 * Values with the same names and different sources are accumulated in
+	 * multi map. Always returns an object, never a <code>null</code>.
+	 * When content type is one of the form content types, body is ignored.
 	 */
 	public PodMultiMap<Object> values();
 
 	/**
-	 * Returns parsed {@link #params() request params}
-	 * merged with {@link #bodyValue parsed body}, if it is an object.
+	 * Returns merged values to a certain type.
+	 * @see #values()
 	 */
 	public <T> T values(Class<T> type);
 

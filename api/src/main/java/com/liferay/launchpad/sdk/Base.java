@@ -56,7 +56,19 @@ public abstract class Base<R> {
 			return null;
 		}
 
-		return LaunchpadParser.get().parse(body);
+		String contentTypeValue = contentType();
+
+		if (contentTypeValue == null) {
+			return LaunchpadParser
+				.get()
+				.parseSilently(body);
+		}
+
+		ContentType contentType = new ContentType(contentTypeValue);
+
+		return LaunchpadParser
+			.get(contentType.contentType())
+			.parseSilently(body);
 	}
 
 	public <T> T bodyValue(Class<T> type) {
@@ -64,7 +76,19 @@ public abstract class Base<R> {
 			return null;
 		}
 
-		return LaunchpadParser.get().parse(body, type);
+		String contentTypeValue = contentType();
+
+		if (contentTypeValue == null) {
+			return LaunchpadParser
+				.get()
+				.parseSilently(body, type);
+		}
+
+		ContentType contentType = new ContentType(contentTypeValue);
+
+		return LaunchpadParser
+			.get(contentType.contentType())
+			.parseSilently(body, type);
 	}
 
 	public String contentType() {
@@ -124,6 +148,15 @@ public abstract class Base<R> {
 		return contentType.isSame(contentType());
 	}
 
+	/**
+	 * Returns <code>true</code> if content type is either form url encoded
+	 * or multi-part form.
+	 */
+	public boolean isFormContentType() {
+		return (isContentType(ContentType.FORM_URLENCODED) ||
+			isContentType(ContentType.MULTIPART_FORM));
+	}
+
 	protected void setBody(String value) {
 		this.body = value;
 	}
@@ -140,7 +173,9 @@ public abstract class Base<R> {
 			return (R)this;
 		}
 
-		String bodyJson = LaunchpadSerializer.get().serialize(body);
+		String bodyJson = LaunchpadSerializer
+			.get(ContentType.JSON.contentType())
+			.serialize(body);
 
 		contentType(ContentType.JSON);
 

@@ -98,11 +98,11 @@ public class RequestTest {
 		Assert.assertFalse(parsed.containsKey("key"));
 	}
 
-	@Test(expected = JsonException.class)
+	@Test
 	public void testParse_invalidBody() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.body("invalid");
-		request.bodyValue();
+		Assert.assertNull(request.bodyValue());
 	}
 
 	@Test

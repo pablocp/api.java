@@ -39,9 +39,31 @@ public interface LaunchpadParser {
 	public <T> T parse(String string);
 
 	/**
+	 * {@link #parse(String) Parses} string without throwing an exception and
+	 * returning <code>null</code> on failures.
+	 */
+	public default <T> T parseSilently(String string) {
+		try {
+			return parse(string);
+		}
+		catch (Exception ignore) {
+			return null;
+		}
+	}
+
+	/**
 	 * Parses string to given type.
 	 */
 	public <T> T parse(String string, Class<T> type);
+
+	public default <T> T parseSilently(String string, Class<T> type) {
+		try {
+			return parse(string, type);
+		}
+		catch (Exception ignore) {
+			return null;
+		}
+	}
 
 	/**
 	 * Parses string to a list of given type.
