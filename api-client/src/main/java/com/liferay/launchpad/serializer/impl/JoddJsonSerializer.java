@@ -18,9 +18,6 @@ import com.liferay.launchpad.serializer.LaunchpadSerializer;
 import jodd.json.JsonSerializer;
 public class JoddJsonSerializer implements LaunchpadSerializer {
 
-	private static final PodMultiMapJsonSerializer POD_MULTI_MAP_JSON_SERIALIZER
-		= new PodMultiMapJsonSerializer();
-
 	@Override
 	public String serialize(Object object, boolean deep) {
 		return JsonSerializer
@@ -29,5 +26,8 @@ public class JoddJsonSerializer implements LaunchpadSerializer {
 			.use(PodMultiMap.class, POD_MULTI_MAP_JSON_SERIALIZER)
 			.serialize(object);
 	}
+
+	private static final PodMultiMapJsonSerializer POD_MULTI_MAP_JSON_SERIALIZER
+		= new PodMultiMapJsonSerializer();
 
 }

@@ -39,6 +39,16 @@ public interface LaunchpadParser {
 	public <T> T parse(String string);
 
 	/**
+	 * Parses string to given type.
+	 */
+	public <T> T parse(String string, Class<T> type);
+
+	/**
+	 * Parses string to a list of given type.
+	 */
+	public <T> List<T> parseAsList(String string, Class<T> componentType);
+
+	/**
 	 * {@link #parse(String) Parses} string without throwing an exception and
 	 * returning <code>null</code> on failures.
 	 */
@@ -51,11 +61,6 @@ public interface LaunchpadParser {
 		}
 	}
 
-	/**
-	 * Parses string to given type.
-	 */
-	public <T> T parse(String string, Class<T> type);
-
 	public default <T> T parseSilently(String string, Class<T> type) {
 		try {
 			return parse(string, type);
@@ -64,10 +69,5 @@ public interface LaunchpadParser {
 			return null;
 		}
 	}
-
-	/**
-	 * Parses string to a list of given type.
-	 */
-	public <T> List<T> parseAsList(String string, Class<T> componentType);
 
 }

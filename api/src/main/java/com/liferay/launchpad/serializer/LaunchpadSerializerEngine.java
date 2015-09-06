@@ -82,7 +82,6 @@ public class LaunchpadSerializerEngine {
 		new LaunchpadSerializerEngine();
 
 	private String defaultContentType;
-
 	private Map<String, Engines> enginesMap = new HashMap<>();
 
 }

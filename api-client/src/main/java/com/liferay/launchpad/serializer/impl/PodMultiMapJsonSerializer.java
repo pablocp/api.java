@@ -1,13 +1,14 @@
 package com.liferay.launchpad.serializer.impl;
 
 import com.liferay.launchpad.sdk.PodMultiMap;
-import jodd.json.JsonContext;
-import jodd.json.Path;
-import jodd.json.impl.ValueJsonSerializer;
 
 import java.util.List;
 
-public class PodMultiMapJsonSerializer extends ValueJsonSerializer<PodMultiMap<?>> {
+import jodd.json.JsonContext;
+import jodd.json.Path;
+import jodd.json.impl.ValueJsonSerializer;
+public class PodMultiMapJsonSerializer
+	extends ValueJsonSerializer<PodMultiMap<?>> {
 
 	@Override
 	public void serializeValue(JsonContext jsonContext, PodMultiMap<?> map) {
@@ -34,7 +35,8 @@ public class PodMultiMapJsonSerializer extends ValueJsonSerializer<PodMultiMap<?
 
 				// + all collections are not serialized by default
 
-				include = jsonContext.matchIgnoredPropertyTypes(value.getClass(), false, include);
+				include = jsonContext.matchIgnoredPropertyTypes(
+					value.getClass(), false, include);
 
 				// + path queries: excludes/includes
 
@@ -60,7 +62,6 @@ public class PodMultiMapJsonSerializer extends ValueJsonSerializer<PodMultiMap<?
 		}
 
 		jsonContext.writeCloseObject();
-
 	}
 
 }

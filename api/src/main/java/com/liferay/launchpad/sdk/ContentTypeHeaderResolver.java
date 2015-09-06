@@ -13,7 +13,8 @@ class ContentTypeHeaderResolver {
 	ContentTypeHeaderResolver(String fullContentType) {
 		int charsetNdx = fullContentType.lastIndexOf("charset=");
 
-		encoding = charsetNdx != -1 ? extractContentTypeValue(fullContentType, charsetNdx + 8) : null;
+		encoding = charsetNdx != -1 ? extractContentTypeValue(
+			fullContentType, charsetNdx + 8) : null;
 
 		type = extractContentTypeValue(fullContentType, 0);
 	}
@@ -21,6 +22,7 @@ class ContentTypeHeaderResolver {
 	private String extractContentTypeValue(String type, int startIndex) {
 
 		// skip spaces
+
 		while (startIndex < type.length() && type.charAt(startIndex) == ' ') {
 			startIndex++;
 		}
@@ -34,14 +36,18 @@ class ContentTypeHeaderResolver {
 		if (type.charAt(startIndex) == '"') {
 			startIndex++;
 			endIndex = type.indexOf('"', startIndex);
+
 			if (endIndex == -1) {
 				endIndex = type.length();
 			}
 		} else {
-			while (endIndex < type.length() && (TSPECIALS.indexOf(type.charAt(endIndex)) < 0)) {
+			while (endIndex < type.length() &&
+				   (TSPECIALS.indexOf(type.charAt(endIndex)) < 0)) {
+
 				endIndex++;
 			}
 		}
+
 		return type.substring(startIndex, endIndex);
 	}
 

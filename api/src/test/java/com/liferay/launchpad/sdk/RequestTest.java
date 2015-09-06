@@ -18,8 +18,6 @@ import com.liferay.launchpad.ApiClient;
 
 import java.util.Map;
 
-import jodd.json.JsonException;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

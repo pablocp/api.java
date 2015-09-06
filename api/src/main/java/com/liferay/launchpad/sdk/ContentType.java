@@ -29,7 +29,8 @@ public class ContentType {
 		"multipart/form-data", "UTF-8");
 
 	public ContentType(String contentType) {
-		ContentTypeHeaderResolver cthr = new ContentTypeHeaderResolver(contentType);
+		ContentTypeHeaderResolver cthr = new ContentTypeHeaderResolver(
+			contentType);
 
 		this.contentType = cthr.getMimeType();
 		this.charset = cthr.getEncoding();
