@@ -18,6 +18,7 @@ public class TestTransport extends BlockingTransport {
 		this.request = request;
 		this.response = new ResponseImpl(request);
 
+		response.header("Content-Type", "application/json");
 		response.statusCode(200);
 		response.body(request.body());
 
