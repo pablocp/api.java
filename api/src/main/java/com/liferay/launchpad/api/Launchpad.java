@@ -159,13 +159,14 @@ public class Launchpad {
 	}
 
 	/**
-	 * Serializes an object and sets query parameter.
+	 * Serializes an object using JSON serializer and sets query parameter.
 	 */
 	public Launchpad param(String name, Object value) {
 		String valueString = null;
 
 		if (value != null) {
-			final LaunchpadSerializer serializer = resolveSerializer();
+			LaunchpadSerializer serializer =
+				LaunchpadSerializer.get(ContentType.JSON);
 
 			valueString = serializer.serialize(value);
 		}
@@ -235,7 +236,6 @@ public class Launchpad {
 	public Launchpad path(String path) {
 		return new Launchpad(url, path)
 			.use(currentTransport)
-			.use(launchpadSerializer)
 			.auth(auth);
 	}
 
@@ -344,14 +344,6 @@ public class Launchpad {
 	}
 
 	/**
-	 * Specifies custom serializer implementation.
-	 */
-	public Launchpad use(LaunchpadSerializer launchpadSerializer) {
-		this.launchpadSerializer = launchpadSerializer;
-		return this;
-	}
-
-	/**
 	 * Specifies {@link Transport} implementation.
 	 */
 	public Launchpad use(Transport transport) {
@@ -383,28 +375,38 @@ public class Launchpad {
 	}
 
 	/**
-	 * Resolves body string from body object. Sets content type to json is
-	 * body object is not {@code null}.
+	 * Resolves body string from body object. If object is <code>null</code>,
+	 * null will be returned. Object is serialized using the existing content
+	 * type. If content type is not set, JSON is assumed; and will be set
+	 * as content type as well.
 	 */
 	protected String resolveBodyString(Object body) {
-		String bodyJson = null;
-
-		if (body != null) {
-			headers.set("Content-Type", ContentType.JSON.toString());
-
-			// TODO: Move api query checking outside?
-
-			switch (body.getClass().getPackage().getName()) {
-				case "com.liferay.launchpad.query":
-					return body.toString();
-			}
-
-			final LaunchpadSerializer launchpadSerializer = resolveSerializer();
-
-			bodyJson = launchpadSerializer.serialize(body);
+		if (body == null) {
+			return null;
 		}
 
-		return bodyJson;
+		final LaunchpadSerializer launchpadSerializer;
+
+		String existingContentType = headers.get("Content-Type");
+
+		if (existingContentType == null) {
+			headers.set("Content-Type", ContentType.JSON.toString());
+
+			launchpadSerializer = LaunchpadSerializer.get(ContentType.JSON);
+		}
+		else {
+			launchpadSerializer = LaunchpadSerializer.get(
+				new ContentType(existingContentType));
+		}
+
+		// TODO(igor): Move api query checking outside?
+
+		switch (body.getClass().getPackage().getName()) {
+			case "com.liferay.launchpad.query":
+				return body.toString();
+		}
+
+		return launchpadSerializer.serialize(body);
 	}
 
 	/**
@@ -428,17 +430,6 @@ public class Launchpad {
 			entry -> request.param(entry.getKey(), entry.getValue()));
 
 		return request;
-	}
-
-	/**
-	 * Resolves serializer.
-	 */
-	protected LaunchpadSerializer resolveSerializer() {
-		if (launchpadSerializer == null) {
-			launchpadSerializer = LaunchpadSerializer.get();
-		}
-
-		return launchpadSerializer;
 	}
 
 	/**
@@ -507,7 +498,6 @@ public class Launchpad {
 	protected Auth auth;
 	protected Transport currentTransport;
 	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
-	protected LaunchpadSerializer launchpadSerializer;
 	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected final String url;
 
