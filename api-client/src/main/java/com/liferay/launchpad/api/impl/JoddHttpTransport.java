@@ -28,7 +28,7 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		for (Cookie cookie : request.cookies().values()) {
 
-			// TODO(igor): use new Jodd for helper method
+			// TODO(igor): use new Jodd for helper method for cookie
 
 			httpRequest.header("Cookie", cookie.encode());
 		}
@@ -39,6 +39,10 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		for (Map.Entry<String, String> entry : request.params()) {
 			httpRequest.query(entry.getKey(), entry.getValue());
+		}
+
+		for (Map.Entry<String, Object> entry : request.forms()) {
+			httpRequest.form(entry.getKey(), entry.getValue());
 		}
 
 		String body = request.body();

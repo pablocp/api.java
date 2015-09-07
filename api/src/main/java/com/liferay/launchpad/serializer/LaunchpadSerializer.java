@@ -25,6 +25,7 @@ public interface LaunchpadSerializer {
 	public static LaunchpadSerializer get(ContentType contentType) {
 		return get(contentType.contentType());
 	}
+
 	public static LaunchpadSerializer get(String contentType) {
 		return LaunchpadSerializerEngine.instance().serializer(contentType);
 	}

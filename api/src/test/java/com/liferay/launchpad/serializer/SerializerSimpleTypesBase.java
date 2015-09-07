@@ -15,11 +15,9 @@ package com.liferay.launchpad.serializer;
 import static org.junit.Assert.assertEquals;
 
 import com.liferay.launchpad.sdk.ContentType;
+
 import org.junit.Test;
 public abstract class SerializerSimpleTypesBase {
-
-	private LaunchpadSerializer launchpadSerializer =
-		LaunchpadSerializer.get(ContentType.JSON);
 
 	@Test
 	public void testDouble() {
@@ -30,5 +28,8 @@ public abstract class SerializerSimpleTypesBase {
 	public void testInt() {
 		assertEquals("1", launchpadSerializer.serialize(1));
 	}
+
+	private LaunchpadSerializer launchpadSerializer = LaunchpadSerializer.get(
+		ContentType.JSON);
 
 }

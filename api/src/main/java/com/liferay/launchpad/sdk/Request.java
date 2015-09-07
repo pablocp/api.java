@@ -103,6 +103,21 @@ public interface Request {
 	public FileUpload[] fileUploads();
 
 	/**
+	 * Returns the form parameter.
+	 */
+	public Object form(String name);
+
+	/**
+	 * Sets the form parameter.
+	 */
+	public Request form(String name, String value);
+
+	/**
+	 * Returns form parameters.
+	 */
+	public PodMultiMap<Object> forms();
+
+	/**
 	 * Gets header value by name.
 	 */
 	public String header(String name);

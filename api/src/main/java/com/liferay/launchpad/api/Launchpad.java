@@ -165,8 +165,8 @@ public class Launchpad {
 		String valueString = null;
 
 		if (value != null) {
-			LaunchpadSerializer serializer =
-				LaunchpadSerializer.get(ContentType.JSON);
+			LaunchpadSerializer serializer = LaunchpadSerializer.get(
+				ContentType.JSON);
 
 			valueString = serializer.serialize(value);
 		}
