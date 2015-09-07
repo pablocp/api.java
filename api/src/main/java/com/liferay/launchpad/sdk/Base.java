@@ -59,7 +59,7 @@ public abstract class Base<R> {
 		}
 
 		return LaunchpadParser
-			.get(contentType.contentType())
+			.get(contentType)
 			.parseAsList(body, componentType);
 	}
 
@@ -79,7 +79,7 @@ public abstract class Base<R> {
 		}
 
 		return LaunchpadParser
-			.get(contentType.contentType())
+			.get(contentType)
 			.parse(body);
 	}
 
@@ -99,7 +99,7 @@ public abstract class Base<R> {
 		}
 
 		return LaunchpadParser
-			.get(contentType.contentType())
+			.get(contentType)
 			.parse(body, type);
 	}
 
@@ -186,7 +186,7 @@ public abstract class Base<R> {
 		}
 
 		String bodyJson = LaunchpadSerializer
-			.get(ContentType.JSON.contentType())
+			.get(ContentType.JSON)
 			.serialize(body);
 
 		contentType(ContentType.JSON);

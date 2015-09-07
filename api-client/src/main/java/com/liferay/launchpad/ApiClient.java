@@ -25,10 +25,6 @@ public class ApiClient {
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.TEXT.contentType(),
 			new Engines(new JoddTextSerializer(), new JoddTextParser()));
-
-		LaunchpadSerializerEngine
-			.instance()
-			.setDefaultContentType(ContentType.JSON.contentType());
 	}
 
 }

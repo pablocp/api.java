@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.serializer;
 
+import com.liferay.launchpad.sdk.ContentType;
+
 /**
  * Launchpad Serializer performs serialization of an object into a string.
  * By default, serialization is <i>deep</i>, so all inner collections
@@ -20,8 +22,8 @@ package com.liferay.launchpad.serializer;
  */
 public interface LaunchpadSerializer {
 
-	public static LaunchpadSerializer get() {
-		return LaunchpadSerializerEngine.instance().serializer();
+	public static LaunchpadSerializer get(ContentType contentType) {
+		return get(contentType.contentType());
 	}
 
 	public static LaunchpadSerializer get(String contentType) {

@@ -27,10 +27,6 @@ public class LaunchpadSerializerEngine {
 		return instance;
 	}
 
-	public LaunchpadParser parser() {
-		return parser(defaultContentType);
-	}
-
 	/**
 	 * Returns te {@link LaunchpadParser} instance.
 	 */
@@ -47,10 +43,6 @@ public class LaunchpadSerializerEngine {
 		enginesMap.put(serializerType, engines);
 	}
 
-	public LaunchpadSerializer serializer() {
-		return serializer(defaultContentType);
-	}
-
 	/**
 	 * Returns the {@link LaunchpadSerializer} instance.
 	 */
@@ -58,10 +50,6 @@ public class LaunchpadSerializerEngine {
 		Engines engines = lookupEngines(contentType);
 
 		return engines.getSerializer();
-	}
-
-	public void setDefaultContentType(String defaultContentType) {
-		this.defaultContentType = defaultContentType;
 	}
 
 	protected LaunchpadSerializerEngine() {
@@ -81,7 +69,6 @@ public class LaunchpadSerializerEngine {
 	private static final LaunchpadSerializerEngine instance =
 		new LaunchpadSerializerEngine();
 
-	private String defaultContentType;
 	private Map<String, Engines> enginesMap = new HashMap<>();
 
 }
