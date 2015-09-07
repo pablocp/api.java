@@ -108,6 +108,28 @@ public class Launchpad {
 	}
 
 	/**
+	 * Gets the form parameter.
+	 */
+	public Object form(String name) {
+		return forms.get(name);
+	}
+
+	/**
+	 * Sets the form parameter.
+	 */
+	public Launchpad form(String name, String value) {
+		forms.set(name, value);
+		return this;
+	}
+
+	/**
+	 * Returns the form parameter.
+	 */
+	public PodMultiMap<String> forms() {
+		return forms;
+	}
+
+	/**
 	 * Executes GET request.
 	 */
 	public Response get() {
@@ -429,6 +451,8 @@ public class Launchpad {
 		params.forEach(
 			entry -> request.param(entry.getKey(), entry.getValue()));
 
+		forms.forEach(entry -> request.form(entry.getKey(), entry.getValue()));
+
 		return request;
 	}
 
@@ -497,6 +521,7 @@ public class Launchpad {
 
 	protected Auth auth;
 	protected Transport currentTransport;
+	protected final PodMultiMap<String> forms = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected final String url;

@@ -46,7 +46,7 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
-	public PodMultiMap<Object> forms() {
+	public PodMultiMap<String> forms() {
 		return form;
 	}
 
@@ -134,7 +134,7 @@ public class RequestImpl extends Base<Request> implements Request {
 
 	protected String baseUrl;
 	protected FileUpload[] fileUploads;
-	protected PodMultiMap<Object> form = PodMultiMap.newMultiMap();
+	protected PodMultiMap<String> form = PodMultiMap.newMultiMap();
 	protected String method;
 	protected PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected String path;

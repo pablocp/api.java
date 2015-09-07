@@ -41,7 +41,7 @@ public class JoddHttpTransport extends BlockingTransport {
 			httpRequest.query(entry.getKey(), entry.getValue());
 		}
 
-		for (Map.Entry<String, Object> entry : request.forms()) {
+		for (Map.Entry<String, String> entry : request.forms()) {
 			httpRequest.form(entry.getKey(), entry.getValue());
 		}
 

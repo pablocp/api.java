@@ -115,7 +115,7 @@ public interface Request {
 	/**
 	 * Returns form parameters.
 	 */
-	public PodMultiMap<Object> forms();
+	public PodMultiMap<String> forms();
 
 	/**
 	 * Gets header value by name.
