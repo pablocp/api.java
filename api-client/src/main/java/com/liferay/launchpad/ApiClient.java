@@ -9,6 +9,8 @@ import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JoddJsonParser;
 import com.liferay.launchpad.serializer.impl.JoddJsonSerializer;
+import com.liferay.launchpad.serializer.impl.JoddTextParser;
+import com.liferay.launchpad.serializer.impl.JoddTextSerializer;
 public class ApiClient {
 
 	public static void init() {
@@ -19,6 +21,10 @@ public class ApiClient {
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.JSON.contentType(),
 			new Engines(new JoddJsonSerializer(), new JoddJsonParser()));
+
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.TEXT.contentType(),
+			new Engines(new JoddTextSerializer(), new JoddTextParser()));
 
 		LaunchpadSerializerEngine
 			.instance()

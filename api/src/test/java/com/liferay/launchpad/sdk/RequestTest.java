@@ -39,6 +39,50 @@ public class RequestTest {
 	}
 
 	@Test
+	public void testBodyValue_withJson() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.body("1");
+		int parsed = request.bodyValue();
+		Assert.assertEquals(1, parsed);
+	}
+
+	@Test
+	public void testBodyValue_withJson_ignoreParams() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.param("key", "value");
+		request.body("{\"a\":1}");
+		Map parsed = request.bodyValue();
+		Assert.assertEquals(1, parsed.get("a"));
+		Assert.assertFalse(parsed.containsKey("key"));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testBodyValue_withJson_invalidBody() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.body("invalid");
+		request.bodyValue();
+	}
+
+	@Test
+	public void testBodyValue_withoutContentType() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.body("1");
+		String parsed = request.bodyValue();
+		Assert.assertEquals("1", parsed);
+	}
+
+	@Test
+	public void testBodyValue_withoutContentType_convertType() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.body("1");
+		int parsed = request.bodyValue(Integer.class);
+		Assert.assertEquals(1, parsed);
+	}
+
+	@Test
 	public void testContentType() {
 		Request request = new RequestImpl("http://127.0.0.1");
 
@@ -76,31 +120,6 @@ public class RequestTest {
 		request.param("param2", "2");
 		assertEquals(null, request.params().get("param1"));
 		assertEquals("2", request.params().get("param2"));
-	}
-
-	@Test
-	public void testParse() throws Exception {
-		RequestImpl request = new RequestImpl("http://localhost:8080");
-		request.body("1");
-		int parsed = request.bodyValue();
-		Assert.assertEquals(1, parsed);
-	}
-
-	@Test
-	public void testParse_ignoreParams() throws Exception {
-		RequestImpl request = new RequestImpl("http://localhost:8080");
-		request.param("key", "value");
-		request.body("{\"a\":1}");
-		Map parsed = request.bodyValue();
-		Assert.assertEquals(1, parsed.get("a"));
-		Assert.assertFalse(parsed.containsKey("key"));
-	}
-
-	@Test
-	public void testParse_invalidBody() throws Exception {
-		RequestImpl request = new RequestImpl("http://localhost:8080");
-		request.body("invalid");
-		Assert.assertNull(request.bodyValue());
 	}
 
 	@Test

@@ -48,7 +48,19 @@ public abstract class Base<R> {
 			return null;
 		}
 
-		return LaunchpadParser.get().parseAsList(body, componentType);
+		String contentTypeValue = contentType();
+		ContentType contentType = null;
+
+		if (contentTypeValue == null) {
+			contentType = ContentType.TEXT;
+		}
+		else {
+			contentType = new ContentType(contentTypeValue);
+		}
+
+		return LaunchpadParser
+			.get(contentType.contentType())
+			.parseAsList(body, componentType);
 	}
 
 	public <T> T bodyValue() {
@@ -57,18 +69,18 @@ public abstract class Base<R> {
 		}
 
 		String contentTypeValue = contentType();
+		ContentType contentType = null;
 
 		if (contentTypeValue == null) {
-			return LaunchpadParser
-				.get()
-				.parseSilently(body);
+			contentType = ContentType.TEXT;
 		}
-
-		ContentType contentType = new ContentType(contentTypeValue);
+		else {
+			contentType = new ContentType(contentTypeValue);
+		}
 
 		return LaunchpadParser
 			.get(contentType.contentType())
-			.parseSilently(body);
+			.parse(body);
 	}
 
 	public <T> T bodyValue(Class<T> type) {
@@ -77,18 +89,18 @@ public abstract class Base<R> {
 		}
 
 		String contentTypeValue = contentType();
+		ContentType contentType = null;
 
 		if (contentTypeValue == null) {
-			return LaunchpadParser
-				.get()
-				.parseSilently(body, type);
+			contentType = ContentType.TEXT;
 		}
-
-		ContentType contentType = new ContentType(contentTypeValue);
+		else {
+			contentType = new ContentType(contentTypeValue);
+		}
 
 		return LaunchpadParser
 			.get(contentType.contentType())
-			.parseSilently(body, type);
+			.parse(body, type);
 	}
 
 	public String contentType() {
