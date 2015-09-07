@@ -25,6 +25,11 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
+	public Auth auth() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String baseUrl() {
 		return baseUrl;
 	}

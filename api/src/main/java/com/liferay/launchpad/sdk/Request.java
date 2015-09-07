@@ -21,6 +21,11 @@ import java.util.Map;
 public interface Request {
 
 	/**
+	 * Returns the auth.
+	 */
+	public Auth auth();
+
+	/**
 	 * Returns the base URL corresponding to the the HTTP request.
 	 */
 	public String baseUrl();
