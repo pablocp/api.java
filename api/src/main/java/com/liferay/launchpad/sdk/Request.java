@@ -47,17 +47,16 @@ public interface Request {
 	public Request body(String body, ContentType contentType);
 
 	/**
-	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
+	 * Returns parsed {@link #body() body content} as a List.
 	 */
 	public <T> List<T> bodyList(Class<T> componentType);
 
 	/**
 	 * Parses the body depending on content-type. If content-type is NOT set,
-	 * it will use default content-type for parsing, which is often a JSON.
+	 * it will use assume the "plain/text" content type.
 	 * Returns parsed {@link #body() body content}.
 	 * If body is not set, returns <code>null</code>.
-	 * If body can not be parsed, returns <code>null</code>.
+	 * If body can not be parsed, throws an Exception.
 	 */
 	public <T> T bodyValue();
 
