@@ -23,7 +23,8 @@ public class PodMultiMapJsonSerializer
 
 			Object value = list.size() == 1 ? list.get(0) : list;
 
-			count = serializeKeyValue(jsonContext, currentPath, key, value, count);
+			count = serializeKeyValue(
+				jsonContext, currentPath, key, value, count);
 		}
 
 		jsonContext.writeCloseObject();

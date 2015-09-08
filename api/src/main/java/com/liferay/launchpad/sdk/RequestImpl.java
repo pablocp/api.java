@@ -153,6 +153,8 @@ public class RequestImpl extends Base<Request> implements Request {
 	protected String url;
 
 	private void url(String url) {
+		// TODO(igor): !!!workaround!!!
+
 		if (url.startsWith("/")) {
 			url = "http://localhost:8080" + url;
 		}
