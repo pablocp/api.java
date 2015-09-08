@@ -159,6 +159,12 @@ public interface Request {
 	public void next();
 
 	/**
+	 * Delegates this request to the next handler and executes
+	 * the runnable on the response end.
+	 */
+	public void next(Runnable onResponseEnd);
+
+	/**
 	 * Gets parameter value by name.
 	 */
 	public String param(String name);

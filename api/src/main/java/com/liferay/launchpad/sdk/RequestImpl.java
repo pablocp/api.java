@@ -79,6 +79,11 @@ public class RequestImpl extends Base<Request> implements Request {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public void next(Runnable onResponseEnd) {
+		throw new UnsupportedOperationException();
+	}
+
 	/**
 	 * Gets the parameter value.
 	 */
