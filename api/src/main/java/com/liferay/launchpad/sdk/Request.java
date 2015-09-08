@@ -21,6 +21,11 @@ import java.util.Map;
 public interface Request {
 
 	/**
+	 * Returns the auth.
+	 */
+	public Auth auth();
+
+	/**
 	 * Returns the base URL corresponding to the the HTTP request.
 	 */
 	public String baseUrl();
@@ -152,6 +157,12 @@ public interface Request {
 	 * Delegates this request to the next handler.
 	 */
 	public void next();
+
+	/**
+	 * Delegates this request to the next handler and executes
+	 * the runnable on the response end.
+	 */
+	public void next(Runnable onResponseEnd);
 
 	/**
 	 * Gets parameter value by name.

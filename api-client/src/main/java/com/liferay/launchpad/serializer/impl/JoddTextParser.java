@@ -31,13 +31,8 @@ public class JoddTextParser implements LaunchpadParser {
 
 	@Override
 	public <T> List<T> parseAsList(String string, Class<T> componentType) {
-
-		// TODO(igor): Use JODD!
-
-//		return (List<T>)TypeConverterManager.convertToCollection(
-//			string, List.class, componentType);
-
-		return parse(string, List.class);
+		return TypeConverterManager.convertToCollection(
+			string, List.class, componentType);
 	}
 
 }

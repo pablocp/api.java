@@ -25,6 +25,11 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
+	public Auth auth() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public String baseUrl() {
 		return baseUrl;
 	}
@@ -71,6 +76,11 @@ public class RequestImpl extends Base<Request> implements Request {
 
 	@Override
 	public void next() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void next(Runnable onResponseEnd) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -143,6 +153,8 @@ public class RequestImpl extends Base<Request> implements Request {
 	protected String url;
 
 	private void url(String url) {
+		// TODO(igor): !!!workaround!!!
+
 		if (url.startsWith("/")) {
 			url = "http://localhost:8080" + url;
 		}
