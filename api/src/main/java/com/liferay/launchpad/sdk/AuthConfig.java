@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 public interface AuthConfig {
 
+	public String getHashAlgorithm();
+
 	public String getLoginPageUrl();
 
 	public String getLoginRedirectUrl();
@@ -13,8 +15,6 @@ public interface AuthConfig {
 	public String getLogoutRedirectUrl();
 
 	public String getLogoutUrl();
-
-	public String getPasswordParam();
 
 	public String getPermissionsParam();
 
