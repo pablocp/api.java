@@ -16,6 +16,8 @@ public interface AuthConfig {
 
 	public String getLogoutUrl();
 
+	public String getPasswordParam();
+
 	public String getPermissionsParam();
 
 	public String getRealm();
