@@ -80,7 +80,7 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
-	public void next(Runnable onResponseEnd) {
+	public void next(OnResponseEndCallback onResponseEnd) {
 		throw new UnsupportedOperationException();
 	}
 
