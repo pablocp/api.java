@@ -60,6 +60,9 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 		},
 		{	// 8
 			"exists", "Resource already exists."
+		},
+		{	// 6
+			"validationError", "Validation of input failed."
 		}
 	};
 
@@ -137,6 +140,14 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 
 	public Error400<T> required(String message) {
 		return error(7, message);
+	}
+
+	public Error400<T> validationError() {
+		return error(9);
+	}
+
+	public Error400<T> validationError(String message) {
+		return error(9, message);
 	}
 
 	@Override
