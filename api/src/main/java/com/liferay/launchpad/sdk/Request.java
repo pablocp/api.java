@@ -162,7 +162,7 @@ public interface Request {
 	 * Delegates this request to the next handler and executes
 	 * the runnable on the response end.
 	 */
-	public void next(Runnable onResponseEnd);
+	public void next(OnResponseEndCallback onResponseEnd);
 
 	/**
 	 * Gets parameter value by name.
