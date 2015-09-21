@@ -7,16 +7,21 @@ import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.impl.JoddPodMultiMapFactory;
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
+import com.liferay.launchpad.serializer.Serialize;
 import com.liferay.launchpad.serializer.impl.JoddJsonParser;
 import com.liferay.launchpad.serializer.impl.JoddJsonSerializer;
 import com.liferay.launchpad.serializer.impl.JoddTextParser;
 import com.liferay.launchpad.serializer.impl.JoddTextSerializer;
+
+import jodd.json.JoddJson;
 public class ApiClient {
 
 	public static void init() {
 		PodMultiMapFactory.Default.factory = new JoddPodMultiMapFactory();
 
 		DefaultTransport.setDefaultTransport(new JoddHttpTransport());
+
+		JoddJson.jsonAnnotation = Serialize.class;
 
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.JSON.contentType(),
