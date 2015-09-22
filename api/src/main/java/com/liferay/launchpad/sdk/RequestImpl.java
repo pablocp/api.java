@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
+import java.io.File;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,13 +47,25 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
+	public Request form(String name, byte[] data) {
+		form.set(name, data);
+		return null;
+	}
+
+	@Override
+	public Request form(String name, File file) {
+		form.set(name, file);
+		return this;
+	}
+
+	@Override
 	public Request form(String name, String value) {
 		form.set(name, value);
 		return this;
 	}
 
 	@Override
-	public PodMultiMap<String> forms() {
+	public PodMultiMap<Object> forms() {
 		return form;
 	}
 
@@ -144,7 +158,7 @@ public class RequestImpl extends Base<Request> implements Request {
 
 	protected String baseUrl;
 	protected FileUpload[] fileUploads;
-	protected PodMultiMap<String> form = PodMultiMap.newMultiMap();
+	protected PodMultiMap<Object> form = PodMultiMap.newMultiMap();
 	protected String method;
 	protected PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected String path;
