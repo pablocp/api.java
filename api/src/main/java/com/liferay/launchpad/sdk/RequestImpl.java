@@ -12,8 +12,6 @@
 
 package com.liferay.launchpad.sdk;
 
-import java.io.File;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -47,19 +45,7 @@ public class RequestImpl extends Base<Request> implements Request {
 	}
 
 	@Override
-	public Request form(String name, byte[] data) {
-		form.set(name, data);
-		return null;
-	}
-
-	@Override
-	public Request form(String name, File file) {
-		form.set(name, file);
-		return this;
-	}
-
-	@Override
-	public Request form(String name, String value) {
+	public Request form(String name, Object value) {
 		form.set(name, value);
 		return this;
 	}

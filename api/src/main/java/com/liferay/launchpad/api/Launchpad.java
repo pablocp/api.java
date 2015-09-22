@@ -117,7 +117,7 @@ public class Launchpad {
 	/**
 	 * Sets the form parameter.
 	 */
-	public Launchpad form(String name, String value) {
+	public Launchpad form(String name, Object value) {
 		forms.set(name, value);
 		return this;
 	}
@@ -125,7 +125,7 @@ public class Launchpad {
 	/**
 	 * Returns the form parameter.
 	 */
-	public PodMultiMap<String> forms() {
+	public PodMultiMap<Object> forms() {
 		return forms;
 	}
 
@@ -521,7 +521,7 @@ public class Launchpad {
 
 	protected Auth auth;
 	protected Transport currentTransport;
-	protected final PodMultiMap<String> forms = PodMultiMap.newMultiMap();
+	protected final PodMultiMap<Object> forms = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected final String url;

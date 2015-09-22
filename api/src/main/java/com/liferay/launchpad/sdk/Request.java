@@ -12,8 +12,6 @@
 
 package com.liferay.launchpad.sdk;
 
-import java.io.File;
-
 import java.util.List;
 import java.util.Map;
 
@@ -117,17 +115,7 @@ public interface Request {
 	/**
 	 * Sets the form parameter.
 	 */
-	public Request form(String name, byte[] data);
-
-	/**
-	 * Sets the form parameter.
-	 */
-	public Request form(String name, File file);
-
-	/**
-	 * Sets the form parameter.
-	 */
-	public Request form(String name, String value);
+	public Request form(String name, Object value);
 
 	/**
 	 * Returns form parameters.
