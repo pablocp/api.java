@@ -23,4 +23,6 @@ public interface SocketIO {
 
 	public SocketNamespace on(String event, SocketListener fn);
 
+	public SocketNamespace to(String name);
+
 }

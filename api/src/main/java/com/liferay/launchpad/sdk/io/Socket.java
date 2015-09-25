@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.sdk.io;
 
+import com.liferay.launchpad.sdk.Request;
+
 /**
  * SocketIO socket.
  */
@@ -26,6 +28,16 @@ public interface Socket extends SocketEventEmitter {
 	 * Returns the value stored with the specified key.
 	 */
 	public Object get(String key);
+
+	/**
+	 * Joins a room.
+	 */
+	public Socket join(String room);
+
+	/**
+	 * Gets original request.
+	 */
+	public Request request();
 
 	/**
 	 * Stores the value with the specified key.
