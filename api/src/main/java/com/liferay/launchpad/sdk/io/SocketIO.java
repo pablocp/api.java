@@ -13,16 +13,35 @@
 package com.liferay.launchpad.sdk.io;
 
 /**
- * SocketIO interface.
+ * SocketIO server.
  */
 public interface SocketIO {
 
+	/**
+	 * Expose main namespace (/) emit.
+	 */
+	public SocketNamespace emit(String event, Object... args);
+
+	/**
+	 * Looks up a namespace.
+	 */
 	public SocketNamespace of(String name);
 
 	public SocketNamespace of(String name, SocketListener fn);
 
+	/**
+	 * Expose main namespace (/) on.
+	 */
 	public SocketNamespace on(String event, SocketListener fn);
 
+	/**
+	 * Expose main namespace (/) to.
+	 */
 	public SocketNamespace to(String name);
+
+	/**
+	 * Expose main namespace (/) use.
+	 */
+	public SocketNamespace use(SocketMiddleware fn);
 
 }

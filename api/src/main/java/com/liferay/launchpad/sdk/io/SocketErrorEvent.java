@@ -12,21 +12,8 @@
 
 package com.liferay.launchpad.sdk.io;
 
-import java.util.Set;
-
 /**
- * SocketIO namespace.
+ * SocketIO error.
  */
-public interface SocketNamespace extends SocketEventEmitter {
-
-	/**
-	 * Gets a set of all sockets that are connected.
-	 */
-	public Set<Socket> sockets();
-
-	/**
-	 * Sets up namespace middleware.
-	 */
-	public SocketNamespace use(SocketMiddleware fn);
-
+public class SocketErrorEvent extends Throwable {
 }

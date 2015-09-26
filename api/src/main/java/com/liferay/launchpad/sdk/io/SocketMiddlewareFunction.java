@@ -12,21 +12,12 @@
 
 package com.liferay.launchpad.sdk.io;
 
-import java.util.Set;
-
 /**
- * SocketIO namespace.
+ * SocketIO middleware function.
  */
-public interface SocketNamespace extends SocketEventEmitter {
+@FunctionalInterface
+public interface SocketMiddlewareFunction {
 
-	/**
-	 * Gets a set of all sockets that are connected.
-	 */
-	public Set<Socket> sockets();
-
-	/**
-	 * Sets up namespace middleware.
-	 */
-	public SocketNamespace use(SocketMiddleware fn);
+	public void call(SocketErrorEvent err);
 
 }
