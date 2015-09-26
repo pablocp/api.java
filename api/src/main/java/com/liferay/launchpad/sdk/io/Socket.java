@@ -32,7 +32,11 @@ public interface Socket extends SocketEventEmitter {
 	/**
 	 * Joins a room.
 	 */
-	public Socket join(String room);
+	public default Socket join(String room) {
+		return this.join(room, null);
+	}
+
+	public Socket join(String room, SocketAck fn);
 
 	/**
 	 * Gets original request.
