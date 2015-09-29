@@ -186,10 +186,10 @@ public class FilterTest {
 	@Test
 	public void testFilter_withPrefixFilter() throws Exception {
 		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"pre\",\"value\":\"str\"}}",
+			"{\"*\":{\"operator\":\"prefix\",\"value\":\"str\"}}",
 			Filter.prefix("str").bodyAsJson(), true);
 		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"pre\",\"value\":\"str\"}}",
+			"{\"f\":{\"operator\":\"prefix\",\"value\":\"str\"}}",
 			Filter.prefix("f", "str").bodyAsJson(), true);
 	}
 

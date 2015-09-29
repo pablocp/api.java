@@ -182,7 +182,7 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter prefix(String field, String query) {
-		return Filter.field(field, "pre", query);
+		return Filter.field(field, "prefix", query);
 	}
 
 	public static Filter range(String field, Object min, Object max) {
