@@ -127,13 +127,7 @@ public final class Query implements Embodied {
 		return type("count");
 	}
 
-	public Query fetch() {
-		return type("fetch");
-	}
-
-	public Query scan() {
-		return type("scan");
-	}
+	public Query fetch() { return type("fetch"); }
 
 	@Override
 	public String toString() {

@@ -136,9 +136,6 @@ public class QueryTest {
 		query = Query.builder().fetch();
 		JSONAssert.assertEquals(
 			"{\"type\":\"fetch\"}", query.bodyAsJson(), true);
-		query = Query.builder().scan();
-		JSONAssert.assertEquals(
-			"{\"type\":\"scan\"}", query.bodyAsJson(), true);
 	}
 
 	@Test
