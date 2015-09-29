@@ -275,7 +275,7 @@ public class Filter implements Embodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(Query.fetch().filter(this));
+		return Util.toString(Query.filter(this));
 	}
 
 	protected Filter(String operator, Object value) {
