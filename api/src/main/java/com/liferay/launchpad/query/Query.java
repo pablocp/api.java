@@ -67,7 +67,7 @@ public final class Query implements Embodied {
 	}
 
 	public Query search(String field, String operator, Object value) {
-		return search(Filter.of(field, operator, value));
+		return search(Filter.field(field, operator, value));
 	}
 
 	public Query highlight(String field) {
@@ -85,11 +85,11 @@ public final class Query implements Embodied {
 	}
 
 	public Query filter(String field, Object value) {
-		return filter(Filter.of(field, value));
+		return filter(Filter.field(field, value));
 	}
 
 	public Query filter(String field, String operator, Object value) {
-		return filter(Filter.of(field, operator, value));
+		return filter(Filter.field(field, operator, value));
 	}
 
 	public Query sort(String field) {

@@ -15,26 +15,22 @@ public class Filter implements Embodied {
 
 	public static final String ALL = "*";
 
-	public static Filter and(Filter... filters) {
-		return composite("and", filters);
-	}
-
 	public static Filter any(String field, Iterable values) {
-		return of(field, "any", values);
+		return field(field, "any", values);
 	}
 
 	public static Filter any(String field, Object... values) {
-		return of(field, "any", Arrays.asList(values));
+		return field(field, "any", Arrays.asList(values));
 	}
 
-	public static Filter bbox(String field, Geo.BoundingBox box) {
-		return Filter.of(field, "gp", box.getPoints());
+	public static Filter boundingBox(String field, Geo.BoundingBox box) {
+		return Filter.field(field, "gp", box.getPoints());
 	}
 
-	public static Filter bbox(
+	public static Filter boundingBox(
 		String field, Object upperLeft, Object lowerRight) {
 
-		return bbox(field, Geo.bbox(upperLeft, lowerRight));
+		return boundingBox(field, Geo.bbox(upperLeft, lowerRight));
 	}
 
 	public static CommonTermsFilter common(String query) {
@@ -84,7 +80,7 @@ public class Filter implements Embodied {
 			map.put("max", range.to);
 		}
 
-		return Filter.of(field, "gd", map);
+		return Filter.field(field, "gd", map);
 	}
 
 	public static Filter distance(
@@ -94,11 +90,19 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter equal(String field, Object value) {
-		return of(field, "=", value);
+		return field(field, "=", value);
 	}
 
 	public static Filter exists(String field) {
-		return Filter.of(field, "exists", null);
+		return Filter.field(field, "exists", null);
+	}
+
+	public static Filter field(String field, Object value) {
+		return field(field, "=", value);
+	}
+
+	public static Filter field(String field, String operator, Object value) {
+		return new Filter(field, operator, value);
 	}
 
 	public static FuzzyFilter fuzzy(String query) {
@@ -120,19 +124,19 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter gt(String field, Object value) {
-		return of(field, ">", value);
+		return field(field, ">", value);
 	}
 
 	public static Filter gte(String field, Object value) {
-		return of(field, ">=", value);
+		return field(field, ">=", value);
 	}
 
 	public static Filter lt(String field, Object value) {
-		return of(field, "<", value);
+		return field(field, "<", value);
 	}
 
 	public static Filter lte(String field, Object value) {
-		return of(field, "<=", value);
+		return field(field, "<=", value);
 	}
 
 	public static Filter match(String query) {
@@ -140,11 +144,11 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter match(String field, String query) {
-		return Filter.of(field, "match", query);
+		return Filter.field(field, "match", query);
 	}
 
 	public static Filter missing(String field) {
-		return Filter.of(field, "missing", null);
+		return Filter.field(field, "missing", null);
 	}
 
 	public static MoreLikeThisFilter moreLikeThis(String query) {
@@ -156,39 +160,27 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter none(String field, Iterable values) {
-		return of(field, "none", values);
+		return field(field, "none", values);
 	}
 
 	public static Filter none(String field, Object... values) {
-		return of(field, "none", Arrays.asList(values));
+		return field(field, "none", Arrays.asList(values));
 	}
 
 	public static Filter not(Filter filter) {
-		return composite("not", filter);
+		return Filter.composite("not", filter);
 	}
 
 	public static Filter not(String field, Object value) {
-		return not(Filter.of(field, value));
+		return not(Filter.field(field, value));
 	}
 
 	public static Filter not(String field, String operator, Object value) {
-		return not(Filter.of(field, operator, value));
+		return not(Filter.field(field, operator, value));
 	}
 
 	public static Filter notEqual(String field, Object value) {
-		return of(field, "!=", value);
-	}
-
-	public static Filter of(String field, Object value) {
-		return of(field, "=", value);
-	}
-
-	public static Filter of(String field, String operator, Object value) {
-		return new Filter(field, operator, value);
-	}
-
-	public static Filter or(Filter... filters) {
-		return composite("or", filters);
+		return field(field, "!=", value);
 	}
 
 	public static Filter phrase(String query) {
@@ -196,11 +188,11 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter phrase(String field, String query) {
-		return Filter.of(field, "phrase", query);
+		return Filter.field(field, "phrase", query);
 	}
 
 	public static Filter polygon(String field, Object...points) {
-		return Filter.of(field, "gp", Arrays.asList(points));
+		return Filter.field(field, "gp", Arrays.asList(points));
 	}
 
 	public static Filter prefix(String query) {
@@ -208,19 +200,19 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter prefix(String field, String query) {
-		return Filter.of(field, "pre", query);
+		return Filter.field(field, "pre", query);
 	}
 
 	public static Filter range(String field, Object min, Object max) {
-		return Filter.of(field, "range", Range.range(min, max));
+		return Filter.field(field, "range", Range.range(min, max));
 	}
 
 	public static Filter range(String field, Range range) {
-		return Filter.of(field, "range", range);
+		return Filter.field(field, "range", range);
 	}
 
 	public static Filter regex(String field, String value) {
-		return of(field, "~", value);
+		return field(field, "~", value);
 	}
 
 	public static GeoShapeFilter shape(String field, Object...shapes) {
@@ -232,15 +224,15 @@ public class Filter implements Embodied {
 			return this.addToComposite("and", filter);
 		}
 
-		return Filter.and(this, filter);
+		return Filter.composite("and", this, filter);
 	}
 
 	public Filter and(String field, Object value) {
-		return and(Filter.of(field, value));
+		return and(Filter.field(field, value));
 	}
 
 	public Filter and(String field, String operator, Object value) {
-		return and(Filter.of(field, operator, value));
+		return and(Filter.field(field, operator, value));
 	}
 
 	@Override
@@ -270,20 +262,20 @@ public class Filter implements Embodied {
 			return this.addToComposite("or", filter);
 		}
 
-		return Filter.or(this, filter);
+		return Filter.composite("or", this, filter);
 	}
 
 	public Filter or(String field, Object value) {
-		return or(Filter.of(field, value));
+		return or(Filter.field(field, value));
 	}
 
 	public Filter or(String field, String operator, Object value) {
-		return or(Filter.of(field, operator, value));
+		return or(Filter.field(field, operator, value));
 	}
 
 	@Override
 	public String toString() {
-		return Util.toString(Query.builder().filter(this));
+		return Util.toString(Query.fetch().filter(this));
 	}
 
 	protected Filter(String operator, Object value) {

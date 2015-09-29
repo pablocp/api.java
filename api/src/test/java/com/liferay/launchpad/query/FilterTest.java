@@ -12,7 +12,7 @@ public class FilterTest {
 
 	@Test
 	public void testFilter_combiningDifferentFilters() throws Exception {
-		Filter filter = Filter.of("a", 1)
+		Filter filter = Filter.field("a", 1)
 			.and("a", 1)
 			.and("a", 1)
 			.or("a", 1)
@@ -32,23 +32,22 @@ public class FilterTest {
 	@Test
 	public void testFilter_withAnd() throws Exception {
 		List<String> bodies = new ArrayList();
-		bodies.add(Filter.of("field", 1).and("field", 1).bodyAsJson());
-		bodies.add(Filter.of("field", 1).and("field", "=", 1).bodyAsJson());
+		bodies.add(Filter.field("field", 1).and("field", 1).bodyAsJson());
+		bodies.add(Filter.field("field", 1).and("field", "=", 1).bodyAsJson());
 		bodies.add(
-			Filter.of("field", 1).and(Filter.of("field", 1)).bodyAsJson());
-		bodies.add(
-			Filter.and(
-				Filter.of("field", 1), Filter.of("field", 1)).bodyAsJson());
+			Filter.field(
+				"field", 1).and(Filter.field("field", 1)).bodyAsJson());
+		bodies.add(Filter.field("field", 1).and("field", 1).bodyAsJson());
 
 		for (String body : bodies) {
 			JSONAssert.assertEquals(getCompositeFilter("and", 2), body, true);
 		}
 
-		String body = Filter.of("field", 1)
+		String body = Filter.field("field", 1)
 			.and("field", 1)
 			.and("field", 1)
 			.and("field", "=", 1)
-			.and(Filter.of("field", 1))
+			.and(Filter.field("field", 1))
 			.bodyAsJson();
 
 		JSONAssert.assertEquals(getCompositeFilter("and", 5), body, true);
@@ -94,10 +93,10 @@ public class FilterTest {
 	public void testFilter_withGeo() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"gp\",\"value\":[\"0,0\",\"0,0\"]}}",
-			Filter.bbox("f", "0,0", "0,0").bodyAsJson(), true);
+			Filter.boundingBox("f", "0,0", "0,0").bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"gp\",\"value\":[\"0,0\",\"0,0\"]}}",
-			Filter.bbox("f", Geo.bbox("0,0", "0,0")).bodyAsJson(), true);
+			Filter.boundingBox("f", Geo.bbox("0,0", "0,0")).bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"gp\",\"value\":[\"0,0\",[0,1],[0,1]]}}",
 			Filter.polygon(
@@ -263,9 +262,9 @@ public class FilterTest {
 
 	@Test
 	public void testToString() {
-		Filter filter = Filter.of("field", "=", "value");
+		Filter filter = Filter.field("field", "=", "value");
 		Assert.assertEquals(
-			Query.builder().filter(filter).toString(), filter.toString());
+			Query.fetch().filter(filter).toString(), filter.toString());
 	}
 
 	private String getCompositeFilter(String operator, int count) {
