@@ -33,24 +33,6 @@ public class Filter implements Embodied {
 		return boundingBox(field, Geo.bbox(upperLeft, lowerRight));
 	}
 
-	public static CommonTermsFilter common(String query) {
-		return common(ALL, query);
-	}
-
-	public static CommonTermsFilter common(String query, double threshold) {
-		return common(ALL, query, threshold);
-	}
-
-	public static CommonTermsFilter common(String field, String query) {
-		return new CommonTermsFilter(field, query);
-	}
-
-	public static CommonTermsFilter common(
-		String field, String query, double threshold) {
-
-		return new CommonTermsFilter(field, query, threshold);
-	}
-
 	public static Filter composite(String operator, Filter... filters) {
 		Filter compositeFilter = new Filter(operator, new ArrayList<>());
 

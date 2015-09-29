@@ -54,24 +54,6 @@ public class FilterTest {
 	}
 
 	@Test
-	public void testFilter_withCommonFilter() throws Exception {
-		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"common\",\"value\":{\"query\":\"str\"}}}",
-			Filter.common("str").bodyAsJson(), true);
-		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"common\"," +
-				"\"value\":{\"query\":\"str\",\"threshold\":0.5}}}",
-			Filter.common("str", 0.5).bodyAsJson(), true);
-		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"common\",\"value\":{\"query\":\"str\"}}}",
-			Filter.common("f", "str").bodyAsJson(), true);
-		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"common\"," +
-				"\"value\":{\"query\":\"str\",\"threshold\":0.5}}}",
-			Filter.common("f", "str", 0.5).bodyAsJson(), true);
-	}
-
-	@Test
 	public void testFilter_withFuzzyFilter() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"*\":{\"operator\":\"fuzzy\",\"value\":{\"query\":\"str\"}}}",
