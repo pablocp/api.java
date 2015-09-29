@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public final class FuzzyFilter extends Filter {
 
-	public FuzzyFilter fuzziness(Number fuzziness) {
+	public FuzzyFilter fuzziness(int fuzziness) {
 		this.mapValue.put("fuzziness", fuzziness);
 		return this;
 	}
@@ -18,10 +18,13 @@ public final class FuzzyFilter extends Filter {
 	}
 
 	protected FuzzyFilter(
-		String field, String operator, String query, Number fuzziness) {
+		String field, String operator, String query, Integer fuzziness) {
 
 		this(field, operator, query);
-		fuzziness(fuzziness);
+
+		if (fuzziness != null) {
+			fuzziness(fuzziness);
+		}
 	}
 
 	private final Map mapValue;

@@ -105,7 +105,7 @@ public class Filter implements Embodied {
 		return fuzzy(ALL, query);
 	}
 
-	public static FuzzyFilter fuzzy(String query, Number fuzziness) {
+	public static FuzzyFilter fuzzy(String query, Integer fuzziness) {
 		return fuzzy(ALL, query, fuzziness);
 	}
 
@@ -114,7 +114,7 @@ public class Filter implements Embodied {
 	}
 
 	public static FuzzyFilter fuzzy(
-		String field, String query, Number fuzziness) {
+		String field, String query, Integer fuzziness) {
 
 		return new FuzzyFilter(field, "fuzzy", query, fuzziness);
 	}

@@ -79,15 +79,15 @@ public class FilterTest {
 			Filter.fuzzy("str").bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"*\":{\"operator\":\"fuzzy\"," +
-				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}",
-			Filter.fuzzy("str", 0.5).bodyAsJson(), true);
+				"\"value\":{\"query\":\"str\",\"fuzziness\":1}}}",
+			Filter.fuzzy("str", 1).bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"fuzzy\",\"value\":{\"query\":\"str\"}}}",
 			Filter.fuzzy("f", "str").bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"fuzzy\"," +
-				"\"value\":{\"query\":\"str\",\"fuzziness\":0.5}}}",
-			Filter.fuzzy("f", "str", 0.5).bodyAsJson(), true);
+				"\"value\":{\"query\":\"str\",\"fuzziness\":1}}}",
+			Filter.fuzzy("f", "str", 1).bodyAsJson(), true);
 	}
 
 	@Test
