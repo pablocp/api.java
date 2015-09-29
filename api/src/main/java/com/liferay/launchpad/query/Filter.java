@@ -265,22 +265,6 @@ public class Filter implements Embodied {
 		return Util.wrap(field, map);
 	}
 
-	public Filter disMax(Filter filter) {
-		if (isComposite(this.operator)) {
-			return this.addToComposite("disMax", filter);
-		}
-
-		return SearchFilter.disMax(this, filter);
-	}
-
-	public Filter disMax(String field, Object value) {
-		return disMax(Filter.of(field, value));
-	}
-
-	public Filter disMax(String field, String operator, Object value) {
-		return disMax(Filter.of(field, operator, value));
-	}
-
 	public Filter or(Filter filter) {
 		if (isComposite(this.operator)) {
 			return this.addToComposite("or", filter);
@@ -342,6 +326,6 @@ public class Filter implements Embodied {
 	}
 
 	private static final Set<String> COMPOSITE_FILTERS = new HashSet<>(
-		Arrays.asList("and", "or", "disMax", "not"));
+		Arrays.asList("and", "or", "not"));
 
 }

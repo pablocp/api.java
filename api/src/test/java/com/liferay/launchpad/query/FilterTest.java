@@ -16,17 +16,12 @@ public class FilterTest {
 			.and("a", 1)
 			.and("a", 1)
 			.or("a", 1)
-			.or("a", 1)
-			.disMax("a", 1)
-			.disMax("a", 1);
+			.or("a", 1);
 
 		JSONAssert.assertEquals(
-			"{\"disMax\":[" +
-				"{\"or\":[" +
-					"{\"and\":[" +
-						"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
-						"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
-						"{\"a\":{\"operator\":\"=\",\"value\":1}}]}," +
+			"{\"or\":[" +
+				"{\"and\":[" +
+					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
 					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
 					"{\"a\":{\"operator\":\"=\",\"value\":1}}]}," +
 				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
