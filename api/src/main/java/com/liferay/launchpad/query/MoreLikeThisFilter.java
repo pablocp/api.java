@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * More regex this filter.
  */
-public final class MoreLikeThisFilter extends Filter implements SearchFilter {
+public final class MoreLikeThisFilter extends Filter {
 
 	public MoreLikeThisFilter maxDf(int value) {
 		mapValue.put("maxDf", value);

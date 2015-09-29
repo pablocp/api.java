@@ -12,6 +12,20 @@ public class QueryTest {
 	}
 
 	@Test
+	public void testQuery_withAggregation() throws Exception {
+		Query query = Query.builder()
+			.aggregate("a", "f", "min")
+			.aggregate(Aggregation.missing("m", "f"));
+
+		JSONAssert.assertEquals(
+			"{\"aggregation\":[" +
+				"{\"f\":{\"operator\":\"min\",\"name\":\"a\"}}," +
+				"{\"f\":{\"operator\":\"missing\",\"name\":\"m\"}}," +
+				"]}",
+			query.bodyAsJson(), true);
+	}
+
+	@Test
 	public void testQuery_withFilters() throws Exception {
 		String body = Query.builder()
 				.filter("field", 1)
@@ -44,6 +58,18 @@ public class QueryTest {
 	}
 
 	@Test
+	public void testQuery_withHighlight() throws Exception {
+		Query search = Query.builder()
+			.highlight("field1")
+			.highlight("field2")
+			.highlight("field3");
+
+		JSONAssert.assertEquals(
+			"{\"highlight\":[\"field1\",\"field2\",\"field3\"]}",
+			search.bodyAsJson(), true);
+	}
+
+	@Test
 	public void testQuery_withLimitAndOffset() throws Exception {
 		String body = Query.builder()
 				.limit(1)
@@ -55,27 +81,25 @@ public class QueryTest {
 
 	@Test
 	public void testQuery_withSearch() throws Exception {
-		Query query = Query.builder().search(Search.builder());
-		JSONAssert.assertEquals("{\"search\":{}}", query.bodyAsJson(), true);
-		query = Query.builder().search(Filter.equal("field", "value"));
+		Query query = Query.builder().search(Filter.equal("field", "value"));
 		JSONAssert.assertEquals(
-			"{\"search\":{\"query\":[{" +
-				"\"field\":{\"operator\":\"=\",\"value\":\"value\"}}]}}",
+			"{\"search\":[{" +
+				"\"field\":{\"operator\":\"=\",\"value\":\"value\"}}]}",
 			query.bodyAsJson(), true);
 		query = Query.builder().search("query");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"query\":[{" +
-				"\"*\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
+			"{\"search\":[{" +
+				"\"*\":{\"operator\":\"match\",\"value\":\"query\"}}]}",
 			query.bodyAsJson(), true);
 		query = Query.builder().search("field", "query");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"query\":[{" +
-				"\"field\":{\"operator\":\"match\",\"value\":\"query\"}}]}}",
+			"{\"search\":[{" +
+				"\"field\":{\"operator\":\"match\",\"value\":\"query\"}}]}",
 			query.bodyAsJson(), true);
 		query = Query.builder().search("field", "=", "query");
 		JSONAssert.assertEquals(
-			"{\"search\":{\"query\":[{" +
-				"\"field\":{\"operator\":\"=\",\"value\":\"query\"}}]}}",
+			"{\"search\":[{" +
+				"\"field\":{\"operator\":\"=\",\"value\":\"query\"}}]}",
 			query.bodyAsJson(), true);
 	}
 
@@ -122,6 +146,8 @@ public class QueryTest {
 		Query query = Query.builder()
 			.filter("field", "value")
 			.search("query")
+			.aggregate("name", "field", "min")
+			.highlight("field")
 			.offset(1)
 			.limit(10);
 

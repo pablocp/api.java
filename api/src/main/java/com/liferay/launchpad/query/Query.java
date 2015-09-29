@@ -30,10 +30,6 @@ public final class Query implements Embodied {
 			map.put("sort", sort);
 		}
 
-		if (search != null) {
-			map.put("search", search);
-		}
-
 		if (limit != null) {
 			map.put("limit", limit);
 		}
@@ -42,7 +38,50 @@ public final class Query implements Embodied {
 			map.put("offset", offset);
 		}
 
+		if (!queries.isEmpty()) {
+			map.put("search", queries);
+		}
+
+		if (!highlights.isEmpty()) {
+			map.put("highlight", highlights);
+		}
+
+		if (!aggregations.isEmpty()) {
+			map.put("aggregation", aggregations);
+		}
+
 		return map;
+	}
+
+	public Query search(Filter filter) {
+		queries.add(filter);
+		return this;
+	}
+
+	public Query search(String text) {
+		return search(Filter.match(text));
+	}
+
+	public Query search(String field, String text) {
+		return search(Filter.match(field, text));
+	}
+
+	public Query search(String field, String operator, Object value) {
+		return search(Filter.of(field, operator, value));
+	}
+
+	public Query highlight(String field) {
+		highlights.add(field);
+		return this;
+	}
+
+	public Query aggregate(String name, String field, String operator) {
+		return aggregate(Aggregation.of(name, field, operator));
+	}
+
+	public Query aggregate(Aggregation aggregation) {
+		aggregations.add(aggregation);
+		return this;
 	}
 
 	public Query filter(String field, Object value) {
@@ -79,27 +118,6 @@ public final class Query implements Embodied {
 		return this;
 	}
 
-	public Query search(Search search) {
-		this.search = search;
-		return this;
-	}
-
-	public Query search(Filter filter) {
-		return search(Search.builder().query(filter));
-	}
-
-	public Query search(String text) {
-		return search(Search.builder().query(text));
-	}
-
-	public Query search(String field, String text) {
-		return search(Search.builder().query(field, text));
-	}
-
-	public Query search(String field, String operator, Object value) {
-		return search(Search.builder().query(field, operator, value));
-	}
-
 	public Query type(String type) {
 		this.type = type;
 		return this;
@@ -124,9 +142,12 @@ public final class Query implements Embodied {
 
 	private final List<Map> sort = new ArrayList();
 	private final List<Filter> filters = new ArrayList();
-	private Search search;
 	private Integer limit;
 	private Integer offset;
 	private String type;
+
+	private final List<Filter> queries = new ArrayList();
+	private final List<Aggregation> aggregations = new ArrayList();
+	private final List<String> highlights = new ArrayList<>();
 
 }

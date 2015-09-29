@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Common terms filter.
  */
-public final class CommonTermsFilter extends Filter implements SearchFilter {
+public final class CommonTermsFilter extends Filter {
 
 	public CommonTermsFilter threshold(double threshold) {
 		this.mapValue.put("threshold", threshold);

@@ -114,8 +114,7 @@ public class AggregationTest {
 	public void testToString() {
 		Aggregation aggregation = Aggregation.avg("name", "field");
 		Assert.assertEquals(
-			Query.builder().search(
-				Search.builder().aggregate(aggregation)).toString(),
+			Query.builder().aggregate(aggregation).toString(),
 			aggregation.toString());
 	}
 
