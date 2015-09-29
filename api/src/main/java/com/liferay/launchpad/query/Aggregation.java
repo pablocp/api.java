@@ -84,8 +84,7 @@ public class Aggregation implements Embodied {
 
 	@Override
 	public String toString() {
-		return Util.toString(
-			Query.builder().search(Search.builder().aggregate(this)));
+		return Util.toString(Query.aggregate(this));
 	}
 
 	public static final class DistanceAggregation extends Aggregation {
