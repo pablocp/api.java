@@ -142,48 +142,6 @@ public class FilterTest {
 	}
 
 	@Test
-	public void testFilter_withMoreLikeThisFilter() throws Exception {
-		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"mlt\",\"value\":{\"query\":\"str\"}}}",
-			Filter.moreLikeThis("str").bodyAsJson(), true);
-		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"mlt\",\"value\":{\"query\":\"str\"}}}",
-			Filter.moreLikeThis("f", "str").bodyAsJson(), true);
-
-		String body = Filter.moreLikeThis("str")
-			.stopWords("w1", "w2")
-			.minTf(1)
-			.minDf(2)
-			.maxDf(3)
-			.bodyAsJson();
-
-		JSONAssert.assertEquals(
-			"{\"*\":{\"operator\":\"mlt\",\"value\":{" +
-				"\"query\":\"str\"," +
-				"\"stopWords\":[\"w1\",\"w2\"]," +
-				"\"minTf\":1," +
-				"\"minDf\":2," +
-				"\"maxDf\":3}}}",
-			body, true);
-
-		body = Filter.moreLikeThis("f", "str")
-			.stopWords("w1")
-			.minTf(1)
-			.minDf(2)
-			.maxDf(3)
-			.bodyAsJson();
-
-		JSONAssert.assertEquals(
-			"{\"f\":{\"operator\":\"mlt\",\"value\":{" +
-				"\"query\":\"str\"," +
-				"\"stopWords\":[\"w1\"]," +
-				"\"minTf\":1," +
-				"\"minDf\":2," +
-				"\"maxDf\":3}}}",
-			body, true);
-	}
-
-	@Test
 	public void testFilter_withPrefixFilter() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"*\":{\"operator\":\"prefix\",\"value\":\"str\"}}",
@@ -191,6 +149,48 @@ public class FilterTest {
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"prefix\",\"value\":\"str\"}}",
 			Filter.prefix("f", "str").bodyAsJson(), true);
+	}
+
+	@Test
+	public void testFilter_withSimilarFilter() throws Exception {
+		JSONAssert.assertEquals(
+			"{\"*\":{\"operator\":\"similar\",\"value\":{\"query\":\"str\"}}}",
+			Filter.similar("str").bodyAsJson(), true);
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"similar\",\"value\":{\"query\":\"str\"}}}",
+			Filter.similar("f", "str").bodyAsJson(), true);
+
+		String body = Filter.similar("str")
+			.stopWords("w1", "w2")
+			.minTf(1)
+			.minDf(2)
+			.maxDf(3)
+			.bodyAsJson();
+
+		JSONAssert.assertEquals(
+			"{\"*\":{\"operator\":\"similar\",\"value\":{" +
+				"\"query\":\"str\"," +
+				"\"stopWords\":[\"w1\",\"w2\"]," +
+				"\"minTf\":1," +
+				"\"minDf\":2," +
+				"\"maxDf\":3}}}",
+			body, true);
+
+		body = Filter.similar("f", "str")
+			.stopWords("w1")
+			.minTf(1)
+			.minDf(2)
+			.maxDf(3)
+			.bodyAsJson();
+
+		JSONAssert.assertEquals(
+			"{\"f\":{\"operator\":\"similar\",\"value\":{" +
+				"\"query\":\"str\"," +
+				"\"stopWords\":[\"w1\"]," +
+				"\"minTf\":1," +
+				"\"minDf\":2," +
+				"\"maxDf\":3}}}",
+			body, true);
 	}
 
 	@Test

@@ -6,30 +6,30 @@ import java.util.Map;
 /**
  * More regex this filter.
  */
-public final class MoreLikeThisFilter extends Filter {
+public final class SimilarFilter extends Filter {
 
-	public MoreLikeThisFilter maxDf(int value) {
+	public SimilarFilter maxDf(int value) {
 		mapValue.put("maxDf", value);
 		return this;
 	}
 
-	public MoreLikeThisFilter minDf(int value) {
+	public SimilarFilter minDf(int value) {
 		mapValue.put("minDf", value);
 		return this;
 	}
 
-	public MoreLikeThisFilter minTf(int value) {
+	public SimilarFilter minTf(int value) {
 		mapValue.put("minTf", value);
 		return this;
 	}
 
-	public MoreLikeThisFilter stopWords(String...words) {
+	public SimilarFilter stopWords(String...words) {
 		mapValue.put("stopWords", Arrays.asList(words));
 		return this;
 	}
 
-	protected MoreLikeThisFilter(String field, String query) {
-		super(field, "mlt", Util.wrap("query", query));
+	protected SimilarFilter(String field, String query) {
+		super(field, "similar", Util.wrap("query", query));
 		this.mapValue = (Map)this.value;
 	}
 

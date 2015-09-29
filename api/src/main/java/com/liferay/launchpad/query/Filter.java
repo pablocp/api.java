@@ -133,14 +133,6 @@ public class Filter implements Embodied {
 		return Filter.field(field, "missing", null);
 	}
 
-	public static MoreLikeThisFilter moreLikeThis(String query) {
-		return moreLikeThis(ALL, query);
-	}
-
-	public static MoreLikeThisFilter moreLikeThis(String field, String query) {
-		return new MoreLikeThisFilter(field, query);
-	}
-
 	public static Filter none(String field, Iterable values) {
 		return field(field, "none", values);
 	}
@@ -199,6 +191,14 @@ public class Filter implements Embodied {
 
 	public static GeoShapeFilter shape(String field, Object...shapes) {
 		return new GeoShapeFilter(field, shapes);
+	}
+
+	public static SimilarFilter similar(String query) {
+		return similar(ALL, query);
+	}
+
+	public static SimilarFilter similar(String field, String query) {
+		return new SimilarFilter(field, query);
 	}
 
 	public Filter and(Filter filter) {
