@@ -10,6 +10,8 @@ import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -371,6 +373,44 @@ public class Launchpad {
 	public Launchpad use(Transport transport) {
 		this.currentTransport = transport;
 		return this;
+	}
+
+	/**
+	 * Creates new socket.io instance.
+	 */
+	public RealTime watch() {
+		return this.watch(null);
+	}
+
+	public RealTime watch(String body) {
+		return this.watch(body, null);
+	}
+
+	public RealTime watch(String body, Map<String, Object> options) {
+		Request clientRequest = this.resolveRequest(METHOD_GET, body);
+
+		String url[] = Util.parseUrl(
+			Util.addParametersToUrlQueryString(
+				clientRequest.url(), clientRequest.params()));
+
+		if (options == null) {
+			options = new HashMap<>();
+			options.put("forceNew", true);
+		}
+
+		options.putIfAbsent("path", url[1]);
+
+		try {
+			return RealTime.io(
+				"http://" + url[0] + "?url=" + Util.encodeURIComponent(url[1] + url[2]),
+				options);
+		}
+		catch (NullPointerException e) {
+			throw new LaunchpadClientException("Socket.io client not loaded");
+		}
+		catch (Exception e) {
+			throw new LaunchpadClientException(e.getMessage());
+		}
 	}
 
 	/**

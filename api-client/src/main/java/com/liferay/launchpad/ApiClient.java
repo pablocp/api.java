@@ -1,7 +1,9 @@
 package com.liferay.launchpad;
 
 import com.liferay.launchpad.api.DefaultTransport;
+import com.liferay.launchpad.api.RealTimeFactory;
 import com.liferay.launchpad.api.impl.JoddHttpTransport;
+import com.liferay.launchpad.api.impl.SocketIORealTimeFactory;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.impl.JoddPodMultiMapFactory;
@@ -22,6 +24,8 @@ public class ApiClient {
 		DefaultTransport.setDefaultTransport(new JoddHttpTransport());
 
 		JoddJson.jsonAnnotation = Serialize.class;
+
+		RealTimeFactory.Default.factory = new SocketIORealTimeFactory();
 
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.JSON.contentType(),
