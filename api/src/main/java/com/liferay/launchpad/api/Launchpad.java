@@ -1,5 +1,8 @@
 package com.liferay.launchpad.api;
 
+import com.liferay.launchpad.query.Aggregation;
+import com.liferay.launchpad.query.Filter;
+import com.liferay.launchpad.query.Query;
 import com.liferay.launchpad.sdk.Auth;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.Cookie;
@@ -44,6 +47,21 @@ public class Launchpad {
 	}
 
 	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad aggregate(Aggregation aggregation) {
+		getOrCreateQuery().aggregate(aggregation);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad aggregate(String name, String field, String operator) {
+		return aggregate(Aggregation.of(name, field, operator));
+	}
+
+	/**
 	 * Authenticates with an auth instance.
 	 */
 	public Launchpad auth(Auth auth) {
@@ -64,6 +82,14 @@ public class Launchpad {
 	 */
 	public Launchpad auth(String username, String password) {
 		auth(Auth.create(username, password));
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad count() {
+		getOrCreateQuery().count();
 		return this;
 	}
 
@@ -107,6 +133,28 @@ public class Launchpad {
 	 */
 	public CompletableFuture<Response> deleteAsync(final String body) {
 		return sendAsync(METHOD_DELETE, body);
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad filter(Filter filter) {
+		getOrCreateQuery().filter(filter);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad filter(String field, Object value) {
+		return filter(Filter.field(field, value));
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad filter(String field, String operator, Object value) {
+		return filter(Filter.field(field, operator, value));
 	}
 
 	/**
@@ -179,6 +227,30 @@ public class Launchpad {
 	 */
 	public Launchpad header(String name, String value) {
 		headers.set(name, value);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad highlight(String field) {
+		getOrCreateQuery().highlight(field);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad limit(int limit) {
+		getOrCreateQuery().limit(limit);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad offset(int offset) {
+		getOrCreateQuery().offset(offset);
 		return this;
 	}
 
@@ -361,6 +433,50 @@ public class Launchpad {
 	}
 
 	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad search(Filter filter) {
+		getOrCreateQuery().search(filter);
+		return this;
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad search(String text) {
+		return search(Filter.match(text));
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad search(String field, String text) {
+		return search(Filter.match(field, text));
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad search(String field, String operator, Object value) {
+		return search(Filter.field(field, operator, value));
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad sort(String field) {
+		return sort(field, "asc");
+	}
+
+	/**
+	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 */
+	public Launchpad sort(String field, String direction) {
+		getOrCreateQuery().sort(field, direction);
+		return this;
+	}
+
+	/**
 	 * Returns full URL.
 	 */
 	public String url() {
@@ -481,6 +597,12 @@ public class Launchpad {
 		request.method(methodName);
 		request.body(body);
 
+		if (request.body() == null) {
+			if (query != null) {
+				request.body(query);
+			}
+		}
+
 		if (auth != null) {
 			resolveAuthentication(request);
 		}
@@ -564,6 +686,15 @@ public class Launchpad {
 	protected final PodMultiMap<Object> forms = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
+	protected Query.Builder query;
 	protected final String url;
+
+	private Query.Builder getOrCreateQuery() {
+		if (query == null) {
+			query = Query.builder();
+		}
+
+		return query;
+	}
 
 }

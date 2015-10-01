@@ -11,7 +11,7 @@ import java.util.Map;
 public interface Query extends Embodied {
 
 	public static Query.Builder aggregate(Aggregation aggregation) {
-		return new Builder().aggregate(aggregation);
+		return Query.builder().aggregate(aggregation);
 	}
 
 	public static Query.Builder aggregate(
@@ -20,16 +20,20 @@ public interface Query extends Embodied {
 		return aggregate(Aggregation.of(name, field, operator));
 	}
 
+	public static Query.Builder builder() {
+		return new Builder();
+	}
+
 	public static Query.Builder count() {
-		return new Builder().count();
+		return Query.builder().count();
 	}
 
 	public static Query.Builder fetch() {
-		return new Builder().fetch();
+		return Query.builder().fetch();
 	}
 
 	public static Query.Builder filter(Filter filter) {
-		return new Builder().filter(filter);
+		return Query.builder().filter(filter);
 	}
 
 	public static Query.Builder filter(String field, Object value) {
@@ -43,19 +47,19 @@ public interface Query extends Embodied {
 	}
 
 	public static Query.Builder highlight(String field) {
-		return new Builder().highlight(field);
+		return Query.builder().highlight(field);
 	}
 
 	public static Query.Builder limit(int limit) {
-		return new Builder().limit(limit);
+		return Query.builder().limit(limit);
 	}
 
 	public static Query.Builder offset(int offset) {
-		return new Builder().offset(offset);
+		return Query.builder().offset(offset);
 	}
 
 	public static Query.Builder search(Filter filter) {
-		return new Builder().search(filter);
+		return Query.builder().search(filter);
 	}
 
 	public static Query.Builder search(String text) {
@@ -73,15 +77,15 @@ public interface Query extends Embodied {
 	}
 
 	public static Query.Builder sort(String field) {
-		return new Builder().sort(field);
+		return Query.builder().sort(field);
 	}
 
 	public static Query.Builder sort(String field, String direction) {
-		return new Builder().sort(field, direction);
+		return Query.builder().sort(field, direction);
 	}
 
 	public static Query.Builder type(String type) {
-		return new Builder().type(type);
+		return Query.builder().type(type);
 	}
 
 	public static final class Builder implements Query {
