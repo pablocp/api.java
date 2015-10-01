@@ -10,7 +10,7 @@ public class GeoTest {
 	public void testGeo_withBbox() throws Exception {
 		JSONAssert.assertEquals(
 			"{\"type\":\"envelope\",\"coordinates\":[\"0,0\",\"0,0\"]}",
-			Geo.bbox("0,0", "0,0").bodyAsJson(), true);
+			Geo.boundingBox("0,0", "0,0").bodyAsJson(), true);
 	}
 
 	@Test

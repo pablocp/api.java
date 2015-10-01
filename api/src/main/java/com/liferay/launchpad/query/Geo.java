@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public abstract class Geo<T> implements Embodied {
 
-	public static BoundingBox bbox(Object upperLeft, Object lowerRight) {
+	public static BoundingBox boundingBox(Object upperLeft, Object lowerRight) {
 		return new BoundingBox(upperLeft, lowerRight);
 	}
 

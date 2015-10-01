@@ -78,7 +78,8 @@ public class FilterTest {
 			Filter.boundingBox("f", "0,0", "0,0").bodyAsJson(), true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"gp\",\"value\":[\"0,0\",\"0,0\"]}}",
-			Filter.boundingBox("f", Geo.bbox("0,0", "0,0")).bodyAsJson(), true);
+			Filter.boundingBox("f", Geo.boundingBox("0,0", "0,0")).bodyAsJson(),
+			true);
 		JSONAssert.assertEquals(
 			"{\"f\":{\"operator\":\"gp\",\"value\":[\"0,0\",[0,1],[0,1]]}}",
 			Filter.polygon(
@@ -105,7 +106,7 @@ public class FilterTest {
 			.shape(Geo.point(0, 0))
 			.shape(new int[0])
 			.shape(Arrays.asList())
-			.shape(Geo.bbox("0,0", "0,0"))
+			.shape(Geo.boundingBox("0,0", "0,0"))
 			.shape(Geo.line("0,0", "0,0"))
 			.shape(Geo.circle("0,0", "1m"))
 			.shape(Geo.polygon("0,0", "0,0").hole("0,0", "0,0"))
