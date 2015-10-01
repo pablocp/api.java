@@ -30,7 +30,7 @@ public class Filter implements Embodied {
 	public static Filter boundingBox(
 		String field, Object upperLeft, Object lowerRight) {
 
-		return boundingBox(field, Geo.bbox(upperLeft, lowerRight));
+		return boundingBox(field, Geo.boundingBox(upperLeft, lowerRight));
 	}
 
 	public static Filter composite(String operator, Filter... filters) {
