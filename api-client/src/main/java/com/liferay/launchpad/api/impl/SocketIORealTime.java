@@ -17,12 +17,21 @@ public class SocketIORealTime extends RealTime {
 		this(new URI(url), fromMap(options));
 	}
 
-	public void emit(String event, Object... args) {
-		socket.emit(event, args);
+	@Override
+	public void close() {
+		socket.close();
 	}
 
-	public void on(String event, Listener fn) {
+	@Override
+	public RealTime emit(String event, Object... args) {
+		socket.emit(event, args);
+		return this;
+	}
+
+	@Override
+	public RealTime on(String event, Listener fn) {
 		socket.on(event, args -> fn.call(args));
+		return this;
 	}
 
 	@SuppressWarnings("unchecked")
