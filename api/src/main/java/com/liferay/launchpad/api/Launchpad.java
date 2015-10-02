@@ -599,7 +599,8 @@ public class Launchpad {
 
 		if (request.body() == null) {
 			if (query != null) {
-				request.body(query);
+				request.body(resolveBodyString(query));
+				query = null;
 			}
 		}
 
