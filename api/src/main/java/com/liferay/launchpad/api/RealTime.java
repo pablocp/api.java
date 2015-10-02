@@ -19,6 +19,11 @@ public abstract class RealTime {
 	}
 
 	/**
+	 * Closes real-time connection.
+	 */
+	public abstract void close();
+
+	/**
 	 * Activates all callbacks of type `event` with the given args.
 	 */
 	public abstract void emit(String event, Object... args);

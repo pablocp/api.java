@@ -17,10 +17,17 @@ public class SocketIORealTime extends RealTime {
 		this(new URI(url), fromMap(options));
 	}
 
+	@Override
+	public void close() {
+		socket.close();
+	}
+
+	@Override
 	public void emit(String event, Object... args) {
 		socket.emit(event, args);
 	}
 
+	@Override
 	public void on(String event, Listener fn) {
 		socket.on(event, args -> fn.call(args));
 	}
