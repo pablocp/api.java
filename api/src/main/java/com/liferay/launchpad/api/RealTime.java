@@ -26,12 +26,12 @@ public abstract class RealTime {
 	/**
 	 * Activates all callbacks of type `event` with the given args.
 	 */
-	public abstract void emit(String event, Object... args);
+	public abstract RealTime emit(String event, Object... args);
 
 	/**
 	 * Registers a callback of type `event` with `fn`.
 	 */
-	public abstract void on(String event, Listener fn);
+	public abstract RealTime on(String event, Listener fn);
 
 	@FunctionalInterface
 	public interface Listener {
