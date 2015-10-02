@@ -498,12 +498,20 @@ public class Launchpad {
 		return this.watch(null);
 	}
 
+	public RealTime watch(Object body) {
+		return this.watch(resolveBodyString(body), null);
+	}
+
+	public RealTime watch(Object body, Map<String, Object> options) {
+		return this.watch(resolveBodyString(body), options);
+	}
+
 	public RealTime watch(String body) {
 		return this.watch(body, null);
 	}
 
 	public RealTime watch(String body, Map<String, Object> options) {
-		Request clientRequest = this.resolveRequest(METHOD_GET, body);
+		Request clientRequest = this.resolveRequest(METHOD_GET, body, true);
 
 		String url[] = Util.parseUrl(
 			Util.addParametersToUrlQueryString(
@@ -592,6 +600,12 @@ public class Launchpad {
 	 * header and parameters map.
 	 */
 	protected RequestImpl resolveRequest(String methodName, String body) {
+		return resolveRequest(methodName, body, false);
+	}
+
+	protected RequestImpl resolveRequest(
+		String methodName, String body, boolean convertBody) {
+
 		final RequestImpl request = new RequestImpl(url());
 
 		request.method(methodName);
@@ -615,6 +629,11 @@ public class Launchpad {
 			entry -> request.param(entry.getKey(), entry.getValue()));
 
 		forms.forEach(entry -> request.form(entry.getKey(), entry.getValue()));
+
+		if (convertBody) {
+			convertBodyToParams(request);
+			request.body(null);
+		}
 
 		return request;
 	}
@@ -689,6 +708,33 @@ public class Launchpad {
 	protected final PodMultiMap<String> params = PodMultiMap.newMultiMap();
 	protected Query.Builder query;
 	protected final String url;
+
+	/**
+	 * Converts the request body object to query params.
+	 */
+	private void convertBodyToParams(Request request) {
+		String existingContentType = request.header("Content-Type");
+
+		if (existingContentType == null) {
+			existingContentType = "application/json";
+		}
+
+		final LaunchpadSerializer launchpadSerializer = LaunchpadSerializer.get(
+			new ContentType(existingContentType));
+
+		try {
+			Map<String, Object> bodyJson = request.bodyValue();
+
+			bodyJson.forEach(
+				(name, value) ->
+					request.param(name, launchpadSerializer.serialize(value)));
+		}
+		catch (ClassCastException ignore) {
+
+			// body content is ignored.
+
+		}
+	}
 
 	private Query.Builder getOrCreateQuery() {
 		if (query == null) {
