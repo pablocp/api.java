@@ -27,7 +27,7 @@ plugins {
 	id "com.jfrog.bintray" version "1.3"
 }
 
-version = '0.40.0'
+version = '0.40.1'
 group = 'com.liferay.launchpad'
 
 ext {
