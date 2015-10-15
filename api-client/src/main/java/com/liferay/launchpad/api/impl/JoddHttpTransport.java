@@ -1,6 +1,7 @@
 package com.liferay.launchpad.api.impl;
 
 import com.liferay.launchpad.api.BlockingTransport;
+import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
@@ -48,7 +49,16 @@ public class JoddHttpTransport extends BlockingTransport {
 		String body = request.body();
 
 		if (body != null) {
-			httpRequest.body(body);
+			String contentTypeString = request.contentType();
+
+			ContentType contentType = ContentType.TEXT;
+
+			if (contentTypeString != null) {
+				contentType = new ContentType(contentTypeString);
+			}
+
+			httpRequest.bodyText(
+				body, contentType.contentType(), contentType.charset());
 		}
 
 		HttpBrowser httpBrowser = new HttpBrowser();
@@ -59,7 +69,7 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		clientResponse.statusCode(response.statusCode());
 		clientResponse.statusMessage(response.statusPhrase());
-		clientResponse.body(response.body());
+		clientResponse.body(response.bodyText());
 
 		HttpMultiMap<String> responseHeaders = response.headers();
 
