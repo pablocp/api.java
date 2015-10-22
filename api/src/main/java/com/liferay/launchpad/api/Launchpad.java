@@ -623,12 +623,13 @@ public class Launchpad {
 		}
 
 		headers.forEach(
-			entry -> request.header(entry.getKey(), entry.getValue()));
+			entry -> request.headers().add(entry.getKey(), entry.getValue()));
 
 		params.forEach(
-			entry -> request.param(entry.getKey(), entry.getValue()));
+			entry -> request.params().add(entry.getKey(), entry.getValue()));
 
-		forms.forEach(entry -> request.form(entry.getKey(), entry.getValue()));
+		forms.forEach(
+			entry -> request.forms().add(entry.getKey(), entry.getValue()));
 
 		if (convertBody) {
 			convertBodyToParams(request);
