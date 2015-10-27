@@ -1,4 +1,7 @@
 dependencies {
+	compile project(':api')
+
+	compile 'io.socket:socket.io-client:0.6.1'
 	compile "org.jodd:jodd-http:${joddVersion}"
 	compile "org.jodd:jodd-json:${joddVersion}"
 	compile 'io.socket:socket.io-client:0.6.1'

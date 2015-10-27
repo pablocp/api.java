@@ -1,4 +1,9 @@
 dependencies {
+	compile 'com.google.protobuf:protobuf-java:3.0.0-alpha-3.1'
+
+	compile "org.jodd:jodd-http:${joddVersion}"
+	compile "org.jodd:jodd-json:${joddVersion}"
+
 	testCompile lib.jsonassert
 	testCompile lib.junit
 	testCompile project(':api-client')
