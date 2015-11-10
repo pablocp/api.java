@@ -587,9 +587,13 @@ public class Launchpad {
 
 		// TODO(igor): Move api query checking outside?
 
-		switch (body.getClass().getPackage().getName()) {
-			case "com.liferay.launchpad.query":
-				return body.toString();
+		Package pkg = body.getClass().getPackage();
+
+		if (pkg != null) {
+			switch (pkg.getName()) {
+				case "com.liferay.launchpad.query":
+					return body.toString();
+			}
 		}
 
 		return launchpadSerializer.serialize(body);
