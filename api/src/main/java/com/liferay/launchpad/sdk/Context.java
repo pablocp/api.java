@@ -14,7 +14,7 @@ package com.liferay.launchpad.sdk;
 
 import com.liferay.launchpad.sdk.io.SocketIO;
 
-import java.io.File;
+import java.nio.file.Path;
 
 import java.util.List;
 import java.util.Map;
@@ -32,13 +32,13 @@ public interface Context {
 	/**
 	 * Returns assets file from <code>assets</code> folder.
 	 */
-	public File assetsFile(String fileName);
+	public Path assetsFile(String fileName);
 
 	/**
 	 * Returns assets files from <code>assets</code> folder that matches
-	 * provided <i>wildcard</i> glob patterns.
+	 * provided glob patterns.
 	 */
-	public List<File> assetsFiles(String... glob);
+	public List<Path> assetsFiles(String glob);
 
 	/**
 	 * Returns base path of this pod.
@@ -65,12 +65,12 @@ public interface Context {
 	 * Returns single file from <code>web</code> folder. Returns
 	 * <code>null</code> if file does not exist.
 	 */
-	public File webFile(String fileName);
+	public Path webFile(String fileName);
 
 	/**
 	 * Returns static files from <code>web</code> folder that matches provided
-	 * <i>wildcard</i> glob patterns.
+	 * glob patterns.
 	 */
-	public List<File> webFiles(String... glob);
+	public List<Path> webFiles(String glob);
 
 }
