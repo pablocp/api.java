@@ -125,8 +125,7 @@ task bintray {
 
 task version() {
 	println "----------"
-	println rootProject.name
-	println version
+	println "$rootProject.name: $version"
 	println "----------"
 }
 
