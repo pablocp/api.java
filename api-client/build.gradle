@@ -1,8 +1,9 @@
 dependencies {
-	compile project(':api')
-	compile 'io.socket:socket.io-client:0.6.1'
 	compile "org.jodd:jodd-http:${joddVersion}"
 	compile "org.jodd:jodd-json:${joddVersion}"
+	compile 'io.socket:socket.io-client:0.6.1'
+	compile 'org.slf4j:slf4j-api:1.7.10'
+	compile project(':api')
 
 	testCompile lib.junit
 }

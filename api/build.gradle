@@ -1,5 +1,5 @@
 dependencies {
-	testCompile project(':api-client')
-	testCompile lib.junit
 	testCompile lib.jsonassert
+	testCompile lib.junit
+	testCompile project(':api-client')
 }

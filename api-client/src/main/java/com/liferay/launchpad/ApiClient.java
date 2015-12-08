@@ -4,6 +4,8 @@ import com.liferay.launchpad.api.DefaultTransport;
 import com.liferay.launchpad.api.RealTimeFactory;
 import com.liferay.launchpad.api.impl.JoddHttpTransport;
 import com.liferay.launchpad.api.impl.SocketIORealTimeFactory;
+import com.liferay.launchpad.log.PodLoggerFactory;
+import com.liferay.launchpad.log.impl.PodLoggerImpl;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.impl.JoddPodMultiMapFactory;
@@ -19,6 +21,8 @@ import jodd.json.JoddJson;
 public class ApiClient {
 
 	public static void init() {
+		PodLoggerFactory.setLoggerFactory(new PodLoggerImpl());
+
 		PodMultiMapFactory.Default.factory = new JoddPodMultiMapFactory();
 
 		DefaultTransport.setDefaultTransport(new JoddHttpTransport());
