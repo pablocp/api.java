@@ -201,7 +201,7 @@ public interface Response {
 	 * Redirects response to an url.
 	 */
 	public default void redirect(String url) {
-		this.status(302, "Found.");
+		this.status(FOUND);
 		this.header("Location", url);
 		this.end();
 	}
@@ -218,6 +218,44 @@ public interface Response {
 		statusCode(statusCode);
 		statusMessage(statusMessage);
 		return this;
+	}
+
+	public default Response status(int statusCode) {
+		String statusMessage = "";
+
+		switch (statusCode) {
+			case OK: statusMessage = "OK"; break;
+			case CREATED: statusMessage = "Created"; break;
+			case ACCEPTED: statusMessage = "Accepted"; break;
+			case NON_AUTHORITATIVE_INFORMATION: statusMessage = "Non-authoritative information"; break;
+			case NO_CONTENT: statusMessage = "No content"; break;
+			case RESET_CONTENT: statusMessage = "Reset content"; break;
+			case PARTIAL_CONTENT: statusMessage = "Partial content"; break;
+			case MULTIPLE_CHOICES: statusMessage = "Multiple choices"; break;
+			case MOVED_PERMANENTLY: statusMessage = "Moved permanently"; break;
+			case FOUND: statusMessage = "Found"; break;
+			case SEE_OTHER: statusMessage = "See other"; break;
+			case NOT_MODIFIED: statusMessage = "Not modified"; break;
+			case USE_PROXY: statusMessage = "Use proxy"; break;
+			case TEMPORARY_REDIRECT: statusMessage = "Temporary redirect"; break;
+			case BAD_REQUEST: statusMessage = "Bad request"; break;
+			case UNAUTHORIZED: statusMessage = "Unauthorized"; break;
+			case FORBIDDEN: statusMessage = "Forbidden"; break;
+			case NOT_FOUND: statusMessage = "Not found"; break;
+			case METHOD_NOT_ALLOWED: statusMessage = "Method not allowed"; break;
+			case NOT_ACCEPTABLE: statusMessage = "Not acceptable"; break;
+			case PROXY_AUTHENTICATION_REQUIRED: statusMessage = "Proxy authentication required"; break;
+			case REQUEST_TIMEOUT: statusMessage = "Request timeout"; break;
+			case CONFLICT: statusMessage = "Conflict"; break;
+			case GONE: statusMessage = "Gone"; break;
+			case INTERNAL_SERVER_ERROR: statusMessage = "Internal server error"; break;
+			case NOT_IMPLEMENTED: statusMessage = "Not implemented"; break;
+			case BAD_GATEWAY: statusMessage = "Bad gateway"; break;
+			case SERVICE_UNAVAILABLE: statusMessage = "Service unavailable"; break;
+			case GATEWAY_TIMEOUT: statusMessage = "Gateway timeout"; break;
+		}
+
+		return status(statusCode, statusMessage);
 	}
 
 	/**
