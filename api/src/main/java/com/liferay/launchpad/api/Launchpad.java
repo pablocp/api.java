@@ -86,6 +86,15 @@ public class Launchpad {
 	}
 
 	/**
+	 * Sets the content type header of the request.
+	 * @param contentType
+	 */
+	public Launchpad contentType(ContentType contentType) {
+		header("Content-Type", contentType.toString());
+		return this;
+	}
+
+	/**
 	 * See {@link com.liferay.launchpad.query.Query.Builder}
 	 */
 	public Launchpad count() {
