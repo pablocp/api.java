@@ -31,9 +31,19 @@ public interface Request {
 	public String baseUrl();
 
 	/**
-	 * Returns the raw body content. The raw body is always a string.
+	 * Returns the body content as a string.
 	 */
 	public String body();
+
+	/**
+	 * Returns the raw body content.
+	 */
+	public byte[] bodyBytes();
+
+	/**
+	 * Sets the raw body content.
+	 */
+	public Request body(byte[] body);
 
 	/**
 	 * Sets the body content, assuming JSON content type.
@@ -41,7 +51,7 @@ public interface Request {
 	public Request body(Object body);
 
 	/**
-	 * Sets the raw body content by passing the string value.
+	 * Sets the body content by passing the string value.
 	 */
 	public Request body(String body);
 

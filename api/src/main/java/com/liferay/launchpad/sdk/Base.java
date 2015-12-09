@@ -15,6 +15,7 @@ package com.liferay.launchpad.sdk;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,16 @@ import java.util.Map;
 public abstract class Base<R> {
 
 	public String body() {
+		return getBodyAsString();
+	}
+
+	public byte[] bodyBytes() {
 		return body;
+	}
+
+	public R body(byte[] body) {
+		setBody(body);
+		return (R)this;
 	}
 
 	public R body(Object body) {
@@ -60,7 +70,7 @@ public abstract class Base<R> {
 
 		return LaunchpadParser
 			.get(contentType)
-			.parseAsList(body, componentType);
+			.parseAsList(getBodyAsString(), componentType);
 	}
 
 	public <T> T bodyValue() {
@@ -80,7 +90,7 @@ public abstract class Base<R> {
 
 		return LaunchpadParser
 			.get(contentType)
-			.parse(body);
+			.parse(getBodyAsString());
 	}
 
 	public <T> T bodyValue(Class<T> type) {
@@ -100,7 +110,7 @@ public abstract class Base<R> {
 
 		return LaunchpadParser
 			.get(contentType)
-			.parse(body, type);
+			.parse(getBodyAsString(), type);
 	}
 
 	public String contentType() {
@@ -169,13 +179,40 @@ public abstract class Base<R> {
 			isContentType(ContentType.MULTIPART_FORM));
 	}
 
+	protected String getBodyAsString() {
+		if (body == null) {
+			return null;
+		}
+
+		try {
+			return new String(body, BODY_ENCODING);
+		}
+		catch(UnsupportedEncodingException uee) {
+			return null;
+		}
+	}
+
 	protected void setBody(String value) {
+		if (value == null) {
+			setBody((byte[]) null);
+		}
+		else {
+			try {
+				setBody(value.getBytes(BODY_ENCODING));
+			}
+			catch(UnsupportedEncodingException uee) {
+				setBody((byte[]) null);
+			}
+		}
+	}
+
+	protected void setBody(byte[] value) {
 		this.body = value;
 	}
 
 	protected R setBodyObject(Object body) {
 		if (body == null) {
-			setBody(null);
+			setBody((byte[]) null);
 
 			return (R)this;
 		}
@@ -199,6 +236,6 @@ public abstract class Base<R> {
 	protected Map<String, Cookie> cookies = new HashMap<>();
 	protected PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 
-	private String body;
-
+	private byte[] body;
+	private static final String BODY_ENCODING = "UTF-8";
 }

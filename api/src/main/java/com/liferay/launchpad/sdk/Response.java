@@ -26,6 +26,16 @@ public interface Response {
 	public String body();
 
 	/**
+	 * Returns the raw body content.
+	 */
+	public byte[] bodyBytes();
+
+	/**
+	 * Sets the raw body content.
+	 */
+	public Response body(byte[] body);
+
+	/**
 	 * Sets the JSON body content.
 	 */
 	public Response body(Object body);

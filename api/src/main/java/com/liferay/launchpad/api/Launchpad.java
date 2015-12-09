@@ -646,7 +646,7 @@ public class Launchpad {
 
 		if (convertBody) {
 			convertBodyToParams(request);
-			request.body(null);
+			request.body((byte[])null);
 		}
 
 		return request;
