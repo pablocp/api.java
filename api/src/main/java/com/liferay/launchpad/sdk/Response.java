@@ -20,6 +20,54 @@ import java.util.Map;
  */
 public interface Response {
 
+	// success statuses
+
+	int OK = 200;
+	int CREATED = 201;
+	int ACCEPTED = 202;
+	int NON_AUTHORITATIVE_INFORMATION = 203;
+	int NO_CONTENT = 204;
+	int RESET_CONTENT = 205;
+	int PARTIAL_CONTENT = 206;
+
+	// redirections
+
+	int MULTIPLE_CHOICES = 300;
+	int MOVED_PERMANENTLY = 301;
+	int FOUND = 302;
+	int SEE_OTHER = 303;
+	int NOT_MODIFIED = 304;
+	int USE_PROXY = 305;
+	int TEMPORARY_REDIRECT = 307;
+
+	// client errors
+
+	int BAD_REQUEST = 400;
+	int UNAUTHORIZED = 401;
+	int FORBIDDEN = 403;
+	int NOT_FOUND = 404;
+	int METHOD_NOT_ALLOWED = 405;
+	int NOT_ACCEPTABLE = 406;
+	int PROXY_AUTHENTICATION_REQUIRED = 407;
+	int REQUEST_TIMEOUT = 408;
+	int CONFLICT = 409;
+	int GONE = 410;
+
+	// server errors
+
+	int INTERNAL_SERVER_ERROR = 500;
+	int NOT_IMPLEMENTED = 501;
+	int BAD_GATEWAY = 502;
+	int SERVICE_UNAVAILABLE = 503;
+	int GATEWAY_TIMEOUT = 504;
+
+	/**
+	 * Returns <code>true</code> if status code equals to provided one.
+	 */
+	public default boolean isStatusCode(int status) {
+		return statusCode() == status;
+	}
+
 	/**
 	 * Returns body content.
 	 */
@@ -145,7 +193,7 @@ public interface Response {
 	public boolean isContentType(ContentType contentType);
 
 	/**
-	 * Pipes response to another response.
+	 * Pipes response to another response and ends it.
 	 */
 	public Response pipe(Response response);
 
