@@ -20,54 +20,6 @@ import java.util.Map;
  */
 public interface Response {
 
-	// success statuses
-
-	int OK = 200;
-	int CREATED = 201;
-	int ACCEPTED = 202;
-	int NON_AUTHORITATIVE_INFORMATION = 203;
-	int NO_CONTENT = 204;
-	int RESET_CONTENT = 205;
-	int PARTIAL_CONTENT = 206;
-
-	// redirections
-
-	int MULTIPLE_CHOICES = 300;
-	int MOVED_PERMANENTLY = 301;
-	int FOUND = 302;
-	int SEE_OTHER = 303;
-	int NOT_MODIFIED = 304;
-	int USE_PROXY = 305;
-	int TEMPORARY_REDIRECT = 307;
-
-	// client errors
-
-	int BAD_REQUEST = 400;
-	int UNAUTHORIZED = 401;
-	int FORBIDDEN = 403;
-	int NOT_FOUND = 404;
-	int METHOD_NOT_ALLOWED = 405;
-	int NOT_ACCEPTABLE = 406;
-	int PROXY_AUTHENTICATION_REQUIRED = 407;
-	int REQUEST_TIMEOUT = 408;
-	int CONFLICT = 409;
-	int GONE = 410;
-
-	// server errors
-
-	int INTERNAL_SERVER_ERROR = 500;
-	int NOT_IMPLEMENTED = 501;
-	int BAD_GATEWAY = 502;
-	int SERVICE_UNAVAILABLE = 503;
-	int GATEWAY_TIMEOUT = 504;
-
-	/**
-	 * Returns <code>true</code> if status code equals to provided one.
-	 */
-	public default boolean isStatusCode(int status) {
-		return statusCode() == status;
-	}
-
 	/**
 	 * Returns body content.
 	 */
@@ -192,6 +144,54 @@ public interface Response {
 	 */
 	public boolean isContentType(ContentType contentType);
 
+	// success statuses
+
+	int OK = 200;
+	int CREATED = 201;
+	int ACCEPTED = 202;
+	int NON_AUTHORITATIVE_INFORMATION = 203;
+	int NO_CONTENT = 204;
+	int RESET_CONTENT = 205;
+	int PARTIAL_CONTENT = 206;
+
+	// redirections
+
+	int MULTIPLE_CHOICES = 300;
+	int MOVED_PERMANENTLY = 301;
+	int FOUND = 302;
+	int SEE_OTHER = 303;
+	int NOT_MODIFIED = 304;
+	int USE_PROXY = 305;
+	int TEMPORARY_REDIRECT = 307;
+
+	// client errors
+
+	int BAD_REQUEST = 400;
+	int UNAUTHORIZED = 401;
+	int FORBIDDEN = 403;
+	int NOT_FOUND = 404;
+	int METHOD_NOT_ALLOWED = 405;
+	int NOT_ACCEPTABLE = 406;
+	int PROXY_AUTHENTICATION_REQUIRED = 407;
+	int REQUEST_TIMEOUT = 408;
+	int CONFLICT = 409;
+	int GONE = 410;
+
+	// server errors
+
+	int INTERNAL_SERVER_ERROR = 500;
+	int NOT_IMPLEMENTED = 501;
+	int BAD_GATEWAY = 502;
+	int SERVICE_UNAVAILABLE = 503;
+	int GATEWAY_TIMEOUT = 504;
+
+	/**
+	 * Returns <code>true</code> if status code equals to provided one.
+	 */
+	public default boolean isStatusCode(int status) {
+		return statusCode() == status;
+	}
+
 	/**
 	 * Pipes response to another response and ends it.
 	 */
@@ -211,15 +211,6 @@ public interface Response {
 	 */
 	public Request request();
 
-	/**
-	 * Sets the response status code and message.
-	 */
-	public default Response status(int statusCode, String statusMessage) {
-		statusCode(statusCode);
-		statusMessage(statusMessage);
-		return this;
-	}
-
 	public default Response status(int statusCode) {
 		String statusMessage = "";
 
@@ -227,7 +218,8 @@ public interface Response {
 			case OK: statusMessage = "OK"; break;
 			case CREATED: statusMessage = "Created"; break;
 			case ACCEPTED: statusMessage = "Accepted"; break;
-			case NON_AUTHORITATIVE_INFORMATION: statusMessage = "Non-authoritative information"; break;
+			case NON_AUTHORITATIVE_INFORMATION: statusMessage =
+				"Non-authoritative information"; break;
 			case NO_CONTENT: statusMessage = "No content"; break;
 			case RESET_CONTENT: statusMessage = "Reset content"; break;
 			case PARTIAL_CONTENT: statusMessage = "Partial content"; break;
@@ -237,25 +229,39 @@ public interface Response {
 			case SEE_OTHER: statusMessage = "See other"; break;
 			case NOT_MODIFIED: statusMessage = "Not modified"; break;
 			case USE_PROXY: statusMessage = "Use proxy"; break;
-			case TEMPORARY_REDIRECT: statusMessage = "Temporary redirect"; break;
+			case TEMPORARY_REDIRECT: statusMessage =
+				"Temporary redirect"; break;
 			case BAD_REQUEST: statusMessage = "Bad request"; break;
 			case UNAUTHORIZED: statusMessage = "Unauthorized"; break;
 			case FORBIDDEN: statusMessage = "Forbidden"; break;
 			case NOT_FOUND: statusMessage = "Not found"; break;
-			case METHOD_NOT_ALLOWED: statusMessage = "Method not allowed"; break;
+			case METHOD_NOT_ALLOWED: statusMessage =
+				"Method not allowed"; break;
 			case NOT_ACCEPTABLE: statusMessage = "Not acceptable"; break;
-			case PROXY_AUTHENTICATION_REQUIRED: statusMessage = "Proxy authentication required"; break;
+			case PROXY_AUTHENTICATION_REQUIRED: statusMessage =
+				"Proxy authentication required"; break;
 			case REQUEST_TIMEOUT: statusMessage = "Request timeout"; break;
 			case CONFLICT: statusMessage = "Conflict"; break;
 			case GONE: statusMessage = "Gone"; break;
-			case INTERNAL_SERVER_ERROR: statusMessage = "Internal server error"; break;
+			case INTERNAL_SERVER_ERROR: statusMessage =
+				"Internal server error"; break;
 			case NOT_IMPLEMENTED: statusMessage = "Not implemented"; break;
 			case BAD_GATEWAY: statusMessage = "Bad gateway"; break;
-			case SERVICE_UNAVAILABLE: statusMessage = "Service unavailable"; break;
+			case SERVICE_UNAVAILABLE: statusMessage =
+				"Service unavailable"; break;
 			case GATEWAY_TIMEOUT: statusMessage = "Gateway timeout"; break;
 		}
 
 		return status(statusCode, statusMessage);
+	}
+
+	/**
+	 * Sets the response status code and message.
+	 */
+	public default Response status(int statusCode, String statusMessage) {
+		statusCode(statusCode);
+		statusMessage(statusMessage);
+		return this;
 	}
 
 	/**
