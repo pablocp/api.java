@@ -38,7 +38,7 @@ public interface Context {
 	 * Returns assets files from <code>assets</code> folder that matches
 	 * provided glob patterns.
 	 */
-	public List<Path> assetsFiles(String glob);
+	public List<Path> assetsFiles(String... glob);
 
 	/**
 	 * Returns base path of this pod.
@@ -71,6 +71,6 @@ public interface Context {
 	 * Returns static files from <code>web</code> folder that matches provided
 	 * glob patterns.
 	 */
-	public List<Path> webFiles(String glob);
+	public List<Path> webFiles(String... glob);
 
 }
