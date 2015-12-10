@@ -53,7 +53,7 @@ public class PodLoggerFactory {
 
 		try {
 			podLoggerClass = classLoader.loadClass(
-				clazz.getPackage().getName() + ".PodLoggerImpl");
+				clazz.getPackage().getName() + ".impl.PodLoggerImpl");
 		}
 		catch (ClassNotFoundException e) {
 			throw new PodException("PodLogger implementation not found", e);
