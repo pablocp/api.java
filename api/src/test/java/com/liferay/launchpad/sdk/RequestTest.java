@@ -92,6 +92,14 @@ public class RequestTest {
 	}
 
 	@Test
+	public void testCustomUrlScheme() {
+		Request request = new RequestImpl(
+			"blah://localhost:8080/path/sub?query=1&other=2");
+		assertEquals("blah://localhost:8080", request.baseUrl());
+		assertEquals("query=1&other=2", request.query());
+	}
+
+	@Test
 	public void testFileUploads() {
 		RequestImpl request = new RequestImpl("http://127.0.0.1");
 		FileUpload[] fileUploads = new FileUpload[] {};

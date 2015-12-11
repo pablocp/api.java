@@ -156,22 +156,14 @@ public class RequestImpl extends Base<Request> implements Request {
 		this.url = url;
 
 		try {
-			URI urlParsed = new URI(url);
+			URI uri = new URI(url);
 
-			if (urlParsed.isAbsolute()) {
-				baseUrl = urlParsed.getScheme() + "://" + urlParsed.getHost();
+			baseUrl = uri.getScheme() + "://" + uri.getHost() + ":" +
+				uri.getPort();
 
-				if (urlParsed.getPort() > 0) {
-					baseUrl += ":" + urlParsed.getPort();
-				}
-			}
-			else {
-				baseUrl = null;
-			}
+			path = uri.getPath();
 
-			path = urlParsed.getRawPath();
-
-			query = urlParsed.getRawQuery();
+			query = uri.getQuery();
 		}
 		catch (URISyntaxException e) {
 			throw new PodException("Invalid URL: " + url, e);
