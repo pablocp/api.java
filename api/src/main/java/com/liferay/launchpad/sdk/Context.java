@@ -52,6 +52,12 @@ public interface Context {
 	public Map<String, Object> configuration();
 
 	/**
+	 * Parses the configuration into a bean of the given type.
+	 * This method loads the configuration each call.
+	 */
+	public <T> T configuration(Class<T> clazz);
+
+	/**
 	 * Returns the socket io server of this pod.
 	 */
 	public SocketIO io();
