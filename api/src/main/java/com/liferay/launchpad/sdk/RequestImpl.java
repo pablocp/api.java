@@ -12,8 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * {@link Request} implementation.
@@ -153,27 +153,27 @@ public class RequestImpl extends Base<Request> implements Request {
 	protected String url;
 
 	private void url(String url) {
-
-		// TODO(igor): !!!workaround!!!
-
-		if (url.startsWith("/")) {
-			url = "http://localhost:8080" + url;
-		}
-
 		this.url = url;
 
 		try {
-			URL urlParsed = new URL(url);
+			URI urlParsed = new URI(url);
 
-			baseUrl =
-				urlParsed.getProtocol() + "://" + urlParsed.getHost() + ":" +
-					urlParsed.getPort();
+			if (urlParsed.isAbsolute()) {
+				baseUrl = urlParsed.getScheme() + "://" + urlParsed.getHost();
 
-			path = urlParsed.getPath();
+				if (urlParsed.getPort() > 0) {
+					baseUrl += ":" + urlParsed.getPort();
+				}
+			}
+			else {
+				baseUrl = null;
+			}
 
-			query = urlParsed.getQuery();
+			path = urlParsed.getRawPath();
+
+			query = urlParsed.getRawQuery();
 		}
-		catch (MalformedURLException e) {
+		catch (URISyntaxException e) {
 			throw new PodException("Invalid URL: " + url, e);
 		}
 	}
