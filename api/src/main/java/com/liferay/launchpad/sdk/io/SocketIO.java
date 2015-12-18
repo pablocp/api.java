@@ -37,11 +37,16 @@ public interface SocketIO {
 	/**
 	 * Expose main namespace (/) to.
 	 */
-	public SocketNamespace to(String name);
+	public SocketNamespace to(String room, String event, Object... args);
 
 	/**
 	 * Expose main namespace (/) use.
 	 */
 	public SocketNamespace use(SocketMiddleware fn);
+
+	/**
+	 * Blacklist an event for the sockets in this server.
+	 */
+	public void blacklist(String event);
 
 }

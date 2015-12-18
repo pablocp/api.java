@@ -20,11 +20,6 @@ import java.util.Set;
 public interface SocketNamespace extends SocketEventEmitter {
 
 	/**
-	 * Gets a set of all sockets that are connected.
-	 */
-	public Set<Socket> sockets();
-
-	/**
 	 * Sets up namespace middleware.
 	 */
 	public SocketNamespace use(SocketMiddleware fn);
