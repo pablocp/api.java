@@ -16,6 +16,7 @@ import com.liferay.launchpad.serializer.LaunchpadParser;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
 import java.io.UnsupportedEncodingException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +27,6 @@ public abstract class Base<R> {
 
 	public String body() {
 		return getBodyAsString();
-	}
-
-	public byte[] bodyBytes() {
-		return body;
 	}
 
 	public R body(byte[] body) {
@@ -51,6 +48,10 @@ public abstract class Base<R> {
 		contentType(contentType);
 		body(body);
 		return (R)this;
+	}
+
+	public byte[] bodyBytes() {
+		return body;
 	}
 
 	public <T> List<T> bodyList(Class<T> componentType) {
@@ -187,22 +188,8 @@ public abstract class Base<R> {
 		try {
 			return new String(body, BODY_ENCODING);
 		}
-		catch(UnsupportedEncodingException uee) {
+		catch (UnsupportedEncodingException uee) {
 			return null;
-		}
-	}
-
-	protected void setBody(String value) {
-		if (value == null) {
-			setBody((byte[]) null);
-		}
-		else {
-			try {
-				setBody(value.getBytes(BODY_ENCODING));
-			}
-			catch(UnsupportedEncodingException uee) {
-				setBody((byte[]) null);
-			}
 		}
 	}
 
@@ -210,9 +197,23 @@ public abstract class Base<R> {
 		this.body = value;
 	}
 
+	protected void setBody(String value) {
+		if (value == null) {
+			setBody((byte[])null);
+		}
+		else {
+			try {
+				setBody(value.getBytes(BODY_ENCODING));
+			}
+			catch (UnsupportedEncodingException uee) {
+				setBody((byte[])null);
+			}
+		}
+	}
+
 	protected R setBodyObject(Object body) {
 		if (body == null) {
-			setBody((byte[]) null);
+			setBody((byte[])null);
 
 			return (R)this;
 		}
@@ -236,6 +237,8 @@ public abstract class Base<R> {
 	protected Map<String, Cookie> cookies = new HashMap<>();
 	protected PodMultiMap<String> headers = PodMultiMap.newMultiMap();
 
-	private byte[] body;
 	private static final String BODY_ENCODING = "UTF-8";
+
+	private byte[] body;
+
 }

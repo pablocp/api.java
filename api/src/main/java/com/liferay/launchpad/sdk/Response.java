@@ -26,11 +26,6 @@ public interface Response {
 	public String body();
 
 	/**
-	 * Returns the raw body content.
-	 */
-	public byte[] bodyBytes();
-
-	/**
 	 * Sets the raw body content.
 	 */
 	public Response body(byte[] body);
@@ -50,6 +45,11 @@ public interface Response {
 	 * Just a shortcut call.
 	 */
 	public Response body(String body, ContentType contentType);
+
+	/**
+	 * Returns the raw body content.
+	 */
+	public byte[] bodyBytes();
 
 	/**
 	 * Returns parsed {@link #body() body content}.

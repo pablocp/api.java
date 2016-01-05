@@ -89,6 +89,7 @@ public class ResponseError {
 
 	private static ErrorData<Response> newResponseErrorData() {
 		return new ErrorData<Response>() {
+
 			@Override
 			protected void end(Response response) {
 				response.status(statusCode(), statusMessage());
@@ -101,6 +102,7 @@ public class ResponseError {
 					.body(errorBody)
 					.end();
 			}
+
 		};
 	}
 

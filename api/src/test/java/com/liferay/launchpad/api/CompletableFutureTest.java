@@ -37,6 +37,7 @@ public class CompletableFutureTest {
 					System.out.println(Thread.currentThread().getId());
 					throw new IllegalArgumentException();
 				}
+
 			})
 			.thenApply((mi) -> {
 				access.value++;
@@ -78,6 +79,7 @@ public class CompletableFutureTest {
 					System.out.println(Thread.currentThread().getId());
 					throw new IllegalArgumentException();
 				}
+
 			})
 			.thenApply((mi) -> {
 				access.value++;
@@ -116,6 +118,7 @@ public class CompletableFutureTest {
 				public MutableInteger apply(MutableInteger mi) {
 					throw new IllegalArgumentException();
 				}
+
 			})
 			.exceptionally(new Function<Throwable, MutableInteger>() {
 				@Override
@@ -128,6 +131,7 @@ public class CompletableFutureTest {
 
 					throw new RuntimeException("failure");
 				}
+
 			})
 			.thenApply(mi -> {
 				access.value++;
