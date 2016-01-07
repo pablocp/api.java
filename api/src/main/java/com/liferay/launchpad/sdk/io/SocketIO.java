@@ -18,6 +18,11 @@ package com.liferay.launchpad.sdk.io;
 public interface SocketIO {
 
 	/**
+	 * Blacklist an event for the sockets in this server.
+	 */
+	public void blacklist(String event);
+
+	/**
 	 * Expose main namespace (/) emit.
 	 */
 	public SocketNamespace emit(String event, Object... args);
@@ -43,10 +48,5 @@ public interface SocketIO {
 	 * Expose main namespace (/) use.
 	 */
 	public SocketNamespace use(SocketMiddleware fn);
-
-	/**
-	 * Blacklist an event for the sockets in this server.
-	 */
-	public void blacklist(String event);
 
 }

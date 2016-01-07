@@ -12,8 +12,6 @@
 
 package com.liferay.launchpad.sdk.io;
 
-import java.util.Set;
-
 /**
  * SocketIO namespace.
  */

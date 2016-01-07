@@ -14,13 +14,10 @@ package com.liferay.launchpad.sdk.io;
 
 import com.liferay.launchpad.sdk.Request;
 
-
 /**
  * SocketIO socket.
  */
 public interface Socket extends SocketEventEmitter {
-
-	public Socket to(String room, String event, Object... args);
 
 	/**
 	 * Sets broadcast flag to true.
@@ -50,5 +47,7 @@ public interface Socket extends SocketEventEmitter {
 	 * Stores the value with the specified key.
 	 */
 	public void set(String key, Object value);
+
+	public Socket to(String room, String event, Object... args);
 
 }
