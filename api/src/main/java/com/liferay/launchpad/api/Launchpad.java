@@ -564,7 +564,8 @@ public class Launchpad {
 		else if (auth.hasUsername() && auth.hasPassword()) {
 			String credentials = auth.username() + ":" + auth.password();
 			request.header(
-				"Authorization", "Basic " +
+				"Authorization",
+				"Basic " +
 					Base64.getEncoder().encodeToString(credentials.getBytes()));
 		}
 	}

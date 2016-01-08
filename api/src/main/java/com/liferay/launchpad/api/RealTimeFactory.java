@@ -9,6 +9,7 @@ public interface RealTimeFactory {
 		throws URISyntaxException;
 
 	public static class Default {
+
 		public static RealTimeFactory factory;
 
 	}

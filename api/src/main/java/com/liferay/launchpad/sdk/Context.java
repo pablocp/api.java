@@ -68,6 +68,11 @@ public interface Context {
 	public String name();
 
 	/**
+	 * Returns application shared data map.
+	 */
+	public SharedData<Object, Object> sharedData();
+
+	/**
 	 * Returns single file from <code>web</code> folder. Returns
 	 * <code>null</code> if file does not exist.
 	 */

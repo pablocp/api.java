@@ -22,7 +22,7 @@ public interface Socket extends SocketEventEmitter {
 	/**
 	 * Sets broadcast flag to true.
 	 */
-	public Socket broadcast();
+	public Socket broadcast(String event, Object... args);
 
 	/**
 	 * Returns the value stored with the specified key.
@@ -47,5 +47,7 @@ public interface Socket extends SocketEventEmitter {
 	 * Stores the value with the specified key.
 	 */
 	public void set(String key, Object value);
+
+	public Socket to(String room, String event, Object... args);
 
 }

@@ -35,6 +35,7 @@ public abstract class RealTime {
 
 	@FunctionalInterface
 	public interface Listener {
+
 		public void call(Object... args);
 
 	}

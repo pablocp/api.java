@@ -19,12 +19,6 @@ import java.util.List;
  */
 public interface SocketEventEmitter {
 
-	public default SocketEventEmitter addEventListener(
-		String event, SocketListener fn) {
-
-		return this.on(event, fn);
-	}
-
 	/**
 	 * Emits `event` with the given args.
 	 */
@@ -65,56 +59,5 @@ public interface SocketEventEmitter {
 	 * time then automatically removed.
 	 */
 	public SocketEventEmitter once(String event, SocketListener fn);
-
-	public default SocketEventEmitter removeAllListeners() {
-		return this.off();
-	}
-
-	public default SocketEventEmitter removeAllListeners(String event) {
-		return this.off(event);
-	}
-
-	public default SocketEventEmitter removeAllListeners(
-		String event, SocketListener fn) {
-
-		return this.off(event, fn);
-	}
-
-	public default SocketEventEmitter removeEventListener() {
-		return this.off();
-	}
-
-	public default SocketEventEmitter removeEventListener(String event) {
-		return this.off(event);
-	}
-
-	public default SocketEventEmitter removeEventListener(
-		String event, SocketListener fn) {
-
-		return this.off(event, fn);
-	}
-
-	/**
-	 * Aliases of off().
-	 */
-	public default SocketEventEmitter removeListener() {
-		return this.off();
-	}
-
-	/**
-	 * Aliases of off(event).
-	 */
-	public default SocketEventEmitter removeListener(String event) {
-		return this.off(event);
-	}
-
-	/**
-	 * Aliases of off(event, fn).
-	 */
-	public default SocketEventEmitter removeListener(
-		String event, SocketListener fn) {
-
-		return this.off(event, fn);
-	}
 
 }

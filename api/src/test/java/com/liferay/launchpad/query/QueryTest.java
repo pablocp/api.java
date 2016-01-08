@@ -31,8 +31,8 @@ public class QueryTest {
 		String body = Query.filter("field", 1).toString();
 
 		JSONAssert.assertEquals(
-			"{\"filter\":[{\"field\":{\"operator\":\"=\",\"value\":1}}]}",
-			body, true);
+			"{\"filter\":[{\"field\":{\"operator\":\"=\",\"value\":1}}]}", body,
+			true);
 
 		body = Query
 				.filter("field1", 1)
