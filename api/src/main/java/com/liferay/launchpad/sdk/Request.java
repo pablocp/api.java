@@ -27,6 +27,8 @@ public interface Request {
 
 	/**
 	 * Returns the base URL corresponding to the the HTTP request.
+	 * If <code>null</code> the request represents a 'local' call,
+	 * with only a {@link #path()} existing.
 	 */
 	public String baseUrl();
 

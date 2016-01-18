@@ -11,6 +11,7 @@
  */
 package com.liferay.launchpad.sdk;
 
+import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -152,6 +153,14 @@ public class RequestTest {
 	}
 
 	@Test
+	public void testUrlLocal() {
+		Request request = new RequestImpl("/foo");
+
+		assertNull(request.baseUrl());
+		assertEquals("/foo", request.path());
+	}
+
+	@Test
 	public void testUrlPath() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?query=1");
@@ -164,5 +173,4 @@ public class RequestTest {
 			"http://localhost:8080/path/sub?query=1&other=2");
 		assertEquals("query=1&other=2", request.query());
 	}
-
 }

@@ -158,17 +158,25 @@ public class RequestImpl extends Base<Request> implements Request {
 		try {
 			URI uri = new URI(url);
 
-			baseUrl = uri.getScheme() + "://";
-
-			if (uri.getHost() == null) {
-				baseUrl += "localhost";
+			if (url.startsWith("/")) {
+				baseUrl = null;
 			}
 			else {
-				baseUrl += uri.getHost();
-			}
+				if (uri.getScheme() == null) {
+					baseUrl = "http://";
+				} else {
+					baseUrl = uri.getScheme() + "://";
+				}
 
-			if (uri.getPort() != -1) {
-				baseUrl += ":" + uri.getPort();
+				if (uri.getHost() == null) {
+					baseUrl += "localhost";
+				} else {
+					baseUrl += uri.getHost();
+				}
+
+				if (uri.getPort() != -1) {
+					baseUrl += ":" + uri.getPort();
+				}
 			}
 
 			path = uri.getPath();
