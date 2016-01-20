@@ -4,6 +4,7 @@ import com.liferay.launchpad.api.RealTime;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
+import io.socket.parseqs.ParseQS;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,6 +40,11 @@ public class SocketIORealTime extends RealTime {
 		IO.Options opts = new IO.Options();
 		opts.forceNew = (boolean)options.getOrDefault("forceNew", false);
 		opts.path = (String)options.getOrDefault("path", null);
+
+		if (options.containsKey("query")) {
+			opts.query = ParseQS.encode((Map)options.get("query"));
+		}
+
 		return opts;
 	}
 

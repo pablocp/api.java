@@ -522,21 +522,24 @@ public class Launchpad {
 	public RealTime watch(String body, Map<String, Object> options) {
 		Request clientRequest = this.resolveRequest(METHOD_GET, body, true);
 
-		String url[] = Util.parseUrl(
-			Util.addParametersToUrlQueryString(
-				clientRequest.url(), clientRequest.params()));
+		String query = Util.addParametersToQueryString(
+			clientRequest.query(), clientRequest.params());
+
+		String clientUrl = Util.joinPathAndQuery(clientRequest.path(), query);
+
+		Map<String, String> optionsQuery = new HashMap<>();
+		optionsQuery.put("url", clientUrl);
 
 		if (options == null) {
 			options = new HashMap<>();
-			options.put("forceNew", true);
 		}
 
-		options.putIfAbsent("path", url[1]);
+		options.putIfAbsent("forceNew", true);
+		options.putIfAbsent("path", clientRequest.path());
+		options.putIfAbsent("query", optionsQuery);
 
 		try {
-			return RealTime.io(
-				"http://" + url[0] + "?url=" + Util.encodeURIComponent(url[1] + url[2]),
-				options);
+			return RealTime.io(clientRequest.baseUrl(), options);
 		}
 		catch (NullPointerException e) {
 			throw new LaunchpadClientException("Socket.io client not loaded");
@@ -737,6 +740,11 @@ public class Launchpad {
 		final LaunchpadSerializer launchpadSerializer = LaunchpadSerializer.get(
 			new ContentType(existingContentType));
 
+		request.forms().forEach(
+			entry -> request.param(
+				entry.getKey(),
+				launchpadSerializer.serialize(entry.getValue())));
+
 		try {
 			Map<String, Object> bodyJson = request.bodyValue();
 
@@ -744,7 +752,7 @@ public class Launchpad {
 				(name, value) ->
 					request.param(name, launchpadSerializer.serialize(value)));
 		}
-		catch (ClassCastException ignore) {
+		catch (NullPointerException | ClassCastException ignore) {
 
 			// body content is ignored.
 
