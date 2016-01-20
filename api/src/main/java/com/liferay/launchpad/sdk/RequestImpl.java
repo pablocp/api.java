@@ -155,33 +155,48 @@ public class RequestImpl extends Base<Request> implements Request {
 	private void url(String url) {
 		this.url = url;
 
-		try {
-			URI uri = new URI(url);
+		// clear attributes
 
-			if (url.startsWith("/")) {
-				baseUrl = null;
+		this.baseUrl = null;
+		this.path = null;
+		this.query = null;
+
+		if (url == null) {
+			return;
+		}
+
+		try {
+			if (url.charAt(0) == '/') {
+				int separator = url.indexOf('?');
+
+				if (separator == -1) {
+					path = url;
+				}
+				else {
+					path = url.substring(0, separator);
+					query = url.substring(separator+1, url.length());
+				}
 			}
 			else {
-				if (uri.getScheme() == null) {
-					baseUrl = "http://";
-				} else {
-					baseUrl = uri.getScheme() + "://";
+				if (!url.contains("://")) {
+					url = "http://" + url;
 				}
 
-				if (uri.getHost() == null) {
-					baseUrl += "localhost";
-				} else {
-					baseUrl += uri.getHost();
-				}
+				URI parsedUrl = new URI(url);
 
-				if (uri.getPort() != -1) {
-					baseUrl += ":" + uri.getPort();
+				if (parsedUrl.getHost() != null) {
+					baseUrl = parsedUrl.getScheme() + "://";
+
+					baseUrl += parsedUrl.getHost();
+
+					if (parsedUrl.getPort() != -1) {
+						baseUrl += ":" + parsedUrl.getPort();
+					}
+
+					path = parsedUrl.getRawPath();
+					query = parsedUrl.getRawQuery();
 				}
 			}
-
-			path = uri.getPath();
-
-			query = uri.getQuery();
 		}
 		catch (URISyntaxException e) {
 			throw new PodException("Invalid URL: " + url, e);
