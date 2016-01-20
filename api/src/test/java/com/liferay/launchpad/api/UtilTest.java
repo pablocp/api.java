@@ -1,6 +1,5 @@
 package com.liferay.launchpad.api;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import com.liferay.launchpad.sdk.PodMultiMap;
@@ -10,14 +9,20 @@ import org.junit.Test;
 public class UtilTest {
 
 	@Test
-	public void testAddParametersToUrlQueryString() {
-		String url = "http://foo.bar";
+	public void testAddParametersToQueryString_encodingParams() {
 		PodMultiMap<String> params = new PodMultiMapImpl<>(true);
 		params.add("foo", "bar");
 		params.add("search", "{foo:bar}");
+
 		assertEquals(
-			"http://foo.bar?foo=bar&search=%7Bfoo%3Abar%7D",
-			Util.addParametersToUrlQueryString(url, params));
+			"foo=bar&search=%7Bfoo%3Abar%7D",
+			Util.addParametersToQueryString(null, params));
+		assertEquals(
+			"foo=bar&search=%7Bfoo%3Abar%7D",
+			Util.addParametersToQueryString("", params));
+		assertEquals(
+			"a=b&foo=bar&search=%7Bfoo%3Abar%7D",
+			Util.addParametersToQueryString("a=b", params));
 	}
 
 	@Test
@@ -26,6 +31,31 @@ public class UtilTest {
 		assertEquals("!'()*-._~", Util.encodeURIComponent("!'()*-._~"));
 		assertEquals("%20", Util.encodeURIComponent(" "));
 		assertEquals("%7B%7D", Util.encodeURIComponent("{}"));
+	}
+
+	@Test
+	public void testEncodeURIComponent_unsupportedEncodingException() {
+		String encoding = Util.DEFAULT_ENCODING;
+
+		try {
+			Util.DEFAULT_ENCODING = "unsupported";
+			assertEquals(" ", Util.encodeURIComponent(" "));
+		}
+		finally {
+			Util.DEFAULT_ENCODING = encoding;
+		}
+	}
+
+	@Test
+	public void testJoinPathAndQuery() {
+		assertEquals("/path/a", Util.joinPathAndQuery("/path/a", null));
+		assertEquals("/path/a/", Util.joinPathAndQuery("/path/a/", null));
+		assertEquals("/path/a", Util.joinPathAndQuery("/path/a", ""));
+		assertEquals("/path/a?a=b", Util.joinPathAndQuery("/path/a", "a=b"));
+		assertEquals("", Util.joinPathAndQuery("", null));
+		assertEquals("", Util.joinPathAndQuery(null, null));
+		assertEquals("", Util.joinPathAndQuery(null, ""));
+		assertEquals("?a=b", Util.joinPathAndQuery(null, "a=b"));
 	}
 
 	@Test
@@ -47,27 +77,8 @@ public class UtilTest {
 	}
 
 	@Test
-	public void testParseUrls() {
-		assertArrayEquals(
-			new String[] {"localhost:8080", "/path/a", ""},
-			Util.parseUrl("http://localhost:8080/path/a"));
-		assertArrayEquals(
-			new String[] {"localhost:8080", "/path/a", ""},
-			Util.parseUrl("//localhost:8080/path/a"));
-		assertArrayEquals(
-			new String[] {"localhost:8080", "/path/a", ""},
-			Util.parseUrl("localhost:8080/path/a"));
-		assertArrayEquals(
-			new String[] {"", "/path/a", ""}, Util.parseUrl("/path/a"));
-		assertArrayEquals(
-			new String[] {"", "/path/a", "?foo=1"},
-			Util.parseUrl("/path/a?foo=1"));
-		assertArrayEquals(
-			new String[] {"localhost:8080", "/", ""},
-			Util.parseUrl("localhost:8080"));
-		assertArrayEquals(
-			new String[] {"localhost:8080", "/", ""},
-			Util.parseUrl("localhost:8080/"));
+	public void testUtil_constructorDummyCoverage() {
+		new Util();
 	}
 
 }

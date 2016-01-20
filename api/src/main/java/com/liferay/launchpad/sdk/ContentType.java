@@ -65,7 +65,7 @@ public class ContentType {
 	/**
 	 * Returns content-type charset.
 	 */
-	public String charset() { return charset; }
+	public String charset() {return charset; }
 
 	@Override
 	public String toString() {

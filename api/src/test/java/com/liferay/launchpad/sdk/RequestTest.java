@@ -12,6 +12,7 @@
 package com.liferay.launchpad.sdk;
 
 import static junit.framework.TestCase.assertNull;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -173,4 +174,5 @@ public class RequestTest {
 			"http://localhost:8080/path/sub?query=1&other=2");
 		assertEquals("query=1&other=2", request.query());
 	}
+
 }

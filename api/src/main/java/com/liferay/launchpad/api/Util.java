@@ -7,31 +7,35 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 public class Util {
 
+	protected Util() {}
+
 	public static final String SEPARATOR = "/";
 
 	/**
 	 * Adds parameters into the url querystring.
 	 */
-	public static String addParametersToUrlQueryString(
-		String url, PodMultiMap<String> params) {
+	public static String addParametersToQueryString(
+		String query, PodMultiMap<String> params) {
 
 		StringBuilder queryString = new StringBuilder();
 
-		params.names().forEach(name -> {
-			params.getAll(name).forEach(value -> {
+		if ((query != null) && (query.length() > 0)) {
+			queryString.append(query).append('&');
+		}
+
+		params.names().forEach(
+			name -> params.getAll(name).forEach(value -> {
 				queryString.append(name);
 				queryString.append("=");
 				queryString.append(encodeURIComponent(value));
 				queryString.append("&");
-			});
-		});
+			}));
 
-		if (queryString.length() > 1) {
-			url += (url.indexOf('?') > -1) ? "&" : "?";
-			url += queryString.substring(0, queryString.length() - 1);
+		if (params.size() > 0) {
+			queryString.deleteCharAt(queryString.length()-1);
 		}
 
-		return url;
+		return queryString.toString();
 	}
 
 	/**
@@ -39,7 +43,7 @@ public class Util {
 	 */
 	public static String encodeURIComponent(String s) {
 		try {
-			return URLEncoder.encode(s, "UTF-8")
+			return URLEncoder.encode(s, DEFAULT_ENCODING)
 				.replaceAll("\\+", "%20")
 				.replaceAll("\\%21", "!")
 				.replaceAll("\\%27", "'")
@@ -47,7 +51,7 @@ public class Util {
 				.replaceAll("\\%29", ")")
 				.replaceAll("\\%7E", "~");
 		} catch (UnsupportedEncodingException e) {
-			return null;
+			return s;
 		}
 	}
 
@@ -69,38 +73,20 @@ public class Util {
 	/**
 	 * Parses the url separating the domain and port from the path.
 	 */
-	public static String[] parseUrl(String url) {
-		String base = null;
-		String path = null;
-		String qs = null;
+	public static String joinPathAndQuery(String path, String query) {
+		StringBuilder builder = new StringBuilder();
 
-		int domainAt = url.indexOf("//");
-
-		if (domainAt > -1) {
-			url = url.substring(domainAt + 2);
+		if (path != null) {
+			builder.append(path);
 		}
 
-		int pathAt = url.indexOf("/");
-
-		if (pathAt == -1) {
-			url += "/";
-			pathAt = url.length() - 1;
+		if ((query != null) && (query.length() > 0)) {
+			builder.append('?').append(query);
 		}
 
-		base = url.substring(0, pathAt);
-		path = url.substring(pathAt);
-
-		int qsAt = path.indexOf("?");
-
-		if (qsAt > -1) {
-			qs = path.substring(qsAt, path.length());
-			path = path.substring(0, qsAt);
-		}
-		else {
-			qs = "";
-		}
-
-		return new String[] {base, path, qs};
+		return builder.toString();
 	}
+
+	protected static String DEFAULT_ENCODING = "UTF-8";
 
 }

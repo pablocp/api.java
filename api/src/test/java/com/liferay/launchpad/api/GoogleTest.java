@@ -14,41 +14,55 @@ public class GoogleTest {
 	}
 
 	@Test
-	public void testGoogleHomePage() {
-		final Response[] response = new Response[1];
-		final Throwable[] throwable = new Throwable[1];
-
-		Launchpad
-			.url("http://google.com")
-			.getAsync()
-			.whenComplete((clientResponse, e) -> {
-				response[0] = clientResponse;
-				throwable[0] = e;
-			})
-			.thenAccept((clientResponse) -> Assert.assertTrue(clientResponse.succeeded()))
-			.join();
-
-		Assert.assertNotNull(response[0]);
-		Assert.assertNull(throwable[0]);
+	public void testDefaultTransport_constructorDummyCoverage() {
+		new DefaultTransport();
 	}
 
 	@Test
-	public void testGoogleHomePage_invalid() {
-		final Response[] response = new Response[1];
-		final Throwable[] throwable = new Throwable[1];
-
+	public void testGoogleHomePage_invalidAsync() {
 		Launchpad
 			.url("http://google.com/404")
 			.getAsync()
-			.whenComplete((clientResponse, e) -> {
-				response[0] = clientResponse;
-				throwable[0] = e;
+			.thenAccept(response -> Assert.assertFalse(response.succeeded()))
+			.exceptionally(exception -> {
+				Assert.fail(exception.getMessage());
+				return null;
 			})
-			.thenAccept((clientResponse) -> Assert.assertFalse(clientResponse.succeeded()))
 			.join();
+	}
 
-		Assert.assertNotNull(response[0]);
-		Assert.assertNull(throwable[0]);
+	@Test
+	public void testGoogleHomePage_invalidBlocking() {
+		Response clientResponse = Launchpad.url("http://google.com/404").get();
+
+		Assert.assertNotNull(clientResponse);
+		Assert.assertFalse(clientResponse.succeeded());
+	}
+
+	@Test
+	public void testGoogleHomePage_withAsync() {
+		Launchpad
+			.url("http://google.com")
+			.getAsync()
+			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
+			.exceptionally(exception -> {
+				Assert.fail(exception.getMessage());
+				return null;
+			})
+			.join();
+	}
+
+	@Test
+	public void testGoogleHomePage_withBlocking() {
+		Response clientResponse = Launchpad.url("http://google.com").get();
+
+		Assert.assertNotNull(clientResponse);
+		Assert.assertTrue(clientResponse.succeeded());
+	}
+
+	@Test
+	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
+		new RealTimeFactory.Default();
 	}
 
 }
