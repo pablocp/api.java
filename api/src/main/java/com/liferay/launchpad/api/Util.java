@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 public class Util {
 
+	protected Util() {}
+
 	public static final String SEPARATOR = "/";
 
 	/**
