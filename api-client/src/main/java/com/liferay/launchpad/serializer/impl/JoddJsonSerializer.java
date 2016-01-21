@@ -24,10 +24,14 @@ public class JoddJsonSerializer implements LaunchpadSerializer {
 			.create()
 			.deep(deep)
 			.use(PodMultiMap.class, POD_MULTI_MAP_JSON_SERIALIZER)
+			.use(long.class, LONG_TO_STRING_JSON_SERIALIZER)
+			.use(Long.class, LONG_TO_STRING_JSON_SERIALIZER)
 			.serialize(object);
 	}
 
 	private static final PodMultiMapJsonSerializer POD_MULTI_MAP_JSON_SERIALIZER
 		= new PodMultiMapJsonSerializer();
+	private static final LongToStringJsonSerializer
+		LONG_TO_STRING_JSON_SERIALIZER = new LongToStringJsonSerializer();
 
 }

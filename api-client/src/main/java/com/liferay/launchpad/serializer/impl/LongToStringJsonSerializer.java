@@ -1,0 +1,11 @@
+package com.liferay.launchpad.serializer.impl;
+
+import jodd.json.JsonContext;
+import jodd.json.TypeJsonSerializer;
+
+public class LongToStringJsonSerializer implements TypeJsonSerializer<Long> {
+	@Override
+	public void serialize(JsonContext jsonContext, Long value) {
+		jsonContext.writeString(value.toString());
+	}
+}
