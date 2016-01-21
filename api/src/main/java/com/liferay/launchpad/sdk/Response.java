@@ -221,6 +221,13 @@ public interface Response {
 	 */
 	public Request request();
 
+	/**
+	 * Returns current session.
+	 */
+	public default Session session() {
+		return request().session();
+	}
+
 	public default Response status(int statusCode) {
 		String statusMessage = "";
 
