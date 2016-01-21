@@ -5,7 +5,8 @@ import jodd.json.TypeJsonSerializer;
 
 public class LongToStringJsonSerializer implements TypeJsonSerializer<Long> {
 	@Override
-	public void serialize(JsonContext jsonContext, Long value) {
+	public boolean serialize(JsonContext jsonContext, Long value) {
 		jsonContext.writeString(value.toString());
+		return true;
 	}
 }
