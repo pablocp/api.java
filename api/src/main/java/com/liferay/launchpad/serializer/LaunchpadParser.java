@@ -35,6 +35,10 @@ public interface LaunchpadParser {
 		return LaunchpadSerializerEngine.instance().parser(contentType);
 	}
 
+	public static LaunchpadParser get() {
+		return LaunchpadSerializerEngine.instance().parser();
+	}
+
 	/**
 	 * Parses string to Java common type.
 	 */

@@ -36,11 +36,20 @@ public class LaunchpadSerializerEngine {
 		return engines.getParser();
 	}
 
+	public LaunchpadParser parser() {
+		return defaultEngines().getParser();
+	}
+
 	/**
 	 * Manual registration of engines.
 	 */
-	public void registerEngines(String serializerType, Engines engines) {
+	public void registerEngines(
+			String serializerType, Engines engines, boolean isDefault) {
 		enginesMap.put(serializerType, engines);
+
+		if (isDefault == true) {
+			defaultEngines = engines;
+		}
 	}
 
 	/**
@@ -52,7 +61,18 @@ public class LaunchpadSerializerEngine {
 		return engines.getSerializer();
 	}
 
+	public LaunchpadSerializer serializer() {
+		return defaultEngines().getSerializer();
+	}
+
 	protected LaunchpadSerializerEngine() {
+	}
+
+	protected Engines defaultEngines() {
+		if (defaultEngines == null) {
+			throw new LaunchpadSerializerException("Default content type is not set.");
+		}
+		return defaultEngines;
 	}
 
 	protected Engines lookupEngines(String contentType) {
@@ -69,6 +89,7 @@ public class LaunchpadSerializerEngine {
 	private static final LaunchpadSerializerEngine instance =
 		new LaunchpadSerializerEngine();
 
+	private Engines defaultEngines;
 	private Map<String, Engines> enginesMap = new HashMap<>();
 
 }

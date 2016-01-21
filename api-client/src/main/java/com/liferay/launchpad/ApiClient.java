@@ -33,11 +33,11 @@ public class ApiClient {
 
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.JSON.contentType(),
-			new Engines(new JoddJsonSerializer(), new JoddJsonParser()));
+			new Engines(new JoddJsonSerializer(), new JoddJsonParser()), true);
 
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.TEXT.contentType(),
-			new Engines(new JoddTextSerializer(), new JoddTextParser()));
+			new Engines(new JoddTextSerializer(), new JoddTextParser()), false);
 	}
 
 }
