@@ -6,4 +6,6 @@ public interface AppConfig {
 
 	public String getName();
 
+	public String getMasterToken();
+
 }
