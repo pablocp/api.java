@@ -1,5 +1,4 @@
 package com.liferay.launchpad.serializer;
-
 public class Engines {
 
 	public Engines(LaunchpadSerializer serializer, LaunchpadParser parser) {

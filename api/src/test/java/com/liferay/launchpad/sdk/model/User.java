@@ -11,7 +11,6 @@
  */
 
 package com.liferay.launchpad.sdk.model;
-
 public class User {
 
 	public int getMaxLength() {

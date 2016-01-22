@@ -22,6 +22,10 @@ import com.liferay.launchpad.sdk.ContentType;
  */
 public interface LaunchpadSerializer {
 
+	public static LaunchpadSerializer get() {
+		return LaunchpadSerializerEngine.instance().serializer();
+	}
+
 	public static LaunchpadSerializer get(ContentType contentType) {
 		return get(contentType.contentType());
 	}
@@ -29,11 +33,6 @@ public interface LaunchpadSerializer {
 	public static LaunchpadSerializer get(String contentType) {
 		return LaunchpadSerializerEngine.instance().serializer(contentType);
 	}
-
-	public static LaunchpadSerializer get() {
-		return LaunchpadSerializerEngine.instance().serializer();
-	}
-
 
 	/**
 	 * Serializes an object, deep.

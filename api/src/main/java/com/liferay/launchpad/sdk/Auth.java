@@ -125,6 +125,7 @@ public interface Auth {
 	 */
 	public static final class MasterToken {
 		public static String token;
+
 	}
 
 }

@@ -11,7 +11,6 @@
  */
 
 package com.liferay.launchpad.sdk;
-
 public class ValuesUtil {
 
 	/**

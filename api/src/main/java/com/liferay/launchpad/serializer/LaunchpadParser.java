@@ -27,16 +27,16 @@ import java.util.List;
  */
 public interface LaunchpadParser {
 
+	public static LaunchpadParser get() {
+		return LaunchpadSerializerEngine.instance().parser();
+	}
+
 	public static LaunchpadParser get(ContentType contentType) {
 		return get(contentType.contentType());
 	}
 
 	public static LaunchpadParser get(String contentType) {
 		return LaunchpadSerializerEngine.instance().parser(contentType);
-	}
-
-	public static LaunchpadParser get() {
-		return LaunchpadSerializerEngine.instance().parser();
 	}
 
 	/**

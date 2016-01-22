@@ -11,7 +11,6 @@
  */
 
 package com.liferay.launchpad.security;
-
 public class LaunchpadHashException extends RuntimeException {
 
 	public LaunchpadHashException(String message) {

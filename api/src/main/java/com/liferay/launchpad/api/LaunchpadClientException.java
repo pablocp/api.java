@@ -1,5 +1,4 @@
 package com.liferay.launchpad.api;
-
 public class LaunchpadClientException extends RuntimeException {
 
 	public LaunchpadClientException(String message) {
