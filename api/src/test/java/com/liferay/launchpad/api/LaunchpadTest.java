@@ -759,7 +759,7 @@ public class LaunchpadTest {
 
 	@Test
 	public void testSend_withoutTransport() {
-		DefaultTransport.setDefaultTransport(null);
+		DefaultTransport.defaultTransport(null);
 
 		try {
 			Launchpad.url("url").use(null).send("GET", 1);

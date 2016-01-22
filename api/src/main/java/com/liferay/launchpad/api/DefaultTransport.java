@@ -10,14 +10,14 @@ public class DefaultTransport {
 	/**
 	 * Returns default transport or <code>null</code> if default transport is not set.
 	 */
-	public static Transport getDefaultTransport() {
+	public static Transport defaultTransport() {
 		return transport;
 	}
 
 	/**
 	 * Sets default transport.
 	 */
-	public static void setDefaultTransport(Transport defaultTransport) {
+	public static void defaultTransport(Transport defaultTransport) {
 		transport = defaultTransport;
 	}
 

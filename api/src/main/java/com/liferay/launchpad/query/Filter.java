@@ -24,7 +24,7 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter boundingBox(String field, Geo.BoundingBox box) {
-		return Filter.field(field, "gp", box.getPoints());
+		return Filter.field(field, "gp", box.points());
 	}
 
 	public static Filter boundingBox(
@@ -46,8 +46,7 @@ public class Filter implements Embodied {
 	}
 
 	public static Filter distance(String field, Geo.Circle circle) {
-		return distance(
-			field, circle.getCenter(), Range.to(circle.getRadius()));
+		return distance(field, circle.center(), Range.to(circle.radius()));
 	}
 
 	public static Filter distance(String field, Object location, Range range) {

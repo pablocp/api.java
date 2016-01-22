@@ -43,7 +43,7 @@ public abstract class Geo<T> implements Embodied {
 
 	public static final class BoundingBox extends Geo<Map> {
 
-		public List<Object> getPoints() {
+		public List<Object> points() {
 			return (List)body.get("coordinates");
 		}
 
@@ -57,11 +57,11 @@ public abstract class Geo<T> implements Embodied {
 
 	public static final class Circle extends Geo<Map> {
 
-		public Object getCenter() {
+		public Object center() {
 			return body.get("coordinates");
 		}
 
-		public String getRadius() {
+		public String radius() {
 			return (String)body.get("radius");
 		}
 
