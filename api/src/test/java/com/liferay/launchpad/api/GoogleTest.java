@@ -14,11 +14,6 @@ public class GoogleTest {
 	}
 
 	@Test
-	public void testDefaultTransport_constructorDummyCoverage() {
-		new DefaultTransport();
-	}
-
-	@Test
 	public void testGoogleHomePage_invalidAsync() {
 		Launchpad
 			.url("http://google.com/404")
@@ -58,11 +53,6 @@ public class GoogleTest {
 
 		Assert.assertNotNull(clientResponse);
 		Assert.assertTrue(clientResponse.succeeded());
-	}
-
-	@Test
-	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
-		new RealTimeFactory.Default();
 	}
 
 }

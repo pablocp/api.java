@@ -24,6 +24,16 @@ public class LaunchpadTest {
 	public static void beforeClass() {ApiClient.init(); }
 
 	@Test
+	public void testDefaultTransport_constructorDummyCoverage() {
+		new DefaultTransport();
+	}
+
+	@Test
+	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
+		new RealTimeFactory.Default();
+	}
+
+	@Test
 	public void testAggregate_withAggregation() {
 		Launchpad.url("url")
 			.use(new TestTransport() {
@@ -910,11 +920,6 @@ public class LaunchpadTest {
 		catch (LaunchpadClientException e) {
 			Assert.assertEquals("Error", e.getMessage());
 		}
-	}
-
-	@Test
-	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
-		new RealTimeFactory.Default();
 	}
 
 	private Transport getTransportFor(String method, String body) {
