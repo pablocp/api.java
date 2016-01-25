@@ -33,16 +33,14 @@ public class Error404<T> extends ErrorBase<T, Error404<T>> {
 		super(errorData, 404, message, "Not Found");
 	}
 
-	public Error404<T> notFound() {
-		return error(0);
-	}
+	public Error404<T> notFound() {return notFound(null); }
 
 	public Error404<T> notFound(String message) {
 		return error(0, message);
 	}
 
 	public Error404<T> unsupportedProtocol() {
-		return error(1);
+		return unsupportedProtocol(null);
 	}
 
 	public Error404<T> unsupportedProtocol(String message) {

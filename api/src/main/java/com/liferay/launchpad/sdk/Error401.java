@@ -28,7 +28,11 @@ public class Error401<T> extends ErrorBase<T, Error401<T>> {
 	}
 
 	public Error401<T> unauthorized() {
-		return error(0);
+		return unauthorized(null);
+	}
+
+	public Error401<T> unauthorized(String message) {
+		return error(0, message);
 	}
 
 	@Override

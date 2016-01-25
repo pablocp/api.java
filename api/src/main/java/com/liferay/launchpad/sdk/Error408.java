@@ -17,7 +17,7 @@ public class Error408<T> extends ErrorBase<T, Error408<T>> {
 	}
 
 	public Error408<T> requestTimeout() {
-		return error(0);
+		return requestTimeout(null);
 	}
 
 	public Error408<T> requestTimeout(String message) {

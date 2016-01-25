@@ -71,7 +71,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> badContent() {
-		return error(1);
+		return badContent(null);
 	}
 
 	public Error400<T> badContent(String message) {
@@ -79,7 +79,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> badRequest() {
-		return error(0);
+		return badRequest(null);
 	}
 
 	public Error400<T> badRequest(String message) {
@@ -87,7 +87,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> exists() {
-		return error(8);
+		return exists(null);
 	}
 
 	public Error400<T> exists(String message) {
@@ -95,7 +95,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> invalidDocumentValue() {
-		return error(3);
+		return invalidDocumentValue(null);
 	}
 
 	public Error400<T> invalidDocumentValue(String message) {
@@ -103,7 +103,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> invalidQuery() {
-		return error(2);
+		return invalidQuery(null);
 	}
 
 	public Error400<T> invalidQuery(String message) {
@@ -111,7 +111,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> keyExpired() {
-		return error(4);
+		return keyExpired(null);
 	}
 
 	public Error400<T> keyExpired(String message) {
@@ -119,7 +119,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> keyInvalid() {
-		return error(5);
+		return keyInvalid(null);
 	}
 
 	public Error400<T> keyInvalid(String message) {
@@ -127,7 +127,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> parseError() {
-		return error(6);
+		return parseError(null);
 	}
 
 	public Error400<T> parseError(String message) {
@@ -135,7 +135,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> required() {
-		return error(7);
+		return required(null);
 	}
 
 	public Error400<T> required(String message) {
@@ -143,7 +143,7 @@ public class Error400<T> extends ErrorBase<T, Error400<T>> {
 	}
 
 	public Error400<T> validationError() {
-		return error(9);
+		return validationError(null);
 	}
 
 	public Error400<T> validationError(String message) {
