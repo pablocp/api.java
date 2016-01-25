@@ -323,7 +323,14 @@ public class Cookie {
 			}
 
 			if (name.equalsIgnoreCase("Max-Age")) {
-				maxAge(Long.parseLong(value));
+				try {
+					if (value != null) {
+						maxAge(Long.parseLong(value));
+					}
+				}
+				catch (NumberFormatException e) {
+					throw new PodException("Invalid cookie Max-Age: " + value);
+				}
 			} else if (name.equalsIgnoreCase("Comment")) {
 				comment(value);
 			} else if (name.equalsIgnoreCase("Domain")) {
@@ -333,7 +340,14 @@ public class Cookie {
 			} else if (name.equalsIgnoreCase("Secure")) {
 				secure(true);
 			} else if (name.equalsIgnoreCase("Version")) {
-				version(Integer.parseInt(value));
+				try {
+					if (value != null) {
+						version(Integer.parseInt(value));
+					}
+				}
+				catch (NumberFormatException e) {
+					throw new PodException("Invalid cookie Version: " + value);
+				}
 			} else if (name.equalsIgnoreCase("HttpOnly")) {
 				httpOnly(true);
 			} else if (name.equalsIgnoreCase("Expires")) {
