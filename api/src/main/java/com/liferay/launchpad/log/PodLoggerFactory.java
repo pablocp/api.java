@@ -15,6 +15,8 @@ package com.liferay.launchpad.log;
 import com.liferay.launchpad.sdk.PodException;
 public class PodLoggerFactory {
 
+	protected PodLoggerFactory() {}
+
 	/**
 	 * Returns logger for given class.
 	 */
@@ -53,7 +55,8 @@ public class PodLoggerFactory {
 
 		try {
 			podLoggerClass = classLoader.loadClass(
-				clazz.getPackage().getName() + ".impl.PodLoggerImpl");
+				clazz.getPackage().getName() + "." + defaultImplPackage + "." +
+					defaultImplClass);
 		}
 		catch (ClassNotFoundException e) {
 			throw new PodException("PodLogger implementation not found", e);
@@ -67,6 +70,17 @@ public class PodLoggerFactory {
 			throw new PodException("Invalid PodLogger implementation", e);
 		}
 	}
+
+	public static void setDefaultImplPackage(String name) {
+		defaultImplPackage = name;
+	}
+
+	public static void setDefaultImplClass(String name) {
+		defaultImplClass = name;
+	}
+
+	protected static String defaultImplPackage = "impl";
+	protected static String defaultImplClass = "PodLoggerImpl";
 
 	private static PodLoggerFactoryInterface loggerFactory;
 
