@@ -28,8 +28,6 @@ public interface AuthConfig {
 
 	public String getRolesParam();
 
-	public String getTokenParam();
-
 	public String getUserParam();
 
 }

@@ -1,5 +1,4 @@
 package com.liferay.launchpad.api.model;
-
 public class User {
 
 	public int getAge() {

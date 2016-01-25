@@ -11,7 +11,6 @@
  */
 
 package com.liferay.launchpad.log;
-
 public interface PodLoggerFactoryInterface {
 
 	public PodLogger getLogger(String name);

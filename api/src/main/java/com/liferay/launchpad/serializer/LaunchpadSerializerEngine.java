@@ -27,6 +27,10 @@ public class LaunchpadSerializerEngine {
 		return instance;
 	}
 
+	public LaunchpadParser parser() {
+		return defaultEngines().getParser();
+	}
+
 	/**
 	 * Returns te {@link LaunchpadParser} instance.
 	 */
@@ -36,20 +40,21 @@ public class LaunchpadSerializerEngine {
 		return engines.getParser();
 	}
 
-	public LaunchpadParser parser() {
-		return defaultEngines().getParser();
-	}
-
 	/**
 	 * Manual registration of engines.
 	 */
 	public void registerEngines(
-			String serializerType, Engines engines, boolean isDefault) {
+		String serializerType, Engines engines, boolean isDefault) {
+
 		enginesMap.put(serializerType, engines);
 
 		if (isDefault == true) {
 			defaultEngines = engines;
 		}
+	}
+
+	public LaunchpadSerializer serializer() {
+		return defaultEngines().getSerializer();
 	}
 
 	/**
@@ -61,17 +66,15 @@ public class LaunchpadSerializerEngine {
 		return engines.getSerializer();
 	}
 
-	public LaunchpadSerializer serializer() {
-		return defaultEngines().getSerializer();
-	}
-
 	protected LaunchpadSerializerEngine() {
 	}
 
 	protected Engines defaultEngines() {
 		if (defaultEngines == null) {
-			throw new LaunchpadSerializerException("Default content type is not set.");
+			throw new LaunchpadSerializerException(
+				"Default content type is not set.");
 		}
+
 		return defaultEngines;
 	}
 

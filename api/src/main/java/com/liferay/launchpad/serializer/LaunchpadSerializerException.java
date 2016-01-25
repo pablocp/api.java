@@ -11,7 +11,6 @@
  */
 
 package com.liferay.launchpad.serializer;
-
 public class LaunchpadSerializerException extends RuntimeException {
 
 	public LaunchpadSerializerException(String message) {

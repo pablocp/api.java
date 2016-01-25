@@ -661,7 +661,7 @@ public class Launchpad {
 	 */
 	protected Transport resolveTransport() {
 		if (currentTransport == null) {
-			currentTransport = DefaultTransport.getDefaultTransport();
+			currentTransport = DefaultTransport.defaultTransport();
 		}
 
 		if (currentTransport == null) {

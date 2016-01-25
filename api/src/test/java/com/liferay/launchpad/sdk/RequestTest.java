@@ -104,7 +104,7 @@ public class RequestTest {
 	@Test
 	public void testFileUploads() {
 		RequestImpl request = new RequestImpl("http://127.0.0.1");
-		FileUpload[] fileUploads = new FileUpload[] {};
+		FileUpload[] fileUploads = new FileUpload[0];
 		request.fileUploads(fileUploads);
 		Assert.assertArrayEquals(fileUploads, request.fileUploads());
 	}

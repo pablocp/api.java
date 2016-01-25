@@ -25,7 +25,7 @@ public class ApiClient {
 
 		PodMultiMapFactory.Default.factory = new JoddPodMultiMapFactory();
 
-		DefaultTransport.setDefaultTransport(new JoddHttpTransport());
+		DefaultTransport.defaultTransport(new JoddHttpTransport());
 
 		JoddJson.jsonAnnotation = Serialize.class;
 
