@@ -42,4 +42,9 @@ public class ValueUtilTest {
 		assertNull(ValuesUtil.toString(null));
 	}
 
+	@Test
+	public void testValuesUtil_constructorDummyCoverage() {
+		new ValuesUtil();
+	}
+
 }

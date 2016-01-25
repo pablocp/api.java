@@ -16,19 +16,19 @@ import com.liferay.launchpad.sdk.PodMultiMap;
 
 import org.junit.Assert;
 import org.junit.Test;
-public class PodCaseSensitiveMultiMapTest extends PodMultiMapTest {
+public class PodCaseInsensitiveMultiMapTest extends PodMultiMapTest {
 
 	@Test
-	public void testCaseSensitiveMultiMap() {
+	public void testCaseInsensitiveMultiMap() {
 		PodMultiMap map = createMultiMap();
 		map.add("key", "value");
 		Assert.assertEquals("value", map.get("key"));
-		Assert.assertNull(map.get("KEY"));
+		Assert.assertEquals("value", map.get("KEY"));
 	}
 
 	@Override
 	protected PodMultiMap createMultiMap() {
-		return PodMultiMap.newCaseSensitiveMultiMap();
+		return PodMultiMap.newMultiMap();
 	}
 
 }

@@ -13,11 +13,34 @@
 package com.liferay.launchpad.sdk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 public class ContentTypeTest {
+
+	@Test
+	public void testCharset() {
+		assertNull(new ContentType("text/html").charset());
+		assertNull(new ContentType("text/html", null).charset());
+		assertEquals(
+			"UTF-8", new ContentType("text/html;charset=UTF-8").charset());
+	}
+
+	@Test
+	public void testConstructor_parseContentTypeString() {
+		assertNull(new ContentType("text/html; charset=").charset());
+		assertEquals(
+			"UTF-8", new ContentType("text/html; charset=UTF-8").charset());
+		assertEquals(
+			"UTF-8", new ContentType("text/html; charset= UTF-8").charset());
+		assertEquals(
+			"UTF-8", new ContentType("text/html; charset=\"UTF-8").charset());
+		assertEquals(
+			"UTF-8", new ContentType("text/html; charset=\"UTF-8\"").charset());
+	}
 
 	@Test
 	public void testEquals() {
@@ -25,12 +48,32 @@ public class ContentTypeTest {
 		assertEquals(ContentType.HTML, new ContentType("text/html", "UTF-8"));
 		assertNotEquals(ContentType.HTML, ContentType.JSON);
 		assertNotEquals(ContentType.HTML, new ContentType("text/html"));
+		assertNotEquals(ContentType.HTML, new ContentType("text/html", null));
+		assertNotEquals(ContentType.HTML, "text/html");
+	}
+
+	@Test
+	public void testHashCode() {
+		assertEquals(ContentType.HTML.hashCode(), ContentType.HTML.hashCode());
+		assertEquals(
+			ContentType.HTML.hashCode(),
+			new ContentType("text/html", "UTF-8").hashCode());
+		assertNotEquals(
+			ContentType.HTML.hashCode(), ContentType.JSON.hashCode());
+		assertNotEquals(
+			ContentType.HTML.hashCode(),
+			new ContentType("text/html").hashCode());
+		assertNotEquals(
+			ContentType.HTML.hashCode(),
+			new ContentType("text/html", null).hashCode());
 	}
 
 	@Test
 	public void testSame() {
 		assertTrue(ContentType.HTML.isSame("text/html;charset=UTF-8"));
 		assertTrue(ContentType.HTML.isSame("text/html"));
+		assertFalse(ContentType.HTML.isSame("application/json"));
+		assertFalse(ContentType.HTML.isSame(null));
 	}
 
 }
