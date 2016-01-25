@@ -17,6 +17,8 @@ package com.liferay.launchpad.sdk;
  */
 public class ResponseError {
 
+	protected ResponseError() {}
+
 	/**
 	 * Creates error 400 response.
 	 */
