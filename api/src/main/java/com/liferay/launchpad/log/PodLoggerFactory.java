@@ -54,12 +54,11 @@ public class PodLoggerFactory {
 		Class podLoggerClass = null;
 
 		try {
-			podLoggerClass = classLoader.loadClass(
-				clazz.getPackage().getName() + "." + defaultImplPackage + "." +
-					defaultImplClass);
+			podLoggerClass = classLoader.loadClass(defaultClassName);
 		}
 		catch (ClassNotFoundException e) {
-			throw new PodException("PodLogger implementation not found", e);
+			throw new PodException(
+				"PodLogger implementation not found: " + defaultClassName, e);
 		}
 
 		try {
@@ -67,20 +66,31 @@ public class PodLoggerFactory {
 				(PodLoggerFactoryInterface)podLoggerClass.newInstance();
 		}
 		catch (Exception e) {
-			throw new PodException("Invalid PodLogger implementation", e);
+			throw new PodException(
+				"Invalid PodLogger implementation: " + defaultClassName, e);
 		}
 	}
 
-	public static void setDefaultImplPackage(String name) {
-		defaultImplPackage = name;
+	/**
+	 * Sets custom default implementation class name.
+	 * @see #setLoggerFactory(PodLoggerFactoryInterface)
+	 */
+	public static void setDefaultImplClass(String className) {
+		defaultClassName = className;
 	}
 
-	public static void setDefaultImplClass(String name) {
-		defaultImplClass = name;
+	/**
+	 * Sets default logger factory instance. If set, default name will not be
+	 * used.
+	 * @see #setDefaultImplClass(String)
+	 */
+	public static void setPodLogerFactory(
+			PodLoggerFactoryInterface podLogerFactory) {
+		loggerFactory = podLogerFactory;
 	}
 
-	protected static String defaultImplPackage = "impl";
-	protected static String defaultImplClass = "PodLoggerImpl";
+	protected static String defaultClassName =
+		PodLoggerFactory.class.getPackage().getName() + ".impl.PodLoggerImpl";
 
 	private static PodLoggerFactoryInterface loggerFactory;
 

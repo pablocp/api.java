@@ -122,8 +122,8 @@ public class PodLoggerTest {
 
 	@Test
 	public void testLoggerFactory_initLoggerFactory_implNotFound() {
-		String oldPackage = PodLoggerFactory.defaultImplPackage;
-		PodLoggerFactory.setDefaultImplPackage("invalid");
+		String oldClassName = PodLoggerFactory.defaultClassName;
+		PodLoggerFactory.setDefaultImplClass("invalid");
 		PodLoggerFactory.setLoggerFactory(null);
 
 		try {
@@ -132,16 +132,16 @@ public class PodLoggerTest {
 		}
 		catch (PodException e) {
 			Assert.assertEquals(
-				"PodLogger implementation not found", e.getMessage());
+				"PodLogger implementation not found: invalid", e.getMessage());
 		}
 		finally {
-			PodLoggerFactory.setDefaultImplPackage(oldPackage);
+			PodLoggerFactory.setDefaultImplClass(oldClassName);
 		}
 	}
 
 	@Test
 	public void testLoggerFactory_initLoggerFactory_invalidImpl() {
-		String oldClass = PodLoggerFactory.defaultImplClass;
+		String oldClass = PodLoggerFactory.defaultClassName;
 		PodLoggerFactory.setDefaultImplClass("TestPodLogger");
 		PodLoggerFactory.setLoggerFactory(null);
 
@@ -150,8 +150,9 @@ public class PodLoggerTest {
 			Assert.fail("Exception not thrown.");
 		}
 		catch (PodException e) {
-			Assert.assertEquals(
-				"Invalid PodLogger implementation", e.getMessage());
+			Assert.assertTrue(
+				e.getMessage().startsWith(
+					"PodLogger implementation not found: TestPodLogger"));
 		}
 		finally {
 			PodLoggerFactory.setDefaultImplClass(oldClass);
