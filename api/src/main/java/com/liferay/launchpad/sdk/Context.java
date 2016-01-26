@@ -30,6 +30,11 @@ public interface Context {
 	public AppConfig appConfig();
 
 	/**
+	 * Returns application shared data map.
+	 */
+	public SharedData<Object, Object> appData();
+
+	/**
 	 * Returns assets file from <code>assets</code> folder.
 	 */
 	public Path assetsFile(String fileName);
@@ -49,13 +54,13 @@ public interface Context {
 	 * Returns user configuration or <code>null</code> if no configuration is
 	 * specified.
 	 */
-	public Map<String, Object> configuration();
+	public Map<String, Object> config();
 
 	/**
 	 * Parses the configuration into a bean of the given type.
-	 * This method loads the configuration each call.
+	 * This method loads and parses the configuration on each call.
 	 */
-	public <T> T configuration(Class<T> clazz);
+	public <T> T config(Class<T> clazz);
 
 	/**
 	 * Returns the socket io server of this pod.
@@ -66,11 +71,6 @@ public interface Context {
 	 * Returns context name.
 	 */
 	public String name();
-
-	/**
-	 * Returns application shared data map.
-	 */
-	public SharedData<Object, Object> sharedData();
 
 	/**
 	 * Returns single file from <code>web</code> folder. Returns
