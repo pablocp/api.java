@@ -274,7 +274,6 @@ public interface Response {
 		SERVICE_UNAVAILABLE(503, "Service Unavailable"),
 		GATEWAY_TIMEOUT(504, "Gateway Timeout");
 
-
 		public int code() {
 			return code;
 		}
