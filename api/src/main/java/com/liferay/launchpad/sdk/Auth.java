@@ -48,7 +48,10 @@ public interface Auth {
 		return new AuthImpl(MasterToken.token);
 	}
 
-	public AuthConfig configuration();
+	/**
+	 * Returns server authentication and authorization configurations.
+	 */
+	public AuthConfig config();
 
 	/**
 	 * Returns the authentication data.

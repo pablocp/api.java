@@ -34,7 +34,7 @@ public class AuthImpl implements Auth {
 	}
 
 	@Override
-	public AuthConfig configuration() {
+	public AuthConfig config() {
 		throw new UnsupportedOperationException();
 	}
 

@@ -6,7 +6,7 @@ public class AuthTest {
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void testConfiguration_throwsUnsupportedOperation() {
-		Auth.create("token").configuration();
+		Auth.create("token").config();
 	}
 
 	@Test
