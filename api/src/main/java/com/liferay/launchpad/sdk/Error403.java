@@ -54,7 +54,7 @@ public class Error403<T> extends ErrorBase<T, Error403<T>> {
 	}
 
 	public Error403<T> corsRequestOrigin() {
-		return error(6);
+		return corsRequestOrigin(null);
 	}
 
 	public Error403<T> corsRequestOrigin(String message) {
@@ -62,7 +62,7 @@ public class Error403<T> extends ErrorBase<T, Error403<T>> {
 	}
 
 	public Error403<T> forbidden() {
-		return error(0);
+		return forbidden(null);
 	}
 
 	public Error403<T> forbidden(String message) {
@@ -70,23 +70,21 @@ public class Error403<T> extends ErrorBase<T, Error403<T>> {
 	}
 
 	public Error403<T> limitExceeded() {
-		return error(1);
+		return limitExceeded(null);
 	}
 
 	public Error403<T> limitExceeded(String message) {
 		return error(1, message);
 	}
 
-	public Error403<T> quotaExceeded() {
-		return error(2);
-	}
+	public Error403<T> quotaExceeded() {return quotaExceeded(null); }
 
 	public Error403<T> quotaExceeded(String message) {
 		return error(2, message);
 	}
 
 	public Error403<T> rateLimitExceeded() {
-		return error(3);
+		return rateLimitExceeded(null);
 	}
 
 	public Error403<T> rateLimitExceeded(String message) {
@@ -94,7 +92,7 @@ public class Error403<T> extends ErrorBase<T, Error403<T>> {
 	}
 
 	public Error403<T> responseTooLarge() {
-		return error(4);
+		return responseTooLarge(null);
 	}
 
 	public Error403<T> responseTooLarge(String message) {
@@ -102,7 +100,7 @@ public class Error403<T> extends ErrorBase<T, Error403<T>> {
 	}
 
 	public Error403<T> unknownAuth() {
-		return error(5);
+		return unknownAuth(null);
 	}
 
 	public Error403<T> unknownAuth(String message) {

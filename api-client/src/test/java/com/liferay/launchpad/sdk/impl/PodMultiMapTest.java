@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-public class PodMultiMapTest {
+public abstract class PodMultiMapTest {
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -85,8 +85,6 @@ public class PodMultiMapTest {
 		mm.add("three", "4");
 	}
 
-	protected PodMultiMap createMultiMap() {
-		return PodMultiMap.newMultiMap();
-	}
+	protected abstract PodMultiMap createMultiMap();
 
 }

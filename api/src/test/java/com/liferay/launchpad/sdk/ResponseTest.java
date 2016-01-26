@@ -15,15 +15,55 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.liferay.launchpad.ApiClient;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  */
 public class ResponseTest {
 
+	private Request request;
+
+	@BeforeClass
+	public static void setupClass() {ApiClient.init(); }
+
+	@Before
+	public void setup() {
+		request = new RequestImpl("localhost");
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testSession_throwsUnsupportedOperation() {
+		new ResponseImpl(request).session();
+	}
+
+	@Test
+	public void testEnd_withStringBody() {
+		Response response = new ResponseImpl(request);
+		response.end("foo");
+		assertEquals("foo", response.body());
+	}
+
+	@Test
+	public void testEnd_withObjectBody() {
+		Response response = new ResponseImpl(request);
+		response.end(1);
+		assertEquals("1", response.body());
+	}
+
+	@Test
+	public void testEnd_withBodyAndContentType() {
+		Response response = new ResponseImpl(request);
+		response.end("foo", ContentType.HTML);
+		assertEquals("foo", response.body());
+		assertEquals(ContentType.HTML.toString(), response.contentType());
+	}
+
 	@Test
 	public void testBody() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.body("foo");
 		assertEquals("foo", response.body());
@@ -31,7 +71,6 @@ public class ResponseTest {
 
 	@Test
 	public void testHeaders() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.header("header", "1");
 		assertEquals("1", response.headers().get("header"));
@@ -39,7 +78,6 @@ public class ResponseTest {
 
 	@Test
 	public void testIsCommitted() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 
 		assertFalse(response.isCommitted());
@@ -49,7 +87,6 @@ public class ResponseTest {
 
 	@Test
 	public void testPipe() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		Response toResponse = new ResponseImpl(request);
 		response.header("header", "value");
@@ -61,16 +98,12 @@ public class ResponseTest {
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void testPodContext_throwsNotImplemented() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
-		Response response = new ResponseImpl(request);
-
-		response.context();
+	public void testPodContext_throwsUnsupportedOperation() {
+		new ResponseImpl(request).context();
 	}
 
 	@Test
 	public void testRedirect() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.redirect("url");
 		assertEquals(302, response.statusCode());
@@ -79,30 +112,47 @@ public class ResponseTest {
 
 	@Test
 	public void testRequest() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		assertEquals(request, response.request());
 	}
 
 	@Test
 	public void testStatusCode() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.statusCode(200);
 		assertEquals(200, response.statusCode());
+		assertTrue(response.isStatusCode(200));
 	}
 
 	@Test
 	public void testStatusMessage() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.statusMessage("OK");
 		assertEquals("OK", response.statusMessage());
 	}
 
 	@Test
+	public void testStatus() {
+		Response response = new ResponseImpl(request);
+		response.status(200);
+		assertEquals(200, response.statusCode());
+		assertEquals("OK", response.statusMessage());
+
+		response.status(200, "message");
+		assertEquals(200, response.statusCode());
+		assertEquals("message", response.statusMessage());
+
+		response.status(Response.Status.OK);
+		assertEquals(200, response.statusCode());
+		assertEquals("OK", response.statusMessage());
+
+		response.status(1);
+		assertEquals(1, response.statusCode());
+		assertEquals("", response.statusMessage());
+	}
+
+	@Test
 	public void testSucceeded() {
-		RequestImpl request = new RequestImpl("Http://localhost:8080");
 		Response response = new ResponseImpl(request);
 		response.statusCode(0);
 		assertFalse(response.succeeded());

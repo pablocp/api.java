@@ -25,8 +25,4 @@ public class PodException extends RuntimeException {
 		super(message, cause);
 	}
 
-	public PodException(Throwable cause) {
-		super(cause);
-	}
-
 }

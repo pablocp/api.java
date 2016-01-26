@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Util {
 
-	private Util() {}
+	protected Util() {}
 
 	/**
 	 * Wraps a <code>(key, value)</code> pair into a {@link java.util.Map}.

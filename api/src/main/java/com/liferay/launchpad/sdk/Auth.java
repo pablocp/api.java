@@ -124,6 +124,9 @@ public interface Auth {
 	 * Static reference for application master token.
 	 */
 	public static final class MasterToken {
+
+		protected MasterToken() {}
+
 		public static String token;
 
 	}

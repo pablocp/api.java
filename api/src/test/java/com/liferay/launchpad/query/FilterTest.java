@@ -14,16 +14,35 @@ public class FilterTest {
 	public void testFilter_combiningDifferentFilters() throws Exception {
 		Filter filter = Filter.field("a", 1)
 			.and("a", 1)
-			.and("a", 1)
+			.and("a", ">", 1)
 			.or("a", 1)
-			.or("a", 1);
+			.or("a", ">", 1);
 
 		JSONAssert.assertEquals(
 			"{\"or\":[" +
 				"{\"and\":[" +
 					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
 					"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
-					"{\"a\":{\"operator\":\"=\",\"value\":1}}]}," +
+					"{\"a\":{\"operator\":\">\",\"value\":1}}]}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+				"{\"a\":{\"operator\":\">\",\"value\":1}}]}",
+			filter.bodyAsJson(), true);
+	}
+
+	@Test
+	public void testFilter_upgradeToCompositeFilter() throws Exception {
+		Filter filter = Filter.field("a", 1).or("a", 1);
+
+		JSONAssert.assertEquals(
+			"{\"or\":[" +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
+				"{\"a\":{\"operator\":\"=\",\"value\":1}}]}",
+			filter.bodyAsJson(), true);
+
+		filter = Filter.field("a", 1).and("a", 1);
+
+		JSONAssert.assertEquals(
+			"{\"and\":[" +
 				"{\"a\":{\"operator\":\"=\",\"value\":1}}," +
 				"{\"a\":{\"operator\":\"=\",\"value\":1}}]}",
 			filter.bodyAsJson(), true);
@@ -51,6 +70,11 @@ public class FilterTest {
 			.bodyAsJson();
 
 		JSONAssert.assertEquals(getCompositeFilter("and", 5), body, true);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFilter_withCompositeFilterAsString() {
+		Filter.field("field", "and", 1);
 	}
 
 	@Test

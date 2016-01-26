@@ -35,7 +35,7 @@ public class Error405<T> extends ErrorBase<T, Error405<T>> {
 	}
 
 	public Error405<T> httpMethodNotAllowed() {
-		return error(0);
+		return httpMethodNotAllowed(null);
 	}
 
 	public Error405<T> httpMethodNotAllowed(String message) {

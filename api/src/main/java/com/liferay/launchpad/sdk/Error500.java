@@ -28,7 +28,7 @@ public class Error500<T> extends ErrorBase<T, Error500<T>> {
 	}
 
 	public Error500<T> internalError() {
-		return error(0);
+		return internalError(null);
 	}
 
 	public Error500<T> internalError(String message) {

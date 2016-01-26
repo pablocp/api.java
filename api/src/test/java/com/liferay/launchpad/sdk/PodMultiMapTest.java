@@ -10,25 +10,30 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk.impl;
+package com.liferay.launchpad.sdk;
 
-import com.liferay.launchpad.sdk.PodMultiMap;
+import com.liferay.launchpad.ApiClient;
 
-import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
-public class PodCaseSensitiveMultiMapTest extends PodMultiMapTest {
+public class PodMultiMapTest {
+
+	@BeforeClass
+	public static void setup() {ApiClient.init(); }
 
 	@Test
-	public void testCaseSensitiveMultiMap() {
-		PodMultiMap map = createMultiMap();
-		map.add("key", "value");
-		Assert.assertEquals("value", map.get("key"));
-		Assert.assertNull(map.get("KEY"));
+	public void testPodMultiMapFactory_constructorDummyCoverage() {
+		new PodMultiMapFactory.Default();
 	}
 
-	@Override
-	protected PodMultiMap createMultiMap() {
-		return PodMultiMap.newCaseSensitiveMultiMap();
+	@Test
+	public void testNewMultiMap_dummyCoverage() {
+		PodMultiMap.newMultiMap();
+	}
+
+	@Test
+	public void testNewCaseSensitiveMultiMap_dummyCoverage() {
+		PodMultiMap.newCaseSensitiveMultiMap();
 	}
 
 }

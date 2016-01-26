@@ -54,12 +54,6 @@ abstract class ErrorBase<T, E extends ErrorBase> implements Error<T> {
 		return (E)this;
 	}
 
-	protected E error(int index) {
-		errorData.add(vals(index));
-
-		return (E)this;
-	}
-
 	protected abstract String[] vals(int index);
 
 	private final ErrorData<T> errorData;

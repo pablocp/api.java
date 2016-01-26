@@ -10,26 +10,25 @@
  * Lesser General Public License for more details.
  */
 
-package com.liferay.launchpad.sdk.model;
-public class User {
+package com.liferay.launchpad.sdk.impl;
 
-	public int getMaxLength() {
-		return maxLength;
+import com.liferay.launchpad.sdk.PodMultiMap;
+
+import org.junit.Assert;
+import org.junit.Test;
+public class PodCaseInsensitiveMultiMapTest extends PodMultiMapTest {
+
+	@Test
+	public void testCaseInsensitiveMultiMap() {
+		PodMultiMap map = createMultiMap();
+		map.add("key", "value");
+		Assert.assertEquals("value", map.get("key"));
+		Assert.assertEquals("value", map.get("KEY"));
 	}
 
-	public String getUserName() {
-		return userName;
+	@Override
+	protected PodMultiMap createMultiMap() {
+		return PodMultiMap.newMultiMap();
 	}
-
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	private int maxLength;
-	private String userName;
 
 }

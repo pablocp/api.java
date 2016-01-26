@@ -1,6 +1,7 @@
 package com.liferay.launchpad.query;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ public class UtilTest {
 
 	@Test
 	public void testToString_withMap() {
+		Assert.assertEquals("{}", Util.toString(Collections.emptyMap()));
 		Assert.assertEquals("{\"key\":1}", Util.toString(Util.wrap("key", 1)));
 	}
 
@@ -67,6 +69,11 @@ public class UtilTest {
 		Assert.assertEquals(
 			"\"a\\\"\\\\\\n\\r\\f\\t\\b\\/\"",
 			Util.toString("a\"\\\n\r\f\t\b/"));
+	}
+
+	@Test
+	public void testUtil_constructorDummyCoverage() {
+		new Util();
 	}
 
 	@Test

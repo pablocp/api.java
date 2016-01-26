@@ -85,17 +85,6 @@ public abstract class ErrorData<T> {
 	/**
 	 * Adds error reason and a message.
 	 */
-	protected void add(String... subError) {
-		if (subError.length != 2) {
-			throw new IllegalArgumentException();
-		}
-
-		subErrors.add(subError);
-	}
-
-	/**
-	 * Adds error reason and a message.
-	 */
 	protected void add(String reason, String message) {
 		subErrors.add(new String[] {reason, message});
 	}

@@ -162,22 +162,8 @@ public abstract class Base<R> {
 		return headers;
 	}
 
-	public R headers(PodMultiMap<String> headers) {
-		this.headers = headers;
-		return (R)this;
-	}
-
 	public boolean isContentType(ContentType contentType) {
 		return contentType.isSame(contentType());
-	}
-
-	/**
-	 * Returns <code>true</code> if content type is either form url encoded
-	 * or multi-part form.
-	 */
-	public boolean isFormContentType() {
-		return (isContentType(ContentType.FORM_URLENCODED) ||
-			isContentType(ContentType.MULTIPART_FORM));
 	}
 
 	protected String getBodyAsString() {
@@ -234,10 +220,10 @@ public abstract class Base<R> {
 		return (R)this;
 	}
 
+	protected static String BODY_ENCODING = "UTF-8";
+
 	protected Map<String, Cookie> cookies = new HashMap<>();
 	protected PodMultiMap<String> headers = PodMultiMap.newMultiMap();
-
-	private static final String BODY_ENCODING = "UTF-8";
 
 	private byte[] body;
 

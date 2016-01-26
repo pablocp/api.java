@@ -34,7 +34,14 @@ public class QueryTest {
 			"{\"filter\":[{\"field\":{\"operator\":\"=\",\"value\":1}}]}", body,
 			true);
 
+		body = Query.filter("field", ">", 1).toString();
+
+		JSONAssert.assertEquals(
+			"{\"filter\":[{\"field\":{\"operator\":\">\",\"value\":1}}]}", body,
+			true);
+
 		body = Query
+				.filter("field1", 1)
 				.filter("field1", 1)
 				.filter("field2", "regex", "value")
 				.filter(Filter.field("field3", 0.55))
@@ -46,6 +53,7 @@ public class QueryTest {
 
 		JSONAssert.assertEquals(
 			"{\"filter\":[" +
+				"{\"field1\":{\"operator\":\"=\",\"value\":1}}," +
 				"{\"field1\":{\"operator\":\"=\",\"value\":1}}," +
 				"{\"field2\":{\"operator\":\"regex\",\"value\":\"value\"}}," +
 				"{\"field3\":{\"operator\":\"=\",\"value\":0.55}}," +
@@ -99,6 +107,20 @@ public class QueryTest {
 		JSONAssert.assertEquals(
 			"{\"search\":[{" +
 				"\"field\":{\"operator\":\"=\",\"value\":\"query\"}}]}",
+			query.bodyAsJson(), true);
+
+		query = Query.search("query")
+			.search("query")
+			.search("field", "value")
+			.search("field", "=", "value")
+			.search(Filter.field("field", "value"));
+		JSONAssert.assertEquals(
+			"{\"search\":[" +
+				"{\"*\":{\"operator\":\"match\",\"value\":\"query\"}}," +
+				"{\"*\":{\"operator\":\"match\",\"value\":\"query\"}}," +
+				"{\"field\":{\"operator\":\"match\",\"value\":\"value\"}}," +
+				"{\"field\":{\"operator\":\"=\",\"value\":\"value\"}}," +
+				"{\"field\":{\"operator\":\"=\",\"value\":\"value\"}},]}",
 			query.bodyAsJson(), true);
 	}
 

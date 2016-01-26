@@ -17,11 +17,13 @@ package com.liferay.launchpad.sdk;
  */
 public class ResponseError {
 
+	protected ResponseError() {}
+
 	/**
 	 * Creates error 400 response.
 	 */
 	public static Error400<Response> badRequest() {
-		return new Error400<>(newResponseErrorData(), null);
+		return badRequest(null);
 	}
 
 	/**
@@ -32,10 +34,24 @@ public class ResponseError {
 	}
 
 	/**
+	 * Creates error 408 response.
+	 */
+	public static Error408<Response> requestTimeout() {
+		return requestTimeout(null);
+	}
+
+	/**
+	 * Creates error 408 response.
+	 */
+	public static Error408<Response> requestTimeout(String message) {
+		return new Error408<>(newResponseErrorData(), message);
+	}
+
+	/**
 	 * Creates error 403 response.
 	 */
 	public static Error403<Response> forbidden() {
-		return new Error403<>(newResponseErrorData(), null);
+		return forbidden(null);
 	}
 
 	/**
@@ -46,10 +62,24 @@ public class ResponseError {
 	}
 
 	/**
+	 * Created error 404 response.
+	 */
+	public static Error401<Response> unauthorized() {
+		return unauthorized(null);
+	}
+
+	/**
+	 * Created error 404 response.
+	 */
+	public static Error401<Response> unauthorized(String message) {
+		return new Error401<>(newResponseErrorData(), message);
+	}
+
+	/**
 	 * Creates error 500 response.
 	 */
 	public static Error500<Response> internalError() {
-		return new Error500<>(newResponseErrorData(), null);
+		return internalError(null);
 	}
 
 	/**
@@ -63,7 +93,7 @@ public class ResponseError {
 	 * Creates error 405 response.
 	 */
 	public static Error405<Response> methodNotAllowed() {
-		return new Error405<>(newResponseErrorData(), null);
+		return methodNotAllowed(null);
 	}
 
 	/**
@@ -77,7 +107,7 @@ public class ResponseError {
 	 * Creates error 404 response.
 	 */
 	public static Error404<Response> notFound() {
-		return new Error404<>(newResponseErrorData(), null);
+		return notFound(null);
 	}
 
 	/**
