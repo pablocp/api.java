@@ -142,7 +142,8 @@ public class PodLoggerTest {
 	@Test
 	public void testLoggerFactory_initLoggerFactory_invalidImpl() {
 		String oldClass = PodLoggerFactory.defaultClassName;
-		PodLoggerFactory.setDefaultImplClass("TestPodLogger");
+		PodLoggerFactory.setDefaultImplClass(
+			TestPodLogger.class.getCanonicalName());
 		PodLoggerFactory.setLoggerFactory(null);
 
 		try {
@@ -152,7 +153,8 @@ public class PodLoggerTest {
 		catch (PodException e) {
 			Assert.assertTrue(
 				e.getMessage().startsWith(
-					"PodLogger implementation not found: TestPodLogger"));
+					"Invalid PodLogger implementation: " +
+						TestPodLogger.class.getCanonicalName()));
 		}
 		finally {
 			PodLoggerFactory.setDefaultImplClass(oldClass);
