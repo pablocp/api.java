@@ -1,10 +1,20 @@
 package com.liferay.launchpad.sdk;
 public interface AppConfig {
 
-	public String getDomain();
+	/**
+	 * The public domain for this application.
+	 */
+	public String domain();
 
-	public String getMasterToken();
+	/**
+	 * The master token than can be used to bypass authorization rules.
+	 * This gives the request root access to the application.
+	 */
+	public String masterToken();
 
-	public String getName();
+	/**
+	 * The name of the application.
+	 */
+	public String name();
 
 }

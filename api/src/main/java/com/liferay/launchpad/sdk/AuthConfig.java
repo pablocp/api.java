@@ -4,30 +4,88 @@ import java.util.List;
 import java.util.Map;
 public interface AuthConfig {
 
-	public String getHashAlgorithm();
+	/**
+	 * Returns the hash algorithm for passwords in login requests.
+	 * Users in {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}
+	 * must have passwords hashed by this same algorithm.
+	 */
+	public String hashAlgorithm();
 
-	public String getLoginPageUrl();
+	/**
+	 * Returns the login page url.
+	 * All unauthenticated requests to authenticated paths will be
+	 * redirected to this page, if value set.
+	 */
+	public String loginPageUrl();
 
-	public String getLoginRedirectUrl();
+	/**
+	 * Returns the login redirect url.
+	 * All login requests without return page will be redirected to this
+	 * page, if value set.
+	 */
+	public String loginRedirectUrl();
 
-	public String getLoginUrl();
+	/**
+	 * Returns the login url.
+	 * The server will expect post requests with parameters
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#userParam} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#passwordParam}.
+	 */
+	public String loginUrl();
 
-	public String getLogoutRedirectUrl();
+	/**
+	 * Returns the logout redirect url.
+	 * All logout requests will be redirected to this page, if value set.
+	 */
+	public String logoutRedirectUrl();
 
-	public String getLogoutUrl();
+	/**
+	 * Returns the logout url.
+	 * Any request to this url will destroy current session.
+	 */
+	public String logoutUrl();
 
-	public String getPasswordParam();
+	/**
+	 * Returns the password parameter expected in
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginUrl} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 */
+	public String passwordParam();
 
-	public String getPermissionsParam();
+	/**
+	 * Returns the permissions field expected in
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 */
+	public String permissionsParam();
 
-	public String getRealm();
+	/**
+	 * Returns the realm name.
+	 */
+	public String realm();
 
-	public String getRealmRestUrl();
+	/**
+	 * Returns the rest url for the users of this realm.
+	 * All login requests will be executed against users from this url.
+	 */
+	public String realmRestUrl();
 
-	public Map<String, List> getRoles();
+	/**
+	 * Returns the roles for this application.
+	 * Each role is composed by a list of permissions.
+	 */
+	public Map<String, List> roles();
 
-	public String getRolesParam();
+	/**
+	 * Returns the roles field expected in
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 */
+	public String rolesParam();
 
-	public String getUserParam();
+	/**
+	 * Returns the username parameter expected in
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginUrl} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 */
+	public String userParam();
 
 }
