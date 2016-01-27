@@ -74,6 +74,26 @@ public abstract class Base<R> {
 			.parseAsList(getBodyAsString(), componentType);
 	}
 
+	public <K, V> Map<K, V> bodyMap(Class<K> keyType, Class<V> valueType) {
+		if (body == null) {
+			return null;
+		}
+
+		String contentTypeValue = contentType();
+		ContentType contentType = null;
+
+		if (contentTypeValue == null) {
+			contentType = ContentType.TEXT;
+		}
+		else {
+			contentType = new ContentType(contentTypeValue);
+		}
+
+		return LaunchpadParser
+			.get(contentType)
+			.parseAsMap(getBodyAsString(), keyType, valueType);
+	}
+
 	public <T> T bodyValue() {
 		if (body == null) {
 			return null;

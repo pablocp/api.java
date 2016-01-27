@@ -15,6 +15,7 @@ package com.liferay.launchpad.serializer.impl;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 
 import java.util.List;
+import java.util.Map;
 
 import jodd.json.JsonParser;
 public class JoddJsonParser implements LaunchpadParser {
@@ -31,7 +32,16 @@ public class JoddJsonParser implements LaunchpadParser {
 
 	@Override
 	public <T> List<T> parseAsList(String string, Class<T> componentType) {
-		return new JsonParser().map("values", componentType).parse(string);
+		return new JsonParser()
+			.map(JsonParser.VALUES, componentType)
+			.parse(string);
 	}
 
+	@Override
+	public <K, V> Map<K, V> parseAsMap(String string, Class<K> keyType, Class<V> valueType) {
+		return new JsonParser()
+			.map("keys", keyType)
+			.map("values", valueType)
+			.parse(string);
+	}
 }

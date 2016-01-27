@@ -15,6 +15,7 @@ package com.liferay.launchpad.serializer;
 import com.liferay.launchpad.sdk.ContentType;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Launchpad Parser deserializes the input string into an object. There are two
@@ -53,6 +54,12 @@ public interface LaunchpadParser {
 	 * Parses string to a list of given type.
 	 */
 	public <T> List<T> parseAsList(String string, Class<T> componentType);
+
+	/**
+	 * Parses string to a map of given key and value types.
+	 */
+	public <K, V> Map<K,V> parseAsMap
+		(String string, Class<K> keyType, Class<V> valueType);
 
 	/**
 	 * {@link #parse(String) Parses} string without throwing an exception and

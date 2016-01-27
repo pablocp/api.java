@@ -4,6 +4,7 @@ import com.liferay.launchpad.api.model.User;
 import com.liferay.launchpad.sdk.ContentType;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -131,6 +132,10 @@ public class LaunchpadSerializerTest {
 				throw new LaunchpadSerializerException(string);
 			}
 
+			@Override
+			public <K, V> Map<K, V> parseAsMap(String string, Class<K> keyType, Class<V> valueType) {
+				throw new LaunchpadSerializerException(string);
+			}
 		};
 
 		return new Engines(serializer, parser);

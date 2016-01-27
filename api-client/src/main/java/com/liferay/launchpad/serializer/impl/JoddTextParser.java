@@ -15,6 +15,7 @@ package com.liferay.launchpad.serializer.impl;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 
 import java.util.List;
+import java.util.Map;
 
 import jodd.typeconverter.TypeConverterManager;
 public class JoddTextParser implements LaunchpadParser {
@@ -35,4 +36,9 @@ public class JoddTextParser implements LaunchpadParser {
 			string, List.class, componentType);
 	}
 
+	@Override
+	public <K, V> Map<K, V> parseAsMap(
+			String bodyAsString, Class<K> keyType, Class<V> valueType) {
+		throw new UnsupportedOperationException();
+	}
 }

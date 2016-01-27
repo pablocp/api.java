@@ -54,9 +54,23 @@ public interface Response {
 
 	/**
 	 * Returns parsed {@link #body() body content}.
-	 * If body is not set, returns <code>null</code>.
+	 * If body is not set, returns {@code null}.
 	 */
 	public <T> List<T> bodyList(Class<T> componentType);
+
+	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns {@code null}.
+	 */
+	public <K, V> Map<K, V> bodyMap(Class<K> keyType, Class<V> valueType);
+
+	/**
+	 * REturns parsed {@link #body() body content}.
+	 * If body is not set, returns {@code null}.
+	 */
+	public default <V> Map<String, V> bodyMap(Class<V> valueType) {
+		return bodyMap(String.class, valueType);
+	}
 
 	/**
 	 * Returns parsed {@link #body() body content}.
