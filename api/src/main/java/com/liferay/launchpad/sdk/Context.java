@@ -32,7 +32,7 @@ public interface Context {
 	/**
 	 * Returns application shared data map.
 	 */
-	public SharedData<Object, Object> appData();
+	public SharedData appData();
 
 	/**
 	 * Returns assets file from <code>assets</code> folder.
