@@ -21,8 +21,4 @@ public class LaunchpadHashException extends RuntimeException {
 		super(message, cause);
 	}
 
-	public LaunchpadHashException(Throwable cause) {
-		super(cause);
-	}
-
 }
