@@ -18,9 +18,12 @@ import static org.junit.Assert.assertTrue;
 
 import com.liferay.launchpad.ApiClient;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Map;
 
 /**
  */
@@ -68,6 +71,16 @@ public class ResponseTest {
 		Response response = new ResponseImpl(request);
 		response.body("foo");
 		assertEquals("foo", response.body());
+	}
+
+	@Test
+	public void testBodyMap() {
+		Response response = new ResponseImpl(request);
+		response.contentType(ContentType.JSON);
+		response.body("{\"key\":1}");
+		Map<String, Integer> map = response.bodyMap(Integer.class);
+		assertEquals(1, map.size());
+		assertEquals(Integer.valueOf(1), map.get("key"));
 	}
 
 	@Test

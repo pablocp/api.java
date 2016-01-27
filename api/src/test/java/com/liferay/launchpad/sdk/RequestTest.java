@@ -118,6 +118,49 @@ public class RequestTest {
 	}
 
 	@Test
+	public void testBodyMap_withJson() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.body("{\"key\":\"value\"}");
+		Map parsed = request.bodyMap(String.class, String.class);
+		Assert.assertEquals(1, parsed.size());
+		Assert.assertEquals("value", parsed.get("key"));
+		parsed = request.bodyMap(String.class);
+		Assert.assertEquals(1, parsed.size());
+		Assert.assertEquals("value", parsed.get("key"));
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testBodyMap_withJson_invalidBody() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.body("invalid");
+		request.bodyMap(String.class);
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testBodyMap_withJson_invalidKey() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.contentType(ContentType.JSON);
+		request.body("{1:\"value\"}");
+		request.bodyMap(String.class);
+	}
+
+	@Test
+	public void testBodyMap_withNullBody() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		Assert.assertNull(request.bodyMap(String.class));
+		Assert.assertNull(request.bodyMap(String.class, String.class));
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testBodyMap_withoutContentType() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.body("{\"key\":\"value\"}");
+		request.bodyMap(String.class);
+	}
+
+	@Test
 	public void testBodyValue_withJson() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.contentType(ContentType.JSON);
