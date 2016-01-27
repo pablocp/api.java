@@ -34,7 +34,9 @@ public class PodLoggerFactory {
 	}
 
 	/**
-	 * Sets the logger factory manually.
+	 * Sets default logger factory instance. If set, default name will not be
+	 * used.
+	 * @see #setDefaultImplClass(String)
 	 */
 	public static void setLoggerFactory(
 		PodLoggerFactoryInterface podLoggerFactory) {
@@ -77,16 +79,6 @@ public class PodLoggerFactory {
 	 */
 	public static void setDefaultImplClass(String className) {
 		defaultClassName = className;
-	}
-
-	/**
-	 * Sets default logger factory instance. If set, default name will not be
-	 * used.
-	 * @see #setDefaultImplClass(String)
-	 */
-	public static void setPodLogerFactory(
-			PodLoggerFactoryInterface podLogerFactory) {
-		loggerFactory = podLogerFactory;
 	}
 
 	protected static String defaultClassName =

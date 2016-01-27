@@ -64,6 +64,11 @@ public class LaunchpadHashEngine {
 	protected LaunchpadHashEngine() {
 	}
 
+	protected void clearEngine() {
+		factory = null;
+		generators.clear();
+	}
+
 	private static LaunchpadHashGeneratorFactory factory;
 	private static final LaunchpadHashEngine instance =
 		new LaunchpadHashEngine();

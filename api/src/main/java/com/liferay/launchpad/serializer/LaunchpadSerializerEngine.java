@@ -69,6 +69,11 @@ public class LaunchpadSerializerEngine {
 	protected LaunchpadSerializerEngine() {
 	}
 
+	protected void clearEngines() {
+		defaultEngines = null;
+		enginesMap.clear();
+	}
+
 	protected Engines defaultEngines() {
 		if (defaultEngines == null) {
 			throw new LaunchpadSerializerException(
