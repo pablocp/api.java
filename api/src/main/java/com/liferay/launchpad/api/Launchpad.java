@@ -741,14 +741,15 @@ public class Launchpad {
 	 * Converts the request body object to query params.
 	 */
 	private void convertBodyToParams(Request request) {
+		ContentType contentType = ContentType.JSON;
 		String existingContentType = request.header("Content-Type");
 
-		if (existingContentType == null) {
-			existingContentType = "application/json";
+		if (existingContentType != null) {
+			contentType = new ContentType(existingContentType);
 		}
 
 		final LaunchpadSerializer launchpadSerializer = LaunchpadSerializer.get(
-			new ContentType(existingContentType));
+			contentType);
 
 		request.forms().forEach(
 			entry -> request.param(
