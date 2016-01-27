@@ -6,6 +6,7 @@ import com.liferay.launchpad.query.Filter;
 import com.liferay.launchpad.query.Query;
 import com.liferay.launchpad.sdk.AuthImpl;
 import com.liferay.launchpad.sdk.ContentType;
+import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 
@@ -149,6 +150,22 @@ public class LaunchpadTest {
 
 			})
 			.count()
+			.get();
+	}
+
+	@Test
+	public void testCookie() {
+		Cookie cookie = Cookie.cookie("key", "value");
+
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(cookie, request.cookie("key"));
+					return super.send(request);
+				}
+			})
+			.cookie(cookie)
 			.get();
 	}
 

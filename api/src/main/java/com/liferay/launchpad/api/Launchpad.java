@@ -12,8 +12,10 @@ import com.liferay.launchpad.sdk.RequestImpl;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -91,6 +93,11 @@ public class Launchpad {
 	 */
 	public Launchpad contentType(ContentType contentType) {
 		header("Content-Type", contentType.toString());
+		return this;
+	}
+
+	public Launchpad cookie(Cookie cookie) {
+		this.cookies.add(cookie);
 		return this;
 	}
 
@@ -639,6 +646,8 @@ public class Launchpad {
 			resolveAuthentication(request);
 		}
 
+		cookies.forEach(request::cookie);
+
 		headers.forEach(
 			entry -> request.headers().add(entry.getKey(), entry.getValue()));
 
@@ -720,6 +729,7 @@ public class Launchpad {
 	}
 
 	protected Auth auth;
+	protected final List<Cookie> cookies = new ArrayList<>();
 	protected Transport currentTransport;
 	protected final PodMultiMap<Object> forms = PodMultiMap.newMultiMap();
 	protected final PodMultiMap<String> headers = PodMultiMap.newMultiMap();
