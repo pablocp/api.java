@@ -7,8 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 public class Util {
 
-	protected Util() {}
-
 	public static final String SEPARATOR = "/";
 
 	/**
@@ -56,21 +54,6 @@ public class Util {
 	}
 
 	/**
-	 * Joins two paths.
-	 */
-	public static String joinPaths(String basePath, String path) {
-		if (basePath.endsWith(SEPARATOR)) {
-			basePath = basePath.substring(0, basePath.length() - 1);
-		}
-
-		if (path.startsWith(SEPARATOR)) {
-			path = path.substring(1);
-		}
-
-		return (basePath + SEPARATOR + path).replaceAll("\\/$", "");
-	}
-
-	/**
 	 * Parses the url separating the domain and port from the path.
 	 */
 	public static String joinPathAndQuery(String path, String query) {
@@ -85,6 +68,24 @@ public class Util {
 		}
 
 		return builder.toString();
+	}
+
+	/**
+	 * Joins two paths.
+	 */
+	public static String joinPaths(String basePath, String path) {
+		if (basePath.endsWith(SEPARATOR)) {
+			basePath = basePath.substring(0, basePath.length() - 1);
+		}
+
+		if (path.startsWith(SEPARATOR)) {
+			path = path.substring(1);
+		}
+
+		return (basePath + SEPARATOR + path).replaceAll("\\/$", "");
+	}
+
+	protected Util() {
 	}
 
 	protected static String DEFAULT_ENCODING = "UTF-8";

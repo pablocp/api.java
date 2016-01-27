@@ -15,8 +15,6 @@ package com.liferay.launchpad.log;
 import com.liferay.launchpad.sdk.PodException;
 public class PodLoggerFactory {
 
-	protected PodLoggerFactory() {}
-
 	/**
 	 * Returns logger for given class.
 	 */
@@ -34,6 +32,14 @@ public class PodLoggerFactory {
 	}
 
 	/**
+	 * Sets custom default implementation class name.
+	 * @see #setLoggerFactory(PodLoggerFactoryInterface)
+	 */
+	public static void setDefaultImplClass(String className) {
+		defaultClassName = className;
+	}
+
+	/**
 	 * Sets default logger factory instance. If set, default name will not be
 	 * used.
 	 * @see #setDefaultImplClass(String)
@@ -43,6 +49,12 @@ public class PodLoggerFactory {
 
 		loggerFactory = podLoggerFactory;
 	}
+
+	protected PodLoggerFactory() {
+	}
+
+	protected static String defaultClassName =
+		PodLoggerFactory.class.getPackage().getName() + ".impl.PodLoggerImpl";
 
 	private static void initLoggerFactory() {
 		if (loggerFactory != null) {
@@ -72,17 +84,6 @@ public class PodLoggerFactory {
 				"Invalid PodLogger implementation: " + defaultClassName, e);
 		}
 	}
-
-	/**
-	 * Sets custom default implementation class name.
-	 * @see #setLoggerFactory(PodLoggerFactoryInterface)
-	 */
-	public static void setDefaultImplClass(String className) {
-		defaultClassName = className;
-	}
-
-	protected static String defaultClassName =
-		PodLoggerFactory.class.getPackage().getName() + ".impl.PodLoggerImpl";
 
 	private static PodLoggerFactoryInterface loggerFactory;
 

@@ -13,6 +13,7 @@
 package com.liferay.launchpad.sdk;
 
 /**
+ * Default {@link Response} implementation.
  */
 public class ResponseImpl extends Base<Response> implements Response {
 
@@ -47,25 +48,20 @@ public class ResponseImpl extends Base<Response> implements Response {
 	}
 
 	@Override
+	public Response status(int statusCode, String statusMessage) {
+		this.statusCode = statusCode;
+		this.statusMessage = statusMessage;
+		return this;
+	}
+
+	@Override
 	public int statusCode() {
 		return statusCode;
 	}
 
 	@Override
-	public Response statusCode(int statusCode) {
-		this.statusCode = statusCode;
-		return this;
-	}
-
-	@Override
 	public String statusMessage() {
 		return statusMessage;
-	}
-
-	@Override
-	public Response statusMessage(String statusMessage) {
-		this.statusMessage = statusMessage;
-		return this;
 	}
 
 	protected Request request;

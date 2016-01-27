@@ -58,7 +58,7 @@ public interface LaunchpadParser {
 	/**
 	 * Parses string to a map of given key and value types.
 	 */
-	public <K, V> Map<K,V> parseAsMap
+	public <K, V> Map<K, V> parseAsMap
 		(String string, Class<K> keyType, Class<V> valueType);
 
 	/**

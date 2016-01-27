@@ -12,7 +12,6 @@
 
 package com.liferay.launchpad.sdk;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -170,13 +169,6 @@ public interface Response {
 	public boolean isContentType(ContentType contentType);
 
 	/**
-	 * Returns <code>true</code> if status code equals to provided one.
-	 */
-	public default boolean isStatusCode(int status) {
-		return statusCode() == status;
-	}
-
-	/**
 	 * Pipes response to another response and ends it.
 	 */
 	public Response pipe(Response response);
@@ -202,28 +194,17 @@ public interface Response {
 		return request().session();
 	}
 
+	/**
+	 * Sets the response status code and default status message.
+	 */
 	public default Response status(int statusCode) {
-		Status status = Status.statusMap.get(statusCode);
-
-		if (status == null) {
-			return status(statusCode, "");
-		}
-
-		return status(status);
+		return status(statusCode, Status.defaultMessage(statusCode));
 	}
 
 	/**
 	 * Sets the response status code and message.
 	 */
-	public default Response status(int statusCode, String statusMessage) {
-		statusCode(statusCode);
-		statusMessage(statusMessage);
-		return this;
-	}
-
-	public default Response status(Status status) {
-		return status(status.code(), status.message());
-	}
+	public Response status(int statusCode, String statusMessage);
 
 	/**
 	 * Returns status code.
@@ -231,19 +212,9 @@ public interface Response {
 	public int statusCode();
 
 	/**
-	 * Sets the status code.
-	 */
-	public Response statusCode(int statusCode);
-
-	/**
 	 * Returns status message.
 	 */
 	public String statusMessage();
-
-	/**
-	 * Sets the status message.
-	 */
-	public Response statusMessage(String statusMessage);
 
 	/**
 	 * Checks if response succeeded. Any status code 2xx or 3xx is considered
@@ -253,64 +224,130 @@ public interface Response {
 		return statusCode() >= 200 && statusCode() <= 399;
 	}
 
-	public static enum Status {
+	/**
+	 * Simple static collection of all statuses as constants.
+	 * <p>
+	 * Developers note: the first urge we have is to wrap all the codes
+	 * and the messages as enums. While noble, this does not work well, as
+	 * message can be changed; and user may use more status codes that we
+	 * provide. Enums would not work; so naturally we would head forward to use
+	 * the class to wrap the status code and the message. This would work.
+	 * However, that introduces level of complexity that is not necessary.
+	 * For example, if response returns instance of such Status class, we would
+	 * need to use equals() to check against the real values. If we dont expose
+	 * the status class, then we dont have to use, hence we are back to the
+	 * beginning :)
+	 * <p>
+	 * We could use also a Map for getting default value, but a switch should
+	 * produce more optimized bytecode. Since we do not change this part of code
+	 * much, it make sense to have it like this.
+	 */
+	public static final class Status {
 
-		// success statuses
+		public static final int ACCEPTED = 202;
 
-		OK(200, "OK"), CREATED(201, "Created"), ACCEPTED(202, "Accepted"),
-		NON_AUTHORITATIVE_INFORMATION(203, "Non-Authoritative Information"),
-		NO_CONTENT(204, "No Content"), RESET_CONTENT(205, "Reset Content"),
-		PARTIAL_CONTENT(206, "Partial Content"),
-
-		// redirections
-
-		MULTIPLE_CHOICES(300, "Multiple Choices"),
-		MOVED_PERMANENTLY(301, "Moved Permanently"), FOUND(302, "Found"),
-		SEE_OTHER(303, "See Other"), NOT_MODIFIED(304, "Not Modified"),
-		USE_PROXY(305, "Use Proxy"),
-		TEMPORARY_REDIRECT(307, "Temporary Redirect"),
+		public static final int BAD_GATEWAY = 502;
 
 		// client errors
 
-		BAD_REQUEST(400, "Bad Request"), UNAUTHORIZED(401, "Unauthorized"),
-		FORBIDDEN(403, "Forbidden"), NOT_FOUND(404, "Not Found"),
-		METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
-		NOT_ACCEPTABLE(406, "Not Acceptable"),
-		PROXY_AUTHENTICATION_REQUIRED(407, "Proxy Authentication Required"),
-		REQUEST_TIMEOUT(408, "Request Timeout"), CONFLICT(409, "Conflict"),
-		GONE(410, "Gone"),
+		public static final int BAD_REQUEST = 400;
+		public static final int CONFLICT = 409;
+
+		public static final int CREATED = 201;
+
+		public static final int FORBIDDEN = 403;
+
+		public static final int FOUND = 302;
+
+		public static final int GATEWAY_TIMEOUT = 504;
+
+		public static final int GONE = 410;
 
 		// server errors
 
-		INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
-		NOT_IMPLEMENTED(501, "Not Implemented"),
-		BAD_GATEWAY(502, "Bad Gateway"),
-		SERVICE_UNAVAILABLE(503, "Service Unavailable"),
-		GATEWAY_TIMEOUT(504, "Gateway Timeout");
+		public static final int INTERNAL_SERVER_ERROR = 500;
 
-		public int code() {
-			return code;
-		}
+		public static final int METHOD_NOT_ALLOWED = 405;
 
-		public String message() {
-			return message;
-		}
+		public static final int MOVED_PERMANENTLY = 301;
 
-		private Status(int code, String message) {
-			this.code = code;
-			this.message = message;
-		}
+		// redirections
 
-		private static final Map<Integer, Status> statusMap = new HashMap<>();
+		public static final int MULTIPLE_CHOICES = 300;
 
-		static {
-			for (Status status : Status.values()) {
-				statusMap.put(status.code, status);
+		public static final int NO_CONTENT = 204;
+
+		public static final int NON_AUTHORITATIVE_INFORMATION = 203;
+
+		public static final int NOT_ACCEPTABLE = 406;
+
+		public static final int NOT_FOUND = 404;
+
+		public static final int NOT_IMPLEMENTED = 501;
+
+		public static final int NOT_MODIFIED = 304;
+
+		// success statuses
+
+		public static final int OK = 200;
+
+		public static final int PARTIAL_CONTENT = 206;
+
+		public static final int PROXY_AUTHENTICATION_REQUIRED = 407;
+
+		public static final int REQUEST_TIMEOUT = 408;
+
+		public static final int RESET_CONTENT = 205;
+
+		public static final int SEE_OTHER = 303;
+
+		public static final int SERVICE_UNAVAILABLE = 503;
+
+		public static final int TEMPORARY_REDIRECT = 307;
+
+		public static final int UNAUTHORIZED = 401;
+
+		public static final int USE_PROXY = 305;
+
+		/**
+		 * Returns default message for given status.
+		 */
+		public static String defaultMessage(int statusCode) {
+			switch (statusCode) {
+				case OK: return "OK";
+				case CREATED: return "Created";
+				case ACCEPTED: return "Accepted";
+				case NON_AUTHORITATIVE_INFORMATION:
+					return "Non-authoritative information";
+				case NO_CONTENT: return "No content";
+				case RESET_CONTENT: return "Reset content";
+				case PARTIAL_CONTENT: return "Partial content";
+				case MULTIPLE_CHOICES: return "Multiple choices";
+				case MOVED_PERMANENTLY: return "Moved permanently";
+				case FOUND: return "Found";
+				case SEE_OTHER: return "See other";
+				case NOT_MODIFIED: return "Not modified";
+				case USE_PROXY: return "Use proxy";
+				case TEMPORARY_REDIRECT: return "Temporary redirect";
+				case BAD_REQUEST: return "Bad request";
+				case UNAUTHORIZED: return "Unauthorized";
+				case FORBIDDEN: return "Forbidden";
+				case NOT_FOUND: return "Not found";
+				case METHOD_NOT_ALLOWED: return "Method not allowed";
+				case NOT_ACCEPTABLE: return "Not acceptable";
+				case PROXY_AUTHENTICATION_REQUIRED:
+					return "Proxy authentication required";
+				case REQUEST_TIMEOUT: return "Request timeout";
+				case CONFLICT: return "Conflict";
+				case GONE: return "Gone";
+				case INTERNAL_SERVER_ERROR: return "Internal server error";
+				case NOT_IMPLEMENTED: return "Not implemented";
+				case BAD_GATEWAY: return "Bad gateway";
+				case SERVICE_UNAVAILABLE: return "Service unavailable";
+				case GATEWAY_TIMEOUT: return "Gateway timeout";
+				default: return "(" + statusCode + ")";
 			}
 		}
-
-		private final int code;
-		private final String message;
 
 	}
 

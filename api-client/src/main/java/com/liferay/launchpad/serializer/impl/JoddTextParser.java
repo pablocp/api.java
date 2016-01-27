@@ -38,7 +38,9 @@ public class JoddTextParser implements LaunchpadParser {
 
 	@Override
 	public <K, V> Map<K, V> parseAsMap(
-			String bodyAsString, Class<K> keyType, Class<V> valueType) {
+		String bodyAsString, Class<K> keyType, Class<V> valueType) {
+
 		throw new UnsupportedOperationException();
 	}
+
 }

@@ -13,8 +13,6 @@
 package com.liferay.launchpad.sdk;
 public class ValuesUtil {
 
-	protected ValuesUtil() {}
-
 	/**
 	 * Returns <code>true</code> if value is JSON map. If value is
 	 * <code>null</code>, returns <code>false</code>.
@@ -54,6 +52,9 @@ public class ValuesUtil {
 		}
 
 		return String.valueOf(value);
+	}
+
+	protected ValuesUtil() {
 	}
 
 }

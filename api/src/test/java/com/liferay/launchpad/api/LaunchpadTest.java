@@ -941,7 +941,8 @@ public class LaunchpadTest {
 		public RealTime on(String event, Listener fn) {return null; }
 
 		@Override
-		public void close() {}
+		public void close() {
+		}
 
 		@Override
 		public RealTime emit(String event, Object... args) {return null; }

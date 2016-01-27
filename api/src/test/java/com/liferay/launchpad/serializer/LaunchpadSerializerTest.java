@@ -133,9 +133,11 @@ public class LaunchpadSerializerTest {
 			}
 
 			@Override
-			public <K, V> Map<K, V> parseAsMap(String string, Class<K> keyType, Class<V> valueType) {
+			public <K, V> Map<K, V> parseAsMap(
+				String string, Class<K> keyType, Class<V> valueType) {
 				throw new LaunchpadSerializerException(string);
 			}
+
 		};
 
 		return new Engines(serializer, parser);

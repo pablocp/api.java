@@ -1,14 +1,14 @@
 package com.liferay.launchpad.serializer.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import com.liferay.launchpad.ApiClient;
 import com.liferay.launchpad.serializer.LaunchpadParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-
+import org.junit.BeforeClass;
+import org.junit.Test;
 public class MapSerializerTest {
 
 	@BeforeClass

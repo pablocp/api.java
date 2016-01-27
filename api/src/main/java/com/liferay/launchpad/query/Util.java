@@ -11,19 +11,41 @@ import java.util.Map;
  */
 public class Util {
 
-	protected Util() {}
+	public static String toString(Iterable value) {
+		StringBuilder builder = new StringBuilder();
+		builder.append('[');
 
-	/**
-	 * Wraps a <code>(key, value)</code> pair into a {@link java.util.Map}.
-	 *
-	 * @param key the map key
-	 * @param value the value associated to the key
-	 * @return a map with a entry <code>(key, value)</code>
-	 */
-	public static Map wrap(String key, Object value) {
-		Map map = new HashMap();
-		map.put(key, value);
-		return map;
+		Iterator iterator = value.iterator();
+
+		while (iterator.hasNext()) {
+			builder.append(toString(iterator.next()));
+
+			if (iterator.hasNext()) {
+				builder.append(",");
+			}
+		}
+
+		builder.append(']');
+
+		return builder.toString();
+	}
+
+	public static String toString(Map<String, Object> value) {
+		if (value.size() == 0) {
+			return "{}";
+		}
+
+		StringBuilder builder = new StringBuilder();
+		builder.append('{');
+
+		for (Map.Entry<String, Object> entry : value.entrySet()) {
+			builder.append(toString(entry.getKey())).append(':');
+			builder.append(toString(entry.getValue())).append(",");
+		}
+
+		builder.setCharAt(builder.length() - 1, '}');
+
+		return builder.toString();
 	}
 
 	public static String toString(Object value) {
@@ -65,41 +87,20 @@ public class Util {
 		return value.toString();
 	}
 
-	public static String toString(Iterable value) {
-		StringBuilder builder = new StringBuilder();
-		builder.append('[');
-
-		Iterator iterator = value.iterator();
-
-		while (iterator.hasNext()) {
-			builder.append(toString(iterator.next()));
-
-			if (iterator.hasNext()) {
-				builder.append(",");
-			}
-		}
-
-		builder.append(']');
-
-		return builder.toString();
+	/**
+	 * Wraps a <code>(key, value)</code> pair into a {@link java.util.Map}.
+	 *
+	 * @param key the map key
+	 * @param value the value associated to the key
+	 * @return a map with a entry <code>(key, value)</code>
+	 */
+	public static Map wrap(String key, Object value) {
+		Map map = new HashMap();
+		map.put(key, value);
+		return map;
 	}
 
-	public static String toString(Map<String, Object> value) {
-		if (value.size() == 0) {
-			return "{}";
-		}
-
-		StringBuilder builder = new StringBuilder();
-		builder.append('{');
-
-		for (Map.Entry<String, Object> entry : value.entrySet()) {
-			builder.append(toString(entry.getKey())).append(':');
-			builder.append(toString(entry.getValue())).append(",");
-		}
-
-		builder.setCharAt(builder.length() - 1, '}');
-
-		return builder.toString();
+	protected Util() {
 	}
 
 	private static String toString(String value) {

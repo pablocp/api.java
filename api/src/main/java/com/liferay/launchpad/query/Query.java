@@ -90,6 +90,15 @@ public interface Query extends Embodied {
 
 	public static final class Builder implements Query {
 
+		public Builder aggregate(Aggregation aggregation) {
+			aggregations.add(aggregation);
+			return this;
+		}
+
+		public Builder aggregate(String name, String field, String operator) {
+			return aggregate(Aggregation.of(name, field, operator));
+		}
+
 		@Override
 		public Map body() {
 			Map<String, Object> map = new HashMap();
@@ -129,6 +138,42 @@ public interface Query extends Embodied {
 			return map;
 		}
 
+		public Builder count() {
+			return type("count");
+		}
+
+		public Builder fetch() {
+			return type("fetch");
+		}
+
+		public Builder filter(Filter filter) {
+			filters.add(filter);
+			return this;
+		}
+
+		public Builder filter(String field, Object value) {
+			return filter(Filter.field(field, value));
+		}
+
+		public Builder filter(String field, String operator, Object value) {
+			return filter(Filter.field(field, operator, value));
+		}
+
+		public Builder highlight(String field) {
+			highlights.add(field);
+			return this;
+		}
+
+		public Builder limit(int limit) {
+			this.limit = limit;
+			return this;
+		}
+
+		public Builder offset(int offset) {
+			this.offset = offset;
+			return this;
+		}
+
 		public Builder search(Filter filter) {
 			queries.add(filter);
 			return this;
@@ -146,28 +191,6 @@ public interface Query extends Embodied {
 			return search(Filter.field(field, operator, value));
 		}
 
-		public Builder highlight(String field) {
-			highlights.add(field);
-			return this;
-		}
-
-		public Builder aggregate(String name, String field, String operator) {
-			return aggregate(Aggregation.of(name, field, operator));
-		}
-
-		public Builder aggregate(Aggregation aggregation) {
-			aggregations.add(aggregation);
-			return this;
-		}
-
-		public Builder filter(String field, Object value) {
-			return filter(Filter.field(field, value));
-		}
-
-		public Builder filter(String field, String operator, Object value) {
-			return filter(Filter.field(field, operator, value));
-		}
-
 		public Builder sort(String field) {
 			return sort(field, "asc");
 		}
@@ -177,21 +200,9 @@ public interface Query extends Embodied {
 			return this;
 		}
 
-		public Builder limit(int limit) {
-			this.limit = limit;
-			return this;
-		}
-
-		public Builder offset(int offset) {
-			this.offset = offset;
-			return this;
-		}
-
-		private Builder() {}
-
-		public Builder filter(Filter filter) {
-			filters.add(filter);
-			return this;
+		@Override
+		public String toString() {
+			return bodyAsJson();
 		}
 
 		public Builder type(String type) {
@@ -199,28 +210,18 @@ public interface Query extends Embodied {
 			return this;
 		}
 
-		public Builder count() {
-			return type("count");
+		private Builder() {
 		}
 
-		public Builder fetch() {
-			return type("fetch");
-		}
-
-		@Override
-		public String toString() {
-			return bodyAsJson();
-		}
-
-		private final List<Map> sort = new ArrayList();
+		private final List<Aggregation> aggregations = new ArrayList();
 		private final List<Filter> filters = new ArrayList();
+		private final List<String> highlights = new ArrayList<>();
 		private Integer limit;
 		private Integer offset;
+		private final List<Filter> queries = new ArrayList();
+		private final List<Map> sort = new ArrayList();
 		private String type;
 
-		private final List<Filter> queries = new ArrayList();
-		private final List<Aggregation> aggregations = new ArrayList();
-		private final List<String> highlights = new ArrayList<>();
 	}
 
 }

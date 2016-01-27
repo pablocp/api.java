@@ -22,7 +22,8 @@ public class DefaultUuidGenerator {
 		generator = defaultGenerator;
 	}
 
-	protected DefaultUuidGenerator() {}
+	protected DefaultUuidGenerator() {
+	}
 
 	private static LaunchpadUuidGenerator generator;
 

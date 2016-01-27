@@ -67,8 +67,7 @@ public class JoddHttpTransport extends BlockingTransport {
 
 		ResponseImpl clientResponse = new ResponseImpl(request);
 
-		clientResponse.statusCode(response.statusCode());
-		clientResponse.statusMessage(response.statusPhrase());
+		clientResponse.status(response.statusCode(), response.statusPhrase());
 		clientResponse.body(response.bodyText());
 
 		HttpMultiMap<String> responseHeaders = response.headers();

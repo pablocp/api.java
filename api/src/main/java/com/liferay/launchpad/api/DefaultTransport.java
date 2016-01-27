@@ -5,8 +5,6 @@ package com.liferay.launchpad.api;
  */
 public class DefaultTransport {
 
-	protected DefaultTransport() {}
-
 	/**
 	 * Returns default transport or <code>null</code> if default transport is not set.
 	 */
@@ -19,6 +17,9 @@ public class DefaultTransport {
 	 */
 	public static void defaultTransport(Transport defaultTransport) {
 		transport = defaultTransport;
+	}
+
+	protected DefaultTransport() {
 	}
 
 	private static Transport transport;

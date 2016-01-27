@@ -38,10 +38,13 @@ public class JoddJsonParser implements LaunchpadParser {
 	}
 
 	@Override
-	public <K, V> Map<K, V> parseAsMap(String string, Class<K> keyType, Class<V> valueType) {
+	public <K, V> Map<K, V> parseAsMap(
+		String string, Class<K> keyType, Class<V> valueType) {
+
 		return new JsonParser()
 			.map("keys", keyType)
 			.map("values", valueType)
 			.parse(string);
 	}
+
 }

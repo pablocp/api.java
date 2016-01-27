@@ -13,6 +13,7 @@ package com.liferay.launchpad.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.liferay.launchpad.ApiClient;
@@ -119,16 +120,17 @@ public class ResponseTest {
 	@Test
 	public void testStatusCode() {
 		Response response = new ResponseImpl(request);
-		response.statusCode(200);
+		response.status(200);
 		assertEquals(200, response.statusCode());
-		assertTrue(response.isStatusCode(200));
+		assertEquals("OK", response.statusMessage());
 	}
 
 	@Test
 	public void testStatusMessage() {
 		Response response = new ResponseImpl(request);
-		response.statusMessage("OK");
-		assertEquals("OK", response.statusMessage());
+		response.status(200, "OK!");
+		assertEquals(200, response.statusCode());
+		assertEquals("OK!", response.statusMessage());
 	}
 
 	@Test
@@ -148,19 +150,19 @@ public class ResponseTest {
 
 		response.status(1);
 		assertEquals(1, response.statusCode());
-		assertEquals("", response.statusMessage());
+		assertEquals("(1)", response.statusMessage());
 	}
 
 	@Test
 	public void testSucceeded() {
 		Response response = new ResponseImpl(request);
-		response.statusCode(0);
+		response.status(0);
 		assertFalse(response.succeeded());
-		response.statusCode(200);
+		response.status(200);
 		assertTrue(response.succeeded());
-		response.statusCode(399);
+		response.status(399);
 		assertTrue(response.succeeded());
-		response.statusCode(400);
+		response.status(400);
 		assertFalse(response.succeeded());
 	}
 

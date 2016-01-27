@@ -22,7 +22,7 @@ public class BlockingTransportTest {
 			.use(new BlockingTransport(true) {
 				@Override
 				public Response send(Request request) {
-					return new ResponseImpl(request).statusCode(200);
+					return new ResponseImpl(request).status(200);
 				}
 
 			})
@@ -42,7 +42,7 @@ public class BlockingTransportTest {
 			.use(new BlockingTransport() {
 				@Override
 				public Response send(Request request) {
-					return new ResponseImpl(request).statusCode(200);
+					return new ResponseImpl(request).status(200);
 				}
 
 			})
@@ -62,7 +62,7 @@ public class BlockingTransportTest {
 			.use(new BlockingTransport(10) {
 				@Override
 				public Response send(Request request) {
-					return new ResponseImpl(request).statusCode(200);
+					return new ResponseImpl(request).status(200);
 				}
 
 			})

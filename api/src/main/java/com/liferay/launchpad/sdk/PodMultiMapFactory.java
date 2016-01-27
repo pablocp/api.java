@@ -5,9 +5,10 @@ public interface PodMultiMapFactory {
 
 	public static class Default {
 
-		protected Default() {}
-
 		public static PodMultiMapFactory factory;
+
+		protected Default() {
+		}
 
 	}
 

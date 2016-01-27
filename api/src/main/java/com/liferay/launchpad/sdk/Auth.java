@@ -128,9 +128,10 @@ public interface Auth {
 	 */
 	public static final class MasterToken {
 
-		protected MasterToken() {}
-
 		public static String token;
+
+		protected MasterToken() {
+		}
 
 	}
 
