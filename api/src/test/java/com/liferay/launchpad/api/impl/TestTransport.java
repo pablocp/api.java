@@ -1,5 +1,6 @@
-package com.liferay.launchpad.api;
+package com.liferay.launchpad.api.impl;
 
+import com.liferay.launchpad.api.BlockingTransport;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;

@@ -1,6 +1,8 @@
 package com.liferay.launchpad.log;
 
+import com.liferay.launchpad.api.impl.TestTransport;
 import com.liferay.launchpad.log.impl.TestPodLogger;
+import com.liferay.launchpad.log.impl.TestPodLoggerFactory;
 import com.liferay.launchpad.sdk.PodException;
 
 import java.util.ArrayList;
@@ -116,45 +118,36 @@ public class PodLoggerTest {
 
 	@Test
 	public void testLoggerFactory_initLoggerFactory() {
-		PodLoggerFactory.setLoggerFactory(null);
-		PodLoggerFactory.getLogger("name");
-	}
-
-	@Test
-	public void testLoggerFactory_initLoggerFactory_implNotFound() {
 		String oldClassName = PodLoggerFactory.defaultClassName;
-		PodLoggerFactory.setDefaultImplClass("invalid");
+
 		PodLoggerFactory.setLoggerFactory(null);
+		PodLoggerFactory.setDefaultImplClass(
+			TestPodLoggerFactory.class.getCanonicalName());
 
 		try {
-			PodLoggerFactory.getLogger("name");
-			Assert.fail("Exception not thrown.");
-		}
-		catch (PodException e) {
-			Assert.assertEquals(
-				"PodLogger implementation not found: invalid", e.getMessage());
+			Assert.assertNotNull(PodLoggerFactory.getLogger("name"));
 		}
 		finally {
 			PodLoggerFactory.setDefaultImplClass(oldClassName);
 		}
 	}
 
-	@Test
+	@Test(expected = PodException.class)
+	public void testLoggerFactory_initLoggerFactory_implNotFound() {
+		PodLoggerFactory.setLoggerFactory(null);
+		PodLoggerFactory.getLogger("name");
+	}
+
+	@Test(expected = PodException.class)
 	public void testLoggerFactory_initLoggerFactory_invalidImpl() {
 		String oldClass = PodLoggerFactory.defaultClassName;
 		PodLoggerFactory.setDefaultImplClass(
-			TestPodLogger.class.getCanonicalName());
+			TestTransport.class.getCanonicalName());
 		PodLoggerFactory.setLoggerFactory(null);
 
 		try {
 			PodLoggerFactory.getLogger("name");
 			Assert.fail("Exception not thrown.");
-		}
-		catch (PodException e) {
-			Assert.assertTrue(
-				e.getMessage().startsWith(
-					"Invalid PodLogger implementation: " +
-						TestPodLogger.class.getCanonicalName()));
 		}
 		finally {
 			PodLoggerFactory.setDefaultImplClass(oldClass);

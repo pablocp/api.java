@@ -2,10 +2,8 @@ package com.liferay.launchpad.serializer;
 
 import com.liferay.launchpad.api.model.User;
 import com.liferay.launchpad.sdk.ContentType;
-
-import java.util.List;
-import java.util.Map;
-
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -109,38 +107,8 @@ public class LaunchpadSerializerTest {
 	}
 
 	protected Engines newEngines() {
-		LaunchpadSerializer serializer = (obj, deep) -> {
-			throw new LaunchpadSerializerException("serializer error");
-		};
-
-		LaunchpadParser parser = new LaunchpadParser() {
-
-			@Override
-			public <T> T parse(String string) {
-				throw new LaunchpadSerializerException(string);
-			}
-
-			@Override
-			public <T> T parse(String string, Class<T> type) {
-				throw new LaunchpadSerializerException(string, new Exception());
-			}
-
-			@Override
-			public <T> List<T> parseAsList(
-				String string, Class<T> componentType) {
-
-				throw new LaunchpadSerializerException(string);
-			}
-
-			@Override
-			public <K, V> Map<K, V> parseAsMap(
-				String string, Class<K> keyType, Class<V> valueType) {
-				throw new LaunchpadSerializerException(string);
-			}
-
-		};
-
-		return new Engines(serializer, parser);
+		return new Engines(
+			new JsonLaunchpadSerializer(), new JsonLaunchpadParser());
 	}
 
 }

@@ -1,27 +1,26 @@
 package com.liferay.launchpad.api;
 
-import static org.junit.Assert.assertEquals;
-
 import com.liferay.launchpad.sdk.PodMultiMap;
-import com.liferay.launchpad.sdk.impl.PodMultiMapImpl;
-
+import com.liferay.launchpad.sdk.TestPodMultiMap;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 public class UtilTest {
 
 	@Test
 	public void testAddParametersToQueryString_encodingParams() {
-		PodMultiMap<String> params = new PodMultiMapImpl<>(true);
+		PodMultiMap<String> params = new TestPodMultiMap<>(true);
 		params.add("foo", "bar");
 		params.add("search", "{foo:bar}");
 
 		assertEquals(
-			"foo=bar&search=%7Bfoo%3Abar%7D",
+			"search=%7Bfoo%3Abar%7D&foo=bar",
 			Util.addParametersToQueryString(null, params));
 		assertEquals(
-			"foo=bar&search=%7Bfoo%3Abar%7D",
+			"search=%7Bfoo%3Abar%7D&foo=bar",
 			Util.addParametersToQueryString("", params));
 		assertEquals(
-			"a=b&foo=bar&search=%7Bfoo%3Abar%7D",
+			"a=b&search=%7Bfoo%3Abar%7D&foo=bar",
 			Util.addParametersToQueryString("a=b", params));
 	}
 

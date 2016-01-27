@@ -12,14 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
-import com.liferay.launchpad.ApiClient;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 public class PodMultiMapTest {
-
-	@BeforeClass
-	public static void setup() {ApiClient.init(); }
 
 	@Test
 	public void testPodMultiMapFactory_constructorDummyCoverage() {

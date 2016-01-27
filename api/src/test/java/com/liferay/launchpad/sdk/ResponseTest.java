@@ -13,11 +13,12 @@ package com.liferay.launchpad.sdk;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.liferay.launchpad.ApiClient;
-
+import com.liferay.launchpad.serializer.Engines;
+import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,10 +30,16 @@ import java.util.Map;
  */
 public class ResponseTest {
 
-	private Request request;
-
 	@BeforeClass
-	public static void setupClass() {ApiClient.init(); }
+	public static void setupClass() {
+		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.JSON.contentType(), new Engines(
+				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
+			true);
+	}
+
+	private Request request;
 
 	@Before
 	public void setup() {
@@ -177,6 +184,16 @@ public class ResponseTest {
 		assertTrue(response.succeeded());
 		response.status(400);
 		assertFalse(response.succeeded());
+	}
+
+	@Test
+	public void testStatus_dummyCoverageTest() {
+		new Response.Status();
+		Response response = new ResponseImpl(request);
+
+		for (int i = 200; i < 600; i++) {
+			Assert.assertNotNull(response.status(i).statusMessage());
+		}
 	}
 
 }

@@ -11,27 +11,41 @@
  */
 package com.liferay.launchpad.sdk;
 
-import static junit.framework.TestCase.assertNull;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import com.liferay.launchpad.ApiClient;
-
-import java.util.Map;
-
+import com.liferay.launchpad.serializer.Engines;
+import com.liferay.launchpad.serializer.LaunchpadParser;
+import com.liferay.launchpad.serializer.LaunchpadSerializer;
+import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
+import com.liferay.launchpad.serializer.LaunchpadSerializerException;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
+import com.liferay.launchpad.serializer.impl.TextLaunchpadParser;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static junit.framework.TestCase.assertNull;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  */
 public class RequestTest {
 
 	@BeforeClass
-	public static void beforeClass() {
-		ApiClient.init();
+	public static void setup() {
+		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.JSON.contentType(), new Engines(
+				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
+			true);
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.TEXT.contentType(), new Engines(
+				null, new TextLaunchpadParser()), true);
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
@@ -103,12 +117,11 @@ public class RequestTest {
 			new Integer[] {1, 2}, request.bodyList(Integer.class).toArray());
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
 	public void testBodyList_withNoContentType() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.body("1");
-		Assert.assertArrayEquals(
-			new Integer[] {1}, request.bodyList(Integer.class).toArray());
+		request.bodyList(Integer.class);
 	}
 
 	@Test
@@ -165,7 +178,7 @@ public class RequestTest {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
 		request.contentType(ContentType.JSON);
 		request.body("1");
-		int parsed = request.bodyValue();
+		int parsed = request.bodyValue(Integer.class);
 		Assert.assertEquals(1, parsed);
 	}
 
@@ -201,6 +214,13 @@ public class RequestTest {
 		request.body("1");
 		String parsed = request.bodyValue();
 		Assert.assertEquals("1", parsed);
+	}
+
+	@Test(expected = LaunchpadSerializerException.class)
+	public void testBodyValue_withoutContentType_invalidBody() {
+		RequestImpl request = new RequestImpl("http://localhost:8080");
+		request.body("invalid");
+		request.bodyValue(Integer.class);
 	}
 
 	@Test
