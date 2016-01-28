@@ -17,8 +17,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.Map;
 
-import jodd.json.JsonParser;
-
+import com.liferay.launchpad.serializer.LaunchpadParser;
 import org.junit.Test;
 public class ErrorTest {
 
@@ -446,9 +445,7 @@ public class ErrorTest {
 	}
 
 	private static Map<String, Object> deserializeBody(Response response) {
-		String body = response.body();
-
-		return new JsonParser().parse(body);
+		return LaunchpadParser.get(ContentType.JSON).parse(response.body());
 	}
 
 	private void checkResponseBody(

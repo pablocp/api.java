@@ -1,27 +1,38 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.ApiClient;
+import com.liferay.launchpad.api.impl.TestTransport;
 import com.liferay.launchpad.query.Aggregation;
 import com.liferay.launchpad.query.Filter;
 import com.liferay.launchpad.query.Query;
 import com.liferay.launchpad.sdk.AuthImpl;
 import com.liferay.launchpad.sdk.ContentType;
+import com.liferay.launchpad.sdk.Cookie;
+import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import jodd.util.Base64;
-
+import com.liferay.launchpad.sdk.TestPodMultiMap;
+import com.liferay.launchpad.serializer.Engines;
+import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 public class LaunchpadTest {
 
 	@BeforeClass
-	public static void beforeClass() {ApiClient.init(); }
+	public static void setup() {
+		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.JSON.contentType(), new Engines(
+				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
+			true);
+	}
 
 	@Test
 	public void testDefaultTransport_constructorDummyCoverage() {
@@ -108,7 +119,8 @@ public class LaunchpadTest {
 				@Override
 				public Response send(Request request) {
 					Assert.assertEquals(
-						"Basic " + Base64.encodeToString("user:pass"),
+						"Basic " + Base64.getEncoder().encodeToString(
+							"user:pass".getBytes()),
 						request.header("Authorization"));
 					return super.send(request);
 				}
@@ -149,6 +161,22 @@ public class LaunchpadTest {
 
 			})
 			.count()
+			.get();
+	}
+
+	@Test
+	public void testCookie() {
+		Cookie cookie = Cookie.cookie("key", "value");
+
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(cookie, request.cookie("key"));
+					return super.send(request);
+				}
+			})
+			.cookie(cookie)
 			.get();
 	}
 
@@ -778,37 +806,21 @@ public class LaunchpadTest {
 		catch (LaunchpadClientException e) {
 			Assert.assertEquals("Transport not specified!", e.getMessage());
 		}
-		finally {
-			ApiClient.init();
-		}
 	}
 
 	@Test
 	public void testWatch() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(true, options.get("forceNew"));
-			Assert.assertEquals("", options.get("path"));
-			Assert.assertEquals("", ((Map)options.get("query")).get("url"));
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", true, "", "");
 
 		Launchpad.url("url").watch();
 	}
 
 	@Test
 	public void testWatch_withFullRequest() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(true, options.get("forceNew"));
-			Assert.assertEquals("/test/path", options.get("path"));
-			Assert.assertEquals(
-				"/test/path?a=b&c=d&e=%22f%22&g=%22h%22",
-				((Map)options.get("query")).get("url"));
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", true, "/test/path",
+			"/test/path?a=b&c=d&e=%22f%22&g=%22h%22");
 
 		Launchpad.url("url/test/path?a=b")
 			.param("c", "d")
@@ -819,15 +831,8 @@ public class LaunchpadTest {
 
 	@Test
 	public void testWatch_withBodyObject() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(true, options.get("forceNew"));
-			Assert.assertEquals("", options.get("path"));
-			Assert.assertEquals(
-				"?key=%22value%22", ((Map)options.get("query")).get("url"));
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", true, "", "?key=%22value%22");
 
 		Map<String, Object> body = new HashMap<>();
 		body.put("key", "value");
@@ -836,14 +841,8 @@ public class LaunchpadTest {
 
 	@Test
 	public void testWatch_withBodyObjectAndOptions() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(false, options.get("forceNew"));
-			Assert.assertEquals("/path", options.get("path"));
-			Assert.assertEquals(0, ((Map)options.get("query")).size());
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", false, "/path", null);
 
 		Map<String, Object> body = new HashMap<>();
 		body.put("key", "value");
@@ -858,15 +857,8 @@ public class LaunchpadTest {
 
 	@Test
 	public void testWatch_withBodyString() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(true, options.get("forceNew"));
-			Assert.assertEquals("", options.get("path"));
-			Assert.assertEquals(
-				"?key=%22value%22", ((Map)options.get("query")).get("url"));
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", true, "", "?key=%22value%22");
 
 		Launchpad.url("url")
 			.contentType(ContentType.JSON)
@@ -875,14 +867,8 @@ public class LaunchpadTest {
 
 	@Test
 	public void testWatch_withBodyStringAndOptions() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			Assert.assertEquals("http://url", url);
-			Assert.assertEquals(false, options.get("forceNew"));
-			Assert.assertEquals("/path", options.get("path"));
-			Assert.assertEquals(0, ((Map)options.get("query")).size());
-
-			return new DummyRealTime();
-		};
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", false, "/path", null);
 
 		Map<String, Object> options = new HashMap<>();
 		options.put("forceNew", false);
@@ -892,6 +878,21 @@ public class LaunchpadTest {
 		Launchpad.url("url")
 			.contentType(ContentType.JSON)
 			.watch("{\"key\":\"value\"}", options);
+	}
+
+	private RealTimeFactory getRealTimeTestFactory(
+		String expectedUrl, boolean expectedForce, String expectedPath,
+		String expectedQuery) {
+
+		return (url, options) -> {
+			Assert.assertEquals(expectedUrl, url);
+			Assert.assertEquals(expectedForce, options.get("forceNew"));
+			Assert.assertEquals(expectedPath, options.get("path"));
+			Assert.assertEquals(
+				expectedQuery, ((Map)options.get("query")).get("url"));
+
+			return new DummyRealTime();
+		};
 	}
 
 	@Test

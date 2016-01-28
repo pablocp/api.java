@@ -10,6 +10,8 @@ public interface RealTimeFactory {
 
 	public static class Default {
 
+		protected Default() {}
+
 		public static RealTimeFactory factory;
 
 	}

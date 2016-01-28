@@ -1,19 +1,20 @@
 package com.liferay.launchpad.api;
 
-import com.liferay.launchpad.ApiClient;
+import com.liferay.launchpad.api.impl.TestTransport;
+import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
-
-import java.util.concurrent.CompletableFuture;
-
+import com.liferay.launchpad.sdk.TestPodMultiMap;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.concurrent.CompletableFuture;
 public class AsyncTransportTest {
 
 	@BeforeClass
-	public static void beforeClass() {
-		ApiClient.init();
+	public static void setup() {
+		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
 	}
 
 	@Test

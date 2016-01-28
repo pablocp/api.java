@@ -349,6 +349,8 @@ public interface Response {
 			}
 		}
 
+		protected Status() {}
+
 	}
 
 }

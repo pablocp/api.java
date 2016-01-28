@@ -1,5 +1,5 @@
 dependencies {
 	testCompile lib.jsonassert
 	testCompile lib.junit
-	testCompile project(':api-client')
+	testCompile "org.jodd:jodd-json:${joddVersion}"
 }

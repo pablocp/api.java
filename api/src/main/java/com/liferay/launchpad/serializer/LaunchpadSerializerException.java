@@ -21,8 +21,5 @@ public class LaunchpadSerializerException extends RuntimeException {
 		super(message, cause);
 	}
 
-	public LaunchpadSerializerException(Throwable cause) {
-		super(cause);
-	}
 
 }

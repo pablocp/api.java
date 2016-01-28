@@ -69,6 +69,20 @@ public interface Request {
 	public <T> List<T> bodyList(Class<T> componentType);
 
 	/**
+	 * Returns parsed {@link #body() body content}.
+	 * If body is not set, returns {@code null}.
+	 */
+	public <K, V> Map<K, V> bodyMap(Class<K> keyType, Class<V> valueType);
+
+	/**
+	 * REturns parsed {@link #body() body content}.
+	 * If body is not set, returns {@code null}.
+	 */
+	public default <V> Map<String, V> bodyMap(Class<V> valueType) {
+		return bodyMap(String.class, valueType);
+	}
+
+	/**
 	 * Parses the body depending on content-type. If content-type is NOT set,
 	 * it will use assume the "plain/text" content type.
 	 * Returns parsed {@link #body() body content}.
