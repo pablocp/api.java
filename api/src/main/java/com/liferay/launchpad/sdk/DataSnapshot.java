@@ -13,24 +13,14 @@
 package com.liferay.launchpad.sdk;
 
 /**
- * Data context.
+ * DataSnapshot.
  */
-public interface Data {
+public interface DataSnapshot {
 
 	/**
-	 * Commits the data operation wrapped by this request handler.
-	 * The response is set, but not ended. You must end the response in the
-	 * handler as you would naturally.
-	 * Returns <code>true</code> if operation executed successfully,
-	 * <code>false</code> otherwise.
+	 * Navigates in key path, e.g. "/foo" -> data.child("1") -> /foo/1.
 	 */
-	public boolean commit();
-
-	/**
-	 * Commits the data operation using the given value as request body.
-	 * @see #commit()
-	 */
-	public boolean commit(Object value);
+	public DataSnapshot child(String... names);
 
 	/**
 	 * Retrieves a snapshot of the existing data.
@@ -50,7 +40,6 @@ public interface Data {
 	 * {@link Response#bodyValue()} otherwise.
 	 * If body is not set, returns <code>null</code>.
 	 * If body can not be parsed, throws an Exception.
-	 * @see #commit()
 	 */
 	public <T> T newValue();
 
@@ -61,8 +50,8 @@ public interface Data {
 	public <T> T newValue(Class<T> type);
 
 	/**
-	 * Creates a data snapshot.
+	 * Navigates to parent key path, e.g. "/foo/1/child" -> data.parent() -> /foo/1.
 	 */
-	public DataSnapshot snapshot();
+	public DataSnapshot parent();
 
 }

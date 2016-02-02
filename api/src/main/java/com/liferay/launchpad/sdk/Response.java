@@ -221,7 +221,7 @@ public interface Response {
 	 * valid.
 	 */
 	public default boolean succeeded() {
-		return statusCode() >= 200 && statusCode() <= 399;
+		return Status.succeeded(statusCode());
 	}
 
 	/**
@@ -349,7 +349,16 @@ public interface Response {
 			}
 		}
 
-		protected Status() {}
+		/**
+		 * Checks if response succeeded. Any status code 2xx or 3xx is considered
+		 * valid.
+		 */
+		public static boolean succeeded(int statusCode) {
+			return statusCode >= 200 && statusCode <= 399;
+		}
+
+		protected Status() {
+		}
 
 	}
 
