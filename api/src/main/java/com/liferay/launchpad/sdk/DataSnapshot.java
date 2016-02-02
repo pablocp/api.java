@@ -23,15 +23,20 @@ public interface DataSnapshot {
 	public DataSnapshot child(String... names);
 
 	/**
+	 * Navigates to parent key path, e.g. "/foo/1/child" -> data.parent() -> /foo/1.
+	 */
+	public DataSnapshot parent();
+
+	/**
 	 * Retrieves a snapshot of the existing data.
 	 */
-	public <T> T currentValue();
+	public <T> T storedValue();
 
 	/**
 	 * Retrieves a snapshot of the existing data and parses into the target type.
-	 * @see #currentValue()
+	 * @see #storedValue()
 	 */
-	public <T> T currentValue(Class<T> type);
+	public <T> T storedValue(Class<T> type);
 
 	/**
 	 * Parses the body depending on content-type. If content-type is NOT set,
@@ -41,17 +46,12 @@ public interface DataSnapshot {
 	 * If body is not set, returns <code>null</code>.
 	 * If body can not be parsed, throws an Exception.
 	 */
-	public <T> T newValue();
+	public <T> T value();
 
 	/**
 	 * Parses the body depending on content-type into the target type.
-	 * @see #newValue()
+	 * @see #value()
 	 */
-	public <T> T newValue(Class<T> type);
-
-	/**
-	 * Navigates to parent key path, e.g. "/foo/1/child" -> data.parent() -> /foo/1.
-	 */
-	public DataSnapshot parent();
+	public <T> T value(Class<T> type);
 
 }

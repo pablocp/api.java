@@ -33,15 +33,20 @@ public interface Data {
 	public boolean commit(Object value);
 
 	/**
+	 * Creates a data snapshot.
+	 */
+	public DataSnapshot snapshot();
+
+	/**
 	 * Retrieves a snapshot of the existing data.
 	 */
-	public <T> T currentValue();
+	public <T> T storedValue();
 
 	/**
 	 * Retrieves a snapshot of the existing data and parses into the target type.
-	 * @see #currentValue()
+	 * @see #storedValue()
 	 */
-	public <T> T currentValue(Class<T> type);
+	public <T> T storedValue(Class<T> type);
 
 	/**
 	 * Parses the body depending on content-type. If content-type is NOT set,
@@ -52,17 +57,12 @@ public interface Data {
 	 * If body can not be parsed, throws an Exception.
 	 * @see #commit()
 	 */
-	public <T> T newValue();
+	public <T> T value();
 
 	/**
 	 * Parses the body depending on content-type into the target type.
-	 * @see #newValue()
+	 * @see #value()
 	 */
-	public <T> T newValue(Class<T> type);
-
-	/**
-	 * Creates a data snapshot.
-	 */
-	public DataSnapshot snapshot();
+	public <T> T value(Class<T> type);
 
 }
