@@ -15,33 +15,25 @@ import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 public class LaunchpadTest {
 
 	@BeforeClass
 	public static void setup() {
 		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
 		LaunchpadSerializerEngine.instance().registerEngines(
-			ContentType.JSON.contentType(), new Engines(
+			ContentType.JSON.contentType(),
+			new Engines(
 				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
 			true);
-	}
-
-	@Test
-	public void testDefaultTransport_constructorDummyCoverage() {
-		new DefaultTransport();
-	}
-
-	@Test
-	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
-		new RealTimeFactory.Default();
 	}
 
 	@Test
@@ -148,6 +140,23 @@ public class LaunchpadTest {
 	}
 
 	@Test
+	public void testCookie() {
+		Cookie cookie = Cookie.cookie("key", "value");
+
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(cookie, request.cookie("key"));
+					return super.send(request);
+				}
+
+			})
+			.cookie(cookie)
+			.get();
+	}
+
+	@Test
 	public void testCount() {
 		Launchpad.url("url")
 			.use(new TestTransport() {
@@ -165,19 +174,8 @@ public class LaunchpadTest {
 	}
 
 	@Test
-	public void testCookie() {
-		Cookie cookie = Cookie.cookie("key", "value");
-
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals(cookie, request.cookie("key"));
-					return super.send(request);
-				}
-			})
-			.cookie(cookie)
-			.get();
+	public void testDefaultTransport_constructorDummyCoverage() {
+		new DefaultTransport();
 	}
 
 	@Test
@@ -232,24 +230,6 @@ public class LaunchpadTest {
 	}
 
 	@Test
-	public void testFilter_withFilter() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertNotNull(request.body());
-					Assert.assertTrue(
-						request.body().contains(
-							Filter.field("field", "value").toString()));
-					return super.send(request);
-				}
-
-			})
-			.filter(Filter.field("field", "value"))
-			.get();
-	}
-
-	@Test
 	public void testFilter_withFieldAndValue() {
 		Launchpad.url("url")
 			.use(new TestTransport() {
@@ -282,6 +262,24 @@ public class LaunchpadTest {
 
 			})
 			.filter("field", "op", "value")
+			.get();
+	}
+
+	@Test
+	public void testFilter_withFilter() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertNotNull(request.body());
+					Assert.assertTrue(
+						request.body().contains(
+							Filter.field("field", "value").toString()));
+					return super.send(request);
+				}
+
+			})
+			.filter(Filter.field("field", "value"))
 			.get();
 	}
 
@@ -332,45 +330,6 @@ public class LaunchpadTest {
 	}
 
 	@Test
-	public void testParam_withOverride() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals("2", request.param("key"));
-					return super.send(request);
-				}
-
-			})
-			.param("key", 1)
-			.param("key", 2)
-			.get();
-	}
-
-	@Test
-	public void testParam() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals("str", request.param("string"));
-					Assert.assertEquals("1", request.param("int"));
-					Assert.assertEquals("0.5", request.param("double"));
-					Assert.assertEquals("false", request.param("boolean"));
-					Assert.assertNull(request.param("null"));
-					return super.send(request);
-				}
-
-			})
-			.param("string", "str")
-			.param("int", 1)
-			.param("double", 0.5)
-			.param("boolean", false)
-			.param("null", (Object)null)
-			.get();
-	}
-
-	@Test
 	public void testGet() {
 		Launchpad.url("url").use(getTransportFor("GET", null)).get();
 	}
@@ -414,57 +373,6 @@ public class LaunchpadTest {
 		Launchpad.url("url")
 			.use(getTransportFor("GET", "a"))
 			.getAsync("a")
-			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
-			.exceptionally(exception -> {
-				Assert.fail(exception.getMessage());
-				return null;
-			});
-	}
-
-	@Test
-	public void testPatch() {
-		Launchpad.url("url").use(getTransportFor("PATCH", null)).patch();
-	}
-
-	@Test
-	public void testPatch_withObjectBody() {
-		Launchpad.url("url").use(getTransportFor("PATCH", "10")).patch(10);
-	}
-
-	@Test
-	public void testPatch_withStringBody() {
-		Launchpad.url("url").use(getTransportFor("PATCH", "a")).patch("a");
-	}
-
-	@Test
-	public void testPatchAsync() {
-		Launchpad.url("url")
-			.use(getTransportFor("PATCH", null))
-			.patchAsync()
-			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
-			.exceptionally(exception -> {
-				Assert.fail(exception.getMessage());
-				return null;
-			});
-	}
-
-	@Test
-	public void testPatchAsync_withObjectBody() {
-		Launchpad.url("url")
-			.use(getTransportFor("PATCH", "10"))
-			.patchAsync(10)
-			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
-			.exceptionally(exception -> {
-				Assert.fail(exception.getMessage());
-				return null;
-			});
-	}
-
-	@Test
-	public void testPatchAsync_withStringBody() {
-		Launchpad.url("url")
-			.use(getTransportFor("PATCH", "a"))
-			.patchAsync("a")
 			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
 			.exceptionally(exception -> {
 				Assert.fail(exception.getMessage());
@@ -537,6 +445,96 @@ public class LaunchpadTest {
 			})
 			.offset(1)
 			.get();
+	}
+
+	@Test
+	public void testParam() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals("str", request.param("string"));
+					Assert.assertEquals("1", request.param("int"));
+					Assert.assertEquals("0.5", request.param("double"));
+					Assert.assertEquals("false", request.param("boolean"));
+					Assert.assertNull(request.param("null"));
+					return super.send(request);
+				}
+
+			})
+			.param("string", "str")
+			.param("int", 1)
+			.param("double", 0.5)
+			.param("boolean", false)
+			.param("null", (Object)null)
+			.get();
+	}
+
+	@Test
+	public void testParam_withOverride() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals("2", request.param("key"));
+					return super.send(request);
+				}
+
+			})
+			.param("key", 1)
+			.param("key", 2)
+			.get();
+	}
+
+	@Test
+	public void testPatch() {
+		Launchpad.url("url").use(getTransportFor("PATCH", null)).patch();
+	}
+
+	@Test
+	public void testPatch_withObjectBody() {
+		Launchpad.url("url").use(getTransportFor("PATCH", "10")).patch(10);
+	}
+
+	@Test
+	public void testPatch_withStringBody() {
+		Launchpad.url("url").use(getTransportFor("PATCH", "a")).patch("a");
+	}
+
+	@Test
+	public void testPatchAsync() {
+		Launchpad.url("url")
+			.use(getTransportFor("PATCH", null))
+			.patchAsync()
+			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
+			.exceptionally(exception -> {
+				Assert.fail(exception.getMessage());
+				return null;
+			});
+	}
+
+	@Test
+	public void testPatchAsync_withObjectBody() {
+		Launchpad.url("url")
+			.use(getTransportFor("PATCH", "10"))
+			.patchAsync(10)
+			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
+			.exceptionally(exception -> {
+				Assert.fail(exception.getMessage());
+				return null;
+			});
+	}
+
+	@Test
+	public void testPatchAsync_withStringBody() {
+		Launchpad.url("url")
+			.use(getTransportFor("PATCH", "a"))
+			.patchAsync("a")
+			.thenAccept(response -> Assert.assertTrue(response.succeeded()))
+			.exceptionally(exception -> {
+				Assert.fail(exception.getMessage());
+				return null;
+			});
 	}
 
 	@Test
@@ -658,40 +656,8 @@ public class LaunchpadTest {
 	}
 
 	@Test
-	public void testSearch_withFilter() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertNotNull(request.body());
-					Assert.assertTrue(
-						request.body().contains(
-							Query.search(
-								Filter.field("field", "value")).toString()));
-					return super.send(request);
-				}
-
-			})
-			.search(Filter.field("field", "value"))
-			.get();
-	}
-
-	@Test
-	public void testSearch_withText() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertNotNull(request.body());
-					Assert.assertTrue(
-						request.body().contains(
-							Query.search("query").toString()));
-					return super.send(request);
-				}
-
-			})
-			.search("query")
-			.get();
+	public void testRealTimeFactoryDefault_constructorDummyCoverage() {
+		new RealTimeFactory.Default();
 	}
 
 	@Test
@@ -731,6 +697,85 @@ public class LaunchpadTest {
 	}
 
 	@Test
+	public void testSearch_withFilter() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertNotNull(request.body());
+					Assert.assertTrue(
+						request.body().contains(
+							Query.search(
+								Filter.field("field", "value")).toString()));
+					return super.send(request);
+				}
+
+			})
+			.search(Filter.field("field", "value"))
+			.get();
+	}
+
+	@Test
+	public void testSearch_withText() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertNotNull(request.body());
+					Assert.assertTrue(
+						request.body().contains(
+							Query.search("query").toString()));
+					return super.send(request);
+				}
+
+			})
+			.search("query")
+			.get();
+	}
+
+	@Test
+	public void testSend_withContentTypeSet() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals("1", request.body());
+					return super.send(request);
+				}
+
+			})
+			.contentType(ContentType.JSON)
+			.send("GET", 1);
+	}
+
+	@Test
+	public void testSend_withNullBody() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertNull(request.body());
+					return super.send(request);
+				}
+
+			})
+			.send("GET", (Object)null);
+	}
+
+	@Test
+	public void testSend_withoutTransport() {
+		DefaultTransport.defaultTransport(null);
+
+		try {
+			Launchpad.url("url").use(null).send("GET", 1);
+			Assert.fail("Exception not thrown.");
+		}
+		catch (LaunchpadClientException e) {
+			Assert.assertEquals("Transport not specified!", e.getMessage());
+		}
+	}
+
+	@Test
 	public void testSort_withField() {
 		Launchpad.url("url")
 			.use(new TestTransport() {
@@ -767,66 +812,11 @@ public class LaunchpadTest {
 	}
 
 	@Test
-	public void testSend_withNullBody() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertNull(request.body());
-					return super.send(request);
-				}
-
-			})
-			.send("GET", (Object)null);
-	}
-
-	@Test
-	public void testSend_withContentTypeSet() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals("1", request.body());
-					return super.send(request);
-				}
-
-			})
-			.contentType(ContentType.JSON)
-			.send("GET", 1);
-	}
-
-	@Test
-	public void testSend_withoutTransport() {
-		DefaultTransport.defaultTransport(null);
-
-		try {
-			Launchpad.url("url").use(null).send("GET", 1);
-			Assert.fail("Exception not thrown.");
-		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Transport not specified!", e.getMessage());
-		}
-	}
-
-	@Test
 	public void testWatch() {
 		RealTimeFactory.Default.factory = getRealTimeTestFactory(
 			"http://url", true, "", "");
 
 		Launchpad.url("url").watch();
-	}
-
-	@Test
-	public void testWatch_withFullRequest() {
-		RealTimeFactory.Default.factory = getRealTimeTestFactory(
-			"http://url", true, "/test/path",
-			"/test/path?a=b&c=d&e=%22f%22&g=%22h%22");
-
-		Launchpad.url("url/test/path?a=b")
-			.param("c", "d")
-			.form("e", "f")
-			.contentType(ContentType.JSON)
-			.watch("{\"g\":\"h\"}");
 	}
 
 	@Test
@@ -880,19 +870,32 @@ public class LaunchpadTest {
 			.watch("{\"key\":\"value\"}", options);
 	}
 
-	private RealTimeFactory getRealTimeTestFactory(
-		String expectedUrl, boolean expectedForce, String expectedPath,
-		String expectedQuery) {
-
-		return (url, options) -> {
-			Assert.assertEquals(expectedUrl, url);
-			Assert.assertEquals(expectedForce, options.get("forceNew"));
-			Assert.assertEquals(expectedPath, options.get("path"));
-			Assert.assertEquals(
-				expectedQuery, ((Map)options.get("query")).get("url"));
-
-			return new DummyRealTime();
+	@Test
+	public void testWatch_withFactoryException() {
+		RealTimeFactory.Default.factory = (url, options) -> {
+			throw new RuntimeException("Error");
 		};
+
+		try {
+			Launchpad.url("url").watch();
+			Assert.fail("Exception not thrown.");
+		}
+		catch (LaunchpadClientException e) {
+			Assert.assertEquals("Error", e.getMessage());
+		}
+	}
+
+	@Test
+	public void testWatch_withFullRequest() {
+		RealTimeFactory.Default.factory = getRealTimeTestFactory(
+			"http://url", true, "/test/path",
+			"/test/path?a=b&c=d&e=%22f%22&g=%22h%22");
+
+		Launchpad.url("url/test/path?a=b")
+			.param("c", "d")
+			.form("e", "f")
+			.contentType(ContentType.JSON)
+			.watch("{\"g\":\"h\"}");
 	}
 
 	@Test
@@ -908,19 +911,19 @@ public class LaunchpadTest {
 		}
 	}
 
-	@Test
-	public void testWatch_withFactoryException() {
-		RealTimeFactory.Default.factory = (url, options) -> {
-			throw new RuntimeException("Error");
-		};
+	private RealTimeFactory getRealTimeTestFactory(
+		String expectedUrl, boolean expectedForce, String expectedPath,
+		String expectedQuery) {
 
-		try {
-			Launchpad.url("url").watch();
-			Assert.fail("Exception not thrown.");
-		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Error", e.getMessage());
-		}
+		return (url, options) -> {
+			Assert.assertEquals(expectedUrl, url);
+			Assert.assertEquals(expectedForce, options.get("forceNew"));
+			Assert.assertEquals(expectedPath, options.get("path"));
+			Assert.assertEquals(
+				expectedQuery, ((Map)options.get("query")).get("url"));
+
+			return new DummyRealTime();
+		};
 	}
 
 	private Transport getTransportFor(String method, String body) {

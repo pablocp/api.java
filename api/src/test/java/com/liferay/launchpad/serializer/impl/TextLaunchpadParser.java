@@ -5,11 +5,10 @@ import com.liferay.launchpad.serializer.LaunchpadSerializerException;
 
 import java.util.List;
 import java.util.Map;
-
 public class TextLaunchpadParser implements LaunchpadParser {
 
 	@Override
-	public <T> T parse(String string) { return (T) string; }
+	public <T> T parse(String string) {return(T) string; }
 
 	@Override
 	public <T> T parse(String string, Class<T> type) {
@@ -32,4 +31,5 @@ public class TextLaunchpadParser implements LaunchpadParser {
 
 		throw new UnsupportedOperationException(string);
 	}
+
 }

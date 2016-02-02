@@ -2,7 +2,6 @@ package com.liferay.launchpad.log.impl;
 
 import com.liferay.launchpad.log.PodLogger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -14,14 +14,15 @@ package com.liferay.launchpad.sdk;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-import java.util.Map;
-
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
+
+import java.util.List;
+import java.util.Map;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 public class ErrorTest {
@@ -30,7 +31,8 @@ public class ErrorTest {
 	public static void setup() {
 		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
 		LaunchpadSerializerEngine.instance().registerEngines(
-			ContentType.JSON.contentType(), new Engines(
+			ContentType.JSON.contentType(),
+			new Engines(
 				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
 			true);
 	}

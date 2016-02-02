@@ -19,12 +19,13 @@ import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
+
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.Map;
 
 /**
  */
@@ -34,43 +35,15 @@ public class ResponseTest {
 	public static void setupClass() {
 		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
 		LaunchpadSerializerEngine.instance().registerEngines(
-			ContentType.JSON.contentType(), new Engines(
+			ContentType.JSON.contentType(),
+			new Engines(
 				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
 			true);
 	}
 
-	private Request request;
-
 	@Before
 	public void setup() {
 		request = new RequestImpl("localhost");
-	}
-
-	@Test(expected = UnsupportedOperationException.class)
-	public void testSession_throwsUnsupportedOperation() {
-		new ResponseImpl(request).session();
-	}
-
-	@Test
-	public void testEnd_withStringBody() {
-		Response response = new ResponseImpl(request);
-		response.end("foo");
-		assertEquals("foo", response.body());
-	}
-
-	@Test
-	public void testEnd_withObjectBody() {
-		Response response = new ResponseImpl(request);
-		response.end(1);
-		assertEquals("1", response.body());
-	}
-
-	@Test
-	public void testEnd_withBodyAndContentType() {
-		Response response = new ResponseImpl(request);
-		response.end("foo", ContentType.HTML);
-		assertEquals("foo", response.body());
-		assertEquals(ContentType.HTML.toString(), response.contentType());
 	}
 
 	@Test
@@ -88,6 +61,28 @@ public class ResponseTest {
 		Map<String, Integer> map = response.bodyMap(Integer.class);
 		assertEquals(1, map.size());
 		assertEquals(Integer.valueOf(1), map.get("key"));
+	}
+
+	@Test
+	public void testEnd_withBodyAndContentType() {
+		Response response = new ResponseImpl(request);
+		response.end("foo", ContentType.HTML);
+		assertEquals("foo", response.body());
+		assertEquals(ContentType.HTML.toString(), response.contentType());
+	}
+
+	@Test
+	public void testEnd_withObjectBody() {
+		Response response = new ResponseImpl(request);
+		response.end(1);
+		assertEquals("1", response.body());
+	}
+
+	@Test
+	public void testEnd_withStringBody() {
+		Response response = new ResponseImpl(request);
+		response.end("foo");
+		assertEquals("foo", response.body());
 	}
 
 	@Test
@@ -137,20 +132,9 @@ public class ResponseTest {
 		assertEquals(request, response.request());
 	}
 
-	@Test
-	public void testStatusCode() {
-		Response response = new ResponseImpl(request);
-		response.status(200);
-		assertEquals(200, response.statusCode());
-		assertEquals("OK", response.statusMessage());
-	}
-
-	@Test
-	public void testStatusMessage() {
-		Response response = new ResponseImpl(request);
-		response.status(200, "OK!");
-		assertEquals(200, response.statusCode());
-		assertEquals("OK!", response.statusMessage());
+	@Test(expected = UnsupportedOperationException.class)
+	public void testSession_throwsUnsupportedOperation() {
+		new ResponseImpl(request).session();
 	}
 
 	@Test
@@ -174,6 +158,32 @@ public class ResponseTest {
 	}
 
 	@Test
+	public void testStatus_dummyCoverageTest() {
+		new Response.Status();
+		Response response = new ResponseImpl(request);
+
+		for (int i = 200; i < 600; i++) {
+			Assert.assertNotNull(response.status(i).statusMessage());
+		}
+	}
+
+	@Test
+	public void testStatusCode() {
+		Response response = new ResponseImpl(request);
+		response.status(200);
+		assertEquals(200, response.statusCode());
+		assertEquals("OK", response.statusMessage());
+	}
+
+	@Test
+	public void testStatusMessage() {
+		Response response = new ResponseImpl(request);
+		response.status(200, "OK!");
+		assertEquals(200, response.statusCode());
+		assertEquals("OK!", response.statusMessage());
+	}
+
+	@Test
 	public void testSucceeded() {
 		Response response = new ResponseImpl(request);
 		response.status(0);
@@ -186,14 +196,6 @@ public class ResponseTest {
 		assertFalse(response.succeeded());
 	}
 
-	@Test
-	public void testStatus_dummyCoverageTest() {
-		new Response.Status();
-		Response response = new ResponseImpl(request);
-
-		for (int i = 200; i < 600; i++) {
-			Assert.assertNotNull(response.status(i).statusMessage());
-		}
-	}
+	private Request request;
 
 }

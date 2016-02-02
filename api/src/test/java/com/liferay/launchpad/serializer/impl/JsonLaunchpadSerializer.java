@@ -1,8 +1,8 @@
 package com.liferay.launchpad.serializer.impl;
 
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
-import jodd.json.JsonSerializer;
 
+import jodd.json.JsonSerializer;
 public class JsonLaunchpadSerializer implements LaunchpadSerializer {
 
 	@Override

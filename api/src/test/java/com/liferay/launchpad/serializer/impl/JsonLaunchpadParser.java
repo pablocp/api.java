@@ -1,11 +1,11 @@
 package com.liferay.launchpad.serializer.impl;
 
 import com.liferay.launchpad.serializer.LaunchpadParser;
-import jodd.json.JsonParser;
 
 import java.util.List;
 import java.util.Map;
 
+import jodd.json.JsonParser;
 public class JsonLaunchpadParser implements LaunchpadParser {
 
 	@Override
@@ -34,4 +34,5 @@ public class JsonLaunchpadParser implements LaunchpadParser {
 			.map("values", valueType)
 			.parse(string);
 	}
+
 }

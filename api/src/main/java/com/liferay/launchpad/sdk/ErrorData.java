@@ -89,11 +89,6 @@ public abstract class ErrorData<T> {
 		subErrors.add(new String[] {reason, message});
 	}
 
-	/**
-	 * Ends the error response.
-	 */
-	protected abstract T into(T targetCounsumer);
-
 	protected List<String[]> getSubErrors() {
 		return subErrors;
 	}
@@ -101,6 +96,11 @@ public abstract class ErrorData<T> {
 	protected void header(String name, String value) {
 		headers.put(name, value);
 	}
+
+	/**
+	 * Ends the error response.
+	 */
+	protected abstract T into(T targetCounsumer);
 
 	protected void set(
 		int statusCode, String statusMessage, String defaultMessage) {

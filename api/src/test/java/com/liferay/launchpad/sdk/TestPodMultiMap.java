@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 public class TestPodMultiMap<V> implements PodMultiMap<V> {
 
 	public TestPodMultiMap(boolean caseSensitive) {
@@ -20,6 +19,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 		if (!map.containsKey(name)) {
 			map.put(name, new LinkedList<>());
 		}
+
 		map.get(name).addLast(value);
 		return this;
 	}
@@ -30,6 +30,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 			if (!map.containsKey(name)) {
 				map.put(name, new LinkedList<>());
 			}
+
 			map.get(name).addLast(value);
 		});
 		return this;
@@ -40,6 +41,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 		if (!map.containsKey(name)) {
 			map.put(name, new LinkedList<>());
 		}
+
 		values.forEach(map.get(name)::add);
 		return this;
 	}
@@ -85,6 +87,11 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
+	public Iterator<Map.Entry<String, V>> iterator() {
+		return entries().iterator();
+	}
+
+	@Override
 	public Set<String> names() {
 		return map.keySet();
 	}
@@ -121,12 +128,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 		return map.size();
 	}
 
-	@Override
-	public Iterator<Map.Entry<String, V>> iterator() {
-		return entries().iterator();
-	}
-
-	private final Map<String, LinkedList<V>> map = new HashMap<>();
 	private final boolean caseSensitive;
+	private final Map<String, LinkedList<V>> map = new HashMap<>();
 
 }
