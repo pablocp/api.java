@@ -122,16 +122,13 @@ public class ResponseError {
 		return new ErrorData<Response>() {
 
 			@Override
-			protected void end(Response response) {
+			protected Response into(Response response) {
 				response.status(statusCode(), statusMessage());
 				headers(response::header);
 
 				String errorBody = errorBody();
 
-				response
-					.contentType(ContentType.JSON)
-					.body(errorBody)
-					.end();
+				return response.contentType(ContentType.JSON).body(errorBody);
 			}
 
 		};

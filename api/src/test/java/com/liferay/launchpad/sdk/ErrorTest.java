@@ -17,15 +17,29 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.Map;
 
+import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadParser;
+import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
+import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
+import org.junit.BeforeClass;
 import org.junit.Test;
 public class ErrorTest {
+
+	@BeforeClass
+	public static void setup() {
+		PodMultiMapFactory.Default.factory = TestPodMultiMap::new;
+		LaunchpadSerializerEngine.instance().registerEngines(
+			ContentType.JSON.contentType(), new Engines(
+				new JsonLaunchpadSerializer(), new JsonLaunchpadParser()),
+			true);
+	}
 
 	@Test
 	public void testBadRequest() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().end(response);
+		ResponseError.badRequest().into(response).end();
 
 		checkResponseBody(response, 400, "Bad Request");
 	}
@@ -34,47 +48,47 @@ public class ErrorTest {
 	public void testBadRequest_badContent() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().badContent().end(response);
+		ResponseError.badRequest().badContent().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "badContent");
 
 		response = createResponse();
-		ResponseError.badRequest().badContent("message").end(response);
-		checkResponseReasonAndMessage(response, "badContent", "message");
+		ResponseError.badRequest().badContent("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "badContent", "msg");
 	}
 
 	@Test
 	public void testBadRequest_badRequest() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().badRequest().end(response);
+		ResponseError.badRequest().badRequest().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "badRequest");
 
 		response = createResponse();
-		ResponseError.badRequest().badRequest("message").end(response);
-		checkResponseReasonAndMessage(response, "badRequest", "message");
+		ResponseError.badRequest().badRequest("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "badRequest", "msg");
 	}
 
 	@Test
 	public void testBadRequest_exists() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().exists().end(response);
+		ResponseError.badRequest().exists().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "exists");
 
 		response = createResponse();
-		ResponseError.badRequest().exists("message").end(response);
-		checkResponseReasonAndMessage(response, "exists", "message");
+		ResponseError.badRequest().exists("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "exists", "msg");
 	}
 
 	@Test
 	public void testBadRequest_invalidDocumentValue() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().invalidDocumentValue().end(response);
+		ResponseError.badRequest().invalidDocumentValue().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "invalidDocumentValue");
 
 		response = createResponse();
-		ResponseError.badRequest().invalidDocumentValue("msg").end(response);
+		ResponseError.badRequest().invalidDocumentValue("msg").into(response).end();
 		checkResponseReasonAndMessage(response, "invalidDocumentValue", "msg");
 	}
 
@@ -82,79 +96,79 @@ public class ErrorTest {
 	public void testBadRequest_invalidQuery() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().invalidQuery().end(response);
+		ResponseError.badRequest().invalidQuery().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "invalidQuery");
 
 		response = createResponse();
-		ResponseError.badRequest().invalidQuery("message").end(response);
-		checkResponseReasonAndMessage(response, "invalidQuery", "message");
+		ResponseError.badRequest().invalidQuery("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "invalidQuery", "msg");
 	}
 
 	@Test
 	public void testBadRequest_keyExpired() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().keyExpired().end(response);
+		ResponseError.badRequest().keyExpired().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "keyExpired");
 
 		response = createResponse();
-		ResponseError.badRequest().keyExpired("message").end(response);
-		checkResponseReasonAndMessage(response, "keyExpired", "message");
+		ResponseError.badRequest().keyExpired("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "keyExpired", "msg");
 	}
 
 	@Test
 	public void testBadRequest_keyInvalid() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().keyInvalid().end(response);
+		ResponseError.badRequest().keyInvalid().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "keyInvalid");
 
 		response = createResponse();
-		ResponseError.badRequest().keyInvalid("message").end(response);
-		checkResponseReasonAndMessage(response, "keyInvalid", "message");
+		ResponseError.badRequest().keyInvalid("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "keyInvalid", "msg");
 	}
 
 	@Test
 	public void testBadRequest_parseError() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().parseError().end(response);
+		ResponseError.badRequest().parseError().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "parseError");
 
 		response = createResponse();
-		ResponseError.badRequest().parseError("message").end(response);
-		checkResponseReasonAndMessage(response, "parseError", "message");
+		ResponseError.badRequest().parseError("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "parseError", "msg");
 	}
 
 	@Test
 	public void testBadRequest_required() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().required().end(response);
+		ResponseError.badRequest().required().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "required");
 
 		response = createResponse();
-		ResponseError.badRequest().required("message").end(response);
-		checkResponseReasonAndMessage(response, "required", "message");
+		ResponseError.badRequest().required("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "required", "msg");
 	}
 
 	@Test
 	public void testBadRequest_validationError() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().validationError().end(response);
+		ResponseError.badRequest().validationError().into(response).end();
 		checkResponseBody(response, 400, "Bad Request", "validationError");
 
 		response = createResponse();
-		ResponseError.badRequest().validationError("message").end(response);
-		checkResponseReasonAndMessage(response, "validationError", "message");
+		ResponseError.badRequest().validationError("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "validationError", "msg");
 	}
 
 	@Test
 	public void testError_checkErrorData() {
-		ErrorData<Response> data = ResponseError.forbidden("message").data();
+		ErrorData<Response> data = ResponseError.forbidden("msg").data();
 		assertEquals(403, data.statusCode());
-		assertEquals("message", data.statusMessage());
+		assertEquals("msg", data.statusMessage());
 		assertEquals(0, data.getSubErrors().size());
 	}
 
@@ -162,7 +176,7 @@ public class ErrorTest {
 	public void testError_encodeStatusMessage() {
 		Response response = createResponse();
 
-		ResponseError.notFound().notFound("\"\\/\b\f\n\r\tabcde").end(response);
+		ResponseError.notFound().notFound("\"\\/\b\f\n\r\tabcde").into(response).end();
 
 		checkResponseReasonAndMessage(
 			response, "notFound", "\"\\/\b\f\n\r\tabcde");
@@ -172,7 +186,7 @@ public class ErrorTest {
 	public void testError_multipleReasons() {
 		Response response = createResponse();
 
-		ResponseError.badRequest().badContent().keyExpired().end(response);
+		ResponseError.badRequest().badContent().keyExpired().into(response).end();
 
 		checkResponseBody(
 			response, 400, "Bad Request", "badContent", "keyExpired");
@@ -182,16 +196,16 @@ public class ErrorTest {
 	public void testError_withCustomReason() {
 		Response response = createResponse();
 
-		ResponseError.internalError().error("reason", "message").end(response);
+		ResponseError.internalError().error("reason", "msg").into(response).end();
 
-		checkResponseReasonAndMessage(response, "reason", "message");
+		checkResponseReasonAndMessage(response, "reason", "msg");
 	}
 
 	@Test
 	public void testForbidden() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().end(response);
+		ResponseError.forbidden().into(response).end();
 
 		checkResponseBody(response, 403, "Forbidden");
 	}
@@ -200,91 +214,91 @@ public class ErrorTest {
 	public void testForbidden_corsRequestOrigin() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().corsRequestOrigin().end(response);
+		ResponseError.forbidden().corsRequestOrigin().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "corsRequestOrigin");
 
 		response = createResponse();
-		ResponseError.forbidden().corsRequestOrigin("message").end(response);
-		checkResponseReasonAndMessage(response, "corsRequestOrigin", "message");
+		ResponseError.forbidden().corsRequestOrigin("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "corsRequestOrigin", "msg");
 	}
 
 	@Test
 	public void testForbidden_forbidden() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().forbidden().end(response);
+		ResponseError.forbidden().forbidden().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "forbidden");
 
 		response = createResponse();
-		ResponseError.forbidden().forbidden("message").end(response);
-		checkResponseReasonAndMessage(response, "forbidden", "message");
+		ResponseError.forbidden().forbidden("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "forbidden", "msg");
 	}
 
 	@Test
 	public void testForbidden_limitExceeded() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().limitExceeded().end(response);
+		ResponseError.forbidden().limitExceeded().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "limitExceeded");
 
 		response = createResponse();
-		ResponseError.forbidden().limitExceeded("message").end(response);
-		checkResponseReasonAndMessage(response, "limitExceeded", "message");
+		ResponseError.forbidden().limitExceeded("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "limitExceeded", "msg");
 	}
 
 	@Test
 	public void testForbidden_quotaExceeded() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().quotaExceeded().end(response);
+		ResponseError.forbidden().quotaExceeded().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "quotaExceeded");
 
 		response = createResponse();
-		ResponseError.forbidden().quotaExceeded("message").end(response);
-		checkResponseReasonAndMessage(response, "quotaExceeded", "message");
+		ResponseError.forbidden().quotaExceeded("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "quotaExceeded", "msg");
 	}
 
 	@Test
 	public void testForbidden_rateLimitExceeded() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().rateLimitExceeded().end(response);
+		ResponseError.forbidden().rateLimitExceeded().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "rateLimitExceeded");
 
 		response = createResponse();
-		ResponseError.forbidden().rateLimitExceeded("message").end(response);
-		checkResponseReasonAndMessage(response, "rateLimitExceeded", "message");
+		ResponseError.forbidden().rateLimitExceeded("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "rateLimitExceeded", "msg");
 	}
 
 	@Test
 	public void testForbidden_responseTooLarge() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().responseTooLarge().end(response);
+		ResponseError.forbidden().responseTooLarge().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "responseTooLarge");
 
 		response = createResponse();
-		ResponseError.forbidden().responseTooLarge("message").end(response);
-		checkResponseReasonAndMessage(response, "responseTooLarge", "message");
+		ResponseError.forbidden().responseTooLarge("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "responseTooLarge", "msg");
 	}
 
 	@Test
 	public void testForbidden_unknownAuth() {
 		Response response = createResponse();
 
-		ResponseError.forbidden().unknownAuth().end(response);
+		ResponseError.forbidden().unknownAuth().into(response).end();
 		checkResponseBody(response, 403, "Forbidden", "unknownAuth");
 
 		response = createResponse();
-		ResponseError.forbidden().unknownAuth("message").end(response);
-		checkResponseReasonAndMessage(response, "unknownAuth", "message");
+		ResponseError.forbidden().unknownAuth("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "unknownAuth", "msg");
 	}
 
 	@Test
 	public void testInternalError() {
 		Response response = createResponse();
 
-		ResponseError.internalError().end(response);
+		ResponseError.internalError().into(response).end();
 
 		checkResponseBody(response, 500, "Internal Server Error");
 	}
@@ -293,20 +307,20 @@ public class ErrorTest {
 	public void testInternalError_internalError() {
 		Response response = createResponse();
 
-		ResponseError.internalError().internalError().end(response);
+		ResponseError.internalError().internalError().into(response).end();
 		checkResponseBody(
 			response, 500, "Internal Server Error", "internalError");
 
 		response = createResponse();
-		ResponseError.internalError().internalError("message").end(response);
-		checkResponseReasonAndMessage(response, "internalError", "message");
+		ResponseError.internalError().internalError("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "internalError", "msg");
 	}
 
 	@Test
 	public void testMethodNotAllowed() {
 		Response response = createResponse();
 
-		ResponseError.methodNotAllowed().end(response);
+		ResponseError.methodNotAllowed().into(response).end();
 
 		checkResponseBody(response, 405, "Method Not Allowed");
 	}
@@ -315,12 +329,12 @@ public class ErrorTest {
 	public void testMethodNotAllowed_httpMethodNotAllowed() {
 		Response response = createResponse();
 
-		ResponseError.methodNotAllowed().httpMethodNotAllowed().end(response);
+		ResponseError.methodNotAllowed().httpMethodNotAllowed().into(response).end();
 		checkResponseBody(
 			response, 405, "Method Not Allowed", "httpMethodNotAllowed");
 
 		response = createResponse();
-		ResponseError.methodNotAllowed().httpMethodNotAllowed("").end(response);
+		ResponseError.methodNotAllowed().httpMethodNotAllowed("").into(response).end();
 		checkResponseReasonAndMessage(response, "httpMethodNotAllowed", "");
 	}
 
@@ -332,7 +346,7 @@ public class ErrorTest {
 			.methodNotAllowed()
 			.httpMethodNotAllowed()
 			.allowHeader("get", "post")
-			.end(response);
+			.into(response).end();
 
 		checkResponseBody(
 			response, 405, "Method Not Allowed", "httpMethodNotAllowed");
@@ -348,7 +362,7 @@ public class ErrorTest {
 			.methodNotAllowed()
 			.httpMethodNotAllowed()
 			.allowHeader()
-			.end(response);
+			.into(response).end();
 
 		checkResponseBody(
 			response, 405, "Method Not Allowed", "httpMethodNotAllowed");
@@ -360,7 +374,7 @@ public class ErrorTest {
 	public void testNotFound() {
 		Response response = createResponse();
 
-		ResponseError.notFound().end(response);
+		ResponseError.notFound().into(response).end();
 
 		checkResponseBody(response, 404, "Not Found");
 	}
@@ -369,23 +383,23 @@ public class ErrorTest {
 	public void testNotFound_notFound() {
 		Response response = createResponse();
 
-		ResponseError.notFound().notFound().end(response);
+		ResponseError.notFound().notFound().into(response).end();
 		checkResponseBody(response, 404, "Not Found", "notFound");
 
 		response = createResponse();
-		ResponseError.notFound().notFound("message").end(response);
-		checkResponseReasonAndMessage(response, "notFound", "message");
+		ResponseError.notFound().notFound("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "notFound", "msg");
 	}
 
 	@Test
 	public void testNotFound_unsupportedProtocol() {
 		Response response = createResponse();
 
-		ResponseError.notFound().unsupportedProtocol().end(response);
+		ResponseError.notFound().unsupportedProtocol().into(response).end();
 		checkResponseBody(response, 404, "Not Found", "unsupportedProtocol");
 
 		response = createResponse();
-		ResponseError.notFound().unsupportedProtocol("msg").end(response);
+		ResponseError.notFound().unsupportedProtocol("msg").into(response).end();
 		checkResponseReasonAndMessage(response, "unsupportedProtocol", "msg");
 	}
 
@@ -393,7 +407,7 @@ public class ErrorTest {
 	public void testRequestTimeout() {
 		Response response = createResponse();
 
-		ResponseError.requestTimeout().end(response);
+		ResponseError.requestTimeout().into(response).end();
 
 		checkResponseBody(response, 408, "Request Timeout");
 	}
@@ -402,12 +416,12 @@ public class ErrorTest {
 	public void testRequestTimeout_requestTimeout() {
 		Response response = createResponse();
 
-		ResponseError.requestTimeout().requestTimeout().end(response);
+		ResponseError.requestTimeout().requestTimeout().into(response).end();
 		checkResponseBody(response, 408, "Request Timeout", "requestTimeout");
 
 		response = createResponse();
-		ResponseError.requestTimeout().requestTimeout("message").end(response);
-		checkResponseReasonAndMessage(response, "requestTimeout", "message");
+		ResponseError.requestTimeout().requestTimeout("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "requestTimeout", "msg");
 	}
 
 	@Test
@@ -419,7 +433,7 @@ public class ErrorTest {
 	public void testUnauthorized() {
 		Response response = createResponse();
 
-		ResponseError.unauthorized().end(response);
+		ResponseError.unauthorized().into(response).end();
 
 		checkResponseBody(response, 401, "Unauthorized");
 	}
@@ -428,12 +442,12 @@ public class ErrorTest {
 	public void testUnauthorized_unauthorized() {
 		Response response = createResponse();
 
-		ResponseError.unauthorized().unauthorized().end(response);
+		ResponseError.unauthorized().unauthorized().into(response).end();
 		checkResponseBody(response, 401, "Unauthorized", "unauthorized");
 
 		response = createResponse();
-		ResponseError.unauthorized().unauthorized("message").end(response);
-		checkResponseReasonAndMessage(response, "unauthorized", "message");
+		ResponseError.unauthorized().unauthorized("msg").into(response).end();
+		checkResponseReasonAndMessage(response, "unauthorized", "msg");
 	}
 
 	private static Response createResponse() {

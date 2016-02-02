@@ -28,8 +28,8 @@ abstract class ErrorBase<T, E extends ErrorBase> implements Error<T> {
 	}
 
 	@Override
-	public final void end(T response) {
-		errorData.end(response);
+	public final T into(T response) {
+		return errorData.into(response);
 	}
 
 	@Override

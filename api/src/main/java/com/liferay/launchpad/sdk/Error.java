@@ -13,7 +13,7 @@
 package com.liferay.launchpad.sdk;
 public interface Error<T> {
 
-	void end(T response);
+	T into(T response);
 
 	Error error(String reason, String message);
 

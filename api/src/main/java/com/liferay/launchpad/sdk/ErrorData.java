@@ -92,7 +92,7 @@ public abstract class ErrorData<T> {
 	/**
 	 * Ends the error response.
 	 */
-	protected abstract void end(T targetCounsumer);
+	protected abstract T into(T targetCounsumer);
 
 	protected List<String[]> getSubErrors() {
 		return subErrors;
