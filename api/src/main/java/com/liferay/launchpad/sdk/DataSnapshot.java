@@ -23,6 +23,11 @@ public interface DataSnapshot {
 	public DataSnapshot child(String... names);
 
 	/**
+	 * Checks if the data exists.
+     */
+	public boolean exists();
+
+	/**
 	 * Navigates to the document path,
 	 * e.g. "/foo/1/a" -> $data.document() -> /foo/1.
 	 */
