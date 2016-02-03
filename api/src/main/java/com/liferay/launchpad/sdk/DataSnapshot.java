@@ -50,6 +50,11 @@ public interface DataSnapshot {
 	public <T> T storedValue(Class<T> type);
 
 	/**
+	 * Checks if the data does not exists in the collection.
+	 */
+	public boolean unique();
+
+	/**
 	 * Parses the body depending on content-type. If content-type is NOT set,
 	 * it will use assume the "plain/text" content type.
 	 * Returns {@link Request#bodyValue()} if data not committed,
