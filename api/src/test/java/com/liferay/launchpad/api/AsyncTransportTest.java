@@ -5,11 +5,12 @@ import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.TestPodMultiMap;
+
+import java.util.concurrent.CompletableFuture;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.concurrent.CompletableFuture;
 public class AsyncTransportTest {
 
 	@BeforeClass

@@ -3,10 +3,10 @@ package com.liferay.launchpad.api.impl;
 import com.liferay.launchpad.ApiClient;
 import com.liferay.launchpad.api.Launchpad;
 import com.liferay.launchpad.sdk.Response;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 public class LaunchpadTest {
 
 	@BeforeClass

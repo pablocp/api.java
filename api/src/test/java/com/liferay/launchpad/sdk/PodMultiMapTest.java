@@ -16,8 +16,8 @@ import org.junit.Test;
 public class PodMultiMapTest {
 
 	@Test
-	public void testPodMultiMapFactory_constructorDummyCoverage() {
-		new PodMultiMapFactory.Default();
+	public void testNewCaseSensitiveMultiMap_dummyCoverage() {
+		PodMultiMap.newCaseSensitiveMultiMap();
 	}
 
 	@Test
@@ -26,8 +26,8 @@ public class PodMultiMapTest {
 	}
 
 	@Test
-	public void testNewCaseSensitiveMultiMap_dummyCoverage() {
-		PodMultiMap.newCaseSensitiveMultiMap();
+	public void testPodMultiMapFactory_constructorDummyCoverage() {
+		new PodMultiMapFactory.Default();
 	}
 
 }

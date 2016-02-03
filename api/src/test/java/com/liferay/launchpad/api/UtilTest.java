@@ -1,10 +1,11 @@
 package com.liferay.launchpad.api;
 
+import static org.junit.Assert.assertEquals;
+
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.TestPodMultiMap;
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 public class UtilTest {
 
 	@Test

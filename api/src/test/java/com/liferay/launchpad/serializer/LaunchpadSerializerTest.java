@@ -4,6 +4,7 @@ import com.liferay.launchpad.api.model.User;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadSerializer;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

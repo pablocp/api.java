@@ -5,6 +5,7 @@ import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 import com.liferay.launchpad.sdk.TestPodMultiMap;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
