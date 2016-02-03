@@ -23,6 +23,12 @@ public interface DataSnapshot {
 	public DataSnapshot child(String... names);
 
 	/**
+	 * Navigates to the document path,
+	 * e.g. "/foo/1/a" -> $data.document() -> /foo/1.
+	 */
+	public DataSnapshot document();
+
+	/**
 	 * Navigates to parent key path, e.g. "/foo/1/child" -> data.parent() -> /foo/1.
 	 */
 	public DataSnapshot parent();
