@@ -7,12 +7,12 @@ import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 
-import java.util.Map;
-
 import jodd.http.HttpBrowser;
-import jodd.http.HttpMultiMap;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Transport implementation that uses Jodd HTTP client (http://jodd.org).
@@ -27,24 +27,22 @@ public class JoddHttpTransport extends BlockingTransport {
 						.method(request.method())
 						.set(url);
 
-		for (Cookie cookie : request.cookies().values()) {
+		List<jodd.http.Cookie> cookies = request.cookies().values()
+			.stream()
+			.map(cookie -> new jodd.http.Cookie(cookie.encode()))
+			.collect(Collectors.toList());
 
-			// TODO(igor): use new Jodd for helper method for cookie
+		httpRequest.cookies(
+			cookies.toArray(new jodd.http.Cookie[cookies.size()]));
 
-			httpRequest.header("Cookie", cookie.encode());
-		}
+		request.headers().forEach(
+			header -> httpRequest.header(header.getKey(), header.getValue()));
 
-		for (Map.Entry<String, String> entry : request.headers()) {
-			httpRequest.header(entry.getKey(), entry.getValue());
-		}
+		request.params().forEach(
+			param -> httpRequest.query(param.getKey(), param.getValue()));
 
-		for (Map.Entry<String, String> entry : request.params()) {
-			httpRequest.query(entry.getKey(), entry.getValue());
-		}
-
-		for (Map.Entry<String, Object> entry : request.forms()) {
-			httpRequest.form(entry.getKey(), entry.getValue());
-		}
+		request.forms().forEach(
+			param -> httpRequest.form(param.getKey(), param.getValue()));
 
 		String body = request.body();
 
@@ -70,14 +68,9 @@ public class JoddHttpTransport extends BlockingTransport {
 		clientResponse.status(response.statusCode(), response.statusPhrase());
 		clientResponse.body(response.bodyText());
 
-		HttpMultiMap<String> responseHeaders = response.headers();
-
-		for (Map.Entry<String, String> entry : responseHeaders) {
-			String name = entry.getKey();
-			String value = entry.getValue();
-
-			clientResponse.header(name, value);
-		}
+		response.headers().forEach(
+			header -> clientResponse.headers().add(
+				header.getKey(), header.getValue()));
 
 		return clientResponse;
 	}

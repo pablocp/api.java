@@ -32,7 +32,7 @@ public class ResponseImpl extends Base<Response> implements Response {
 		PodMultiMap<String> headers = this.headers();
 
 		headers.forEach(
-			entry -> response.header(entry.getKey(), entry.getValue()));
+			entry -> response.headers().add(entry.getKey(), entry.getValue()));
 
 		response
 			.status(this.statusCode(), this.statusMessage())
