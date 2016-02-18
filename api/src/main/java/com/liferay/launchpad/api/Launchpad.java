@@ -568,15 +568,23 @@ public class Launchpad {
 	 * Resolves authentication.
 	 */
 	protected void resolveAuthentication(Request request) {
-		if (auth.hasToken()) {
-			request.cookie(Cookie.cookie("token", auth.token()));
+
+		// uses session or basic
+
+		if (auth.hasSessionToken()) {
+			request.cookie(Cookie.cookie("sessionToken", auth.sessionToken()));
 		}
 		else if (auth.hasUsername() && auth.hasPassword()) {
 			String credentials = auth.username() + ":" + auth.password();
 			request.header(
-				"Authorization",
-				"Basic " +
+				"Authorization", "Basic " +
 					Base64.getEncoder().encodeToString(credentials.getBytes()));
+		}
+
+		// overrides with token, if any present
+
+		if (auth.hasToken()) {
+			request.header("Authorization", "Bearer " + auth.token());
 		}
 	}
 

@@ -74,6 +74,11 @@ public interface Auth {
 	public CompletableFuture<Boolean> hasRole(String role);
 
 	/**
+	 * Returns if session token is set.
+	 */
+	public boolean hasSessionToken();
+
+	/**
 	 * Returns if the authentication token is set.
 	 */
 	public boolean hasToken();
@@ -112,6 +117,11 @@ public interface Auth {
 	 * Returns the roles.
 	 */
 	public Set<String> roles();
+
+	/**
+	 * Returns the session token.
+	 */
+	public String sessionToken();
 
 	/**
 	 * Returns the authentication token.
