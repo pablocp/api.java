@@ -23,12 +23,9 @@ public class AuthImpl implements Auth {
 
 	public AuthImpl(String token) {
 		this.token = token;
-		this.username = null;
-		this.password = null;
 	}
 
 	public AuthImpl(String username, String password) {
-		this.token = null;
 		this.username = username;
 		this.password = password;
 	}
@@ -105,6 +102,12 @@ public class AuthImpl implements Auth {
 		return username;
 	}
 
+	@Override
+	public String sessionToken() {return sessionToken; }
+
+	@Override
+	public boolean hasSessionToken() {return sessionToken() != null; }
+
 	protected Map<String, Object> data;
 	protected String id;
 	protected String password;
@@ -112,5 +115,6 @@ public class AuthImpl implements Auth {
 	protected Set<String> roles;
 	protected String token;
 	protected String username;
+	protected String sessionToken;
 
 }

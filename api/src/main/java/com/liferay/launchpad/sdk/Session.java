@@ -59,14 +59,4 @@ public interface Session {
 	 */
 	public <T> T remove(String key);
 
-	/**
-	 * Mark the session as being accessed.
-	 */
-	public void setAccessed();
-
-	/**
-	 * Return the amount of time in ms until the session will expire if not accessed.
-	 */
-	public long timeout();
-
 }

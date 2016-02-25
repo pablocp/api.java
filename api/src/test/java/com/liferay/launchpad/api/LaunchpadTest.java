@@ -79,7 +79,7 @@ public class LaunchpadTest {
 				@Override
 				public Response send(Request request) {
 					Assert.assertEquals(
-						"token", request.cookie("token").value());
+						"Bearer token", request.header("Authorization"));
 					return super.send(request);
 				}
 
@@ -95,7 +95,7 @@ public class LaunchpadTest {
 				@Override
 				public Response send(Request request) {
 					Assert.assertEquals(
-						"token", request.cookie("token").value());
+						"Bearer token", request.header("Authorization"));
 					return super.send(request);
 				}
 
