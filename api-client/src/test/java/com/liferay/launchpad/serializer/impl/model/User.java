@@ -1,4 +1,4 @@
-package com.liferay.launchpad.serializer.impl;
+package com.liferay.launchpad.serializer.impl.model;
 
 import com.liferay.launchpad.serializer.Serialize;
 public class User {
@@ -24,4 +24,8 @@ public class User {
 	@Serialize(name = "id")
 	private String userId = "1Q2W";
 
+	@Override
+	public String toString() {
+		return userId + ":" + name;
+	}
 }

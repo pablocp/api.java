@@ -20,12 +20,6 @@ public class PodMultiMapImpl<V>
 	}
 
 	@Override
-	public PodMultiMapImpl<V> addAll(HttpMultiMap<V> map) {
-		super.addAll(map);
-		return this;
-	}
-
-	@Override
 	public PodMultiMapImpl<V> addAll(Map<String, V> map) {
 		super.addAll(map);
 		return this;
@@ -57,12 +51,6 @@ public class PodMultiMapImpl<V>
 	@Override
 	public PodMultiMapImpl<V> set(String name, V value) {
 		super.set(name, value);
-		return this;
-	}
-
-	@Override
-	public PodMultiMapImpl<V> setAll(HttpMultiMap<V> multiMap) {
-		super.setAll(multiMap);
 		return this;
 	}
 
