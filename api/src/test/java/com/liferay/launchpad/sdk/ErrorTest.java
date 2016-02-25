@@ -14,6 +14,7 @@ package com.liferay.launchpad.sdk;
 
 import static org.junit.Assert.assertEquals;
 
+import com.liferay.launchpad.sdk.impl.TestPodMultiMap;
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;

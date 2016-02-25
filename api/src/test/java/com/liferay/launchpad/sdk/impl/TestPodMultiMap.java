@@ -1,4 +1,6 @@
-package com.liferay.launchpad.sdk;
+package com.liferay.launchpad.sdk.impl;
+
+import com.liferay.launchpad.sdk.PodMultiMap;
 
 import java.util.AbstractMap;
 import java.util.HashMap;

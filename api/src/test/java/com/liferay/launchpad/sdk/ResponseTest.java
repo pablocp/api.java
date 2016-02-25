@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.liferay.launchpad.sdk.impl.TestPodMultiMap;
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
