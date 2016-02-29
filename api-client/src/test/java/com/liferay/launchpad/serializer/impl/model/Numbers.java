@@ -1,4 +1,4 @@
-package com.liferay.launchpad.serializer.impl;
+package com.liferay.launchpad.serializer.impl.model;
 public class Numbers {
 
 	public Long getId1() {
@@ -20,4 +20,8 @@ public class Numbers {
 	protected Long id1 = Long.valueOf(1234567890L);
 	protected long id2 = 9087654321L;
 
+	@Override
+	public String toString() {
+		return id1 + ":" + id2;
+	}
 }

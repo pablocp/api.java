@@ -4,7 +4,7 @@ import com.liferay.launchpad.api.impl.TestTransport;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
-import com.liferay.launchpad.sdk.TestPodMultiMap;
+import com.liferay.launchpad.sdk.impl.TestPodMultiMap;
 
 import java.util.concurrent.CompletableFuture;
 

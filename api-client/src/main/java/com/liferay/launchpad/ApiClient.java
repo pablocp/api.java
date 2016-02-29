@@ -20,9 +20,9 @@ import com.liferay.launchpad.serializer.impl.JoddTextSerializer;
 import jodd.json.JoddJson;
 public class ApiClient {
 
-	public static void init() {
-		PodLoggerFactory.setLoggerFactory(new PodLoggerImpl());
+	protected ApiClient() {}
 
+	public static void init() {
 		PodMultiMapFactory.Default.factory = new JoddPodMultiMapFactory();
 
 		DefaultTransport.defaultTransport(new JoddHttpTransport());

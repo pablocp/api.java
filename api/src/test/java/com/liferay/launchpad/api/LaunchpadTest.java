@@ -10,7 +10,7 @@ import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
-import com.liferay.launchpad.sdk.TestPodMultiMap;
+import com.liferay.launchpad.sdk.impl.TestPodMultiMap;
 import com.liferay.launchpad.serializer.Engines;
 import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.impl.JsonLaunchpadParser;
@@ -119,6 +119,56 @@ public class LaunchpadTest {
 
 			})
 			.auth("user", "pass")
+			.get();
+	}
+
+	@Test
+	public void testAuth_withSessionToken() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(
+						"session-id", request.cookie("sessionToken").value());
+					Assert.assertNull(request.header("Authorization"));
+					return super.send(request);
+				}
+
+			})
+			.auth(new AuthImpl("user", "pass") {
+				@Override
+				public String sessionToken() {
+					return "session-id";
+				}
+			})
+			.get();
+	}
+
+	@Test
+	public void testAuth_withAll() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(
+						"session-id", request.cookie("sessionToken").value());
+					Assert.assertEquals(
+						"Bearer token", request.header("Authorization"));
+					return super.send(request);
+				}
+
+			})
+			.auth(new AuthImpl("user", "pass") {
+				@Override
+				public String sessionToken() {
+					return "session-id";
+				}
+
+				@Override
+				public String token() {
+					return "token";
+				}
+			})
 			.get();
 	}
 
