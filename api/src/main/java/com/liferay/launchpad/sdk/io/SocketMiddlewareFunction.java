@@ -18,6 +18,5 @@ package com.liferay.launchpad.sdk.io;
 @FunctionalInterface
 public interface SocketMiddlewareFunction {
 
-	public void call(Exception e);
-
+	public void call(SocketIOException e);
 }
