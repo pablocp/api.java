@@ -31,7 +31,7 @@ version = '0.45.2'
 group = 'com.liferay.launchpad'
 
 ext {
-	joddVersion = '3.7.0-20160127'
+	joddVersion = '3.7.0-20160307'
 	lib = [
 		junit        	: 'junit:junit:4.11',
 		jsonassert		: 'org.skyscreamer:jsonassert:1.2.3',
