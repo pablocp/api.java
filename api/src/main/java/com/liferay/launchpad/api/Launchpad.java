@@ -6,6 +6,7 @@ import com.liferay.launchpad.query.Query;
 import com.liferay.launchpad.sdk.Auth;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.Cookie;
+import com.liferay.launchpad.sdk.PodException;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.RequestImpl;
@@ -26,6 +27,8 @@ public class Launchpad {
 
 	public static String MASTER_TOKEN;
 
+	public static String DOMAIN;
+
 	public static final String METHOD_DELETE = "DELETE";
 
 	public static final String METHOD_GET = "GET";
@@ -41,6 +44,19 @@ public class Launchpad {
 	 */
 	public static Launchpad url(String url) {
 		return new Launchpad(url);
+	}
+
+	/**
+	 * Static factory for creating launchpad client.
+	 */
+	public static Launchpad container(String containerId) {
+		if (DOMAIN == null) {
+			throw new PodException(
+				"Project domain is not available. To use this method, " +
+					"set a value for Launchpad.DOMAIN.");
+		}
+
+		return new Launchpad(containerId + '.' + DOMAIN);
 	}
 
 	/**
