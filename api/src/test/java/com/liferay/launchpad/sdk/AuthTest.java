@@ -1,5 +1,6 @@
 package com.liferay.launchpad.sdk;
 
+import com.liferay.launchpad.api.Launchpad;
 import org.junit.Assert;
 import org.junit.Test;
 public class AuthTest {
@@ -58,7 +59,7 @@ public class AuthTest {
 
 	@Test
 	public void testMaster_withMasterToken() {
-		Auth.MasterToken.token = "master-token";
+		Launchpad.MASTER_TOKEN = "master-token";
 		Auth auth = Auth.master();
 		Assert.assertEquals("master-token", auth.token());
 	}
@@ -66,11 +67,6 @@ public class AuthTest {
 	@Test(expected = PodException.class)
 	public void testMaster_withoutMasterToken() {
 		Auth.master();
-	}
-
-	@Test
-	public void testMasterToken_constructorDummyCoverage() {
-		new Auth.MasterToken();
 	}
 
 }

@@ -24,6 +24,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class Launchpad {
 
+	public static String MASTER_TOKEN;
+
 	public static final String METHOD_DELETE = "DELETE";
 
 	public static final String METHOD_GET = "GET";
