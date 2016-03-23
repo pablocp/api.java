@@ -12,6 +12,8 @@
 
 package com.liferay.launchpad.sdk;
 
+import com.liferay.launchpad.api.Launchpad;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -39,13 +41,13 @@ public interface Auth {
 	 * Created authentication instance with {@link }
 	 */
 	public static Auth master() {
-		if (MasterToken.token == null) {
+		if (Launchpad.MASTER_TOKEN == null) {
 			throw new PodException(
 				"Master token is not available. To use this method, " +
 					"set a value for Auth.MasterToken.token.");
 		}
 
-		return new AuthImpl(MasterToken.token);
+		return new AuthImpl(Launchpad.MASTER_TOKEN);
 	}
 
 	/**
@@ -132,17 +134,5 @@ public interface Auth {
 	 * Returns the authentication user name.
 	 */
 	public String username();
-
-	/**
-	 * Static reference for application master token.
-	 */
-	public static final class MasterToken {
-
-		public static String token;
-
-		protected MasterToken() {
-		}
-
-	}
 
 }
