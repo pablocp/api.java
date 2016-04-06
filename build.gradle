@@ -133,5 +133,5 @@ task version() {
  * Gradle wrapper.
  */
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.9'
+	gradleVersion = '2.12'
 }
