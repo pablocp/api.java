@@ -2,9 +2,19 @@ package com.liferay.launchpad.sdk;
 public interface AppConfig {
 
 	/**
-	 * The public domain for this application.
+	 * The custom domain for this application.
+	 */
+	public String customDomain();
+
+	/**
+	 * The public system domain for this application.
 	 */
 	public String domain();
+
+	/**
+	 * The id of this application.
+	 */
+	public String id();
 
 	/**
 	 * The master token than can be used to bypass authorization rules.
