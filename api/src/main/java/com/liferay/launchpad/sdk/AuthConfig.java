@@ -12,6 +12,14 @@ public interface AuthConfig {
 	public String hashAlgorithm();
 
 	/**
+	 * Returns the login url.
+	 * The server will expect post requests with parameters
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#userParam} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#passwordParam}.
+	 */
+	public String loginAuthenticationUrl();
+
+	/**
 	 * Returns the login page url.
 	 * All unauthenticated requests to authenticated paths will be
 	 * redirected to this page, if value set.
@@ -23,31 +31,23 @@ public interface AuthConfig {
 	 * All login requests without return page will be redirected to this
 	 * page, if value set.
 	 */
-	public String loginRedirectUrl();
-
-	/**
-	 * Returns the login url.
-	 * The server will expect post requests with parameters
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#userParam} and
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#passwordParam}.
-	 */
-	public String loginUrl();
-
-	/**
-	 * Returns the logout redirect url.
-	 * All logout requests will be redirected to this page, if value set.
-	 */
-	public String logoutRedirectUrl();
+	public String loginRedirectPageUrl();
 
 	/**
 	 * Returns the logout url.
 	 * Any request to this url will destroy current session.
 	 */
-	public String logoutUrl();
+	public String logoutAuthenticationUrl();
+
+	/**
+	 * Returns the logout redirect url.
+	 * All logout requests will be redirected to this page, if value set.
+	 */
+	public String logoutRedirectPageUrl();
 
 	/**
 	 * Returns the password parameter expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginUrl} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginAuthenticationUrl} and
 	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
 	 */
 	public String passwordParam();
@@ -83,7 +83,7 @@ public interface AuthConfig {
 
 	/**
 	 * Returns the username parameter expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginUrl} and
+	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginAuthenticationUrl} and
 	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
 	 */
 	public String userParam();

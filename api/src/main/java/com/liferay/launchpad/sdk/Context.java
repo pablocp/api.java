@@ -63,6 +63,11 @@ public interface Context {
 	public <T> T config(Class<T> clazz);
 
 	/**
+	 * Returns context id.
+	 */
+	public String id();
+
+	/**
 	 * Returns the socket io server of this pod.
 	 */
 	public SocketIO io();
