@@ -146,12 +146,12 @@ public interface Response {
 	/**
 	 * Gets header value by name.
 	 */
-	public String header(String name);
+	public String header(CharSequence name);
 
 	/**
 	 * Sets the first header name with the specified value.
 	 */
-	public Response header(String name, String value);
+	public Response header(CharSequence name, String value);
 
 	/**
 	 * Returns headers.

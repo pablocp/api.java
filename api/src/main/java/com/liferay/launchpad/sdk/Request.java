@@ -151,12 +151,12 @@ public interface Request {
 	/**
 	 * Gets header value by name.
 	 */
-	public String header(String name);
+	public String header(CharSequence name);
 
 	/**
 	 * Sets the first header name with the specified value.
 	 */
-	public Request header(String name, String value);
+	public Request header(CharSequence name, String value);
 
 	/**
 	 * Returns headers.
@@ -193,12 +193,12 @@ public interface Request {
 	/**
 	 * Gets parameter value by name.
 	 */
-	public String param(String name);
+	public String param(CharSequence name);
 
 	/**
 	 * Sets parameter value.
 	 */
-	public Request param(String name, String value);
+	public Request param(CharSequence name, String value);
 
 	/**
 	 * Returns map of string request parameters. They consist of:

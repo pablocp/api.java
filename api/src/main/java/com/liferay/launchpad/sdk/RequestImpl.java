@@ -87,13 +87,13 @@ public class RequestImpl extends Base<Request> implements Request {
 	/**
 	 * Gets the parameter value.
 	 */
-	public String param(String name) {
-		return this.params().get(name);
+	public String param(CharSequence name) {
+		return this.params().get(name.toString());
 	}
 
 	@Override
-	public Request param(String name, String value) {
-		params.set(name, value);
+	public Request param(CharSequence name, String value) {
+		params.set(name.toString(), value);
 		return this;
 	}
 
