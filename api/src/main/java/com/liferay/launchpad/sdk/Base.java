@@ -169,12 +169,12 @@ public abstract class Base<R> {
 	/**
 	 * Gets header value by name.
 	 */
-	public String header(CharSequence name) {
-		return this.headers().get(name.toString());
+	public String header(String name) {
+		return this.headers().get(name);
 	}
 
-	public R header(CharSequence name, String value) {
-		headers.set(name.toString(), value);
+	public R header(String name, String value) {
+		headers.set(name, value);
 		return (R)this;
 	}
 
