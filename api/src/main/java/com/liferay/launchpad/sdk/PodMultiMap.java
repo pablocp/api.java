@@ -19,7 +19,7 @@ import java.util.Set;
 /**
  * Multi-map.
  */
-public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
+public interface PodMultiMap<V> extends Iterable<Map.Entry<CharSequence, V>> {
 
 	/**
 	 * Creates new case-sensitive implementation of the multi-map.
@@ -42,7 +42,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param value The value being added
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> add(String name, V value);
+	public PodMultiMap<V> add(CharSequence name, V value);
 
 	/**
 	 * Adds all values from the map.
@@ -50,7 +50,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param map source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> addAll(Map<String, V> map);
+	public PodMultiMap<V> addAll(Map<CharSequence, V> map);
 
 	/**
 	 * Adds new values under the specified name.
@@ -59,7 +59,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param values The values
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> addAll(String name, Iterable<V> values);
+	public PodMultiMap<V> addAll(CharSequence name, Iterable<V> values);
 
 	/**
 	 * Removes all values.
@@ -74,7 +74,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param name The name to search for
 	 * @return true if at least one entry is found
 	 */
-	public boolean contains(String name);
+	public boolean contains(CharSequence name);
 
 	/**
 	 * Returns all entries in the multi-map.
@@ -82,12 +82,12 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @return A immutable {@link java.util.List} of the name-value entries, which will be
 	 * empty if no pairs are found
 	 */
-	public List<Map.Entry<String, V>> entries();
+	public List<Map.Entry<CharSequence, V>> entries();
 
 	/**
-	 * Get the String value associated with a key.
+	 * Get the value associated with a key.
 	 */
-	public V get(String name);
+	public V get(CharSequence name);
 
 	/**
 	 * Returns the values with the specified name.
@@ -96,7 +96,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @return A immutable {@link java.util.List} of values which will be empty
 	 * if no values are found
 	 */
-	public List<V> getAll(String name);
+	public List<V> getAll(CharSequence name);
 
 	/**
 	 * Returns <code>true</code> if this map is case sensitive.
@@ -113,7 +113,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 *
 	 * @return A {@link java.util.Set} of all names
 	 */
-	public Set<String> names();
+	public Set<CharSequence> names();
 
 	/**
 	 * Removes the value with the given name
@@ -121,7 +121,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param name The name  of the value to remove
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> remove(String name);
+	public PodMultiMap<V> remove(CharSequence name);
 
 	/**
 	 * Sets a value under the specified name.
@@ -132,7 +132,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param value The value
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> set(String name, V value);
+	public PodMultiMap<V> set(CharSequence name, V value);
 
 	/**
 	 * Sets values from given map.
@@ -140,7 +140,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param map The source map
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> setAll(Map<String, V> map);
+	public PodMultiMap<V> setAll(Map<CharSequence, V> map);
 
 	/**
 	 * Sets values for the specified name.
@@ -149,7 +149,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * @param values The values being set
 	 * @return a reference to this, so the API can be used fluently
 	 */
-	public PodMultiMap<V> setAll(String name, Iterable<V> values);
+	public PodMultiMap<V> setAll(CharSequence name, Iterable<V> values);
 
 	/**
 	 * Return the number of keys.

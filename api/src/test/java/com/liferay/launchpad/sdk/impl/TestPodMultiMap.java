@@ -17,7 +17,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public PodMultiMap<V> add(String name, V value) {
+	public PodMultiMap<V> add(CharSequence name, V value) {
 		if (!map.containsKey(name)) {
 			map.put(name, new LinkedList<>());
 		}
@@ -27,7 +27,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public PodMultiMap<V> addAll(Map<String, V> m) {
+	public PodMultiMap<V> addAll(Map<CharSequence, V> m) {
 		m.forEach((name, value) -> {
 			if (!map.containsKey(name)) {
 				map.put(name, new LinkedList<>());
@@ -39,7 +39,7 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public PodMultiMap<V> addAll(String name, Iterable<V> values) {
+	public PodMultiMap<V> addAll(CharSequence name, Iterable<V> values) {
 		if (!map.containsKey(name)) {
 			map.put(name, new LinkedList<>());
 		}
@@ -55,12 +55,12 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public boolean contains(String name) {
+	public boolean contains(CharSequence name) {
 		return map.containsKey(name);
 	}
 
 	@Override
-	public List<Map.Entry<String, V>> entries() {
+	public List<Map.Entry<CharSequence, V>> entries() {
 		return map.entrySet().stream()
 			.flatMap(
 				entry -> entry.getValue().stream().map(
@@ -69,12 +69,12 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public V get(String name) {
+	public V get(CharSequence name) {
 		return map.containsKey(name) ? map.get(name).getLast() : null;
 	}
 
 	@Override
-	public List<V> getAll(String name) {
+	public List<V> getAll(CharSequence name) {
 		return map.get(name);
 	}
 
@@ -89,37 +89,37 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public Iterator<Map.Entry<String, V>> iterator() {
+	public Iterator<Map.Entry<CharSequence, V>> iterator() {
 		return entries().iterator();
 	}
 
 	@Override
-	public Set<String> names() {
+	public Set<CharSequence> names() {
 		return map.keySet();
 	}
 
 	@Override
-	public PodMultiMap<V> remove(String name) {
+	public PodMultiMap<V> remove(CharSequence name) {
 		map.remove(name);
 		return this;
 	}
 
 	@Override
-	public PodMultiMap<V> set(String name, V value) {
+	public PodMultiMap<V> set(CharSequence name, V value) {
 		map.put(name, new LinkedList<>());
 		map.get(name).addLast(value);
 		return this;
 	}
 
 	@Override
-	public PodMultiMap<V> setAll(Map<String, V> m) {
+	public PodMultiMap<V> setAll(Map<CharSequence, V> m) {
 		clear();
 		addAll(m);
 		return this;
 	}
 
 	@Override
-	public PodMultiMap<V> setAll(String name, Iterable<V> values) {
+	public PodMultiMap<V> setAll(CharSequence name, Iterable<V> values) {
 		map.remove(name);
 		addAll(name, values);
 		return this;
@@ -131,6 +131,6 @@ public class TestPodMultiMap<V> implements PodMultiMap<V> {
 	}
 
 	private final boolean caseSensitive;
-	private final Map<String, LinkedList<V>> map = new HashMap<>();
+	private final Map<CharSequence, LinkedList<V>> map = new HashMap<>();
 
 }

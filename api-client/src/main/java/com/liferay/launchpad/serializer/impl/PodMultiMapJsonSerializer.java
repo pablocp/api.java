@@ -18,7 +18,7 @@ public class PodMultiMapJsonSerializer
 
 		Path currentPath = jsonContext.getPath();
 
-		for (String key : map.names()) {
+		for (CharSequence key : map.names()) {
 			final List<?> list = map.getAll(key);
 
 			Object value = list.size() == 1 ? list.get(0) : list;
