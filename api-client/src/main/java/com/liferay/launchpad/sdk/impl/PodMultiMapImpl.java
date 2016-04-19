@@ -2,67 +2,39 @@ package com.liferay.launchpad.sdk.impl;
 
 import com.liferay.launchpad.sdk.PodMultiMap;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import jodd.http.HttpMultiMap;
-public class PodMultiMapImpl<V> implements PodMultiMap<V> {
-
-	private final HttpMultiMap<V> mm;
+public class PodMultiMapImpl<V>
+	extends HttpMultiMap<V> implements PodMultiMap<V> {
 
 	public PodMultiMapImpl(boolean caseSensitive) {
-		mm = caseSensitive ?
-			HttpMultiMap.newCaseSensitveMap() :
-			HttpMultiMap.newCaseInsensitveMap();
+		super(caseSensitive);
 		this.caseSensitive = caseSensitive;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> add(CharSequence name, V value) {
-		mm.add(name.toString(), value);
+	public PodMultiMapImpl<V> add(String name, V value) {
+		super.add(name, value);
 		return this;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> addAll(Map<CharSequence, V> map) {
-		map.forEach((k,v) -> mm.add(k.toString(), v));
+	public PodMultiMapImpl<V> addAll(Map<String, V> map) {
+		super.addAll(map);
 		return this;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> addAll(CharSequence name, Iterable<V> values) {
-		mm.addAll(name.toString(), values);
+	public PodMultiMapImpl<V> addAll(String name, Iterable<V> values) {
+		super.addAll(name, values);
 		return this;
 	}
 
 	@Override
 	public PodMultiMapImpl<V> clear() {
-		mm.clear();
+		super.clear();
 		return this;
-	}
-
-	@Override
-	public boolean contains(CharSequence name) {
-		return mm.contains(name.toString());
-	}
-
-	@Override
-	public List<Map.Entry<CharSequence, V>> entries() {
-		List list = mm.entries();
-
-		return (List<Map.Entry<CharSequence, V>>) list;
-	}
-
-	@Override
-	public V get(CharSequence name) {
-		return mm.get(name.toString());
-	}
-
-	@Override
-	public List<V> getAll(CharSequence name) {
-		return mm.getAll(name.toString());
 	}
 
 	@Override
@@ -71,52 +43,29 @@ public class PodMultiMapImpl<V> implements PodMultiMap<V> {
 	}
 
 	@Override
-	public boolean isEmpty() {
-		return mm.isEmpty();
-	}
-
-	@Override
-	public Set<CharSequence> names() {
-		Set names = mm.names();
-		return names;
-	}
-
-	@Override
-	public PodMultiMapImpl<V> remove(CharSequence name) {
-		mm.remove(name.toString());
+	public PodMultiMapImpl<V> remove(String name) {
+		super.remove(name);
 		return this;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> set(CharSequence name, V value) {
-		mm.set(name.toString(), value);
+	public PodMultiMapImpl<V> set(String name, V value) {
+		super.set(name, value);
 		return this;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> setAll(Map<CharSequence, V> map) {
-		mm.clear();
-		map.forEach((k,v) -> mm.set(k.toString(),v));
+	public PodMultiMapImpl<V> setAll(Map<String, V> map) {
+		super.setAll(map);
 		return this;
 	}
 
 	@Override
-	public PodMultiMapImpl<V> setAll(CharSequence name, Iterable<V> values) {
-		mm.setAll(name.toString(), values);
+	public PodMultiMapImpl<V> setAll(String name, Iterable<V> values) {
+		super.setAll(name, values);
 		return this;
-	}
-
-	@Override
-	public int size() {
-		return mm.size();
 	}
 
 	private final boolean caseSensitive;
 
-	@Override
-	public Iterator<Map.Entry<CharSequence, V>> iterator() {
-		Iterator iterator = mm.iterator();
-
-		return iterator;
-	}
 }

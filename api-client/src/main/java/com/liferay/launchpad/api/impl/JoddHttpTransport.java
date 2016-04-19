@@ -2,6 +2,7 @@ package com.liferay.launchpad.api.impl;
 
 import com.liferay.launchpad.api.BlockingTransport;
 import com.liferay.launchpad.sdk.ContentType;
+import com.liferay.launchpad.sdk.Cookie;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
@@ -35,13 +36,13 @@ public class JoddHttpTransport extends BlockingTransport {
 			cookies.toArray(new jodd.http.Cookie[cookies.size()]));
 
 		request.headers().forEach(
-			header -> httpRequest.header(header.getKey().toString(), header.getValue()));
+			header -> httpRequest.header(header.getKey(), header.getValue()));
 
 		request.params().forEach(
-			param -> httpRequest.query(param.getKey().toString(), param.getValue()));
+			param -> httpRequest.query(param.getKey(), param.getValue()));
 
 		request.forms().forEach(
-			param -> httpRequest.form(param.getKey().toString(), param.getValue()));
+			param -> httpRequest.form(param.getKey(), param.getValue()));
 
 		String body = request.body();
 
