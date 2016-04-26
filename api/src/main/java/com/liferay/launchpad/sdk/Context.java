@@ -15,9 +15,7 @@ package com.liferay.launchpad.sdk;
 import com.liferay.launchpad.sdk.io.SocketIO;
 
 import java.nio.file.Path;
-
 import java.util.List;
-import java.util.Map;
 
 /**
  * Execution context.
@@ -49,18 +47,6 @@ public interface Context {
 	 * Returns base path of this pod.
 	 */
 	public String basePath();
-
-	/**
-	 * Returns user configuration or <code>null</code> if no configuration is
-	 * specified.
-	 */
-	public Map<String, Object> config();
-
-	/**
-	 * Parses the configuration into a bean of the given type.
-	 * This method loads and parses the configuration on each call.
-	 */
-	public <T> T config(Class<T> clazz);
 
 	/**
 	 * Returns context id.
