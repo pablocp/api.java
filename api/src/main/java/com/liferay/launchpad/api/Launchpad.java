@@ -51,9 +51,7 @@ public class Launchpad {
 	 */
 	public static Launchpad container(String containerId) {
 		if (DOMAIN == null) {
-			throw new PodException(
-				"Project domain is not available. To use this method, " +
-					"set a value for Launchpad.DOMAIN.");
+			return new Launchpad("/");
 		}
 
 		return new Launchpad(containerId + '.' + DOMAIN);
