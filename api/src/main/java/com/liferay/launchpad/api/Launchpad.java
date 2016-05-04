@@ -6,7 +6,6 @@ import com.liferay.launchpad.query.Query;
 import com.liferay.launchpad.sdk.Auth;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.Cookie;
-import com.liferay.launchpad.sdk.PodException;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.RequestImpl;
@@ -25,9 +24,9 @@ import java.util.concurrent.CompletableFuture;
  */
 public class Launchpad {
 
-	public static String MASTER_TOKEN;
-
 	public static String DOMAIN;
+
+	public static String MASTER_TOKEN;
 
 	public static final String METHOD_DELETE = "DELETE";
 
@@ -42,19 +41,19 @@ public class Launchpad {
 	/**
 	 * Static factory for creating launchpad client.
 	 */
-	public static Launchpad url(String url) {
-		return new Launchpad(url);
-	}
-
-	/**
-	 * Static factory for creating launchpad client.
-	 */
 	public static Launchpad container(String containerId) {
 		if (DOMAIN == null) {
 			return new Launchpad("/");
 		}
 
 		return new Launchpad(containerId + '.' + DOMAIN);
+	}
+
+	/**
+	 * Static factory for creating launchpad client.
+	 */
+	public static Launchpad url(String url) {
+		return new Launchpad(url);
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad aggregate(Aggregation aggregation) {
 		getOrCreateQuery().aggregate(aggregation);
@@ -73,7 +72,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad aggregate(String name, String field, String operator) {
 		return aggregate(Aggregation.of(name, field, operator));
@@ -118,7 +117,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad count() {
 		getOrCreateQuery().count();
@@ -168,7 +167,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad filter(Filter filter) {
 		getOrCreateQuery().filter(filter);
@@ -176,14 +175,14 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad filter(String field, Object value) {
 		return filter(Filter.field(field, value));
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad filter(String field, String operator, Object value) {
 		return filter(Filter.field(field, operator, value));
@@ -263,7 +262,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad highlight(String field) {
 		getOrCreateQuery().highlight(field);
@@ -271,7 +270,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad limit(int limit) {
 		getOrCreateQuery().limit(limit);
@@ -279,7 +278,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad offset(int offset) {
 		getOrCreateQuery().offset(offset);
@@ -465,7 +464,7 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad search(Filter filter) {
 		getOrCreateQuery().search(filter);
@@ -473,35 +472,35 @@ public class Launchpad {
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad search(String text) {
 		return search(Filter.match(text));
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad search(String field, String text) {
 		return search(Filter.match(field, text));
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad search(String field, String operator, Object value) {
 		return search(Filter.field(field, operator, value));
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad sort(String field) {
 		return sort(field, "asc");
 	}
 
 	/**
-	 * See {@link com.liferay.launchpad.query.Query.Builder}
+	 * See {@link Query.Builder}
 	 */
 	public Launchpad sort(String field, String direction) {
 		getOrCreateQuery().sort(field, direction);
@@ -564,7 +563,7 @@ public class Launchpad {
 		try {
 			return RealTime.io(clientRequest.baseUrl(), options);
 		}
-		catch (NullPointerException e) {
+		catch (NullPointerException npe) {
 			throw new LaunchpadClientException("Socket.io client not loaded");
 		}
 		catch (Exception e) {
@@ -592,8 +591,10 @@ public class Launchpad {
 		}
 		else if (auth.hasUsername() && auth.hasPassword()) {
 			String credentials = auth.username() + ":" + auth.password();
+
 			request.header(
-				"Authorization", "Basic " +
+				"Authorization",
+				"Basic " +
 					Base64.getEncoder().encodeToString(credentials.getBytes()));
 		}
 
@@ -787,7 +788,7 @@ public class Launchpad {
 				(name, value) ->
 					request.param(name, launchpadSerializer.serialize(value)));
 		}
-		catch (NullPointerException | ClassCastException ignore) {
+		catch (NullPointerException | ClassCastException e) {
 
 			// body content is ignored.
 

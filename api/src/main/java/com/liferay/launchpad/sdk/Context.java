@@ -15,6 +15,7 @@ package com.liferay.launchpad.sdk;
 import com.liferay.launchpad.sdk.io.SocketIO;
 
 import java.nio.file.Path;
+
 import java.util.List;
 
 /**
@@ -42,11 +43,6 @@ public interface Context {
 	 * provided glob patterns.
 	 */
 	public List<Path> assetsFiles(String... glob);
-
-	/**
-	 * Returns base path of this pod.
-	 */
-	public String basePath();
 
 	/**
 	 * Returns context id.

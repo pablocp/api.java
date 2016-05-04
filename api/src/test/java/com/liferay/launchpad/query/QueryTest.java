@@ -89,6 +89,7 @@ public class QueryTest {
 	@Test
 	public void testQuery_withSearch() throws Exception {
 		Query query = Query.search(Filter.equal("field", "value"));
+
 		JSONAssert.assertEquals(
 			"{\"search\":[{" +
 				"\"field\":{\"operator\":\"=\",\"value\":\"value\"}}]}",
@@ -149,6 +150,7 @@ public class QueryTest {
 	@Test
 	public void testQuery_withType() throws Exception {
 		Query query = Query.type("type");
+
 		JSONAssert.assertEquals(
 			"{\"type\":\"type\"}", query.bodyAsJson(), true);
 		query = Query.count();

@@ -163,7 +163,11 @@ public interface PodLogger {
 		 * is enabled for given required level.
 		 */
 		public boolean isEnabledFor(Level level) {
-			return this.value >= level.value;
+			if (this.value >= level.value) {
+				return true;
+			}
+
+			return false;
 		}
 
 		private Level(int value) {

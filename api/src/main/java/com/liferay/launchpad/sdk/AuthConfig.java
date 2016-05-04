@@ -6,7 +6,7 @@ public interface AuthConfig {
 
 	/**
 	 * Returns the hash algorithm for passwords in login requests.
-	 * Users in {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}
+	 * Users in {@link AuthConfig#realmRestUrl}
 	 * must have passwords hashed by this same algorithm.
 	 */
 	public String hashAlgorithm();
@@ -14,8 +14,8 @@ public interface AuthConfig {
 	/**
 	 * Returns the login url.
 	 * The server will expect post requests with parameters
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#userParam} and
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#passwordParam}.
+	 * {@link AuthConfig#userParam} and
+	 * {@link AuthConfig#passwordParam}.
 	 */
 	public String loginAuthenticationUrl();
 
@@ -47,14 +47,14 @@ public interface AuthConfig {
 
 	/**
 	 * Returns the password parameter expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginAuthenticationUrl} and
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#loginAuthenticationUrl} and
+	 * {@link AuthConfig#realmRestUrl}.
 	 */
 	public String passwordParam();
 
 	/**
 	 * Returns the permissions field expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#realmRestUrl}.
 	 */
 	public String permissionsParam();
 
@@ -77,14 +77,14 @@ public interface AuthConfig {
 
 	/**
 	 * Returns the roles field expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#realmRestUrl}.
 	 */
 	public String rolesParam();
 
 	/**
 	 * Returns the username parameter expected in
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#loginAuthenticationUrl} and
-	 * {@link com.liferay.launchpad.sdk.AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#loginAuthenticationUrl} and
+	 * {@link AuthConfig#realmRestUrl}.
 	 */
 	public String userParam();
 

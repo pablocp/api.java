@@ -1,6 +1,7 @@
 package com.liferay.launchpad.sdk;
 
 import com.liferay.launchpad.api.Launchpad;
+
 import org.junit.Assert;
 import org.junit.Test;
 public class AuthTest {
@@ -13,6 +14,7 @@ public class AuthTest {
 	@Test
 	public void testGetters_withTokenAuth() {
 		Auth auth = Auth.create("token");
+
 		Assert.assertEquals("token", auth.token());
 		Assert.assertNull(auth.data());
 		Assert.assertNull(auth.id());
@@ -29,6 +31,7 @@ public class AuthTest {
 	@Test
 	public void testGetters_withUsernamePasswordAuth() {
 		Auth auth = Auth.create("user", "password");
+
 		Assert.assertEquals("user", auth.username());
 		Assert.assertEquals("password", auth.password());
 		Assert.assertNull(auth.data());
@@ -61,6 +64,7 @@ public class AuthTest {
 	public void testMaster_withMasterToken() {
 		Launchpad.MASTER_TOKEN = "master-token";
 		Auth auth = Auth.master();
+
 		Assert.assertEquals("master-token", auth.token());
 	}
 

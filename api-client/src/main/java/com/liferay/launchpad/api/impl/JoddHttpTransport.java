@@ -7,12 +7,12 @@ import com.liferay.launchpad.sdk.Request;
 import com.liferay.launchpad.sdk.Response;
 import com.liferay.launchpad.sdk.ResponseImpl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import jodd.http.HttpBrowser;
 import jodd.http.HttpRequest;
 import jodd.http.HttpResponse;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Transport implementation that uses Jodd HTTP client (http://jodd.org).

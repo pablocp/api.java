@@ -73,6 +73,35 @@ public class LaunchpadTest {
 	}
 
 	@Test
+	public void testAuth_withAll() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(
+						"session-id", request.cookie("sessionToken").value());
+					Assert.assertEquals(
+						"Bearer token", request.header("Authorization"));
+					return super.send(request);
+				}
+
+			})
+			.auth(new AuthImpl("user", "pass") {
+				@Override
+				public String sessionToken() {
+					return "session-id";
+				}
+
+				@Override
+				public String token() {
+					return "token";
+				}
+
+			})
+			.get();
+	}
+
+	@Test
 	public void testAuth_withAuth() {
 		Launchpad.url("url")
 			.use(new TestTransport() {
@@ -85,6 +114,29 @@ public class LaunchpadTest {
 
 			})
 			.auth(new AuthImpl("token"))
+			.get();
+	}
+
+	@Test
+	public void testAuth_withSessionToken() {
+		Launchpad.url("url")
+			.use(new TestTransport() {
+				@Override
+				public Response send(Request request) {
+					Assert.assertEquals(
+						"session-id", request.cookie("sessionToken").value());
+					Assert.assertNull(request.header("Authorization"));
+					return super.send(request);
+				}
+
+			})
+			.auth(new AuthImpl("user", "pass") {
+				@Override
+				public String sessionToken() {
+					return "session-id";
+				}
+
+			})
 			.get();
 	}
 
@@ -119,56 +171,6 @@ public class LaunchpadTest {
 
 			})
 			.auth("user", "pass")
-			.get();
-	}
-
-	@Test
-	public void testAuth_withSessionToken() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals(
-						"session-id", request.cookie("sessionToken").value());
-					Assert.assertNull(request.header("Authorization"));
-					return super.send(request);
-				}
-
-			})
-			.auth(new AuthImpl("user", "pass") {
-				@Override
-				public String sessionToken() {
-					return "session-id";
-				}
-			})
-			.get();
-	}
-
-	@Test
-	public void testAuth_withAll() {
-		Launchpad.url("url")
-			.use(new TestTransport() {
-				@Override
-				public Response send(Request request) {
-					Assert.assertEquals(
-						"session-id", request.cookie("sessionToken").value());
-					Assert.assertEquals(
-						"Bearer token", request.header("Authorization"));
-					return super.send(request);
-				}
-
-			})
-			.auth(new AuthImpl("user", "pass") {
-				@Override
-				public String sessionToken() {
-					return "session-id";
-				}
-
-				@Override
-				public String token() {
-					return "token";
-				}
-			})
 			.get();
 	}
 
@@ -820,8 +822,8 @@ public class LaunchpadTest {
 			Launchpad.url("url").use(null).send("GET", 1);
 			Assert.fail("Exception not thrown.");
 		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Transport not specified!", e.getMessage());
+		catch (LaunchpadClientException lce) {
+			Assert.assertEquals("Transport not specified!", lce.getMessage());
 		}
 	}
 
@@ -930,8 +932,8 @@ public class LaunchpadTest {
 			Launchpad.url("url").watch();
 			Assert.fail("Exception not thrown.");
 		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Error", e.getMessage());
+		catch (LaunchpadClientException lce) {
+			Assert.assertEquals("Error", lce.getMessage());
 		}
 	}
 
@@ -956,8 +958,9 @@ public class LaunchpadTest {
 			Launchpad.url("url").watch();
 			Assert.fail("Exception not thrown.");
 		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Socket.io client not loaded", e.getMessage());
+		catch (LaunchpadClientException lce) {
+			Assert.assertEquals(
+				"Socket.io client not loaded", lce.getMessage());
 		}
 	}
 

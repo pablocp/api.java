@@ -1,6 +1,5 @@
 package com.liferay.launchpad.serializer.impl;
 
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -10,32 +9,21 @@ import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMap;
 import com.liferay.launchpad.serializer.LaunchpadParser;
 import com.liferay.launchpad.serializer.LaunchpadSerializer;
-
 import com.liferay.launchpad.serializer.impl.model.Numbers;
 import com.liferay.launchpad.serializer.impl.model.User;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
 public class JsonTest {
 
 	@BeforeClass
 	public static void beforeClass() {
 		ApiClient.init();
-	}
-
-	@Test
-	public void testParse_withAnnotation() {
-		String json = "{\"id\" : \"QWE\",\"name\" : \"Jenny\" }";
-
-		User user = parser().parse(json, User.class);
-
-		assertEquals("QWE", user.getUserId());
-		assertEquals("Jenny", user.getName());
 	}
 
 	@Test
@@ -51,13 +39,10 @@ public class JsonTest {
 	}
 
 	@Test
-	public void testParse_withLongValue() {
-		String values = "{\"id1\" : 12345678901, \"id2\" : \"1234567890\"}";
+	public void testParse_rawValue() {
+		Integer numbers = parser().parse("123");
 
-		Numbers numbers = parser().parse(values, Numbers.class);
-
-		assertEquals(12345678901L, numbers.getId1().longValue());
-		assertEquals(1234567890L, numbers.getId2());
+		assertEquals(Integer.valueOf(123), numbers);
 	}
 
 	@Test
@@ -74,10 +59,36 @@ public class JsonTest {
 	}
 
 	@Test
-	public void testParse_rawValue() {
-		Integer numbers = parser().parse("123");
+	public void testParse_withAnnotation() {
+		String json = "{\"id\" : \"QWE\",\"name\" : \"Jenny\" }";
 
-		assertEquals(Integer.valueOf(123), numbers);
+		User user = parser().parse(json, User.class);
+
+		assertEquals("QWE", user.getUserId());
+		assertEquals("Jenny", user.getName());
+	}
+
+	@Test
+	public void testParse_withLongValue() {
+		String values = "{\"id1\" : 12345678901, \"id2\" : \"1234567890\"}";
+
+		Numbers numbers = parser().parse(values, Numbers.class);
+
+		assertEquals(12345678901L, numbers.getId1().longValue());
+		assertEquals(1234567890L, numbers.getId2());
+	}
+
+	@Test
+	public void testSerialize_rawValue() {
+		String json = serializer().serialize(123);
+
+		assertEquals("123", json);
+	}
+
+	@Test
+	public void testSerialize_toList() {
+		String json = serializer().serialize(Arrays.asList(123L, 456L));
+		assertEquals("[\"123\",\"456\"]", json);
 	}
 
 	@Test
@@ -89,22 +100,6 @@ public class JsonTest {
 		assertTrue(json.contains("\"id\""));
 		assertTrue(json.contains("\"name\""));
 		assertFalse(json.contains("\"userId\""));
-	}
-
-	@Test
-	public void testSerialize_toList() {
-		String json = serializer().serialize(Arrays.asList(123L, 456L));
-		assertEquals("[\"123\",\"456\"]", json);
-	}
-
-	@Test
-	public void testSerializer_withLongValue() {
-		Numbers numbers = new Numbers();
-
-		String json = serializer().serialize(numbers);
-
-		assertTrue(json.contains("\"" + numbers.getId1() + "\""));
-		assertTrue(json.contains("\"" + numbers.getId2() + "\""));
 	}
 
 	@Test
@@ -130,18 +125,21 @@ public class JsonTest {
 	}
 
 	@Test
-	public void testSerialize_rawValue() {
-		String json = serializer().serialize(123);
+	public void testSerializer_withLongValue() {
+		Numbers numbers = new Numbers();
 
-		assertEquals("123", json);
-	}
+		String json = serializer().serialize(numbers);
 
-	protected LaunchpadSerializer serializer() {
-		return LaunchpadSerializer.get(ContentType.JSON);
+		assertTrue(json.contains("\"" + numbers.getId1() + "\""));
+		assertTrue(json.contains("\"" + numbers.getId2() + "\""));
 	}
 
 	protected LaunchpadParser parser() {
 		return LaunchpadParser.get(ContentType.JSON);
+	}
+
+	protected LaunchpadSerializer serializer() {
+		return LaunchpadSerializer.get(ContentType.JSON);
 	}
 
 }

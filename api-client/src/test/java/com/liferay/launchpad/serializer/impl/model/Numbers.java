@@ -17,11 +17,12 @@ public class Numbers {
 		this.id2 = id2;
 	}
 
-	protected Long id1 = Long.valueOf(1234567890L);
-	protected long id2 = 9087654321L;
-
 	@Override
 	public String toString() {
 		return id1 + ":" + id2;
 	}
+
+	protected Long id1 = Long.valueOf(1234567890L);
+	protected long id2 = 9087654321L;
+
 }

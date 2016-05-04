@@ -70,9 +70,10 @@ public class PodLoggerFactory {
 		try {
 			podLoggerClass = classLoader.loadClass(defaultClassName);
 		}
-		catch (ClassNotFoundException e) {
+		catch (ClassNotFoundException cnfe) {
 			throw new PodException(
-				"PodLogger implementation not found: " + defaultClassName, e);
+				"PodLogger implementation not found: " + defaultClassName,
+				cnfe);
 		}
 
 		try {

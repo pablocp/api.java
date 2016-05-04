@@ -7,8 +7,6 @@ import com.liferay.launchpad.sdk.io.SocketIOException;
  */
 public class RealTimeException implements SocketIOException {
 
-	private Object msg;
-
 	/**
 	 * Creates a new specialized {@link Exception} that is responsible for
 	 * holding a generic {@link Object} error object.
@@ -26,4 +24,7 @@ public class RealTimeException implements SocketIOException {
 	public Object getObjectMessage() {
 		return this.msg;
 	}
+
+	private Object msg;
+
 }

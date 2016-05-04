@@ -20,7 +20,7 @@ import java.util.Map;
 public interface Session {
 
 	/**
-	 * Returns the session data as {@link java.util.Map}.
+	 * Returns the session data as {@link Map}.
 	 */
 	public Map<String, Object> data();
 

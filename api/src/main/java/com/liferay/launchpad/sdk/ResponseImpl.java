@@ -24,7 +24,11 @@ public class ResponseImpl extends Base<Response> implements Response {
 
 	@Override
 	public boolean isCommitted() {
-		return (body() != null);
+		if ((body() != null)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

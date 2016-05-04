@@ -6,7 +6,8 @@ package com.liferay.launchpad.sdk;
 public class Error408<T> extends ErrorBase<T, Error408<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"requestTimeout",
 			"The server did not produce a response within the time that the server was prepared to wait."
 		}

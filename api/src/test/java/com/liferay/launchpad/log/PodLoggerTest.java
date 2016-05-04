@@ -43,6 +43,7 @@ public class PodLoggerTest {
 	@Test
 	public void testLogger_withLevel() {
 		PodLogger logger = PodLoggerFactory.getLogger("name");
+
 		logger.log(PodLogger.Level.DEBUG, "msg");
 		logger.log(PodLogger.Level.DEBUG, "msg", 1);
 
@@ -58,6 +59,7 @@ public class PodLoggerTest {
 	@Test
 	public void testLogger_withMessage() {
 		PodLogger logger = PodLoggerFactory.getLogger("name");
+
 		logger.debug("msg");
 		logger.error("msg");
 		logger.info("msg");
@@ -79,6 +81,7 @@ public class PodLoggerTest {
 	@Test
 	public void testLogger_withMessageAndValues() {
 		PodLogger logger = PodLoggerFactory.getLogger("name");
+
 		logger.debug("msg", 1);
 		logger.error("msg", 1);
 		logger.info("msg", 1);

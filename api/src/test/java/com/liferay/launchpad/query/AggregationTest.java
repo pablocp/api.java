@@ -113,6 +113,7 @@ public class AggregationTest {
 	@Test
 	public void testToString() {
 		Aggregation aggregation = Aggregation.avg("name", "field");
+
 		Assert.assertEquals(
 			Query.aggregate(aggregation).toString(), aggregation.toString());
 	}

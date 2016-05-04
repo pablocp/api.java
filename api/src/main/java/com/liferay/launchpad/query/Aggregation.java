@@ -72,6 +72,7 @@ public class Aggregation implements Embodied {
 	@Override
 	public Object body() {
 		Map map = new HashMap();
+
 		map.put("name", name);
 		map.put("operator", operator);
 

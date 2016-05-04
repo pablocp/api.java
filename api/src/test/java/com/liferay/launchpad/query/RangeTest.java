@@ -18,6 +18,7 @@ public class RangeTest {
 	@Test
 	public void testToString() {
 		Range range = Range.range(1, 2);
+
 		Assert.assertEquals(range.bodyAsJson(), range.toString());
 	}
 

@@ -270,11 +270,13 @@ public class FilterTest {
 	@Test
 	public void testToString() {
 		Filter filter = Filter.field("field", "=", "value");
+
 		Assert.assertEquals(Query.filter(filter).toString(), filter.toString());
 	}
 
 	private String getCompositeFilter(String operator, int count) {
 		StringBuilder builder = new StringBuilder();
+
 		builder.append("{\"" + operator + "\":[");
 
 		for (int i = 0; i < count; i++) {

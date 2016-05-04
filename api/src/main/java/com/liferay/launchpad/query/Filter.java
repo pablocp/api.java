@@ -51,6 +51,7 @@ public class Filter implements Embodied {
 
 	public static Filter distance(String field, Object location, Range range) {
 		Map map = new HashMap();
+
 		map.put("location", location);
 
 		if (range.from != null) {
@@ -229,6 +230,7 @@ public class Filter implements Embodied {
 		}
 
 		Map map = new HashMap();
+
 		map.put("operator", operator);
 
 		if (value != null) {
@@ -295,7 +297,11 @@ public class Filter implements Embodied {
 	protected final Object value;
 
 	private boolean isComposite(String filter) {
-		return (filter != null) && COMPOSITE_FILTERS.contains(filter);
+		if ((filter != null) && COMPOSITE_FILTERS.contains(filter)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private static final Set<String> COMPOSITE_FILTERS = new HashSet<>(

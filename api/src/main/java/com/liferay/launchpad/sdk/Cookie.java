@@ -328,7 +328,7 @@ public class Cookie {
 						maxAge(Long.parseLong(value));
 					}
 				}
-				catch (NumberFormatException e) {
+				catch (NumberFormatException nfe) {
 					throw new PodException("Invalid cookie Max-Age: " + value);
 				}
 			} else if (name.equalsIgnoreCase("Comment")) {
@@ -345,7 +345,7 @@ public class Cookie {
 						version(Integer.parseInt(value));
 					}
 				}
-				catch (NumberFormatException e) {
+				catch (NumberFormatException nfe) {
 					throw new PodException("Invalid cookie Version: " + value);
 				}
 			} else if (name.equalsIgnoreCase("HttpOnly")) {

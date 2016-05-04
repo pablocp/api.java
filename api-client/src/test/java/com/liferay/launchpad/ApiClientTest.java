@@ -12,10 +12,11 @@ import com.liferay.launchpad.serializer.LaunchpadSerializerEngine;
 import com.liferay.launchpad.serializer.Serialize;
 import com.liferay.launchpad.serializer.impl.JoddJsonParser;
 import com.liferay.launchpad.serializer.impl.JoddJsonSerializer;
+
 import jodd.json.JoddJson;
+
 import org.junit.Assert;
 import org.junit.Test;
-
 public class ApiClientTest {
 
 	@Test
