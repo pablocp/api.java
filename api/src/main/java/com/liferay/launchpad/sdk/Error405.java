@@ -20,7 +20,8 @@ import java.util.Arrays;
 public class Error405<T> extends ErrorBase<T, Error405<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"httpMethodNotAllowed",
 			"The HTTP method associated with the request is not supported."
 		}

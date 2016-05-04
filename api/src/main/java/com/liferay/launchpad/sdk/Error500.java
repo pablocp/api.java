@@ -18,7 +18,8 @@ package com.liferay.launchpad.sdk;
 public class Error500<T> extends ErrorBase<T, Error500<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"internalError", "The request failed due to an internal error."
 		}
 	};

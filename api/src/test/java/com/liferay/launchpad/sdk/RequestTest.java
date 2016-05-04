@@ -56,6 +56,7 @@ public class RequestTest {
 	@Test
 	public void testBody() {
 		Request request = new RequestImpl("http://127.0.0.1");
+
 		request.body("foo");
 		assertEquals("foo", request.body());
 	}
@@ -63,6 +64,7 @@ public class RequestTest {
 	@Test
 	public void testBody_withNullObject() {
 		Request request = new RequestImpl("http://127.0.0.1");
+
 		request.body((Object)null);
 		assertNull(request.bodyBytes());
 	}
@@ -70,6 +72,7 @@ public class RequestTest {
 	@Test
 	public void testBody_withStringAsObject() {
 		Request request = new RequestImpl("http://127.0.0.1");
+
 		request.body((Object) "foo");
 		assertEquals("foo", request.body());
 	}
@@ -103,6 +106,7 @@ public class RequestTest {
 	@Test
 	public void testBodyBytes() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("value");
 		Assert.assertArrayEquals(
 			"value".getBytes("UTF-8"), request.bodyBytes());
@@ -111,6 +115,7 @@ public class RequestTest {
 	@Test
 	public void testBodyList_withJson() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("[1,2]");
 		Assert.assertArrayEquals(
@@ -120,6 +125,7 @@ public class RequestTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void testBodyList_withNoContentType() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("1");
 		request.bodyList(Integer.class);
 	}
@@ -127,15 +133,18 @@ public class RequestTest {
 	@Test
 	public void testBodyList_withNullBody() throws Exception {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		Assert.assertNull(request.bodyList(Integer.class));
 	}
 
 	@Test
 	public void testBodyMap_withJson() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("{\"key\":\"value\"}");
 		Map parsed = request.bodyMap(String.class, String.class);
+
 		Assert.assertEquals(1, parsed.size());
 		Assert.assertEquals("value", parsed.get("key"));
 		parsed = request.bodyMap(String.class);
@@ -146,6 +155,7 @@ public class RequestTest {
 	@Test(expected = RuntimeException.class)
 	public void testBodyMap_withJson_invalidBody() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("invalid");
 		request.bodyMap(String.class);
@@ -154,6 +164,7 @@ public class RequestTest {
 	@Test(expected = RuntimeException.class)
 	public void testBodyMap_withJson_invalidKey() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("{1:\"value\"}");
 		request.bodyMap(String.class);
@@ -162,6 +173,7 @@ public class RequestTest {
 	@Test
 	public void testBodyMap_withNullBody() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		Assert.assertNull(request.bodyMap(String.class));
 		Assert.assertNull(request.bodyMap(String.class, String.class));
 	}
@@ -169,6 +181,7 @@ public class RequestTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void testBodyMap_withoutContentType() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("{\"key\":\"value\"}");
 		request.bodyMap(String.class);
 	}
@@ -176,6 +189,7 @@ public class RequestTest {
 	@Test
 	public void testBodyValue_withJson() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("1");
 		int parsed = request.bodyValue(Integer.class);
@@ -185,10 +199,12 @@ public class RequestTest {
 	@Test
 	public void testBodyValue_withJson_ignoreParams() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.param("key", "value");
 		request.body("{\"a\":1}");
 		Map parsed = request.bodyValue();
+
 		Assert.assertEquals(1, parsed.get("a"));
 		Assert.assertFalse(parsed.containsKey("key"));
 	}
@@ -196,6 +212,7 @@ public class RequestTest {
 	@Test(expected = RuntimeException.class)
 	public void testBodyValue_withJson_invalidBody() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.contentType(ContentType.JSON);
 		request.body("invalid");
 		request.bodyValue();
@@ -204,6 +221,7 @@ public class RequestTest {
 	@Test
 	public void testBodyValue_withNullBody() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		Assert.assertNull(request.bodyValue());
 		Assert.assertNull(request.bodyValue(this.getClass()));
 	}
@@ -211,6 +229,7 @@ public class RequestTest {
 	@Test
 	public void testBodyValue_withoutContentType() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("1");
 		String parsed = request.bodyValue();
 		Assert.assertEquals("1", parsed);
@@ -219,6 +238,7 @@ public class RequestTest {
 	@Test
 	public void testBodyValue_withoutContentType_convertType() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("1");
 		int parsed = request.bodyValue(Integer.class);
 		Assert.assertEquals(1, parsed);
@@ -227,6 +247,7 @@ public class RequestTest {
 	@Test(expected = LaunchpadSerializerException.class)
 	public void testBodyValue_withoutContentType_invalidBody() {
 		RequestImpl request = new RequestImpl("http://localhost:8080");
+
 		request.body("invalid");
 		request.bodyValue(Integer.class);
 	}
@@ -244,6 +265,7 @@ public class RequestTest {
 	public void testCustomUrlScheme() {
 		Request request = new RequestImpl(
 			"blah://localhost:8080/path/sub?query=1&other=2");
+
 		assertEquals("blah://localhost:8080", request.baseUrl());
 		assertEquals("query=1&other=2", request.query());
 	}
@@ -251,6 +273,7 @@ public class RequestTest {
 	@Test
 	public void testCustomUrlScheme_withBasePathOnly() {
 		Request request = new RequestImpl("http://127.0.0.1:8080");
+
 		Assert.assertEquals("http://127.0.0.1:8080", request.baseUrl());
 		Assert.assertEquals("", request.path());
 		Assert.assertNull(request.query());
@@ -264,6 +287,7 @@ public class RequestTest {
 	@Test
 	public void testCustomUrlScheme_withNullUrl() {
 		Request request = new RequestImpl(null);
+
 		Assert.assertNull(request.baseUrl());
 		Assert.assertNull(request.path());
 		Assert.assertNull(request.query());
@@ -272,12 +296,14 @@ public class RequestTest {
 	@Test
 	public void testCustomUrlScheme_withoutProtocol() {
 		Request request = new RequestImpl("localhost");
+
 		Assert.assertEquals("http://localhost", request.baseUrl());
 	}
 
 	@Test
 	public void testCustomUrlScheme_withRelativeUrl() {
 		Request request = new RequestImpl("/path?a=b");
+
 		Assert.assertNull(request.baseUrl());
 		Assert.assertEquals("/path", request.path());
 		Assert.assertEquals("a=b", request.query());
@@ -294,6 +320,7 @@ public class RequestTest {
 	@Test
 	public void testForm() {
 		Request request = new RequestImpl("http://localhost");
+
 		request.form("key", "value");
 		request.form("key", 1);
 		request.forms().add("key", 2);
@@ -309,6 +336,7 @@ public class RequestTest {
 	@Test
 	public void testHeaders() {
 		Request request = new RequestImpl("http://127.0.0.1");
+
 		request.header("header", "1");
 		assertEquals("1", request.headers().get("header"));
 	}
@@ -316,6 +344,7 @@ public class RequestTest {
 	@Test
 	public void testMethod() {
 		Request request = new RequestImpl("http://127.0.0.1");
+
 		request.method("post");
 		assertEquals("post", request.method());
 	}
@@ -335,6 +364,7 @@ public class RequestTest {
 	public void testParams() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?param1=1");
+
 		request.param("param2", "2");
 		assertEquals(null, request.params().get("param1"));
 		assertEquals("2", request.params().get("param2"));
@@ -356,6 +386,7 @@ public class RequestTest {
 	public void testUrl() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?query=1");
+
 		assertEquals("http://localhost:8080/path/sub?query=1", request.url());
 	}
 
@@ -363,6 +394,7 @@ public class RequestTest {
 	public void testUrlBaseUrl() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?query=1");
+
 		assertEquals("http://localhost:8080", request.baseUrl());
 	}
 
@@ -378,6 +410,7 @@ public class RequestTest {
 	public void testUrlPath() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?query=1");
+
 		assertEquals("/path/sub", request.path());
 	}
 
@@ -385,6 +418,7 @@ public class RequestTest {
 	public void testUrlQuery() {
 		Request request = new RequestImpl(
 			"http://localhost:8080/path/sub?query=1&other=2");
+
 		assertEquals("query=1&other=2", request.query());
 	}
 

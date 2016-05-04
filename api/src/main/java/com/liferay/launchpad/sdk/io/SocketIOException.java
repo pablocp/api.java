@@ -10,8 +10,10 @@ package com.liferay.launchpad.sdk.io;
  * </p>
  */
 public interface SocketIOException {
+
 	/**
 	 * @return the generic {@link Object} that contains the error data.
 	 */
 	public Object getObjectMessage();
+
 }

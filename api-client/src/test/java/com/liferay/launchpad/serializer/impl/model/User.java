@@ -19,13 +19,14 @@ public class User {
 		this.userId = userId;
 	}
 
+	@Override
+	public String toString() {
+		return userId + ":" + name;
+	}
+
 	private String name = "John Doe";
 
 	@Serialize(name = "id")
 	private String userId = "1Q2W";
 
-	@Override
-	public String toString() {
-		return userId + ":" + name;
-	}
 }

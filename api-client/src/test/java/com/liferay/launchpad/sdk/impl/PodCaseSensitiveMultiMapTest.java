@@ -21,6 +21,7 @@ public class PodCaseSensitiveMultiMapTest extends PodMultiMapTest {
 	@Test
 	public void testCaseSensitiveMultiMap() {
 		PodMultiMap map = createMultiMap();
+
 		map.add("key", "value");
 		Assert.assertEquals("value", map.get("key"));
 		Assert.assertNull(map.get("KEY"));

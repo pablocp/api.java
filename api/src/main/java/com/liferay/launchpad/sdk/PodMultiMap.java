@@ -79,7 +79,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	/**
 	 * Returns all entries in the multi-map.
 	 *
-	 * @return A immutable {@link java.util.List} of the name-value entries, which will be
+	 * @return A immutable {@link List} of the name-value entries, which will be
 	 * empty if no pairs are found
 	 */
 	public List<Map.Entry<String, V>> entries();
@@ -93,7 +93,7 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	 * Returns the values with the specified name.
 	 *
 	 * @param name The name to search
-	 * @return A immutable {@link java.util.List} of values which will be empty
+	 * @return A immutable {@link List} of values which will be empty
 	 * if no values are found
 	 */
 	public List<V> getAll(String name);
@@ -109,9 +109,9 @@ public interface PodMultiMap<V> extends Iterable<Map.Entry<String, V>> {
 	public boolean isEmpty();
 
 	/**
-	 * Gets a immutable {@link java.util.Set} of all names
+	 * Gets a immutable {@link Set} of all names
 	 *
-	 * @return A {@link java.util.Set} of all names
+	 * @return A {@link Set} of all names
 	 */
 	public Set<String> names();
 

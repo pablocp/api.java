@@ -43,6 +43,7 @@ public class GeoTest {
 	@Test
 	public void testToString() {
 		Geo geo = Geo.circle("0,0", "10m");
+
 		Assert.assertEquals(geo.bodyAsJson(), geo.toString());
 	}
 

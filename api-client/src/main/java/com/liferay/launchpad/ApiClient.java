@@ -4,8 +4,6 @@ import com.liferay.launchpad.api.DefaultTransport;
 import com.liferay.launchpad.api.RealTimeFactory;
 import com.liferay.launchpad.api.impl.JoddHttpTransport;
 import com.liferay.launchpad.api.impl.SocketIORealTimeFactory;
-import com.liferay.launchpad.log.PodLoggerFactory;
-import com.liferay.launchpad.log.impl.PodLoggerImpl;
 import com.liferay.launchpad.sdk.ContentType;
 import com.liferay.launchpad.sdk.PodMultiMapFactory;
 import com.liferay.launchpad.sdk.impl.JoddPodMultiMapFactory;
@@ -19,8 +17,6 @@ import com.liferay.launchpad.serializer.impl.JoddTextSerializer;
 
 import jodd.json.JoddJson;
 public class ApiClient {
-
-	protected ApiClient() {}
 
 	public static void init() {
 		PodMultiMapFactory.Default.factory = new JoddPodMultiMapFactory();
@@ -38,6 +34,9 @@ public class ApiClient {
 		LaunchpadSerializerEngine.instance().registerEngines(
 			ContentType.TEXT.contentType(),
 			new Engines(new JoddTextSerializer(), new JoddTextParser()), false);
+	}
+
+	protected ApiClient() {
 	}
 
 }

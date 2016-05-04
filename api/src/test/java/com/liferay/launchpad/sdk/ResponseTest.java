@@ -50,6 +50,7 @@ public class ResponseTest {
 	@Test
 	public void testBody() {
 		Response response = new ResponseImpl(request);
+
 		response.body("foo");
 		assertEquals("foo", response.body());
 	}
@@ -57,6 +58,7 @@ public class ResponseTest {
 	@Test
 	public void testBodyMap() {
 		Response response = new ResponseImpl(request);
+
 		response.contentType(ContentType.JSON);
 		response.body("{\"key\":1}");
 		Map<String, Integer> map = response.bodyMap(Integer.class);
@@ -67,6 +69,7 @@ public class ResponseTest {
 	@Test
 	public void testEnd_withBodyAndContentType() {
 		Response response = new ResponseImpl(request);
+
 		response.end("foo", ContentType.HTML);
 		assertEquals("foo", response.body());
 		assertEquals(ContentType.HTML.toString(), response.contentType());
@@ -75,6 +78,7 @@ public class ResponseTest {
 	@Test
 	public void testEnd_withObjectBody() {
 		Response response = new ResponseImpl(request);
+
 		response.end(1);
 		assertEquals("1", response.body());
 	}
@@ -82,6 +86,7 @@ public class ResponseTest {
 	@Test
 	public void testEnd_withStringBody() {
 		Response response = new ResponseImpl(request);
+
 		response.end("foo");
 		assertEquals("foo", response.body());
 	}
@@ -89,6 +94,7 @@ public class ResponseTest {
 	@Test
 	public void testHeaders() {
 		Response response = new ResponseImpl(request);
+
 		response.header("header", "1");
 		assertEquals("1", response.headers().get("header"));
 	}
@@ -122,6 +128,7 @@ public class ResponseTest {
 	@Test
 	public void testRedirect() {
 		Response response = new ResponseImpl(request);
+
 		response.redirect("url");
 		assertEquals(302, response.statusCode());
 		assertEquals("url", response.headers().get("Location"));
@@ -130,6 +137,7 @@ public class ResponseTest {
 	@Test
 	public void testRequest() {
 		Response response = new ResponseImpl(request);
+
 		assertEquals(request, response.request());
 	}
 
@@ -141,6 +149,7 @@ public class ResponseTest {
 	@Test
 	public void testStatus() {
 		Response response = new ResponseImpl(request);
+
 		response.status(200);
 		assertEquals(200, response.statusCode());
 		assertEquals("OK", response.statusMessage());
@@ -171,6 +180,7 @@ public class ResponseTest {
 	@Test
 	public void testStatusCode() {
 		Response response = new ResponseImpl(request);
+
 		response.status(200);
 		assertEquals(200, response.statusCode());
 		assertEquals("OK", response.statusMessage());
@@ -179,6 +189,7 @@ public class ResponseTest {
 	@Test
 	public void testStatusMessage() {
 		Response response = new ResponseImpl(request);
+
 		response.status(200, "OK!");
 		assertEquals(200, response.statusCode());
 		assertEquals("OK!", response.statusMessage());
@@ -187,6 +198,7 @@ public class ResponseTest {
 	@Test
 	public void testSucceeded() {
 		Response response = new ResponseImpl(request);
+
 		response.status(0);
 		assertFalse(response.succeeded());
 		response.status(200);

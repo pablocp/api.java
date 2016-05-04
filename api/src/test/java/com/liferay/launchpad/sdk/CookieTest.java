@@ -25,6 +25,7 @@ public class CookieTest {
 	@Test
 	public void testConstructor_withEmptyString() {
 		Cookie cookie = Cookie.cookie("");
+
 		Assert.assertNull(cookie.name());
 		Assert.assertNull(cookie.value());
 	}
@@ -55,6 +56,7 @@ public class CookieTest {
 	@Test
 	public void testEncode() {
 		Cookie cookie = Cookie.cookie("name", "value");
+
 		cookie.maxAge(0L);
 		cookie.expires("expires");
 		cookie.comment("comment");
@@ -73,12 +75,14 @@ public class CookieTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testName_withIllegalCharacter() {
 		Cookie cookie = Cookie.cookie("");
+
 		cookie.name(";");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testName_withInvalidCharacter() {
 		Cookie cookie = Cookie.cookie("");
+
 		cookie.name("ç");
 	}
 

@@ -18,12 +18,16 @@ package com.liferay.launchpad.sdk;
 public class Error404<T> extends ErrorBase<T, Error404<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"notFound",
 			"The requested operation failed because a resource associated" +
 				" with the request could not be found."
 		},
-		{	// 1
+		{
+
+				// 1
+
 			"unsupportedProtocol",
 			"The protocol used in the request is not supported."
 		}

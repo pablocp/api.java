@@ -354,7 +354,11 @@ public interface Response {
 		 * valid.
 		 */
 		public static boolean succeeded(int statusCode) {
-			return statusCode >= 200 && statusCode <= 399;
+			if (statusCode >= 200 && statusCode <= 399) {
+				return true;
+			}
+
+			return false;
 		}
 
 		protected Status() {

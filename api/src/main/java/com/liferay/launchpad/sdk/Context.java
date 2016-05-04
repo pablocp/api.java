@@ -15,6 +15,7 @@ package com.liferay.launchpad.sdk;
 import com.liferay.launchpad.sdk.io.SocketIO;
 
 import java.nio.file.Path;
+
 import java.util.List;
 
 /**

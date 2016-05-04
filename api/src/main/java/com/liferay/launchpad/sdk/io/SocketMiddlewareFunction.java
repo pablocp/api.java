@@ -19,4 +19,5 @@ package com.liferay.launchpad.sdk.io;
 public interface SocketMiddlewareFunction {
 
 	public void call(SocketIOException e);
+
 }

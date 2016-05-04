@@ -198,8 +198,8 @@ public class RequestImpl extends Base<Request> implements Request {
 				}
 			}
 		}
-		catch (URISyntaxException e) {
-			throw new PodException("Invalid URL: " + url, e);
+		catch (URISyntaxException urise) {
+			throw new PodException("Invalid URL: " + url, urise);
 		}
 	}
 

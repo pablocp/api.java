@@ -38,9 +38,9 @@ public class AsyncTransportTest {
 
 			Assert.fail("No exception thrown.");
 		}
-		catch (LaunchpadClientException e) {
-			Assert.assertEquals("Transport failed", e.getMessage());
-			Assert.assertTrue(e.getCause() instanceof Error);
+		catch (LaunchpadClientException lce) {
+			Assert.assertEquals("Transport failed", lce.getMessage());
+			Assert.assertTrue(lce.getCause() instanceof Error);
 		}
 	}
 
@@ -64,8 +64,8 @@ public class AsyncTransportTest {
 
 			Assert.fail("No exception thrown.");
 		}
-		catch (RuntimeException e) {
-			Assert.assertEquals("Error", e.getMessage());
+		catch (RuntimeException re) {
+			Assert.assertEquals("Error", re.getMessage());
 		}
 	}
 

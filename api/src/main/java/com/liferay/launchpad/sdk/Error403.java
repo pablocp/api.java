@@ -18,32 +18,49 @@ package com.liferay.launchpad.sdk;
 public class Error403<T> extends ErrorBase<T, Error403<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"forbidden",
 			"The requested operation is forbidden and cannot be completed."
 		},
-		{	//1
+		{
+				//1
 			"limitExceeded",
 			"The request cannot be completed due to access or rate limitations."
 		},
-		{	// 2
+		{
+
+				// 2
+
 			"quotaExceeded",
 			"The requested operation requires more resources than the quota" +
 				" allows."
 		},
-		{	// 3
+		{
+
+				// 3
+
 			"rateLimitExceeded",
 			"Too many requests have been sent within a given time span."
 		},
-		{	// 4
+		{
+
+				// 4
+
 			"responseTooLarge", "The requested resource is too large to return."
 		},
-		{	// 5
+		{
+
+				// 5
+
 			"unknownAuth",
 			"The API server does not recognize the authorization scheme used" +
 				" for the request."
 		},
-		{	// 6
+		{
+
+				// 6
+
 			"corsRequestOrigin", "The CORS request is from an unknown origin."
 		},
 

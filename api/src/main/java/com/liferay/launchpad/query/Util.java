@@ -13,6 +13,7 @@ public class Util {
 
 	public static String toString(Iterable value) {
 		StringBuilder builder = new StringBuilder();
+
 		builder.append('[');
 
 		Iterator iterator = value.iterator();
@@ -36,6 +37,7 @@ public class Util {
 		}
 
 		StringBuilder builder = new StringBuilder();
+
 		builder.append('{');
 
 		for (Map.Entry<String, Object> entry : value.entrySet()) {
@@ -73,6 +75,7 @@ public class Util {
 			}
 
 			StringBuilder builder = new StringBuilder();
+
 			builder.append('[');
 
 			for (int i = 0; i < length; i++) {
@@ -88,7 +91,7 @@ public class Util {
 	}
 
 	/**
-	 * Wraps a <code>(key, value)</code> pair into a {@link java.util.Map}.
+	 * Wraps a <code>(key, value)</code> pair into a {@link Map}.
 	 *
 	 * @param key the map key
 	 * @param value the value associated to the key
@@ -96,6 +99,7 @@ public class Util {
 	 */
 	public static Map wrap(String key, Object value) {
 		Map map = new HashMap();
+
 		map.put(key, value);
 		return map;
 	}

@@ -18,7 +18,8 @@ package com.liferay.launchpad.sdk;
 public class Error401<T> extends ErrorBase<T, Error401<T>> {
 
 	public static final String[][] VALS = {
-		{	//0
+		{
+				//0
 			"unauthorized", "Access is denied due to invalid credentials."
 		}
 	};
