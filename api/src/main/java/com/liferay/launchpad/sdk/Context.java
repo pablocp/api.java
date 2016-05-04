@@ -44,11 +44,6 @@ public interface Context {
 	public List<Path> assetsFiles(String... glob);
 
 	/**
-	 * Returns base path of this pod.
-	 */
-	public String basePath();
-
-	/**
 	 * Returns context id.
 	 */
 	public String id();
