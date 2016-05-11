@@ -32,6 +32,19 @@ public class ResponseError {
 	}
 
 	/**
+	 * Creates error 409 response.
+	 */
+	public static Error409<Response> conflict() {
+		return conflict(null);
+	}
+	/**
+	 * Creates error 409 response.
+	 */
+	public static Error409<Response> conflict(String message) {
+		return new Error409<>(newResponseErrorData(), message);
+	}
+
+	/**
 	 * Creates error 403 response.
 	 */
 	public static Error403<Response> forbidden() {
