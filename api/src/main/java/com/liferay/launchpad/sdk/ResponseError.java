@@ -102,6 +102,20 @@ public class ResponseError {
 	}
 
 	/**
+	 * Created error 503 response.
+	 */
+	public static Error503<Response> serviceUnavailable() {
+		return serviceUnavailable(null);
+	}
+
+	/**
+	 * Created error 503 response.
+	 */
+	public static Error503<Response> serviceUnavailable(String message) {
+		return new Error503<>(newResponseErrorData(), message);
+	}
+
+	/**
 	 * Created error 404 response.
 	 */
 	public static Error401<Response> unauthorized() {
