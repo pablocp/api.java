@@ -37,6 +37,7 @@ public class ResponseError {
 	public static Error409<Response> conflict() {
 		return conflict(null);
 	}
+
 	/**
 	 * Creates error 409 response.
 	 */
