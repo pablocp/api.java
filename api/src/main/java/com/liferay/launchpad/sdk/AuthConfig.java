@@ -5,8 +5,14 @@ import java.util.Map;
 public interface AuthConfig {
 
 	/**
+	 * Returns the id of the container that will provide users
+	 * for authentication.
+	 */
+	public String containerAuthenticationProvider();
+
+	/**
 	 * Returns the hash algorithm for passwords in login requests.
-	 * Users in {@link AuthConfig#realmRestUrl}
+	 * Users in {@link AuthConfig#containerAuthenticationProvider}
 	 * must have passwords hashed by this same algorithm.
 	 */
 	public String hashAlgorithm();
@@ -48,13 +54,13 @@ public interface AuthConfig {
 	/**
 	 * Returns the password parameter expected in
 	 * {@link AuthConfig#loginAuthenticationUrl} and
-	 * {@link AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#containerAuthenticationProvider}.
 	 */
 	public String passwordParam();
 
 	/**
 	 * Returns the permissions field expected in
-	 * {@link AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#containerAuthenticationProvider}.
 	 */
 	public String permissionsParam();
 
@@ -64,12 +70,6 @@ public interface AuthConfig {
 	public String realm();
 
 	/**
-	 * Returns the rest url for the users of this realm.
-	 * All login requests will be executed against users from this url.
-	 */
-	public String realmRestUrl();
-
-	/**
 	 * Returns the roles for this application.
 	 * Each role is composed by a list of permissions.
 	 */
@@ -77,14 +77,14 @@ public interface AuthConfig {
 
 	/**
 	 * Returns the roles field expected in
-	 * {@link AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#containerAuthenticationProvider}.
 	 */
 	public String rolesParam();
 
 	/**
 	 * Returns the username parameter expected in
 	 * {@link AuthConfig#loginAuthenticationUrl} and
-	 * {@link AuthConfig#realmRestUrl}.
+	 * {@link AuthConfig#containerAuthenticationProvider}.
 	 */
 	public String userParam();
 
