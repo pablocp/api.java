@@ -2,8 +2,10 @@ dependencies {
 	compile "org.jodd:jodd-http:${joddVersion}"
 	compile "org.jodd:jodd-json:${joddVersion}"
 	compile 'io.socket:socket.io-client:0.6.1'
-	compile 'org.slf4j:slf4j-api:1.7.10'
+	compile 'org.slf4j:slf4j-api:1.7.21'
 	compile project(':api')
 
 	testCompile lib.junit
+	testCompile 'ch.qos.logback:logback-core:1.1.7'
+	testCompile 'ch.qos.logback:logback-classic:1.1.7'
 }

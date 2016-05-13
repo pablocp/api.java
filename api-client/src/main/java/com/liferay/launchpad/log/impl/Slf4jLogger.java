@@ -5,24 +5,46 @@ import com.liferay.launchpad.log.PodLogger;
 import jodd.util.StringUtil;
 
 import org.slf4j.LoggerFactory;
+import org.slf4j.spi.LocationAwareLogger;
 
 /**
  * Default implementation of <code>PodLogger</code>.
  */
 public class Slf4jLogger implements PodLogger {
 
+	private static final String FQCN = PodLogger.class.getName();
+
 	public Slf4jLogger(String name) {
 		this.logger = LoggerFactory.getLogger(name);
+
+		if (logger instanceof LocationAwareLogger) {
+			locationAwareLogger = (LocationAwareLogger) logger;
+		}
+		else {
+			locationAwareLogger = null;
+		}
 	}
 
 	@Override
 	public void debug(String message, Object... values) {
-		logger.debug(message, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.DEBUG_INT, message, values, null);
+		}
+		else {
+			logger.debug(message, values);
+		}
 	}
 
 	@Override
 	public void error(String message, Object... values) {
-		logger.error(message, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.ERROR_INT, message, values, null);
+		}
+		else {
+			logger.warn(message, values);
+		}
 	}
 
 	@Override
@@ -38,7 +60,13 @@ public class Slf4jLogger implements PodLogger {
 			message = StringUtil.replaceFirst(message, "{}", str);
 		}
 
-		logger.error(message, throwable);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.ERROR_INT, message, values, throwable);
+		}
+		else {
+			logger.error(message, throwable);
+		}
 	}
 
 	@Override
@@ -48,7 +76,13 @@ public class Slf4jLogger implements PodLogger {
 
 	@Override
 	public void info(String message, Object... values) {
-		logger.info(message, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.INFO_INT, message, values, null);
+		}
+		else {
+			logger.info(message, values);
+		}
 	}
 
 	@Override
@@ -98,38 +132,56 @@ public class Slf4jLogger implements PodLogger {
 	public void log(Level level, String message, Object... values) {
 		switch (level) {
 			case TRACE:
-				logger.trace(message, values);
+				trace(message, values);
 				break;
 			case DEBUG:
-				logger.debug(message, values);
+				debug(message, values);
 				break;
 			case INFO:
-				logger.info(message, values);
+				info(message, values);
 				break;
 			case WARN:
-				logger.warn(message, values);
+				warn(message, values);
 				break;
 			case ERROR:
-				logger.error(message, values);
+				error(message, values);
 				break;
 		}
 	}
 
 	@Override
 	public void trace(String message, Object... values) {
-		logger.trace(message, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.TRACE_INT, message, values, null);
+		}
+		else {
+			logger.trace(message, values);
+		}
 	}
 
 	@Override
 	public void warn(String message, Object... values) {
-		logger.warn(message, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.WARN_INT, message, values, null);
+		}
+		else {
+			logger.warn(message, values);
+		}
 	}
 
 	@Override
 	public void warn(String message, Throwable throwable, Object... values) {
-		logger.warn(message, throwable, values);
+		if (locationAwareLogger != null) {
+			locationAwareLogger.log(
+				null, FQCN, LocationAwareLogger.WARN_INT, message, values, throwable);
+		}
+		else {
+			logger.warn(message, throwable, values);
+		}
 	}
 
 	private final org.slf4j.Logger logger;
-
+	private final LocationAwareLogger locationAwareLogger;
 }
