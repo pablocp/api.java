@@ -45,6 +45,12 @@ public interface Context {
 	public List<Path> assetsFiles(String... glob);
 
 	/**
+	 * Returns static files from <code>rootFolder</code> that matches provided
+	 * glob pattern.
+	 */
+	public List<Path> assetsFiles(String rootFolder, String glob);
+
+	/**
 	 * Returns context id.
 	 */
 	public String id();
@@ -70,5 +76,11 @@ public interface Context {
 	 * glob patterns.
 	 */
 	public List<Path> webFiles(String... glob);
+
+	/**
+	 * Returns static files from <code>rootFolder</code> that matches provided
+	 * glob pattern.
+	 */
+	public List<Path> webFiles(String rootFolder, String glob);
 
 }
