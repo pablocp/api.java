@@ -1,0 +1,159 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of the
+ * GNU Lesser General Public License as published by the Free Software Foundation; either version
+ * 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
+ * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ */
+
+package com.wedeploy.api.sdk;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * Multi-map.
+ */
+public interface MultiMap<V> extends Iterable<Map.Entry<String, V>> {
+
+	/**
+	 * Creates new case-sensitive implementation of the multi-map.
+	 */
+	public static <T> MultiMap<T> newCaseSensitiveMultiMap() {
+		return MultiMapFactory.Default.factory.createMultiMap(true);
+	}
+
+	/**
+	 * Creates new default implementation of the multi-map.
+	 */
+	public static <T> MultiMap<T> newMultiMap() {
+		return MultiMapFactory.Default.factory.createMultiMap(false);
+	}
+
+	/**
+	 * Adds a new value with the specified name and value.
+	 *
+	 * @param name The name
+	 * @param value The value being added
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> add(String name, V value);
+
+	/**
+	 * Adds all values from the map.
+	 *
+	 * @param map source map
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> addAll(Map<String, V> map);
+
+	/**
+	 * Adds new values under the specified name.
+	 *
+	 * @param name The name being set
+	 * @param values The values
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> addAll(String name, Iterable<V> values);
+
+	/**
+	 * Removes all values.
+	 *
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> clear();
+
+	/**
+	 * Checks to see if there is a value with the specified name.
+	 *
+	 * @param name The name to search for
+	 * @return true if at least one entry is found
+	 */
+	public boolean contains(String name);
+
+	/**
+	 * Returns all entries in the multi-map.
+	 *
+	 * @return A immutable {@link List} of the name-value entries, which will be
+	 * empty if no pairs are found
+	 */
+	public List<Map.Entry<String, V>> entries();
+
+	/**
+	 * Get the String value associated with a key.
+	 */
+	public V get(String name);
+
+	/**
+	 * Returns the values with the specified name.
+	 *
+	 * @param name The name to search
+	 * @return A immutable {@link List} of values which will be empty
+	 * if no values are found
+	 */
+	public List<V> getAll(String name);
+
+	/**
+	 * Returns <code>true</code> if this map is case sensitive.
+	 */
+	public boolean isCaseSensitive();
+
+	/**
+	 * Returns <code>true</code> if empty.
+	 */
+	public boolean isEmpty();
+
+	/**
+	 * Gets a immutable {@link Set} of all names
+	 *
+	 * @return A {@link Set} of all names
+	 */
+	public Set<String> names();
+
+	/**
+	 * Removes the value with the given name
+	 *
+	 * @param name The name  of the value to remove
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> remove(String name);
+
+	/**
+	 * Sets a value under the specified name.
+	 * <p>
+	 * If there is an existing key with the same name, it is removed.
+	 *
+	 * @param name The name
+	 * @param value The value
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> set(String name, V value);
+
+	/**
+	 * Sets values from given map.
+	 *
+	 * @param map The source map
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> setAll(Map<String, V> map);
+
+	/**
+	 * Sets values for the specified name.
+	 *
+	 * @param name The name being set
+	 * @param values The values being set
+	 * @return a reference to this, so the API can be used fluently
+	 */
+	public MultiMap<V> setAll(String name, Iterable<V> values);
+
+	/**
+	 * Return the number of keys.
+	 */
+	public int size();
+
+}

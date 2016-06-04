@@ -1,4 +1,4 @@
-rootProject.name='api'
+rootProject.name='api-java'
 
 include 'api'
 include 'api-client'
