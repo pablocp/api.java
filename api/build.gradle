@@ -1,5 +1,5 @@
 dependencies {
-	testCompile "org.jodd:jodd-json:${joddVersion}"
-	testCompile lib.jsonassert
-	testCompile lib.junit
+	testCompile joddjson
+	testCompile jsonassert
+	testCompile junit
 }

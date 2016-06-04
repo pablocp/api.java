@@ -23,115 +23,56 @@ buildscript {
     }
 }
 
-plugins {
-	id "com.jfrog.bintray" version "1.3"
-}
-
-version = '0.45.7'
-group = 'com.liferay.launchpad'
+group 'com.wedeploy'
+version '1.0.0-alpha.5'
 
 ext {
-	joddVersion = '3.7.0-20160307'
-	lib = [
-		junit        	: 'junit:junit:4.11',
-		jsonassert		: 'org.skyscreamer:jsonassert:1.2.3',
-		mockito			: 'org.mockito:mockito-all:1.10.19'
-	]
+	joddhttp = 'org.jodd:jodd-http:3.7.0-20160307'
+	joddjson = 'org.jodd:jodd-json:3.7.0-20160307'
+	jsonassert = 'org.skyscreamer:jsonassert:1.2.3'
+	junit = 'junit:junit:4.11'
 }
 
-apply plugin: 'eclipse'
-apply plugin: 'idea'
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'jacoco'
+	apply plugin: 'com.liferay.source.formatter'
 
-allprojects {
 	version = rootProject.version
 	group = rootProject.group
 
 	repositories {
-		jcenter()
 		mavenLocal()
+		jcenter()
 		mavenCentral()
-	}
-}
-
-/**
- * Global IntelliJ configuration.
- */
-idea {
-	module {
-		name = 'api-java'
-		excludeDirs += file('.idea')
-	}
-}
-
-/**
- * Subprojects configuration.
- */
-subprojects {
-	apply plugin: 'java'
-	apply plugin: 'maven'
-	apply plugin: 'com.liferay.source.formatter'
-	apply plugin: 'com.jfrog.bintray'
-	apply from: "${rootProject.projectDir}/gradle/bintray.gradle"
-
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
-
-	compileJava.options.fork = true
-	compileJava.options.compilerArgs << "-Xlint:-options"
-	compileJava.options.incremental = true
-
-	configurations {
-		published
+		maven {
+			url 'https://oss.sonatype.org/content/repositories/snapshots/'
+		}
 	}
 
-	task sourcesJar(type: Jar, dependsOn: classes) {
-		classifier = 'sources'
-		from sourceSets.main.allSource
+	tasks.withType(Test) {
+		testLogging {
+			events "passed", "skipped", "failed"
+		}
 	}
 
-	artifacts {
-		archives jar
-		archives sourcesJar
-
-		published jar
-		published sourcesJar
-	}
-
-	test {
-		reports.html.enabled = false
-	}
-
-	tasks.withType(Test) { testTask ->
-		configure(testTask) {
-			beforeTest { descriptor ->
-				logger.lifecycle("\t" + descriptor)
+	jacocoTestReport {
+		additionalSourceDirs = files(sourceSets.main.allSource.srcDirs)
+		classDirectories =  files(sourceSets.main.output)
+		sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+		reports {
+			csv.enabled false
+			xml.enabled false
+			html {
+				enabled true
+				destination "${buildDir}/reports/coverage"
 			}
 		}
 	}
 
-	idea {
-		module {
-			inheritOutputDirs true
-		}
-	}
+	test.finalizedBy(project.tasks.jacocoTestReport)
 }
 
-task bintray {
-	group 'Publishing'
-	description 'Publish all artifcats to bintray'
-
-	dependsOn subprojects.bintrayUpload
-}
-
-task version() {
-	println "----------"
-	println "$rootProject.name: $version"
-	println "----------"
-}
-
-/**
- * Gradle wrapper.
- */
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.12'
 }
