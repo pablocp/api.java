@@ -36,7 +36,7 @@ public class ApiClient {
 			new Engines(new JoddTextSerializer(), new JoddTextParser()), false);
 	}
 
-	protected ApiClient() {
+	public ApiClient() {
 	}
 
 }
