@@ -14,9 +14,9 @@
 
 buildscript {
     repositories {
-		maven {
-			url 'https://repository.liferay.com/nexus/content/groups/liferay-ce'
-		}
+		mavenLocal()
+		jcenter()
+		mavenCentral()
     }
     dependencies {
 		classpath group: 'com.liferay', name: 'com.liferay.gradle.plugins.source.formatter', version: '1.0.1'
