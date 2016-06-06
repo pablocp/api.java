@@ -13,17 +13,17 @@
 package com.wedeploy.api.sdk;
 
 /**
- * Interface for all pod lifecycle aware components.
+ * Interface for all lifecycle aware components.
  */
 public interface Lifecycle {
 
 	/**
-	 * Called after pod is deployed, loaded and started.
+	 * Called after deployment.
 	 */
 	public void start(Context context);
 
 	/**
-	 * Called before pod is stopped and undeployed.
+	 * Called before undeployment.
 	 */
 	public void stop(Context context);
 
