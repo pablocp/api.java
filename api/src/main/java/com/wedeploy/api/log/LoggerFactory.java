@@ -44,10 +44,8 @@ public class LoggerFactory {
 	 * used.
 	 * @see #setDefaultImplClass(String)
 	 */
-	public static void setLoggerFactory(
-		LoggerFactoryInterface podLoggerFactory) {
-
-		loggerFactory = podLoggerFactory;
+	public static void setLoggerFactory(LoggerFactoryInterface loggerFactory) {
+		LoggerFactory.loggerFactory = loggerFactory;
 	}
 
 	protected LoggerFactory() {
@@ -65,10 +63,10 @@ public class LoggerFactory {
 
 		ClassLoader classLoader = clazz.getClassLoader();
 
-		Class podLoggerClass = null;
+		Class loggerClass = null;
 
 		try {
-			podLoggerClass = classLoader.loadClass(defaultClassName);
+			loggerClass = classLoader.loadClass(defaultClassName);
 		}
 		catch (ClassNotFoundException cnfe) {
 			throw new WeDeployException(
@@ -76,8 +74,7 @@ public class LoggerFactory {
 		}
 
 		try {
-			loggerFactory =
-				(LoggerFactoryInterface)podLoggerClass.newInstance();
+			loggerFactory = (LoggerFactoryInterface)loggerClass.newInstance();
 		}
 		catch (Exception e) {
 			throw new WeDeployException(

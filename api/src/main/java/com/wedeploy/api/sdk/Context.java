@@ -56,7 +56,7 @@ public interface Context {
 	public String id();
 
 	/**
-	 * Returns the socket io server of this pod.
+	 * Returns the socket io server.
 	 */
 	public SocketIO io();
 
